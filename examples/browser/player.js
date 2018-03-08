@@ -1,4 +1,4 @@
-const {pipelines} = window.flodhast
+const {pipelines} = window.mediaStreamLibrary
 
 // force auth
 const authorize = async (host) => {

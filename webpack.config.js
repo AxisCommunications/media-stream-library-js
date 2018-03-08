@@ -5,9 +5,9 @@ module.exports = {
   entry: './lib/index.browser.js',
   mode: 'production',
   output: {
-    library: 'flodhast',
+    library: 'mediaStreamLibrary',
     path: __dirname,
-    filename: 'dist/flodhast.min.js'
+    filename: 'dist/media-stream-library.min.js'
   },
   module: {
     rules: [
