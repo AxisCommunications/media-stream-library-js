@@ -48,7 +48,7 @@ You can directly include the `media-stream-library.min.js` file in your browser
 (check the browser example), or import it into your javascript code:
 
 ```
-<script>media-stream-library.min.js</script>
+<script src="media-stream-library.min.js"></script>
 ```
 
 ```
