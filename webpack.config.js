@@ -5,7 +5,7 @@ module.exports = {
   entry: './lib/index.browser.js',
   mode: 'production',
   output: {
-    library: 'mediaStream',
+    library: 'mediaStreamLibrary',
     path: __dirname,
     filename: 'dist/media-stream-library.min.js'
   },
