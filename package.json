@@ -1,0 +1,49 @@
+{
+  "name": "media-stream-library",
+  "version": "3.3.0",
+  "description": "Media stream library for Node & the Web.",
+  "license": "MIT",
+  "main": "lib/index.node.js",
+  "browser": "lib/index.browser.js",
+  "bin": {
+    "live": "examples/node/player.js"
+  },
+  "scripts": {
+    "lint": "standard",
+    "test": "standard && jest --coverage",
+    "build": "webpack",
+    "example": "webpack && http-server examples/browser"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AxisCommunications/media-stream-library-js"
+  },
+  "keywords": [
+    "video",
+    "live",
+    "streaming",
+    "rtsp"
+  ],
+  "dependencies": {
+    "debug": "^3.1.0",
+    "webpack": "^4.0.1",
+    "webpack-cli": "^2.0.9",
+    "websocket": "^1.0.19",
+    "www-authenticate": "^0.6.2",
+    "yargs": "^11.0.0"
+  },
+  "devDependencies": {
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "http-server": "^0.11.1",
+    "jest": "^22.2.2",
+    "mocha-testdata": "^1.2.0",
+    "mock-socket": "^7.1.0",
+    "standard": "^11.0.0"
+  },
+  "standard": {
+    "env": [
+      "jest"
+    ]
+  }
+}
