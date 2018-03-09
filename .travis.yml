@@ -13,9 +13,13 @@ deploy:
     skip_cleanup: true
     on:
       tags: true
+      repo: AxisCommunications/media-stream-library-js
+      node: "node"
   - provider: npm
     api_key:
       secure: egJNT5uKx7oz2Y4ZDwnp1fzOYu1boJy6UNo65v3Y7Dv0cc+JbdQ9s+Xi8wSyicWK+TbQ7tQ5J6kLIVvlT54yJtkMH1ZxAyyNUo0jLngz3IsU5YbJg6pxGnjDCE/x1X9dETSCx1dd/f0pAql1oZWd+XdChkT/gwO4vAEeSBJJXVsxkvfUc6NLv6/XNoGFLQGVc5tKV94R4Jp2PVsoos5iR5JPic/tf029k7fEnN0STA4BmVkkaL59YkJGeH07WUyL/kWSK/WqBQjwbL3LxybJJzWlR5KjwkeIUwT55bVtObaW/Jtwna46gmTErLu0V1tO14aobKZ6uHFh/vrc77PHQei3EWZ6pwhzg24+8z4R9tcNClFQuGhrDFkjPmf9HL1AwGqqvH/efhTlgC7YqqBopnbjIDgC/bXlpJHFuLt1/g/JDW33TBM8pP6n5GodO2JDJk9lvSm+HLGvcWSNiSw0E4URCeh+VchZ3pjWXSqCs5Jop8HKmdirLgFaDQdfuNvdkr6vqg8q1P8bzVxFfA9Ks/y/ris0Ax+tztDuKrbSE+Z/0OXnXyQHx2TLhGxCQWjsVvP0EkKiem4l6Rhp0qnS+1nqzErzIumNFhLm/yqhKvyVHEjWeDX4MpUTyyrkelOezCqvi9yjwWKHd+gZ7/Q1Mh5VkvdckRebILcCza5y9V4=
     skip_cleanup: true
     on:
       tags: true
+      repo: AxisCommunications/media-stream-library-js
+      node: "node"
