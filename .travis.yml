@@ -1,12 +1,26 @@
 language: node_js
 node_js:
-  - "9"
-  - "8"
+  - "node"
+  - "lts/*"
+cache: yarn
+script:
+  - yarn test
+  - yarn build
 deploy:
-  provider: releases
-  api_key:
-    secure: MGxt16mMu4Lf+aTVbGC1laBH84u5xv8xZ24iPhrYVKbYeEyuFxV/MWI3KSFkR99dulgCJ8/IMaB3HFmWMiCg1+ngl/0i8LSq05WrlKmto0hEJvbnaxJ63a9F25L2/+VRmqXVFf6qHHu1dG15xRWFFEvJTQ+c4MKaq/zacrbRBdtcuWCnRPwfzLxJXc57eM7XV3FgQECPdABuHugmF/m26L/t55+WbQdrPYAU9jBgZeJwNs2Fdxouhhl9VV4Po/fAxdzprXGLJe8zdz7WWWIdhiF7j9xQUhueBhaXDKLnPNEIBNIJXPnc6QwPwn0MnWWwgvCdQf0d5lmLWS156RW1JrWk0/XA9l+HmUPQ4BV7s2xHHaN3Vloz1Ya9WD3IofOC+lR1HFcwc8Zkz4O8EzaojFTRmvgwkM0vXudDb/CfQmVNUqNa69RC4GTo2RykA8tjUrVFnHxL4mqp299B7K0ALKs37VyuyyO8Vm1AHrp7VKfg37yQccUF2ZZUfsMdY70HwhMLehm34HrFXFspWbeO8fMMFjAAu0GLkt6FHWfn87/yJs1NfzIB5BsQutpGwh8wu/zFqT9wNjbQV7SBQwTXv/w68zTTxmlX8lTS658Bkl3x5+qFoZ17T9l9/ZGe9/AusUp948FmCLZLXBu/FFanhXxCXfRbz0lq+ocwrwmoMwE=
-  file: dist/media-stream-library.min.js
-  skip_cleanup: true
-  on:
-    tags: true
+  - provider: releases
+    file: dist/media-stream-library.min.js
+    api_key:
+      secure: MGxt16mMu4Lf+aTVbGC1laBH84u5xv8xZ24iPhrYVKbYeEyuFxV/MWI3KSFkR99dulgCJ8/IMaB3HFmWMiCg1+ngl/0i8LSq05WrlKmto0hEJvbnaxJ63a9F25L2/+VRmqXVFf6qHHu1dG15xRWFFEvJTQ+c4MKaq/zacrbRBdtcuWCnRPwfzLxJXc57eM7XV3FgQECPdABuHugmF/m26L/t55+WbQdrPYAU9jBgZeJwNs2Fdxouhhl9VV4Po/fAxdzprXGLJe8zdz7WWWIdhiF7j9xQUhueBhaXDKLnPNEIBNIJXPnc6QwPwn0MnWWwgvCdQf0d5lmLWS156RW1JrWk0/XA9l+HmUPQ4BV7s2xHHaN3Vloz1Ya9WD3IofOC+lR1HFcwc8Zkz4O8EzaojFTRmvgwkM0vXudDb/CfQmVNUqNa69RC4GTo2RykA8tjUrVFnHxL4mqp299B7K0ALKs37VyuyyO8Vm1AHrp7VKfg37yQccUF2ZZUfsMdY70HwhMLehm34HrFXFspWbeO8fMMFjAAu0GLkt6FHWfn87/yJs1NfzIB5BsQutpGwh8wu/zFqT9wNjbQV7SBQwTXv/w68zTTxmlX8lTS658Bkl3x5+qFoZ17T9l9/ZGe9/AusUp948FmCLZLXBu/FFanhXxCXfRbz0lq+ocwrwmoMwE=
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: AxisCommunications/media-stream-library-js
+      node: "node"
+  - provider: npm
+    api_key:
+      secure: egJNT5uKx7oz2Y4ZDwnp1fzOYu1boJy6UNo65v3Y7Dv0cc+JbdQ9s+Xi8wSyicWK+TbQ7tQ5J6kLIVvlT54yJtkMH1ZxAyyNUo0jLngz3IsU5YbJg6pxGnjDCE/x1X9dETSCx1dd/f0pAql1oZWd+XdChkT/gwO4vAEeSBJJXVsxkvfUc6NLv6/XNoGFLQGVc5tKV94R4Jp2PVsoos5iR5JPic/tf029k7fEnN0STA4BmVkkaL59YkJGeH07WUyL/kWSK/WqBQjwbL3LxybJJzWlR5KjwkeIUwT55bVtObaW/Jtwna46gmTErLu0V1tO14aobKZ6uHFh/vrc77PHQei3EWZ6pwhzg24+8z4R9tcNClFQuGhrDFkjPmf9HL1AwGqqvH/efhTlgC7YqqBopnbjIDgC/bXlpJHFuLt1/g/JDW33TBM8pP6n5GodO2JDJk9lvSm+HLGvcWSNiSw0E4URCeh+VchZ3pjWXSqCs5Jop8HKmdirLgFaDQdfuNvdkr6vqg8q1P8bzVxFfA9Ks/y/ris0Ax+tztDuKrbSE+Z/0OXnXyQHx2TLhGxCQWjsVvP0EkKiem4l6Rhp0qnS+1nqzErzIumNFhLm/yqhKvyVHEjWeDX4MpUTyyrkelOezCqvi9yjwWKHd+gZ7/Q1Mh5VkvdckRebILcCza5y9V4=
+    skip_cleanup: true
+    on:
+      tags: true
+      repo: AxisCommunications/media-stream-library-js
+      node: "node"
