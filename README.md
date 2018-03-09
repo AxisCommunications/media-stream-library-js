@@ -2,7 +2,7 @@
 Media Stream Library JS is an open-source JavaScript library to handle media
 stream transforms for Node & the Web.
 The primary purpose is to deal with RTP streams in a browser without
-the need to use plugins of Flash, but relying on the [Media Source Extensions](https://www.w3.org/TR/media-source/) standard, which is supported in all modern browsers.
+the need to use plugins or Flash, but relying on the [Media Source Extensions](https://www.w3.org/TR/media-source/) standard, which is supported in all modern browsers.
 
 
 ## Structure
@@ -67,26 +67,7 @@ yarn example
 
 ## Contributing
 
-Please use the github issue tracker for any bugs or features requests,
-email sent to the maintainer(s) will probably be ignored.
-
-If you would like to contribute bug fixes or new components,
-make sure there is an existing issue for it, and make a pull
-request referencing the issue.
-
-Most components have unit tests, and basic proper behaviour is always
-tested, but we don't have full coverage (yet) of all the component code.
-If you contribute a new component, please make sure it has appropriate
-unit tests with sufficient coverage.
-
-You can run all test with:
-```
-npm run test
-```
-or
-```
-yarn test
-```
+Please read our [contributing guidelines](CONTRIBUTING.md) before making pull requests.
 
 ## Debugging
 
