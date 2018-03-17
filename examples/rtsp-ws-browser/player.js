@@ -6,7 +6,7 @@ const play = (host) => {
 
   // Setup a new pipeline
   const pipeline = new pipelines.Html5VideoPipeline({
-    ws: {uri: 'ws://localhost:8080/'},
+    ws: {uri: 'ws://localhost:8854/'},
     rtsp: {uri: 'rtsp://0.0.0.0:8554/test'},
     videoEl
   })
