@@ -35,6 +35,7 @@
   "devDependencies": {
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.1",
+    "cypress": "^2.1.0",
     "http-server": "^0.11.1",
     "jest": "^22.2.2",
     "mocha-testdata": "^1.2.0",
