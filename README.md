@@ -1,4 +1,8 @@
-# Media Stream Library JS
+# Media Stream Library JS [![Travis CI Build Status][travis-image]][travis-url]
+
+[travis-image]: https://travis-ci.org/AxisCommunications/media-stream-library-js.svg?branch=master
+[travis-url]: https://travis-ci.org/AxisCommunications/media-stream-library-js
+
 Media Stream Library JS is an open-source JavaScript library to handle media
 stream transforms for Node & the Web.
 The primary purpose is to deal with RTP streams in a browser without
