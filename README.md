@@ -1,7 +1,11 @@
-# Media Stream Library JS [![Travis CI Build Status][travis-image]][travis-url]
+# Media Stream Library JS
+[![Travis CI][travis-image]][travis-url]
+[![NPM][npm-image]][npm-url]
 
 [travis-image]: https://travis-ci.org/AxisCommunications/media-stream-library-js.svg?branch=master
 [travis-url]: https://travis-ci.org/AxisCommunications/media-stream-library-js
+[npm-image]: https://img.shields.io/npm/v/media-stream-library.svg
+[npm-url]: https://www.npmjs.com/package/media-stream-library
 
 Media Stream Library JS is an open-source JavaScript library to handle media
 stream transforms for Node & the Web.
