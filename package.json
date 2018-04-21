@@ -12,7 +12,9 @@
     "lint": "standard",
     "test": "standard && jest --coverage",
     "build": "webpack",
-    "example": "webpack && http-server examples/browser"
+    "rtsp": "rtsp-ws-server/start.sh",
+    "dev": "webpack --mode development --watch",
+    "examples": "webpack --mode development && http-server examples/browser"
   },
   "repository": {
     "type": "git",

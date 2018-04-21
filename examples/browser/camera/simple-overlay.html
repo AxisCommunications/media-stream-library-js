@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Example video streaming from Axis camera with bitrate overlay</title>
+</head>
+
+<body>
+  <div>
+    <div>
+      <label for="device">Device IP:</label>
+      <input id="device" type="text" placeholder="192.168.0.90">
+    </div>
+    <div>
+      Video encoding:
+      <input type="radio" name="encoding" id="h264" checked>
+      <label for="h264">H.264</label>
+      <input type="radio" name="encoding" id="jpeg">
+      <label for="jpeg">Motion JPEG</label>
+    </div>
+    <button id="play">Play</button>
+  </div>
+  <div style="position: fixed; width: 1280px; height: 720px">
+    <video style="position: absolute; width: 100%; height: 100%;" autoplay></video>
+    <canvas style="position: absolute; width: 100%; height: 100%;"></canvas>
+    <svg style="position: absolute; width: 100%; height: 100%;"></svg>
+  </div>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <script src="../media-stream-library.min.js"></script>
+  <script src="simple-overlay-player.js"></script>
+</body>
+
+</html>

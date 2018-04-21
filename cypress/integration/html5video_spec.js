@@ -9,7 +9,7 @@ const MAX_LATENCY = 0.250
 
 describe('HTML5 video', function () {
   it('should auto-play with low latency', function () {
-    cy.visit('http://localhost:8080')
+    cy.visit('http://localhost:8080/test/h264.html')
     cy.get('video').should(($videoEl) => {
       const videoEl = $videoEl.get(0)
       const presentationTime = videoEl.currentTime
