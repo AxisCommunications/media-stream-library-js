@@ -8,5 +8,5 @@ const argv = yargs.options({
 
 // Setup a new pipeline
 ;(function wrap () {
-  return new pipelines.TcpWsPipeline({host: 'localhost', port: argv.port})
+  return new pipelines.TcpWsServerPipeline({host: 'localhost', port: argv.port})
 })()
