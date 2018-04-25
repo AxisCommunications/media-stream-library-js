@@ -3,7 +3,7 @@ const d3 = window.d3
 
 const play = (host) => {
   // Grab a reference to the video element
-  const videoEl = document.querySelector('video')
+  const mediaElement = document.querySelector('video')
 
   const svg = d3.select('svg')
   const group = svg.append('g')
@@ -27,13 +27,13 @@ const play = (host) => {
       window.requestAnimationFrame(() => path.attr('d', line(data)))
     }
   }
-  const scheduler = new utils.Scheduler(videoEl, draw)
+  const scheduler = new utils.Scheduler(mediaElement, draw)
 
   // Setup a new pipeline
   const pipeline = new pipelines.Html5VideoPipeline({
-    ws: {uri: 'ws://localhost:8854/'},
-    rtsp: {uri: 'rtsp://0.0.0.0:8554/test'},
-    videoEl
+    ws: { uri: `ws://${host}:8854/` },
+    rtsp: { uri: `rtsp://localhost:8554/test` },
+    mediaElement
   })
 
   const runScheduler = components.Component.peek((msg) => scheduler.run(msg))
@@ -49,5 +49,4 @@ const play = (host) => {
   })
 }
 
-// Each time a device ip is entered, authorize and then play
-play()
+play(window.location.hostname)
