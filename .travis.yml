@@ -6,7 +6,7 @@ node_js:
   
 matrix:
   allow_failures:
-  - node: "node"
+  - node_js: "node"
 
 services:
   - docker
