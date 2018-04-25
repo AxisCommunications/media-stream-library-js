@@ -1,7 +1,13 @@
 language: node_js
 node_js:
   - "node"
+  - "9"
   - "lts/*"
+  
+matrix:
+  allow_failures:
+  - node_js: "node"
+
 services:
   - docker
 cache: yarn
@@ -27,7 +33,7 @@ deploy:
     on:
       tags: true
       repo: AxisCommunications/media-stream-library-js
-      node: "node"
+      node: "9"
   - provider: npm
     email: stevenv@axis.com
     tag: $NPM_TAG
@@ -37,4 +43,4 @@ deploy:
     on:
       tags: true
       repo: AxisCommunications/media-stream-library-js
-      node: "node"
+      node: "9"
