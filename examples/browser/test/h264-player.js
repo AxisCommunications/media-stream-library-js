@@ -11,7 +11,6 @@ const play = (host) => {
     mediaElement
   })
   pipeline.ready.then(() => {
-    console.log('pipeline ready')
     pipeline.play()
   })
 }
