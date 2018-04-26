@@ -44,7 +44,6 @@ const play = (host) => {
   }
 
   pipeline.ready.then(() => {
-    console.log('pipeline ready')
     pipeline.play()
   })
 }

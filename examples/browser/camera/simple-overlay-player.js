@@ -19,9 +19,26 @@ const authorize = async (host) => {
   }
 }
 
-const play = (host) => {
-  // Grab a reference to the video element
+const play = (host, encoding) => {
+  // Set up
   const videoEl = document.querySelector('video')
+  const canvasEl = document.querySelector('canvas')
+  // Grab a reference to the video element
+  let Pipeline
+  let mediaElement
+  if (encoding === 'h264') {
+    Pipeline = pipelines.Html5VideoPipeline
+    mediaElement = videoEl
+    // hide the other output
+    videoEl.style.display = ''
+    canvasEl.style.display = 'none'
+  } else {
+    Pipeline = pipelines.Html5CanvasPipeline
+    mediaElement = canvasEl
+    // hide the other output
+    videoEl.style.display = 'none'
+    canvasEl.style.display = ''
+  }
 
   const svg = d3.select('svg')
   const group = svg.append('g')
@@ -44,15 +61,15 @@ const play = (host) => {
       data.shift()
       window.requestAnimationFrame(() => path.attr('d', line(data)))
     }
-    console.log('sync', new Date(msg.ntpTimestamp), msg.data.length)
+    // console.log('sync', new Date(msg.ntpTimestamp), msg.data.length)
   }
-  const scheduler = new utils.Scheduler(videoEl, draw)
+  const scheduler = new utils.Scheduler(mediaElement, draw)
 
   // Setup a new pipeline
-  const pipeline = new pipelines.Html5VideoPipeline({
+  const pipeline = new Pipeline({
     ws: {uri: `ws://${host}/rtsp-over-websocket`},
-    rtsp: {uri: `rtsp://${host}/axis-media/media.amp`},
-    videoEl
+    rtsp: { uri: `rtsp://${host}/axis-media/media.amp?videocodec=${encoding}` },
+    mediaElement
   })
 
   const runScheduler = components.Component.peek((msg) => scheduler.run(msg))
@@ -65,13 +82,24 @@ const play = (host) => {
   pipeline.ready.then(() => {
     pipeline.play()
   })
+
+  return pipeline
 }
 
+let pipeline
+
 // Each time a device ip is entered, authorize and then play
-const device = document.querySelector('#device')
-device.addEventListener('change', async (e) => {
-  const host = e.target.value
+const playButton = document.querySelector('#play')
+playButton.addEventListener('click', async (e) => {
+  pipeline && pipeline.close()
+
+  const device = document.querySelector('#device')
+  const host = device.value || device.placeholder
+  const encoding = document.querySelector('input[name=encoding]:checked').id
+
+  console.log(host, encoding)
 
   await authorize(host)
-  play(host)
+
+  pipeline = play(host, encoding)
 })
