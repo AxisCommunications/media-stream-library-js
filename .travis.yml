@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "node"
-  - "9"
+  - "10"
   - "lts/*"
   
 matrix:
@@ -33,7 +33,7 @@ deploy:
     on:
       tags: true
       repo: AxisCommunications/media-stream-library-js
-      node: "9"
+      node: "10"
   - provider: npm
     email: stevenv@axis.com
     tag: $NPM_TAG
@@ -43,4 +43,4 @@ deploy:
     on:
       tags: true
       repo: AxisCommunications/media-stream-library-js
-      node: "9"
+      node: "10"
