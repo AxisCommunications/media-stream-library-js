@@ -3,7 +3,7 @@ const d3 = window.d3
 
 const play = (host) => {
   // Grab a reference to the video element
-  const mediaElement = document.querySelector('video')
+  const mediaElement = document.querySelector('canvas')
 
   const svg = d3.select('svg')
   const group = svg.append('g')
@@ -16,15 +16,14 @@ const play = (host) => {
   const {width: svgWidth, height: svgHeight} = svg.node().getBoundingClientRect()
 
   const x = d3.scaleLinear().domain([0, 59]).rangeRound([0, svgWidth])
-  const y = d3.scaleLinear().domain([0, 150000]).rangeRound([svgHeight, 0])
+  const y = d3.scaleLinear().domain([0, 200000]).rangeRound([svgHeight, 0])
   const line = d3.line().x((d, i) => x(i)).y((d) => y(d)).curve(d3.curveStep)
-
-  svg.append('g').call(d3.axisRight(y)).style('transform', `translateX(${svgWidth}px)`)
 
   // Create a function that will be used to draw the data
   let data = []
   const draw = (msg) => {
-    data.push(msg.data.length)
+    const bits = 8 * msg.data.length
+    data.push(bits)
     if (data.length > 60) {
       data.shift()
       window.requestAnimationFrame(() => path.attr('d', line(data)))
@@ -32,9 +31,9 @@ const play = (host) => {
   }
 
   // Setup a new pipeline
-  const pipeline = new pipelines.Html5VideoPipeline({
+  const pipeline = new pipelines.Html5CanvasPipeline({
     ws: { uri: `ws://${host}:8854/` },
-    rtsp: { uri: `rtsp://localhost:8554/test` },
+    rtsp: { uri: `rtsp://localhost:8555/test` },
     mediaElement
   })
 
