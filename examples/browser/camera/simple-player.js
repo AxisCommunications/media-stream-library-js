@@ -45,7 +45,7 @@ const play = (host, encoding = 'h264') => {
     mediaElement
   })
   pipeline.ready.then(() => {
-    pipeline.play()
+    pipeline.rtsp.play()
   })
 
   return pipeline

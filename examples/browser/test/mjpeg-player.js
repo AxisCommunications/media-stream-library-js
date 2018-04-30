@@ -11,7 +11,7 @@ const play = (host) => {
     mediaElement
   })
   pipeline.ready.then(() => {
-    pipeline.play()
+    pipeline.rtsp.play()
   })
 }
 

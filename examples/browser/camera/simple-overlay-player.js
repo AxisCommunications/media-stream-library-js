@@ -19,6 +19,9 @@ const authorize = async (host) => {
   }
 }
 
+let data = []
+let group
+
 const play = (host, encoding) => {
   // Set up
   const videoEl = document.querySelector('video')
@@ -40,8 +43,15 @@ const play = (host, encoding) => {
     canvasEl.style.display = ''
   }
 
+  // Setup a new pipeline
+  const pipeline = new Pipeline({
+    ws: { uri: `ws://${host}/rtsp-over-websocket` },
+    rtsp: { uri: `rtsp://${host}/axis-media/media.amp?videocodec=${encoding}` },
+    mediaElement
+  })
+
   const svg = d3.select('svg')
-  const group = svg.append('g')
+  group = svg.append('g')
   const path = group.append('path')
     .attr('fill', 'none')
     .attr('stroke', '#fc3')
@@ -51,36 +61,34 @@ const play = (host, encoding) => {
   const {width: svgWidth, height: svgHeight} = svg.node().getBoundingClientRect()
 
   const x = d3.scaleLinear().domain([0, 59]).rangeRound([0, svgWidth])
-  const y = d3.scaleLinear().domain([0, 150000]).rangeRound([svgHeight, 0])
+  let maxBytes = 0
+  let y = d3.scaleLinear().domain([0, maxBytes]).rangeRound([svgHeight, 0])
   const line = d3.line().x((d, i) => x(i)).y((d) => y(d)).curve(d3.curveStep)
 
-  let data = []
   const draw = (msg) => {
     data.push(msg.data.length)
+    if (maxBytes < msg.data.length - 100) {
+      maxBytes = 2 * msg.data.length
+      y = d3.scaleLinear().domain([0, maxBytes]).rangeRound([svgHeight, 0])
+    }
     if (data.length > 60) {
       data.shift()
       window.requestAnimationFrame(() => path.attr('d', line(data)))
     }
     // console.log('sync', new Date(msg.ntpTimestamp), msg.data.length)
   }
-  const scheduler = new utils.Scheduler(mediaElement, draw)
-
-  // Setup a new pipeline
-  const pipeline = new Pipeline({
-    ws: {uri: `ws://${host}/rtsp-over-websocket`},
-    rtsp: { uri: `rtsp://${host}/axis-media/media.amp?videocodec=${encoding}` },
-    mediaElement
-  })
+  const scheduler = new utils.Scheduler(pipeline, draw)
 
   const runScheduler = components.Component.peek((msg) => scheduler.run(msg))
   pipeline.insertBefore(pipeline.lastComponent, runScheduler)
 
   pipeline.onSync = (ntpPresentationTime) => {
+    console.log('sync!', ntpPresentationTime)
     scheduler.init(ntpPresentationTime)
   }
 
   pipeline.ready.then(() => {
-    pipeline.play()
+    pipeline.rtsp.play()
   })
 
   return pipeline
@@ -92,6 +100,8 @@ let pipeline
 const playButton = document.querySelector('#play')
 playButton.addEventListener('click', async (e) => {
   pipeline && pipeline.close()
+  group && group.remove()
+  data = []
 
   const device = document.querySelector('#device')
   const host = device.value || device.placeholder
