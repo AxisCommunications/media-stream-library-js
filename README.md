@@ -53,12 +53,12 @@ to handling RTP streams. Contributions of new components/pipelines are
 always welcome.
 
 You can directly include the `media-stream-library.min.js` file in your browser
-(check the browser example), or import it into your javascript code:
+(check the browser example):
 
 ```
 <script src="media-stream-library.min.js"></script>
 ```
-
+or import it into your javascript code:
 ```
 import {components, pipelines} from 'media-stream-library';
 ```
@@ -66,11 +66,11 @@ import {components, pipelines} from 'media-stream-library';
 Check the `examples` section to see how these can be used in practice.
 To use the browser example, run:
 ```
-npm run example
+npm run examples
 ```
 or
 ```
-yarn example
+yarn examples
 ```
 
 ## Contributing
