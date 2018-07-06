@@ -38,7 +38,7 @@
     "babel-loader": "8.0.0-beta.4",
     "cypress": "3.0.2",
     "http-server": "0.11.1",
-    "jest": "22.4.3",
+    "jest": "23.3.0",
     "mocha-testdata": "1.2.0",
     "mock-socket": "7.1.0",
     "standard": "11.0.1",
