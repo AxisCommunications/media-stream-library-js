@@ -4181,9 +4181,11 @@ mocha-testdata@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/mocha-testdata/-/mocha-testdata-1.2.0.tgz#6cc0d41820e9bb66903334524e5ae420de77ecea"
 
-mock-socket@7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/mock-socket/-/mock-socket-7.1.0.tgz#482ecccafb0f0e86b8905ba2aa57c1fe73ba262d"
+mock-socket@8.0.1:
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/mock-socket/-/mock-socket-8.0.1.tgz#c32c2e5d3dae2c85e54c777597fcbe2102ac2385"
+  dependencies:
+    url-parse "^1.2.0"
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -4827,6 +4829,10 @@ querystring-es3@^0.2.0:
 querystring@0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/querystring/-/querystring-0.2.0.tgz#b209849203bb25df820da756e747005878521620"
+
+querystringify@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-2.0.0.tgz#fa3ed6e68eb15159457c89b37bc6472833195755"
 
 ramda@0.24.1:
   version "0.24.1"
@@ -5922,6 +5928,13 @@ urix@^0.1.0:
 url-join@^2.0.2:
   version "2.0.5"
   resolved "https://registry.yarnpkg.com/url-join/-/url-join-2.0.5.tgz#5af22f18c052a000a48d7b82c5e9c2e2feeda728"
+
+url-parse@^1.2.0:
+  version "1.4.1"
+  resolved "https://registry.yarnpkg.com/url-parse/-/url-parse-1.4.1.tgz#4dec9dad3dc8585f862fed461d2e19bbf623df30"
+  dependencies:
+    querystringify "^2.0.0"
+    requires-port "^1.0.0"
 
 url@0.11.0, url@^0.11.0:
   version "0.11.0"
