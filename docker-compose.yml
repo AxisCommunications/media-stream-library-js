@@ -1,0 +1,9 @@
+version: '3.0'
+services:
+  rtsp-proxy:
+    build:
+      context: ./
+      dockerfile: ./rtsp-ws-server/Dockerfile
+    image: gaetancollaud/rtsp-ws-server
+    ports:
+      - 8854:8854
