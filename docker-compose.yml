@@ -1,5 +1,6 @@
 version: '3.0'
 services:
+
   rtsp-proxy:
     build:
       context: ./
@@ -7,3 +8,18 @@ services:
     image: gaetancollaud/rtsp-ws-server
     ports:
       - 8854:8854
+    links:
+      - rtsp-h264
+      - rtsp-motion
+
+  rtsp-h264:
+    image: steabert/gst-rtsp-launch
+    command: ["videotestsrc ! video/x-raw,width=1920,height=1080 ! timeoverlay text='H.264' valignment=top halignment=left ! x264enc ! rtph264pay name=pay0 pt=96"]
+    ports:
+      - 8554:8554
+
+  rtsp-motion:
+    image: steabert/gst-rtsp-launch
+    command: ["videotestsrc pattern=ball ! video/x-raw,width=1280,height=720 ! timeoverlay text='MJPEG' valignment=top halignment=left ! jpegenc ! rtpjpegpay name=pay0 pt=96"]
+    ports:
+      - 8555:8554
