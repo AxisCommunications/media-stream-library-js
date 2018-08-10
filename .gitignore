@@ -13,3 +13,6 @@ node_modules/
 # Cypress
 cypress/videos/
 cypress/screenshots/
+
+ #Intellij
+.idea/
