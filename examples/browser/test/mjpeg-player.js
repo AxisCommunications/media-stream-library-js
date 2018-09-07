@@ -1,4 +1,4 @@
-const {pipelines} = window.mediaStreamLibrary
+const { pipelines } = window.mediaStreamLibrary
 
 const play = (host) => {
   // Grab a reference to the video element
