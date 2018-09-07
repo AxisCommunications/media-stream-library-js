@@ -1,4 +1,4 @@
-const {components, pipelines, utils} = window.mediaStreamLibrary
+const { components, pipelines, utils } = window.mediaStreamLibrary
 const d3 = window.d3
 
 // force auth
@@ -58,7 +58,7 @@ const play = (host, encoding) => {
     .attr('stroke-linejoin', 'round')
     .attr('stroke-linecap', 'round')
     .attr('stroke-width', 1.5)
-  const {width: svgWidth, height: svgHeight} = svg.node().getBoundingClientRect()
+  const { width: svgWidth, height: svgHeight } = svg.node().getBoundingClientRect()
 
   const x = d3.scaleLinear().domain([0, 59]).rangeRound([0, svgWidth])
   let maxBytes = 0

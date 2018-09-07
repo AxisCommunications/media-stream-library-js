@@ -1,4 +1,4 @@
-const {pipelines} = window.mediaStreamLibrary
+const { pipelines } = window.mediaStreamLibrary
 
 // force auth
 const authorize = async (host) => {
@@ -40,8 +40,8 @@ const play = (host, encoding = 'h264') => {
 
   // Setup a new pipeline
   const pipeline = new Pipeline({
-    ws: {uri: `ws://${host}/rtsp-over-websocket`},
-    rtsp: {uri: `rtsp://${host}/axis-media/media.amp?videocodec=${encoding}`},
+    ws: { uri: `ws://${host}/rtsp-over-websocket` },
+    rtsp: { uri: `rtsp://${host}/axis-media/media.amp?videocodec=${encoding}` },
     mediaElement
   })
   pipeline.ready.then(() => {
