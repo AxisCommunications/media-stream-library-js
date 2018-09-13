@@ -53,4 +53,4 @@ const config = { rtsp: {
 
 // Setup a new pipeline
 const pipeline = new pipelines.TcpRtspMp4Pipeline(config)
-pipeline.play()
+pipeline.rtsp.play()
