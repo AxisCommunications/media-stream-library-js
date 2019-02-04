@@ -2,8 +2,8 @@
 [![Travis CI][travis-image]][travis-url]
 [![NPM][npm-image]][npm-url]
 
-[travis-image]: https://travis-ci.org/AxisCommunications/media-stream-library-js.svg?branch=master
-[travis-url]: https://travis-ci.org/AxisCommunications/media-stream-library-js
+[travis-image]: https://travis-ci.com/AxisCommunications/media-stream-library-js.svg?branch=master
+[travis-url]: https://travis-ci.com/AxisCommunications/media-stream-library-js
 [npm-image]: https://img.shields.io/npm/v/media-stream-library.svg
 [npm-url]: https://www.npmjs.com/package/media-stream-library
 
