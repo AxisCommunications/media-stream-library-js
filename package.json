@@ -42,7 +42,7 @@
     "mocha-testdata": "1.2.0",
     "mock-socket": "8.0.5",
     "standard": "12.0.1",
-    "webpack": "4.29.3",
+    "webpack": "4.29.4",
     "webpack-cli": "3.2.3"
   },
   "standard": {
