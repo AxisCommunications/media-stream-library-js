@@ -1,4 +1,4 @@
-import { rtpBuffers } from './fixtures'
+import { rtpBuffers, rtpBuffersWithHeaderExt } from './fixtures'
 import {
   cSrcCount,
   extension,
@@ -10,6 +10,8 @@ import {
   sSrc,
   timestamp,
   version,
+  extHeader,
+  cSrc,
 } from './rtp'
 
 describe('Rtp parsing', () => {
@@ -22,10 +24,25 @@ describe('Rtp parsing', () => {
     })
   }
 
+  for (const buffer of rtpBuffersWithHeaderExt) {
+    it('is parsed correctly', () => {
+      expect(version(buffer)).toEqual(2)
+      expect(padding(buffer)).toEqual(false)
+      expect(extension(buffer)).toEqual(true)
+      expect(sSrc(buffer)).toEqual(431929961)
+    })
+  }
+
   it('should expose correct cSrcCount', () => {
     expect(cSrcCount(rtpBuffers[0])).toEqual(0)
     expect(cSrcCount(rtpBuffers[1])).toEqual(0)
     expect(cSrcCount(rtpBuffers[2])).toEqual(1)
+  })
+
+  it('should expose correct cSrc', () => {
+    expect(cSrc(rtpBuffers[0])).toEqual(0)
+    expect(cSrc(rtpBuffers[1])).toEqual(0)
+    expect(cSrc(rtpBuffers[2])).toEqual(1)
   })
 
   it('should have the correct timestamps', () => {
@@ -53,5 +70,17 @@ describe('Rtp parsing', () => {
     expect(payload(rtpBuffers[0])).toEqual(Buffer.from([]))
     expect(payload(rtpBuffers[1])).toEqual(Buffer.from([1, 2, 3]))
     expect(payload(rtpBuffers[2])).toEqual(Buffer.from([1, 2, 3]))
+    expect(payload(rtpBuffersWithHeaderExt[0])).toEqual(Buffer.from([1, 2, 3]))
+    expect(payload(rtpBuffersWithHeaderExt[1])).toEqual(Buffer.from([1, 2, 3]))
+  })
+
+  it('should expose the extension header', () => {
+    expect(extHeader(rtpBuffers[0])).toEqual(Buffer.from([]))
+    expect(extHeader(rtpBuffers[1])).toEqual(Buffer.from([]))
+    expect(extHeader(rtpBuffers[2])).toEqual(Buffer.from([]))
+    expect(extHeader(rtpBuffersWithHeaderExt[0])).toEqual(Buffer.from([]))
+    expect(extHeader(rtpBuffersWithHeaderExt[1])).toEqual(
+      Buffer.from([1, 2, 0, 1, 1, 2, 3, 4]),
+    )
   })
 })

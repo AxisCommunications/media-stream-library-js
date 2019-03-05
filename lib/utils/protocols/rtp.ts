@@ -18,6 +18,11 @@ RTP Fixed Header Fields
   |            contributing source (CSRC) identifiers             |
   |                             ....                              |
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |   profile-specific ext. id    | profile-specific ext. length  |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                 profile-specific extension                    |
+  |                             ....                              |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
 
 export const version = (buffer: Buffer) => {
@@ -57,9 +62,26 @@ export const sSrc = (buffer: Buffer) => {
 }
 
 export const cSrc = (buffer: Buffer, rank = 0) => {
-  return buffer.readUInt32BE(12 + rank * 4)
+  return cSrcCount(buffer) > rank ? buffer.readUInt32BE(12 + rank * 4) : 0
+}
+
+export const extHeaderLength = (buffer: Buffer) => {
+  return extension(buffer) === false
+    ? 0
+    : buffer.readUInt16BE(12 + cSrcCount(buffer) * 4 + 2)
+}
+
+export const extHeader = (buffer: Buffer) => {
+  return extHeaderLength(buffer) === 0
+    ? Buffer.from([])
+    : buffer.slice(
+        12 + cSrcCount(buffer) * 4,
+        12 + cSrcCount(buffer) * 4 + 4 + extHeaderLength(buffer) * 4,
+      )
 }
 
 export const payload = (buffer: Buffer) => {
-  return buffer.slice(12 + cSrcCount(buffer) * 4)
+  return extension(buffer) === false
+    ? buffer.slice(12 + cSrcCount(buffer) * 4)
+    : buffer.slice(12 + cSrcCount(buffer) * 4 + 4 + extHeaderLength(buffer) * 4)
 }
