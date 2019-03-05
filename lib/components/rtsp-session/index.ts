@@ -292,7 +292,11 @@ export class RtspSession extends Tube {
     if (typeof t0 !== 'undefined' && typeof n0 !== 'undefined') {
       const clockrate = this.clockrates[rtpChannel]
       const t = timestamp(msg.data)
-      msg.ntpTimestamp = ((t - t0) / clockrate) * 1000 + n0
+      // The RTP timestamps are unsigned 32 bit and will overflow
+      // at some point. We can guard against the overflow by ORing with 0,
+      // which will bring any difference back into signed 32-bit domain.
+      const dt = (t - t0) | 0
+      msg.ntpTimestamp = (dt / clockrate) * 1000 + n0
     }
   }
 

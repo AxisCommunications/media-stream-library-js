@@ -3,11 +3,13 @@ import { RtspConfig } from '../components/rtsp-session'
 import { WSConfig } from '../components/ws-source/openwebsocket'
 import { MseSink, MediaTrack } from '../components/mse'
 import { WSSource } from '../components/ws-source'
+import { AuthConfig, Auth } from '../components/auth'
 
 export interface Html5VideoConfig {
   ws?: WSConfig
   rtsp?: RtspConfig
   mediaElement: HTMLVideoElement
+  auth?: AuthConfig
 }
 
 /**
@@ -31,9 +33,19 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
    * @memberof Html5VideoPipeline
    */
   constructor(config: Html5VideoConfig) {
-    const { ws: wsConfig, rtsp: rtspConfig, mediaElement } = config
+    const {
+      ws: wsConfig,
+      rtsp: rtspConfig,
+      mediaElement,
+      auth: authConfig,
+    } = config
 
     super(rtspConfig)
+
+    if (authConfig) {
+      const auth = new Auth(authConfig)
+      this.insertBefore(this.rtsp, auth)
+    }
 
     const mseSink = new MseSink(mediaElement)
     mseSink.onSourceOpen = (mse, tracks) => {

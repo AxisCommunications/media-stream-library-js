@@ -61,7 +61,7 @@ export class Auth extends Tube {
         const authenticator = wwwAuthenticate(username, password)(wwwAuth)
         authHeader = authenticator.authorize(
           lastSentMessage.method,
-          '/axis-media/media.amp',
+          lastSentMessage.uri,
         )
 
         // Retry last RTSP message
