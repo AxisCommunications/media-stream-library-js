@@ -37,6 +37,22 @@ export const sessionId = (buffer: Buffer) => {
   return val ? val.split(';')[0] : null
 }
 
+export const sessionTimeout = (buffer: Buffer) => {
+  const val = extractHeaderValue(buffer, 'Session')
+  if (val === null) {
+    return null
+  }
+  const timeoutToken = 'timeout='
+  const timeoutPosition = val.indexOf(timeoutToken)
+  if (timeoutPosition !== -1) {
+    let timeoutVal = val.substring(timeoutPosition + timeoutToken.length)
+    timeoutVal = timeoutVal.split(';')[0]
+    let parsedTimeout = parseInt(timeoutVal)
+    return isNaN(parsedTimeout) ? null : parsedTimeout
+  }
+  return null
+}
+
 export const statusCode = (buffer: Buffer) => {
   return Number(buffer.toString('ascii', 9, 12))
 }

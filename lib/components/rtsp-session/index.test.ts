@@ -132,9 +132,11 @@ describe('session', () => {
     test('should get the session from a Response containing session info', () => {
       const s = new RtspSession({ uri: 'whatever' })
       expect((s as any)._sessionId).toEqual(null)
+      expect((s as any)._renewSessionInterval).toBeNull()
       const res = Buffer.from(setupResponse)
       s.incoming.write({ data: res, type: MessageType.RTSP })
       expect((s as any)._sessionId).toEqual('Bk48Ak7wjcWaAgRD')
+      expect((s as any)._renewSessionInterval).not.toBeNull()
     })
 
     test('should emit a Request using SETUP command', done => {

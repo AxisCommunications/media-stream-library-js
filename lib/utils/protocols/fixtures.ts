@@ -86,6 +86,18 @@ Date: Wed, 03 Jun 2015 14:23:42 GMT
   .split('\n')
   .join('\r\n')
 
+export const setupResponseNoTimeout = `RTSP/1.0 200 OK
+CSeq: 5
+RTP-Info: url=rtsp://192.168.0.3/axis-media/media.amp/stream=0?resolution=176x144&fps=1;seq=10176;rtptime=2419713327
+Range: npt=now-
+Server: GStreamer RTSP server
+Session: Bk48Ak7wjcWaAgRD
+Date: Wed, 03 Jun 2015 14:23:42 GMT
+
+`
+  .split('\n')
+  .join('\r\n')
+
 export const teardownResponse = `RTSP/1.0 200 OK
 CSeq: 5
 Server: GStreamer RTSP server

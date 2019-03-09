@@ -5,6 +5,7 @@ import {
   sequence,
   sessionId,
   statusCode,
+  sessionTimeout,
 } from './rtsp'
 
 import {
@@ -12,6 +13,7 @@ import {
   sdpResponseLive555,
   setupResponse,
   teardownResponse,
+  setupResponseNoTimeout,
 } from './fixtures'
 
 describe('Rtsp', () => {
@@ -32,6 +34,18 @@ describe('Rtsp', () => {
       expect(sessionId(Buffer.from(teardownResponse))).toEqual(
         'ZyHdf8Mn.$epq_8Z',
       )
+    })
+  })
+
+  describe('sessionTimeout', () => {
+    it('should be null before SETUP', () => {
+      expect(sessionTimeout(Buffer.from(sdpResponse))).toBeNull()
+    })
+    it('should be extracted correctly when in a SETUP response', () => {
+      expect(sessionTimeout(Buffer.from(setupResponse))).toEqual(60)
+    })
+    it('should be null when not specified in a SETUP response', () => {
+      expect(sessionTimeout(Buffer.from(setupResponseNoTimeout))).toBeNull()
     })
   })
 

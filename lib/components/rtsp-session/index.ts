@@ -18,6 +18,7 @@ import {
   sessionId,
   contentBase,
   range,
+  sessionTimeout,
 } from '../../utils/protocols/rtsp'
 import { packetType, SR } from '../../utils/protocols/rtcp'
 import { getTime } from '../../utils/protocols/ntp'
@@ -41,6 +42,8 @@ export enum RTSP_METHOD {
   PAUSE = 'PAUSE',
   TEARDOWN = 'TEARDOWN',
 }
+
+const MIN_SESSION_TIMEOUT = 5 // minimum timeout for a rtsp session in seconds
 
 interface Headers {
   [key: string]: string
@@ -114,6 +117,7 @@ export class RtspSession extends Tube {
   private _waiting?: boolean
   private _contentBase?: string | null
   private _sessionId?: string | null
+  private _renewSessionInterval?: number | null
 
   /**
    * Create a new RTSP session controller component.
@@ -214,6 +218,10 @@ export class RtspSession extends Tube {
 
     this._contentBase = null
     this._sessionId = null
+    if (this._renewSessionInterval !== null) {
+      window.clearInterval(this._renewSessionInterval)
+    }
+    this._renewSessionInterval = null
 
     this.t0 = undefined
     this.n0 = undefined
@@ -243,7 +251,20 @@ export class RtspSession extends Tube {
     if (!this._sessionId && !ended) {
       // Response on first SETUP
       this._sessionId = sessionId(msg.data)
+      const _sessionTimeout = sessionTimeout(msg.data)
+      if (_sessionTimeout !== null) {
+        // The server specified that sessions will timeout if not renewed.
+        // In order to keep it alive we need periodically send a RTSP_OPTIONS message
+        if (this._renewSessionInterval !== null) {
+          clearInterval(this._renewSessionInterval)
+        }
+        this._renewSessionInterval = window.setInterval(() => {
+          this._enqueue({ method: RTSP_METHOD.OPTIONS })
+          this._dequeue()
+        }, Math.max(MIN_SESSION_TIMEOUT, _sessionTimeout - 5) * 1000)
+      }
     }
+
     if (!this._contentBase) {
       this._contentBase = contentBase(msg.data)
     }
@@ -403,6 +424,10 @@ export class RtspSession extends Tube {
       this._callStack = []
     }
     this._state = STATE.IDLE
+    if (this._renewSessionInterval !== null) {
+      window.clearInterval(this._renewSessionInterval)
+      this._renewSessionInterval = null
+    }
     this._dequeue()
   }
 
