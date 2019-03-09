@@ -3,15 +3,20 @@
   "version": "5.0.0",
   "description": "Media stream library for Node & the Web.",
   "license": "MIT",
-  "main": "lib/index.node.js",
-  "browser": "lib/index.browser.js",
+  "main": "dist/cjs/index.node.js",
+  "browser": "dist/esm/index.browser.js",
+  "module": "dist/esm/index.node.js",
   "bin": {
     "live": "examples/node/player.js"
   },
   "scripts": {
-    "lint": "standard",
-    "test": "standard && jest --coverage",
-    "build": "webpack",
+    "lint": "tslint --project tsconfig.json --format stylish",
+    "test": "jest --coverage",
+    "verify": "yarn lint && yarn test",
+    "build": "yarn build:esm && yarn build:cjs && yarn build:bundle",
+    "build:esm": "tsc -p tsconfig.json",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:bundle": "webpack",
     "rtsp": "rtsp-ws-server/start.sh",
     "dev": "webpack --mode development --watch",
     "examples": "webpack --mode development && http-server examples/browser"
@@ -30,24 +35,44 @@
     "debug": "^4.0.0",
     "ws": "^6.0.0",
     "www-authenticate": "^0.6.2",
-    "yargs": "^12.0.0"
+    "yargs": "^13.2.1"
   },
   "devDependencies": {
-    "@babel/core": "7.2.2",
-    "@babel/preset-env": "7.3.1",
-    "babel-loader": "8.0.5",
-    "cypress": "3.1.5",
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@babel/preset-typescript": "^7.3.3",
+    "@types/debug": "^4.1.2",
+    "@types/jest": "^24.0.9",
+    "@types/node": "^11.10.4",
+    "@types/ws": "^6.0.1",
+    "babel-loader": "^8.0.5",
+    "cypress": "^3.1.5",
     "http-server": "0.11.1",
-    "jest": "24.1.0",
-    "mocha-testdata": "1.2.0",
+    "jest": "^24.1.0",
     "mock-socket": "8.0.5",
-    "standard": "12.0.1",
-    "webpack": "4.29.4",
-    "webpack-cli": "3.2.3"
+    "prettier": "^1.15.3",
+    "ts-jest": "^24.0.0",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.17.0",
+    "tslint-config-standard": "^8.0.1",
+    "typescript": "^3.2.2",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
   },
-  "standard": {
-    "env": [
-      "jest"
+  "jest": {
+    "testRegex": "(/__tests__/.*|(\\.|/)test)\\.ts$",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
     ]
   }
 }
