@@ -48,7 +48,9 @@ export class Replayer extends Source {
     const outgoing = new Writable({
       objectMode: true,
       write: function(msg, encoding, callback) {
-        start() // resume streaming
+        start().catch(() => {
+          /** ignore */
+        }) // resume streaming
         callback()
       },
     })

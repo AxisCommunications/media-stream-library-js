@@ -115,9 +115,14 @@ export class CanvasSink extends Sink {
       // very large memory use in Chrome (goes up to ~2-3GB, then drops again).
       drawImageBlob = ({ blob }) => {
         info.renderedFrames++
-        window.createImageBitmap(blob).then(imageBitmap => {
-          ;(ctx as any).transferFromImageBitmap(imageBitmap)
-        })
+        window
+          .createImageBitmap(blob)
+          .then(imageBitmap => {
+            ;(ctx as any).transferFromImageBitmap(imageBitmap)
+          })
+          .catch(() => {
+            /** ignore */
+          })
       }
     } else {
       ctx = el.getContext('2d')

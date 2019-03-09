@@ -8,7 +8,8 @@
     "no-bitwise": false,
     "object-literal-sort-keys": false,
     "interface-name": false,
-    "radix": false
+    "radix": false,
+    "strict-type-predicates": false
   },
   "rulesDirectory": []
 }

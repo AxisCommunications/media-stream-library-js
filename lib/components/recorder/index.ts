@@ -43,10 +43,14 @@ export class Recorder extends Tube {
     fileStream.write('[\n')
 
     // end of file: close JSON array
-    Promise.all(streamsFinished).then(() => {
-      fileStream.write(JSON.stringify(null))
-      fileStream.write('\n]\n')
-    })
+    Promise.all(streamsFinished)
+      .then(() => {
+        fileStream.write(JSON.stringify(null))
+        fileStream.write('\n]\n')
+      })
+      .catch(() => {
+        /** ignore */
+      })
 
     super(incoming, outgoing)
   }
