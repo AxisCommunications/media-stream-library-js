@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    /* Include Typescript declaration files */
+    "declaration": true,
+    
     /* Basic Options */
     "target": "es2015",
     "module": "es2015",
