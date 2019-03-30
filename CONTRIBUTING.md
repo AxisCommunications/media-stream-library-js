@@ -30,10 +30,13 @@ If you contribute a new component, please make sure it has appropriate
 unit tests with sufficient coverage.
 
 You can run all test with:
+
 ```
 npm run test
 ```
+
 or
+
 ```
 yarn test
 ```

@@ -33,9 +33,14 @@ const { pipelines } = require('../../lib/index.node.js')
  */
 
 const argv = yargs.options({
-  'uri': { type: 'string', describe: 'rtsp://hostname/path' },
-  'host': { type: 'string', describe: 'hostname', conflicts: 'uri' },
-  'vapix': { type: 'string', describe: 'key=value [key=value ...]', conflicts: 'uri', array: true }
+  uri: { type: 'string', describe: 'rtsp://hostname/path' },
+  host: { type: 'string', describe: 'hostname', conflicts: 'uri' },
+  vapix: {
+    type: 'string',
+    describe: 'key=value [key=value ...]',
+    conflicts: 'uri',
+    array: true,
+  },
 }).argv
 
 if (!(argv.uri || argv.host)) {
@@ -45,11 +50,13 @@ if (!(argv.uri || argv.host)) {
 }
 
 // Set up main configuration object.
-const config = { rtsp: {
-  uri: argv.uri,
-  hostname: argv.host,
-  parameters: argv.vapix
-} }
+const config = {
+  rtsp: {
+    uri: argv.uri,
+    hostname: argv.host,
+    parameters: argv.vapix,
+  },
+}
 
 // Setup a new pipeline
 const pipeline = new pipelines.TcpRtspMp4Pipeline(config)
