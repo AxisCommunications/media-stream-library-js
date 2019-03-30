@@ -1,6 +1,6 @@
 const { pipelines } = window.mediaStreamLibrary
 
-const play = (host) => {
+const play = host => {
   // Grab a reference to the video element
   const mediaElement = document.querySelector('video')
 
@@ -8,7 +8,7 @@ const play = (host) => {
   const pipeline = new pipelines.Html5VideoPipeline({
     ws: { uri: `ws://${host}:8854/` },
     rtsp: { uri: `rtsp://localhost:8554/test` },
-    mediaElement
+    mediaElement,
   })
   pipeline.ready.then(() => {
     pipeline.rtsp.play()
