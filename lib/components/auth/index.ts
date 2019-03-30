@@ -1,10 +1,10 @@
-import wwwAuthenticate from 'www-authenticate'
-
 import { merge } from '../../utils/config'
 import { statusCode } from '../../utils/protocols/rtsp'
 import { Tube } from '../component'
 import { Message, MessageType, RtspMessage } from '../message'
 import { createTransform } from '../messageStreams'
+import { DigestAuth } from './digest'
+import { parseWWWAuthenticate } from './www-authenticate'
 
 const UNAUTHORIZED = 401
 
@@ -26,6 +26,9 @@ const DEFAULT_CONFIG = {
 export class Auth extends Tube {
   constructor(config: AuthConfig = {}) {
     const { username, password } = merge(DEFAULT_CONFIG, config)
+    if (username === undefined || password === undefined) {
+      throw new Error('need username and password')
+    }
 
     let lastSentMessage: RtspMessage
     let authHeader: string
@@ -54,15 +57,25 @@ export class Auth extends Tube {
         msg.type === MessageType.RTSP &&
         statusCode(msg.data) === UNAUTHORIZED
       ) {
-        authHeader =
-          'Basic ' + Buffer.from(username + ':' + password).toString('base64')
         const headers = msg.data.toString().split('\n')
         const wwwAuth = headers.find(header => /WWW-Auth/i.test(header))
-        const authenticator = wwwAuthenticate(username, password)(wwwAuth)
-        authHeader = authenticator.authorize(
-          lastSentMessage.method,
-          lastSentMessage.uri,
-        )
+        if (wwwAuth === undefined) {
+          throw new Error('cannot find WWW-Authenticate header')
+        }
+        const challenge = parseWWWAuthenticate(wwwAuth)
+        if (challenge.type === 'basic') {
+          authHeader =
+            'Basic ' + Buffer.from(username + ':' + password).toString('base64')
+        } else if (challenge.type === 'digest') {
+          const digest = new DigestAuth(challenge.params, username, password)
+          authHeader = digest.authorization(
+            lastSentMessage.method,
+            lastSentMessage.uri,
+          )
+        } else {
+          // unkown authentication type, give up
+          return
+        }
 
         // Retry last RTSP message
         // Write will fire our outgoing transform function.
