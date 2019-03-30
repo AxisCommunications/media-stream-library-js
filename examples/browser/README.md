@@ -3,9 +3,11 @@
 ## Getting started
 
 To start serving the browser examples, just type:
+
 ```
 yarn examples
 ```
+
 which will build the webpack bundle and then serve all
 the examples in this folder on `localhost:8080`.
 Just pick the correct route, which is the relative path starting from
@@ -45,22 +47,28 @@ It's best to do this in a separate terminal window, so that
 you can keep it running.
 
 Either use no special arguments to launch the RTSP servers:
+
 ```
 yarn rtsp
 ```
+
 or add your own launch pipeline as an argument:
+
 ```
 yarn rtsp 'videotestsrc ! ... ! ...'
 ```
+
 For more details see the documentation under `rtsp-ws-server`
 in the project root directory.
 
 When the test server is up and running, you should probably first
 test that the RTSP server works (especially if you've provided your
 own launch command) with e.g.:
+
 ```
 vlc rtsp://0.0.0.0:8554/test
 ```
+
 Any player that can handle RTSP should be fine.
 
 After you verified everything seems to be running fine,
