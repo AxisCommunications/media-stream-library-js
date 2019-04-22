@@ -4,6 +4,8 @@ import { WSSink } from '../components/ws-sink'
 import { TcpSource } from '../components/tcp'
 
 export class TcpWsProxyPipeline extends Pipeline {
+  public wss: Server
+
   constructor(config = {}) {
     const wss = new Server(config)
     wss.on('connection', socket => {
@@ -14,5 +16,8 @@ export class TcpWsProxyPipeline extends Pipeline {
     })
 
     super()
+
+    // Expose WebSocket Server for external use
+    this.wss = wss
   }
 }
