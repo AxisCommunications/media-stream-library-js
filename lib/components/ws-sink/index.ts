@@ -36,7 +36,7 @@ export class WSSink extends Sink {
       outgoing.push(null)
     })
     socket.on('error', (e: Error) => {
-      console.error('TCP socket error:', e)
+      console.error('WebSocket error:', e)
       socket.terminate()
       outgoing.push(null)
     })
