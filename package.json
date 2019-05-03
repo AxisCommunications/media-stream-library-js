@@ -34,7 +34,7 @@
   ],
   "dependencies": {
     "debug": "^4.0.0",
-    "ws": "^6.0.0",
+    "ws": "^7.0.0",
     "yargs": "^13.2.1"
   },
   "devDependencies": {
