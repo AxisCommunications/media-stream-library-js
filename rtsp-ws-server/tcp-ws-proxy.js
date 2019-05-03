@@ -10,5 +10,5 @@ const argv = yargs.options({
 ;(function wrap() {
   console.log(`WebSocket server at ws://localhost:${argv.port}`)
   console.log(pipelines, pipelines.TcpWsProxyPipeline)
-  return new pipelines.TcpWsProxyPipeline({ host: '0.0.0.0', port: argv.port })
+  return new pipelines.TcpWsProxyPipeline({ host: '::', port: argv.port })
 })()
