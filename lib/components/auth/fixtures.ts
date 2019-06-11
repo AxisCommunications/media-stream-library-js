@@ -23,6 +23,6 @@ uri="/dir/index.html", \
 qop=auth, \
 nc=00000001, \
 cnonce="0a4f113b", \
-response="6629fae49393a05397450978507c4ef1", \
+response="a28f1d4ea2613caa8a212bacd7346c92", \
 opaque="5ccc069c403ebaf9f0171e9517f40e41"',
 }
