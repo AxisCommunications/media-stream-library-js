@@ -12,7 +12,7 @@ export const parseWWWAuthenticate = (header: string): Challenge => {
   const re = /\s*([^=]+)=\"([^\"]*)\",?/gm
   let match
   do {
-    match = re.exec(challenge.join(''))
+    match = re.exec(challenge.join(' '))
     if (match !== null) {
       const [full, key, value] = match
       pairs.push([key, value])
