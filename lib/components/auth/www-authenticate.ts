@@ -15,7 +15,7 @@ export const parseWWWAuthenticate = (header: string): Challenge => {
     match = re.exec(challenge.join(''))
     if (match !== null) {
       const [full, key, value] = match
-      pairs.push([key, value.toLowerCase()])
+      pairs.push([key, value])
     }
   } while (match !== null)
 
