@@ -1,6 +1,6 @@
 // https://tools.ietf.org/html/rfc2617#section-3.2.1
 
-import MD5 from 'md5.js'
+const MD5 = require('md5.js')
 import { ChallengeParams } from './www-authenticate'
 
 export class DigestAuth {
@@ -104,10 +104,10 @@ export class DigestAuth {
       this.qop === undefined
         ? new MD5().update(`${ha1}:${this.nonce}:${ha2}`).digest('hex')
         : new MD5()
-            .update(`${ha1}:${this.nonce}:${nc}:${cnonce}:${this.qop}:${ha2}`)
-            .digest('hex')
+          .update(`${ha1}:${this.nonce}:${nc}:${cnonce}:${this.qop}:${ha2}`)
+          .digest('hex')
 
-    const authorizationParams = []
+    const authorizationParams: string[] = []
     authorizationParams.push(`username="${this.username}"`)
     authorizationParams.push(`realm="${this.realm}"`)
     authorizationParams.push(`nonce="${this.nonce}"`)
