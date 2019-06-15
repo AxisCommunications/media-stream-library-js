@@ -1,16 +1,14 @@
+import registerDebug from 'debug'
+
 import { Sink } from '../component'
 import { Writable, Readable } from 'stream'
 import { MessageType, Message } from '../message'
 import { packetType, BYE } from '../../utils/protocols/rtcp'
+import { MediaTrack } from '../../utils/protocols/isom'
 
 const TRIGGER_THRESHOLD = 100
 
-export interface MediaTrack {
-  type: string
-  encoding?: string
-  mime?: string
-  codec?: any
-}
+const debug = registerDebug('msl:mse')
 
 export class MseSink extends Sink {
   private _videoEl: HTMLVideoElement
@@ -36,57 +34,64 @@ export class MseSink extends Sink {
 
     /**
      * Set up an incoming stream and attach it to the sourceBuffer.
-     * @type {Writable}
      */
     const incoming = new Writable({
       objectMode: true,
-      write: (msg: Message, encoding, callback) => {
-        if (msg.type === MessageType.SDP) {
-          // Start a new movie (new SDP info available)
-          this._lastCheckpointTime = 0
-
-          // Set up a list of tracks that contain info about
-          // the type of media, encoding, and codec are present.
-          const tracks = msg.sdp.media.map((media) => {
-            return {
-              type: media.type,
-              encoding: media.rtpmap && media.rtpmap.encodingName,
-              mime: media.mime,
-              codec: media.codec,
-            }
-          })
-
-          // Start a new mediaSource and prepare it with a sourceBuffer.
-          // When ready, this component's .onSourceOpen callback will be called
-          // with the mediaSource, and a list of valid/ignored media.
-          mse = new MediaSource()
-          el.src = window.URL.createObjectURL(mse)
-          const handler = () => {
-            mse.removeEventListener('sourceopen', handler)
-            this.onSourceOpen && this.onSourceOpen(mse, tracks)
-            const mimeCodecs = tracks
-              .map((track) => track.mime)
-              .filter((mime) => mime)
-              .join(', ')
-            sourceBuffer = this.addSourceBuffer(
-              el,
-              mse,
-              `video/mp4; codecs="${mimeCodecs}"`,
-            )
-            callback()
-          }
-          mse.addEventListener('sourceopen', handler)
-        } else if (msg.type === MessageType.ISOM) {
-          this._lastCheckpointTime =
-            msg.checkpointTime !== undefined
-              ? msg.checkpointTime
-              : this._lastCheckpointTime
+      write: (msg: Message, _, callback) => {
+        if (msg.type === MessageType.ISOM) {
           // ISO BMFF Byte Stream data to be added to the source buffer
           this._done = callback
-          try {
-            sourceBuffer.appendBuffer(msg.data)
-          } catch (e) {
-            // do nothing
+
+          if (msg.tracks !== undefined) {
+            const tracks = msg.tracks
+            // Start a new movie (new SDP info available)
+            this._lastCheckpointTime = 0
+
+            // Start a new mediaSource and prepare it with a sourceBuffer.
+            // When ready, this component's .onSourceOpen callback will be called
+            // with the mediaSource, and a list of valid/ignored media.
+            mse = new MediaSource()
+            el.src = window.URL.createObjectURL(mse)
+            const handler = () => {
+              mse.removeEventListener('sourceopen', handler)
+              this.onSourceOpen && this.onSourceOpen(mse, tracks)
+
+              // MIME codecs: https://tools.ietf.org/html/rfc6381
+              const mimeCodecs = tracks
+                .map((track) => track.mime)
+                .filter((mime) => mime)
+              const codecs =
+                mimeCodecs.length !== 0
+                  ? mimeCodecs.join(', ')
+                  : 'avc1.640029, mp4a.40.2'
+              sourceBuffer = this.addSourceBuffer(
+                el,
+                mse,
+                `video/mp4; codecs="${codecs}"`,
+              )
+              sourceBuffer.onerror = (e) => {
+                console.error('error on SourceBuffer: ', e)
+                incoming.emit('error')
+              }
+              try {
+                sourceBuffer.appendBuffer(msg.data)
+              } catch (err) {
+                console.error('failed to append to SourceBuffer: ', err, msg)
+              }
+            }
+            mse.addEventListener('sourceopen', handler)
+          } else {
+            // Continue current movie
+            this._lastCheckpointTime =
+              msg.checkpointTime !== undefined
+                ? msg.checkpointTime
+                : this._lastCheckpointTime
+
+            try {
+              sourceBuffer.appendBuffer(msg.data)
+            } catch (e) {
+              console.error('failed to append to SourceBuffer: ', e, msg)
+            }
           }
         } else if (msg.type === MessageType.RTCP) {
           if (packetType(msg.data) === BYE.packetType) {
@@ -100,11 +105,13 @@ export class MseSink extends Sink {
     })
 
     incoming.on('finish', () => {
+      console.warn('incoming stream finished: end stream')
       mse && mse.readyState === 'open' && mse.endOfStream()
     })
 
     // When an error is sent on the incoming stream, close it.
     incoming.on('error', () => {
+      console.error('error on incoming stream: end stream')
       if (sourceBuffer.updating) {
         sourceBuffer.addEventListener('updateend', () => {
           mse.readyState === 'open' && mse.endOfStream()
@@ -116,7 +123,6 @@ export class MseSink extends Sink {
 
     /**
      * Set up outgoing stream.
-     * @type {Writable}
      */
     const outgoing = new Readable({
       objectMode: true,
@@ -145,7 +151,11 @@ export class MseSink extends Sink {
    * @param {MediaSource} mse  The media source the buffer should be attached to.
    * @param {String} [mimeType='video/mp4; codecs="avc1.4D0029, mp4a.40.2"'] [description]
    */
-  addSourceBuffer(el: HTMLVideoElement, mse: MediaSource, mimeType: string) {
+  addSourceBuffer(
+    el: HTMLVideoElement,
+    mse: MediaSource,
+    mimeType: string,
+  ): SourceBuffer {
     const sourceBuffer = mse.addSourceBuffer(mimeType)
 
     let trigger = 0
@@ -176,15 +186,15 @@ export class MseSink extends Sink {
     return sourceBuffer
   }
 
-  get currentTime() {
+  get currentTime(): number {
     return this._videoEl.currentTime
   }
 
-  play() {
+  play(): Promise<void> {
     return this._videoEl.play()
   }
 
-  pause() {
+  pause(): void {
     return this._videoEl.pause()
   }
 }
