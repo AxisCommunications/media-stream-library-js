@@ -1,9 +1,10 @@
 import { RtspMp4Pipeline } from './rtsp-mp4-pipeline'
 import { RtspConfig } from '../components/rtsp-session'
 import { WSConfig } from '../components/ws-source/openwebsocket'
-import { MseSink, MediaTrack } from '../components/mse'
+import { MseSink } from '../components/mse'
 import { WSSource } from '../components/ws-source'
 import { AuthConfig, Auth } from '../components/auth'
+import { MediaTrack } from '../utils/protocols/isom'
 
 export interface Html5VideoConfig {
   ws?: WSConfig

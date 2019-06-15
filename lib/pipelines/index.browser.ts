@@ -9,3 +9,5 @@ export * from './html5-video-pipeline'
 export * from './html5-video-metadata-pipeline'
 export * from './metadata-pipeline'
 export * from './ws-sdp-pipeline'
+
+export * from './http-mse-pipeline'

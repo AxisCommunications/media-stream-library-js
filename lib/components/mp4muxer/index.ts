@@ -43,8 +43,18 @@ export class Mp4Muxer extends Tube {
           debug('msl:mp4:isom')(`ftyp: ${ftyp.format()}`)
           debug('msl:mp4:isom')(`moov: ${moov.format()}`)
 
-          this.push(msg) // Pass on the original SDP message
-          this.push({ type: MessageType.ISOM, data, ftyp, moov })
+          // Set up a list of tracks that contain info about
+          // the type of media, encoding, and codec are present.
+          const tracks = msg.sdp.media.map((media) => {
+            return {
+              type: media.type,
+              encoding: media.rtpmap && media.rtpmap.encodingName,
+              mime: media.mime,
+              codec: media.codec,
+            }
+          })
+
+          this.push({ type: MessageType.ISOM, data, tracks, ftyp, moov })
         } else if (
           msg.type === MessageType.ELEMENTARY ||
           msg.type === MessageType.H264
