@@ -6,16 +6,16 @@ export interface Challenge {
 }
 
 export const parseWWWAuthenticate = (header: string): Challenge => {
-  const [type, ...challenge] = header.split(' ')
+  const [dummy, type, ...challenge] = header.split(' ')
 
   const pairs: [string, string][] = []
   const re = /\s*([^=]+)=\"([^\"]*)\",?/gm
   let match
   do {
-    match = re.exec(challenge.join(''))
+    match = re.exec(challenge.join(' '))
     if (match !== null) {
       const [full, key, value] = match
-      pairs.push([key, value.toLowerCase()])
+      pairs.push([key, value])
     }
   } while (match !== null)
 
