@@ -40,6 +40,9 @@ export class DigestAuth {
         this.algorithm = 'md5-sess'
       }
     }
+    else {
+      this.algorithm = 'md5'
+    }
 
     const qop = params.get('qop')
     if (qop !== undefined) {
