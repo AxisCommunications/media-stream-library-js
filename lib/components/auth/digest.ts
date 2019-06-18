@@ -104,8 +104,8 @@ export class DigestAuth {
       this.qop === undefined
         ? new MD5().update(`${ha1}:${this.nonce}:${ha2}`).digest('hex')
         : new MD5()
-          .update(`${ha1}:${this.nonce}:${nc}:${cnonce}:${this.qop}:${ha2}`)
-          .digest('hex')
+            .update(`${ha1}:${this.nonce}:${nc}:${cnonce}:${this.qop}:${ha2}`)
+            .digest('hex')
 
     const authorizationParams: string[] = []
     authorizationParams.push(`username="${this.username}"`)
