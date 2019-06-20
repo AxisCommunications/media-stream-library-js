@@ -106,19 +106,20 @@ export class CanvasSink extends Sink {
     }
     let updateInfo: (info: RateInfo, update: ByteDuration) => void
 
-    let ctx = el.getContext('bitmaprenderer')
+    // The createImageBitmap function is supported in Chrome and Firefox
+    // (https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap)
+    // Note: drawImage can also be used instead of transferFromImageBitmap, but it caused
+    // very large memory use in Chrome (goes up to ~2-3GB, then drops again).
+    // Do do not call el.getContext twice, safari returns null for second call
+    let ctx = window.createImageBitmap ? el.getContext('bitmaprenderer') : null;
     let drawImageBlob: BlobMessageHandler
     if (ctx !== null) {
-      // The createImageBitmap function is supported in Chrome and Firefox
-      // (https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/createImageBitmap)
-      // Note: drawImage can also be used instead of transferFromImageBitmap, but it caused
-      // very large memory use in Chrome (goes up to ~2-3GB, then drops again).
       drawImageBlob = ({ blob }) => {
         info.renderedFrames++
         window
           .createImageBitmap(blob)
           .then(imageBitmap => {
-            ;(ctx as any).transferFromImageBitmap(imageBitmap)
+            ; (ctx as any).transferFromImageBitmap(imageBitmap)
           })
           .catch(() => {
             /** ignore */
@@ -128,7 +129,7 @@ export class CanvasSink extends Sink {
       ctx = el.getContext('2d')
       const img = new Image()
       img.onload = () => {
-        ;(ctx as CanvasRenderingContext2D).drawImage(img, 0, 0)
+        ; (ctx as CanvasRenderingContext2D).drawImage(img, 0, 0)
       }
       drawImageBlob = ({ blob }) => {
         info.renderedFrames++
@@ -240,7 +241,7 @@ export class CanvasSink extends Sink {
     // Set up an outgoing stream.
     const outgoing = new Readable({
       objectMode: true,
-      read: function() {
+      read: function () {
         //
       },
     })
