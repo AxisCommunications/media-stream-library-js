@@ -1,4 +1,4 @@
-export interface IClock {
+export interface Clock {
   readonly currentTime: number
   readonly play: () => void
   readonly pause: () => void
@@ -35,7 +35,7 @@ const DEFAULT_TOLERANCE = 10
  */
 
 export default class Scheduler<T extends { readonly ntpTimestamp?: number }> {
-  private _clock: IClock
+  private _clock: Clock
   private _handler: (msg: T) => void
   private _tolerance: number
   private _nextRun: number
@@ -52,7 +52,7 @@ export default class Scheduler<T extends { readonly ntpTimestamp?: number }> {
    * @memberof Scheduler
    */
   constructor(
-    clock: IClock,
+    clock: Clock,
     handler: (msg: T) => void,
     tolerance = DEFAULT_TOLERANCE,
   ) {
@@ -148,10 +148,14 @@ export default class Scheduler<T extends { readonly ntpTimestamp?: number }> {
     }
     // There is at least one message in the FIFO queue, either
     // display it, or re-schedule the method for later execution
-    let timeToPresent: number = 0
+    let timeToPresent = 0
     let currentMessage: T
     do {
-      currentMessage = this._fifo.shift()!
+      const msg = this._fifo.shift()
+      if (msg === undefined) {
+        throw new Error('internal error: message should never be undefined')
+      }
+      currentMessage = msg
       const ntpTimestamp = currentMessage.ntpTimestamp
       if (ntpTimestamp === undefined) {
         continue
