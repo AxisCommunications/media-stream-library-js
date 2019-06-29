@@ -1,6 +1,6 @@
 import { Duplex, PassThrough, Readable, Stream, Writable } from 'stream'
 import StreamFactory from './helpers/stream-factory'
-import { Message, MessageHandler, GenericMessage } from './message'
+import { MessageHandler, GenericMessage } from './message'
 
 export type Component = Source | Tube | Sink
 
