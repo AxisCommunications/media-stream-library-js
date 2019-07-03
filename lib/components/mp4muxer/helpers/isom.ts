@@ -254,7 +254,7 @@ const createParameterSetArrayClass = function(sizeMask = 0x00) {
       }
     }
 
-    load: BufferMutation = (buffer, offset) => {
+    load: BufferMutation = () => {
       /** noop */
     }
   }
@@ -267,7 +267,7 @@ interface BoxSpec {
   mandatory?: boolean
   quantity?: string
   box: 'Box' | 'FullBox' | 'None'
-  body?: [string, any, any?][]
+  body?: Array<[string, any, any?]>
   config?: any
 }
 
