@@ -4,16 +4,15 @@
     "declaration": true,
 
     /* Basic Options */
-    "target": "es2015",
+    "target": "es5",
+    "downlevelIteration": true,
     "module": "es2015",
-    "outDir": "./dist/esm",
-    "lib": ["dom", "es2017"],
+    "outDir": "./dist/es5",
     "skipLibCheck": true,
     "sourceMap": true,
 
     /* Strict Type-Checking Options */
     "strict": true,
-    "strictNullChecks": true,
 
     /* Module Resolution Options */
     "moduleResolution": "node",
