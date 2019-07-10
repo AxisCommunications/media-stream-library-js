@@ -1,4 +1,4 @@
-export interface IConfigObject {
+export interface ConfigOptions {
   [key: string]: any
 }
 
@@ -8,20 +8,20 @@ export interface IConfigObject {
  * @param  {Object} override The object with override values.
  * @return {Object}          The template object with override merged in.
  */
-export const merge = <T extends IConfigObject>(template: T, override: T): T => {
+export const merge = <T extends ConfigOptions>(template: T, override: T): T => {
   let cleanOverride
   if (override !== undefined) {
     if (typeof override !== 'object') {
       throw new Error('merge expects override to be an object!')
     } else {
       cleanOverride = Object.keys(override).reduce(
-        (acc, key) => {
+        (acc: ConfigOptions, key) => {
           if (override[key] !== undefined) {
             acc[key] = override[key]
           }
           return acc
         },
-        {} as IConfigObject,
+        {},
       )
     }
   }

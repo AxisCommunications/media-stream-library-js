@@ -1,3 +1,7 @@
+import { Session } from 'inspector'
+import { MessageType, SdpMessage } from '../../components/message'
+import { NtpSeconds, seconds } from './ntp'
+
 /**
  * The session description protocol (SDP).
  *
@@ -211,7 +215,7 @@ export interface AACMedia extends AudioMedia {
 
 export interface Sdp {
   readonly session: Session
-  readonly media: ReadonlyArray<MediaDescription>
+  readonly media: MediaDescription[]
 }
 
 const extractLineVals = (buffer: Buffer, lineStart: string, start = 0) => {
@@ -425,10 +429,6 @@ export const parse = (buffer: Buffer): Sdp => {
   }
   return struct as Sdp
 }
-
-import { Session } from 'inspector'
-import { MessageType, SdpMessage } from '../../components/message'
-import { NtpSeconds, seconds } from './ntp'
 
 export const messageFromBuffer = (buffer: Buffer): SdpMessage => {
   return {
