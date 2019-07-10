@@ -111,7 +111,7 @@ export class CanvasSink extends Sink {
     // Note: drawImage can also be used instead of transferFromImageBitmap, but it caused
     // very large memory use in Chrome (goes up to ~2-3GB, then drops again).
     // Do do not call el.getContext twice, safari returns null for second call
-    let ctx = window.createImageBitmap ? el.getContext('bitmaprenderer') : null;
+    let ctx = window.createImageBitmap ? el.getContext('bitmaprenderer') : null
     let drawImageBlob: BlobMessageHandler
     if (ctx !== null) {
       drawImageBlob = ({ blob }) => {
@@ -119,7 +119,7 @@ export class CanvasSink extends Sink {
         window
           .createImageBitmap(blob)
           .then(imageBitmap => {
-            ; (ctx as any).transferFromImageBitmap(imageBitmap)
+            ;(ctx as any).transferFromImageBitmap(imageBitmap)
           })
           .catch(() => {
             /** ignore */
@@ -129,7 +129,7 @@ export class CanvasSink extends Sink {
       ctx = el.getContext('2d')
       const img = new Image()
       img.onload = () => {
-        ; (ctx as CanvasRenderingContext2D).drawImage(img, 0, 0)
+        ;(ctx as CanvasRenderingContext2D).drawImage(img, 0, 0)
       }
       drawImageBlob = ({ blob }) => {
         info.renderedFrames++
@@ -166,15 +166,13 @@ export class CanvasSink extends Sink {
 
           // Initialize first timestamp and clockrate
           firstTimestamp = 0
-          const jpegMedia = msg.sdp.media.find(
-            (media): media is VideoMedia => {
-              return (
-                media.type === 'video' &&
-                media.rtpmap !== undefined &&
-                media.rtpmap.encodingName === 'JPEG'
-              )
-            },
-          )
+          const jpegMedia = msg.sdp.media.find((media): media is VideoMedia => {
+            return (
+              media.type === 'video' &&
+              media.rtpmap !== undefined &&
+              media.rtpmap.encodingName === 'JPEG'
+            )
+          })
 
           if (jpegMedia !== undefined && jpegMedia.rtpmap !== undefined) {
             clockrate = jpegMedia.rtpmap.clockrate
@@ -241,7 +239,7 @@ export class CanvasSink extends Sink {
     // Set up an outgoing stream.
     const outgoing = new Readable({
       objectMode: true,
-      read: function () {
+      read: function() {
         //
       },
     })
