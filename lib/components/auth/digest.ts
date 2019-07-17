@@ -107,7 +107,7 @@ export class DigestAuth {
             .update(`${ha1}:${this.nonce}:${nc}:${cnonce}:${this.qop}:${ha2}`)
             .digest('hex')
 
-    const authorizationParams = []
+    const authorizationParams: string[] = []
     authorizationParams.push(`username="${this.username}"`)
     authorizationParams.push(`realm="${this.realm}"`)
     authorizationParams.push(`nonce="${this.nonce}"`)
