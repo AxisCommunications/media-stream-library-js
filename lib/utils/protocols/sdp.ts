@@ -222,7 +222,7 @@ const extractLineVals = (buffer: Buffer, lineStart: string, start = 0) => {
   const anchor = `\n${lineStart}`
   start = buffer.indexOf(anchor, start)
   let end = 0
-  const ret = []
+  const ret: string[] = []
   while (start >= 0) {
     end = buffer.indexOf('\n', start + anchor.length)
     ret.push(buffer.toString('ascii', start + anchor.length, end).trim())
