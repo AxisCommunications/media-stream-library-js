@@ -6,7 +6,7 @@ import {
   makeFrameHeader,
 } from './headers'
 import { payload } from '../../utils/protocols/rtp'
-
+import { makeQtable } from './make-qtable'
 /**
  * Each packet contains a special JPEG header which immediately follows
  * the RTP header.  The first 8 bytes of this header, called the "main
@@ -88,10 +88,23 @@ export function jpegDepayFactory(defaultWidth = 0, defaultHeight = 0) {
         }
         fragment = fragment.slice(4 + length)
       }
+      // Compute Quantization Table
+      else if (Q < 128 && fragmentOffset === 0) {
+        const precision = 0
+        const qTable = makeQtable(Q)
+        metadata = {
+          typeSpecific,
+          type,
+          width,
+          height,
+          DRI,
+          precision,
+          qTable,
+        }
+      }
 
       fragments.push(fragment)
     }
-
     if (metadata === undefined) {
       throw new Error('no quantization header present')
     }
