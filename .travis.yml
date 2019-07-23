@@ -35,7 +35,7 @@ deploy:
     on:
       tags: true
       repo: AxisCommunications/media-stream-library-js
-      node: '10'
+      node: '12'
   - provider: npm
     email: stevenv@axis.com
     tag: $NPM_TAG
@@ -45,4 +45,4 @@ deploy:
     on:
       tags: true
       repo: AxisCommunications/media-stream-library-js
-      node: '10'
+      node: '12'
