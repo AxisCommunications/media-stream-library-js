@@ -13,7 +13,6 @@ services:
 cache:
   yarn: true
   directories:
-    - node_modules
     - $HOME/.cache
 
 env:
