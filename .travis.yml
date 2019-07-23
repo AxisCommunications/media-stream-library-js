@@ -10,7 +10,10 @@ matrix:
 
 services:
   - docker
-cache: yarn
+cache:
+  yarn: true
+  directories:
+    - $HOME/.cache
 
 env:
   - NPM_TAG=`if [[ $TRAVIS_TAG =~ alpha|beta|rc ]]; then echo "next"; else echo "latest"; fi`
