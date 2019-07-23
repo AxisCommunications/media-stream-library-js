@@ -1,3 +1,13 @@
+## [6.0.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.0.0...v6.0.1) (2019-07-23)
+
+
+### Bug Fixes
+
+* ES5 support ([c19f743](https://github.com/AxisCommunications/media-stream-library-js/commit/c19f743)), closes [#158](https://github.com/AxisCommunications/media-stream-library-js/issues/158)
+* initialize ONVIF packets array ([02b1c44](https://github.com/AxisCommunications/media-stream-library-js/commit/02b1c44))
+
+
+
 ## 6.0.0 (2019-06-10)
 
 * #147 Expose MessageType enum so that external components can utilize it ([e29b136](https://github.com/AxisCommunications/media-stream-library-js/commit/e29b136)), closes [#147](https://github.com/AxisCommunications/media-stream-library-js/issues/147)
