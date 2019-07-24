@@ -5,8 +5,8 @@ import { clamp } from '../../utils/clamp'
  * Example Code from RFC 2435 Appendix A ported to TypeScript
  *
  * Default luminance/chrominance quantization tables in RFC example are not in zig-zag order.
- * The RFC does mention tables should be in zig-zag ordering, but they say that about the included tables.
- * RFC sample code appears to have a mistake.
+ * The RFC does not mention that default tables should be in zig-zag ordering,
+ * but they say that about the included tables. RFC sample code appears to have a mistake.
  * All the tested cameras and LGPL projects use zig-zag default tables.
  * So we use zig-zaged tables from ISO/IEC 10918-1 Annex K Section K.1
  * @see https://tools.ietf.org/html/rfc2435
