@@ -10,7 +10,10 @@ matrix:
 
 services:
   - docker
-cache: yarn
+cache:
+  yarn: true
+  directories:
+    - $HOME/.cache
 
 env:
   - NPM_TAG=`if [[ $TRAVIS_TAG =~ alpha|beta|rc ]]; then echo "next"; else echo "latest"; fi`
@@ -25,14 +28,16 @@ script:
   - yarn cypress run
 deploy:
   - provider: releases
-    file: dist/media-stream-library.min.js
+    file:
+      - CHANGELOG.md
+      - dist/media-stream-library.min.js
     api_key:
       secure: MGxt16mMu4Lf+aTVbGC1laBH84u5xv8xZ24iPhrYVKbYeEyuFxV/MWI3KSFkR99dulgCJ8/IMaB3HFmWMiCg1+ngl/0i8LSq05WrlKmto0hEJvbnaxJ63a9F25L2/+VRmqXVFf6qHHu1dG15xRWFFEvJTQ+c4MKaq/zacrbRBdtcuWCnRPwfzLxJXc57eM7XV3FgQECPdABuHugmF/m26L/t55+WbQdrPYAU9jBgZeJwNs2Fdxouhhl9VV4Po/fAxdzprXGLJe8zdz7WWWIdhiF7j9xQUhueBhaXDKLnPNEIBNIJXPnc6QwPwn0MnWWwgvCdQf0d5lmLWS156RW1JrWk0/XA9l+HmUPQ4BV7s2xHHaN3Vloz1Ya9WD3IofOC+lR1HFcwc8Zkz4O8EzaojFTRmvgwkM0vXudDb/CfQmVNUqNa69RC4GTo2RykA8tjUrVFnHxL4mqp299B7K0ALKs37VyuyyO8Vm1AHrp7VKfg37yQccUF2ZZUfsMdY70HwhMLehm34HrFXFspWbeO8fMMFjAAu0GLkt6FHWfn87/yJs1NfzIB5BsQutpGwh8wu/zFqT9wNjbQV7SBQwTXv/w68zTTxmlX8lTS658Bkl3x5+qFoZ17T9l9/ZGe9/AusUp948FmCLZLXBu/FFanhXxCXfRbz0lq+ocwrwmoMwE=
     skip_cleanup: true
     on:
       tags: true
       repo: AxisCommunications/media-stream-library-js
-      node: '10'
+      node: '12'
   - provider: npm
     email: stevenv@axis.com
     tag: $NPM_TAG
@@ -42,4 +47,4 @@ deploy:
     on:
       tags: true
       repo: AxisCommunications/media-stream-library-js
-      node: '10'
+      node: '12'
