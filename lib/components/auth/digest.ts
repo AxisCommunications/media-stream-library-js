@@ -1,6 +1,6 @@
 // https://tools.ietf.org/html/rfc2617#section-3.2.1
 
-const MD5 = require('md5.js')
+import MD5 from 'md5.js'
 import { ChallengeParams } from './www-authenticate'
 
 export class DigestAuth {
