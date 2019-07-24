@@ -1,6 +1,6 @@
 {
   "name": "media-stream-library",
-  "version": "6.0.0",
+  "version": "6.0.2",
   "description": "Media stream library for Node & the Web.",
   "license": "MIT",
   "main": "dist/cjs/index.node.js",
@@ -21,7 +21,9 @@
     "build:bundle": "webpack",
     "rtsp": "rtsp-ws-server/start.sh",
     "dev": "webpack --mode development --watch",
-    "examples": "webpack --mode development && http-server examples/browser"
+    "examples": "webpack --mode development && http-server examples/browser",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
+    "release": "yarn version --new-version `node node_modules/.bin/conventional-recommended-bump -p angular`"
   },
   "repository": {
     "type": "git",
@@ -39,23 +41,25 @@
     "yargs": "^13.2.1"
   },
   "devDependencies": {
-    "@babel/core": "7.5.4",
-    "@babel/plugin-proposal-class-properties": "7.5.0",
-    "@babel/plugin-proposal-object-rest-spread": "7.5.4",
-    "@babel/preset-env": "7.5.4",
+    "@babel/core": "7.5.5",
+    "@babel/plugin-proposal-class-properties": "7.5.5",
+    "@babel/plugin-proposal-object-rest-spread": "7.5.5",
+    "@babel/preset-env": "7.5.5",
     "@babel/preset-typescript": "7.3.3",
     "@types/debug": "4.1.4",
     "@types/jest": "24.0.15",
-    "@types/node": "12.6.6",
+    "@types/node": "12.6.8",
     "@types/ws": "6.0.1",
-    "@typescript-eslint/eslint-plugin": "1.12.0",
-    "@typescript-eslint/parser": "1.12.0",
+    "@typescript-eslint/eslint-plugin": "1.13.0",
+    "@typescript-eslint/parser": "1.13.0",
     "babel-loader": "8.0.6",
+    "conventional-changelog-cli": "2.0.21",
+    "conventional-recommended-bump": "5.0.0",
     "core-js": "3.1.4",
     "cypress": "3.4.0",
-    "eslint": "6.0.1",
+    "eslint": "6.1.0",
     "eslint-config-prettier": "6.0.0",
-    "eslint-plugin-import": "2.18.0",
+    "eslint-plugin-import": "2.18.2",
     "eslint-plugin-node": "9.1.0",
     "eslint-plugin-promise": "4.2.1",
     "http-server": "0.11.1",
@@ -65,7 +69,7 @@
     "prettier": "1.18.2",
     "ts-jest": "24.0.2",
     "typescript": "3.5.3",
-    "webpack": "4.36.1",
+    "webpack": "4.37.0",
     "webpack-cli": "3.3.6"
   },
   "jest": {
