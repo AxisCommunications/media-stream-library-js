@@ -49,7 +49,7 @@
     "@types/debug": "4.1.4",
     "@types/jest": "24.0.16",
     "@types/node": "12.6.9",
-    "@types/ws": "6.0.1",
+    "@types/ws": "6.0.2",
     "@typescript-eslint/eslint-plugin": "1.13.0",
     "@typescript-eslint/parser": "1.13.0",
     "babel-loader": "8.0.6",
@@ -69,7 +69,7 @@
     "prettier": "1.18.2",
     "ts-jest": "24.0.2",
     "typescript": "3.5.3",
-    "webpack": "4.39.0",
+    "webpack": "4.39.1",
     "webpack-cli": "3.3.6"
   },
   "jest": {
