@@ -9,7 +9,7 @@ import {
 } from '../../utils/protocols/rtp'
 
 export class ONVIFDepay extends Tube {
-  constructor(handler: (msg: XmlMessage) => void) {
+  constructor(handler?: (msg: XmlMessage) => void) {
     let XMLPayloadType: number
     let packets: Buffer[] = []
 
