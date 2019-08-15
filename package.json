@@ -11,7 +11,7 @@
     "live": "examples/node/player.js"
   },
   "scripts": {
-    "lint": "eslint --ext '.ts,.js' lib/",
+    "lint": "yarn eslint && yarn prettier:check",
     "test": "jest --coverage",
     "verify": "yarn lint && yarn test",
     "build": "yarn build:esm && yarn build:cjs && yarn build:es5 && yarn build:bundle",
@@ -19,6 +19,9 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:es5": "tsc -p tsconfig.es5.json",
     "build:bundle": "webpack",
+    "eslint": "eslint --ext '.ts,.js' lib/",
+    "prettier:check": "prettier --check 'lib/**/*.{ts,js}'",
+    "prettier:fix": "prettier --write 'lib/**/*.{ts,js}' --fix --loglevel silent",
     "rtsp": "rtsp-ws-server/start.sh",
     "dev": "webpack --mode development --watch",
     "examples": "webpack --mode development && http-server examples/browser",
