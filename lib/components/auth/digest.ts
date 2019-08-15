@@ -39,8 +39,7 @@ export class DigestAuth {
       } else if (algorithm === 'md5-sess') {
         this.algorithm = 'md5-sess'
       }
-    }
-    else {
+    } else {
       this.algorithm = 'md5'
     }
 

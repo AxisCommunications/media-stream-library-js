@@ -258,10 +258,10 @@ export class RtspSession extends Tube {
         if (this._renewSessionInterval !== null) {
           clearInterval(this._renewSessionInterval)
         }
-        this._renewSessionInterval = setInterval(() => {
+        this._renewSessionInterval = (setInterval(() => {
           this._enqueue({ method: RTSP_METHOD.OPTIONS })
           this._dequeue()
-        }, Math.max(MIN_SESSION_TIMEOUT, _sessionTimeout - 5) * 1000) as unknown as number
+        }, Math.max(MIN_SESSION_TIMEOUT, _sessionTimeout - 5) * 1000) as unknown) as number
       }
     }
 
