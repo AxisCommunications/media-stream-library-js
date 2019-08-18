@@ -73,7 +73,7 @@
     "ts-jest": "24.0.2",
     "typescript": "3.5.3",
     "webpack": "4.39.2",
-    "webpack-cli": "3.3.6"
+    "webpack-cli": "3.3.7"
   },
   "jest": {
     "testRegex": "(/__tests__/.*|(\\.|/)test)\\.ts$",
