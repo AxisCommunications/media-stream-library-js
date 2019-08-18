@@ -12,7 +12,8 @@ export class H264Depay extends Tube {
     // Incoming
 
     let buffer = Buffer.alloc(0)
-    let parseMessage: (buffer: Buffer, rtp: RtpMessage) => Buffer
+    let parseMessage: (buffer: Buffer, rtp: RtpMessage) => Buffer = () =>
+      Buffer.alloc(0)
 
     const incoming = new Transform({
       objectMode: true,

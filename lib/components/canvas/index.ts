@@ -99,7 +99,7 @@ export class CanvasSink extends Sink {
     let firstTimestamp = 0
     let lastTimestamp = 0
     let clockrate = 0
-    let info = {
+    const info = {
       bitrate: 0,
       framerate: 0,
       renderedFrames: 0,

@@ -78,7 +78,7 @@ export class DigestAuth {
     return ha1
   }
 
-  ha2 = (method: string, uri: string, body: string = ''): string => {
+  ha2 = (method: string, uri: string, body = ''): string => {
     let ha2 = new MD5().update(`${method}:${uri}`).digest('hex')
     if (this.algorithm === 'md5-sess') {
       const hbody = new MD5().update(body).digest('hex')
@@ -87,11 +87,7 @@ export class DigestAuth {
     return ha2
   }
 
-  authorization = (
-    method: string = 'GET',
-    uri: string = '',
-    body?: string,
-  ): string => {
+  authorization = (method = 'GET', uri = '', body?: string): string => {
     // Increase count
     const nc = this.nc()
     const cnonce = this.cnonce()

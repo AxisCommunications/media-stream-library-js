@@ -47,7 +47,7 @@ export const sessionTimeout = (buffer: Buffer) => {
   if (timeoutPosition !== -1) {
     let timeoutVal = val.substring(timeoutPosition + timeoutToken.length)
     timeoutVal = timeoutVal.split(';')[0]
-    let parsedTimeout = parseInt(timeoutVal)
+    const parsedTimeout = parseInt(timeoutVal)
     return isNaN(parsedTimeout) ? null : parsedTimeout
   }
   return null
