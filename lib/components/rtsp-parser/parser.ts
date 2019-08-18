@@ -60,7 +60,7 @@ const rtpPacketInfo = (chunks: Buffer[]): RtpPacketInfo => {
  */
 export class Parser {
   private _chunks: Buffer[] = []
-  private _length: number = 0
+  private _length = 0
   private _state: STATE = STATE.IDLE
   private _packet?: RtpPacketInfo
 
