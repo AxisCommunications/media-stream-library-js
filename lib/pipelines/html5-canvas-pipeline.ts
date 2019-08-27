@@ -3,11 +3,13 @@ import { WSConfig } from '../components/ws-source/openwebsocket'
 import { RtspConfig } from '../components/rtsp-session'
 import { CanvasSink } from '../components/canvas'
 import { WSSource } from '../components/ws-source'
+import { AuthConfig, Auth } from '../components/auth'
 
 export interface Html5CanvasConfig {
   ws?: WSConfig
   rtsp?: RtspConfig
   mediaElement: HTMLCanvasElement
+  auth?: AuthConfig
 }
 
 /**
@@ -40,9 +42,19 @@ export class Html5CanvasPipeline extends RtspMjpegPipeline {
    * @memberof Html5CanvasPipeline
    */
   constructor(config: Html5CanvasConfig) {
-    const { ws: wsConfig, rtsp: rtspConfig, mediaElement } = config
+    const {
+      ws: wsConfig,
+      rtsp: rtspConfig,
+      mediaElement,
+      auth: authConfig,
+    } = config
 
     super(rtspConfig)
+
+    if (authConfig) {
+      const auth = new Auth(authConfig)
+      this.insertBefore(this.rtsp, auth)
+    }
 
     const canvasSink = new CanvasSink(mediaElement)
     canvasSink.onCanplay = () => {

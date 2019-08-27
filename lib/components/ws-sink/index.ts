@@ -35,7 +35,36 @@ export class WSSink extends Sink {
     socket.on('close', function() {
       outgoing.push(null)
     })
+    socket.on('error', (e: Error) => {
+      console.error('WebSocket error:', e)
+      socket.terminate()
+      outgoing.push(null)
+    })
 
+    // When an error is sent on the incoming stream, close the socket.
+    incoming.on('error', e => {
+      console.log('closing WebSocket due to incoming error', e)
+      socket && socket.close && socket.close()
+    })
+
+    // When there is no more data going to be sent, close!
+    incoming.on('finish', () => {
+      socket && socket.close && socket.close()
+    })
+
+    // When an error happens on the outgoing stream, just warn.
+    outgoing.on('error', e => {
+      console.warn('error during WebSocket send, ignoring:', e)
+    })
+
+    // When there is no more data going to be written, close!
+    outgoing.on('finish', () => {
+      socket && socket.close && socket.close()
+    })
+
+    /**
+     * initialize the component.
+     */
     super(incoming, outgoing)
   }
 }

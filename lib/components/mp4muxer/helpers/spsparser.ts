@@ -16,16 +16,16 @@ export class SPSParser {
   parse() {
     // nalhdr
     this.reader.readNext()
-    let profile = this.reader.readNext()
+    const profile = this.reader.readNext()
     // constraints
     this.reader.readNext()
-    let level = this.reader.readNext()
+    const level = this.reader.readNext()
 
     // seqParameterSetId
     this.reader.readUnsignedExpGolomb()
 
     if ([100, 110, 122, 244, 44, 83, 86, 118].indexOf(profile) >= 0) {
-      let chromaFormat = this.reader.readUnsignedExpGolomb()
+      const chromaFormat = this.reader.readUnsignedExpGolomb()
       if (chromaFormat === 3) {
         // Separate color plane flag
         this.reader.readBits(1)
@@ -39,7 +39,7 @@ export class SPSParser {
 
       // qpPrimeYZeroTransformBypassFlag
       this.reader.readBits(1)
-      let seqScalingMatrix = this.reader.readBits(1)
+      const seqScalingMatrix = this.reader.readBits(1)
       if (seqScalingMatrix) {
         for (let k = 0; k < (chromaFormat !== 3 ? 8 : 12); k++) {
           // seqScalingListPresentFlag
@@ -51,7 +51,7 @@ export class SPSParser {
 
     // log2MaxFrameNumMinus4
     this.reader.readUnsignedExpGolomb()
-    let picOrderCntType = this.reader.readUnsignedExpGolomb()
+    const picOrderCntType = this.reader.readUnsignedExpGolomb()
     if (picOrderCntType === 0) {
       // log2MaxPicOrderCntLsbMinus4
       this.reader.readUnsignedExpGolomb()
@@ -70,31 +70,31 @@ export class SPSParser {
     this.reader.readUnsignedExpGolomb()
     // gapsInFrameNumValueAllowedFlag
     this.reader.readBits(1)
-    let picWidthInMbsMinus1 = this.reader.readUnsignedExpGolomb()
-    let picHeightInMapUnitsMinus1 = this.reader.readUnsignedExpGolomb()
-    let picFrameMbsOnlyFlag = this.reader.readBits(1)
+    const picWidthInMbsMinus1 = this.reader.readUnsignedExpGolomb()
+    const picHeightInMapUnitsMinus1 = this.reader.readUnsignedExpGolomb()
+    const picFrameMbsOnlyFlag = this.reader.readBits(1)
     // direct8x8InferenceFlag
     this.reader.readBits(1)
-    let frameCroppingFlag = this.reader.readBits(1)
+    const frameCroppingFlag = this.reader.readBits(1)
 
-    let frameCropLeftOffset = frameCroppingFlag
+    const frameCropLeftOffset = frameCroppingFlag
       ? this.reader.readUnsignedExpGolomb()
       : 0
-    let frameCropRightOffset = frameCroppingFlag
+    const frameCropRightOffset = frameCroppingFlag
       ? this.reader.readUnsignedExpGolomb()
       : 0
-    let frameCropTopOffset = frameCroppingFlag
+    const frameCropTopOffset = frameCroppingFlag
       ? this.reader.readUnsignedExpGolomb()
       : 0
-    let frameCropBottomOffset = frameCroppingFlag
+    const frameCropBottomOffset = frameCroppingFlag
       ? this.reader.readUnsignedExpGolomb()
       : 0
 
-    let w =
+    const w =
       (picWidthInMbsMinus1 + 1) * 16 -
       frameCropLeftOffset * 2 -
       frameCropRightOffset * 2
-    let h =
+    const h =
       (2 - picFrameMbsOnlyFlag) * (picHeightInMapUnitsMinus1 + 1) * 16 -
       frameCropTopOffset * 2 -
       frameCropBottomOffset * 2

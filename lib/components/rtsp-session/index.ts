@@ -219,7 +219,7 @@ export class RtspSession extends Tube {
     this._contentBase = null
     this._sessionId = null
     if (this._renewSessionInterval !== null) {
-      window.clearInterval(this._renewSessionInterval)
+      clearInterval(this._renewSessionInterval)
     }
     this._renewSessionInterval = null
 
@@ -258,10 +258,10 @@ export class RtspSession extends Tube {
         if (this._renewSessionInterval !== null) {
           clearInterval(this._renewSessionInterval)
         }
-        this._renewSessionInterval = window.setInterval(() => {
+        this._renewSessionInterval = (setInterval(() => {
           this._enqueue({ method: RTSP_METHOD.OPTIONS })
           this._dequeue()
-        }, Math.max(MIN_SESSION_TIMEOUT, _sessionTimeout - 5) * 1000)
+        }, Math.max(MIN_SESSION_TIMEOUT, _sessionTimeout - 5) * 1000) as unknown) as number
       }
     }
 
@@ -425,7 +425,7 @@ export class RtspSession extends Tube {
     }
     this._state = STATE.IDLE
     if (this._renewSessionInterval !== null) {
-      window.clearInterval(this._renewSessionInterval)
+      clearInterval(this._renewSessionInterval)
       this._renewSessionInterval = null
     }
     this._dequeue()

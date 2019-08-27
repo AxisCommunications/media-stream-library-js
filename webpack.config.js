@@ -9,6 +9,12 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.js'],
+    // The debug packages resolves to src/debug.js by default
+    // which doesn't work on IE11 (it's not ES5), but it seems
+    // that the dist/debug.js file does work.
+    alias: {
+      debug: 'debug/dist/debug.js',
+    },
   },
   module: {
     rules: [

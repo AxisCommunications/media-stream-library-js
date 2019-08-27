@@ -13,6 +13,17 @@ stream transforms for Node & the Web.
 The primary purpose is to deal with RTP streams in a browser without
 the need to use plugins or Flash, but relying on the [Media Source Extensions](https://www.w3.org/TR/media-source/) standard, which is supported in all modern browsers.
 
+_Note for IE11 users_: if you want to build the library yourself for IE11 instead
+of using the provided bundle, you need import from `dist/es5` with the following fix in webpack:
+
+```
+alias: {
+  debug: 'debug/dist/debug.js',
+},
+```
+
+You can look at the `webpack.config.js` to see how it's used for building the bundle.
+
 ## Structure
 
 The library contains a collection of components that can be connected
