@@ -4,6 +4,14 @@ import { connect, Socket } from 'net'
 import { parse } from 'url'
 import { MessageType } from '../message'
 
+async function safeWrite(socket: Socket, data:Buffer|Uint8Array|string, encoding: any):Promise<any>{
+  try {
+    await socket.write(data, encoding)
+  }
+  catch (e) {
+    console.warn('message lost during send:', data)
+  }
+}
 export class TcpSource extends Source {
   /**
    * Create a TCP component.
@@ -67,16 +75,13 @@ export class TcpSource extends Source {
           })
           // When closing a socket, indicate there is no more data to be sent,
           // but leave the outgoing stream open to check if more requests are coming.
-          socket.on('finish', e => {
-            console.warn('socket finished', e)
+          socket.on('end', () => {
+            console.warn('socket ended')
             incoming.push(null)
           })
         }
-        try {
-          socket.write(msg.data, encoding, callback)
-        } catch (e) {
-          console.warn('message lost during send:', msg)
-        }
+        safeWrite(socket, msg.data, encoding)
+          .then(callback)
       },
     })
 
