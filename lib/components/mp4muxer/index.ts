@@ -56,10 +56,8 @@ export class Mp4Muxer extends Tube {
           if (trackId) {
             if (!boxBuilder.ntpPresentationTime) {
               boxBuilder.setPresentationTime(trackId, ntpTimestamp)
-              if (boxBuilder.ntpPresentationTime) {
-                onSync(boxBuilder.ntpPresentationTime)
-              }
             }
+            onSync(boxBuilder.ntpPresentationTime)
 
             const byteLength = msg.data.byteLength
             const moof = boxBuilder.moof({ trackId, timestamp, byteLength })
