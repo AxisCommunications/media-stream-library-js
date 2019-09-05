@@ -17,6 +17,7 @@ export class MseSink extends Sink {
   private _done?: () => void
 
   public onSourceOpen?: (mse: MediaSource, tracks: MediaTrack[]) => void
+  public onSync?: (ntpPresentationTime: number) => void
 
   /**
    * Create a Media component.
@@ -32,6 +33,10 @@ export class MseSink extends Sink {
 
     let mse: MediaSource
     let sourceBuffer: SourceBuffer
+
+    const onSync = (ntpPresentationTime: number) => {
+      this.onSync && this.onSync(ntpPresentationTime)
+    }
 
     /**
      * Set up an incoming stream and attach it to the sourceBuffer.
@@ -77,8 +82,13 @@ export class MseSink extends Sink {
         } else if (msg.type === MessageType.ISOM) {
           // ISO BMFF Byte Stream data to be added to the source buffer
           this._done = callback
+
+          const { ntpTimestamp } = msg
           try {
             sourceBuffer.appendBuffer(msg.data)
+            if (ntpTimestamp) {
+              onSync(ntpTimestamp)
+            }
           } catch (e) {
             // do nothing
           }
