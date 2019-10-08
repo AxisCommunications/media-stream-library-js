@@ -4,6 +4,12 @@ node_js:
   - '12'
   - 'lts/*'
 
+# needed for cypress
+addons:
+  apt:
+    packages:
+      - libgconf-2-4
+
 matrix:
   allow_failures:
     - node_js: 'node'
