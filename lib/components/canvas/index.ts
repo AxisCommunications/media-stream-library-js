@@ -111,25 +111,40 @@ export class CanvasSink extends Sink {
     // Note: drawImage can also be used instead of transferFromImageBitmap, but it caused
     // very large memory use in Chrome (goes up to ~2-3GB, then drops again).
     // Do do not call el.getContext twice, safari returns null for second call
-    let ctx = window.createImageBitmap ? el.getContext('bitmaprenderer') : null
+    let ctx:
+      | ImageBitmapRenderingContext
+      | CanvasRenderingContext2D
+      | null = null
+    if (window.createImageBitmap !== undefined) {
+      ctx = el.getContext('bitmaprenderer')
+    }
+    if (ctx === null) {
+      ctx = el.getContext('2d')
+    }
+
+    // Set up the drawing callback to be used by the scheduler,
+    // it receives a blob of a JPEG image.
     let drawImageBlob: BlobMessageHandler
-    if (ctx !== null) {
+    if (ctx === null) {
+      drawImageBlob = () => {}
+    } else if ('transferFromImageBitmap' in ctx) {
+      const ctxBitmaprenderer = ctx
       drawImageBlob = ({ blob }) => {
         info.renderedFrames++
         window
           .createImageBitmap(blob)
           .then(imageBitmap => {
-            ;(ctx as any).transferFromImageBitmap(imageBitmap)
+            ctxBitmaprenderer.transferFromImageBitmap(imageBitmap)
           })
           .catch(() => {
             /** ignore */
           })
       }
     } else {
-      ctx = el.getContext('2d')
+      const ctx2d = ctx
       const img = new Image()
       img.onload = () => {
-        ;(ctx as CanvasRenderingContext2D).drawImage(img, 0, 0)
+        ctx2d.drawImage(img, 0, 0)
       }
       drawImageBlob = ({ blob }) => {
         info.renderedFrames++
