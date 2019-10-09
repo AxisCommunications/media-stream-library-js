@@ -5467,10 +5467,10 @@ mkdirp@0.5.1, mkdirp@0.5.x, mkdirp@0.x, mkdirp@^0.5.0, mkdirp@^0.5.1:
   dependencies:
     minimist "0.0.8"
 
-mock-socket@9.0.1:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/mock-socket/-/mock-socket-9.0.1.tgz#38799faa19672af6b4bfaeb53bf671ca24316ee7"
-  integrity sha512-vm4kXy+qUK8CkDqsDedM6abiEM3vTgMEQADCEe804et/PJfb2wL+wjEMPe6UhjGNae0tzaCs8OemNFhebXaOZA==
+mock-socket@9.0.2:
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/mock-socket/-/mock-socket-9.0.2.tgz#8197f7e830f2f9d4b3a687eb69dce160689c23e4"
+  integrity sha512-VIs8Hp/FCKbs2rQeI5Zm7SGZAffTYQufooWFXTLF032ru/pv6W+KqQ1cOL4QMOktV2ugqYSP04JyE4SVG6QmWw==
   dependencies:
     url-parse "^1.4.4"
 
