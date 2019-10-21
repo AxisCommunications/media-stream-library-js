@@ -1,15 +1,15 @@
 const { pipelines } = window.mediaStreamLibrary
 
 // force auth
-const authorize = async (host) => {
+const authorize = async host => {
   // Force a login by fetching usergroup
   const fetchOptions = {
     credentials: 'include',
     headers: {
       'Axis-Orig-Sw': true,
-      'X-Requested-With': 'XMLHttpRequest'
+      'X-Requested-With': 'XMLHttpRequest',
     },
-    mode: 'no-cors'
+    mode: 'no-cors',
   }
   try {
     await window.fetch(`http://${host}/axis-cgi/usergroup.cgi`, fetchOptions)
@@ -42,7 +42,7 @@ const play = (host, encoding = 'h264') => {
   const pipeline = new Pipeline({
     ws: { uri: `ws://${host}/rtsp-over-websocket` },
     rtsp: { uri: `rtsp://${host}/axis-media/media.amp?videocodec=${encoding}` },
-    mediaElement
+    mediaElement,
   })
   pipeline.ready.then(() => {
     pipeline.rtsp.play()
@@ -55,7 +55,7 @@ let pipeline
 
 // Each time a device ip is entered, authorize and then play
 const playButton = document.querySelector('#play')
-playButton.addEventListener('click', async (e) => {
+playButton.addEventListener('click', async e => {
   pipeline && pipeline.close()
 
   const device = document.querySelector('#device')

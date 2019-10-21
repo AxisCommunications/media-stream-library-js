@@ -1,0 +1,9 @@
+// Used for node, can be removed once node supports ECMAScript modules.
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    /* Basic Options */
+    "module": "commonjs",
+    "outDir": "./dist/cjs"
+  }
+}

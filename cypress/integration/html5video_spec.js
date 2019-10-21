@@ -5,12 +5,12 @@
 /* eslint-disable no-unused-expressions */
 
 const PRESENTATION_START = 0
-const MAX_LATENCY = 0.250
+const MAX_LATENCY = 0.25
 
-describe('HTML5 video', function () {
-  it('should auto-play with low latency', function () {
+describe('HTML5 video', function() {
+  it('should auto-play with low latency', function() {
     cy.visit('http://localhost:8080/test/h264.html')
-    cy.get('video').should(($videoEl) => {
+    cy.get('video').should($videoEl => {
       const videoEl = $videoEl.get(0)
       const presentationTime = videoEl.currentTime
       const latency = videoEl.buffered.end(0) - presentationTime

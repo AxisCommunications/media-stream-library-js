@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    /* Include Typescript declaration files */
+    "declaration": true,
+
+    /* Basic Options */
+    "target": "es2015",
+    "module": "es2015",
+    "outDir": "./dist/esm",
+    "lib": ["dom", "es2017"],
+    "skipLibCheck": true,
+    "sourceMap": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "strictNullChecks": true,
+
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "esModuleInterop": true
+  },
+  "include": ["lib/**/*"]
+}

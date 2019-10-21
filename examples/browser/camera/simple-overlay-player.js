@@ -2,15 +2,15 @@ const { components, pipelines, utils } = window.mediaStreamLibrary
 const d3 = window.d3
 
 // force auth
-const authorize = async (host) => {
+const authorize = async host => {
   // Force a login by fetching usergroup
   const fetchOptions = {
     credentials: 'include',
     headers: {
       'Axis-Orig-Sw': true,
-      'X-Requested-With': 'XMLHttpRequest'
+      'X-Requested-With': 'XMLHttpRequest',
     },
-    mode: 'no-cors'
+    mode: 'no-cors',
   }
   try {
     await window.fetch(`http://${host}/axis-cgi/usergroup.cgi`, fetchOptions)
@@ -47,29 +47,46 @@ const play = (host, encoding) => {
   const pipeline = new Pipeline({
     ws: { uri: `ws://${host}/rtsp-over-websocket` },
     rtsp: { uri: `rtsp://${host}/axis-media/media.amp?videocodec=${encoding}` },
-    mediaElement
+    mediaElement,
   })
 
   const svg = d3.select('svg')
   group = svg.append('g')
-  const path = group.append('path')
+  const path = group
+    .append('path')
     .attr('fill', 'none')
     .attr('stroke', '#fc3')
     .attr('stroke-linejoin', 'round')
     .attr('stroke-linecap', 'round')
     .attr('stroke-width', 1.5)
-  const { width: svgWidth, height: svgHeight } = svg.node().getBoundingClientRect()
+  const {
+    width: svgWidth,
+    height: svgHeight,
+  } = svg.node().getBoundingClientRect()
 
-  const x = d3.scaleLinear().domain([0, 59]).rangeRound([0, svgWidth])
+  const x = d3
+    .scaleLinear()
+    .domain([0, 59])
+    .rangeRound([0, svgWidth])
   let maxBytes = 0
-  let y = d3.scaleLinear().domain([0, maxBytes]).rangeRound([svgHeight, 0])
-  const line = d3.line().x((d, i) => x(i)).y((d) => y(d)).curve(d3.curveStep)
+  let y = d3
+    .scaleLinear()
+    .domain([0, maxBytes])
+    .rangeRound([svgHeight, 0])
+  const line = d3
+    .line()
+    .x((d, i) => x(i))
+    .y(d => y(d))
+    .curve(d3.curveStep)
 
-  const draw = (msg) => {
+  const draw = msg => {
     data.push(msg.data.length)
     if (maxBytes < msg.data.length - 100) {
       maxBytes = 2 * msg.data.length
-      y = d3.scaleLinear().domain([0, maxBytes]).rangeRound([svgHeight, 0])
+      y = d3
+        .scaleLinear()
+        .domain([0, maxBytes])
+        .rangeRound([svgHeight, 0])
     }
     if (data.length > 60) {
       data.shift()
@@ -79,10 +96,10 @@ const play = (host, encoding) => {
   }
   const scheduler = new utils.Scheduler(pipeline, draw)
 
-  const runScheduler = components.Component.peek((msg) => scheduler.run(msg))
+  const runScheduler = components.Component.peek(msg => scheduler.run(msg))
   pipeline.insertBefore(pipeline.lastComponent, runScheduler)
 
-  pipeline.onSync = (ntpPresentationTime) => {
+  pipeline.onSync = ntpPresentationTime => {
     console.log('sync!', ntpPresentationTime)
     scheduler.init(ntpPresentationTime)
   }
@@ -98,7 +115,7 @@ let pipeline
 
 // Each time a device ip is entered, authorize and then play
 const playButton = document.querySelector('#play')
-playButton.addEventListener('click', async (e) => {
+playButton.addEventListener('click', async e => {
   pipeline && pipeline.close()
   group && group.remove()
   data = []
