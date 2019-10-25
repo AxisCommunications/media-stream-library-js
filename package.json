@@ -58,7 +58,7 @@
     "babel-loader": "8.0.6",
     "conventional-changelog-cli": "2.0.25",
     "conventional-recommended-bump": "6.0.2",
-    "core-js": "3.3.3",
+    "core-js": "3.3.4",
     "cypress": "3.5.0",
     "eslint": "6.5.1",
     "eslint-config-prettier": "6.4.0",
