@@ -51,7 +51,7 @@
     "@babel/preset-typescript": "7.6.0",
     "@types/debug": "4.1.5",
     "@types/jest": "24.0.21",
-    "@types/node": "12.12.0",
+    "@types/node": "12.12.3",
     "@types/ws": "6.0.3",
     "@typescript-eslint/eslint-plugin": "2.6.0",
     "@typescript-eslint/parser": "2.6.0",
@@ -73,7 +73,7 @@
     "ts-jest": "24.1.0",
     "typescript": "3.6.4",
     "webpack": "4.41.2",
-    "webpack-cli": "3.3.9"
+    "webpack-cli": "3.3.10"
   },
   "jest": {
     "testRegex": "(/__tests__/.*|(\\.|/)test)\\.ts$",
