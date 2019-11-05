@@ -12,22 +12,21 @@ export class H264Depay extends Tube {
     // Incoming
 
     let buffer = Buffer.alloc(0)
-    let parseMessage: (buffer: Buffer, rtp: RtpMessage) => Buffer
+    let parseMessage: (buffer: Buffer, rtp: RtpMessage) => Buffer = () =>
+      Buffer.alloc(0)
 
     const incoming = new Transform({
       objectMode: true,
       transform: function(msg: Message, encoding, callback) {
         // Get correct payload types from sdp to identify video and audio
         if (msg.type === MessageType.SDP) {
-          const h264Media = msg.sdp.media.find(
-            (media): media is VideoMedia => {
-              return (
-                media.type === 'video' &&
-                media.rtpmap !== undefined &&
-                media.rtpmap.encodingName === 'H264'
-              )
-            },
-          )
+          const h264Media = msg.sdp.media.find((media): media is VideoMedia => {
+            return (
+              media.type === 'video' &&
+              media.rtpmap !== undefined &&
+              media.rtpmap.encodingName === 'H264'
+            )
+          })
           if (h264Media !== undefined && h264Media.rtpmap !== undefined) {
             h264PayloadType = h264Media.rtpmap.payloadType
           }

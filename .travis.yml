@@ -4,6 +4,12 @@ node_js:
   - '12'
   - 'lts/*'
 
+# needed for cypress
+addons:
+  apt:
+    packages:
+      - libgconf-2-4
+
 matrix:
   allow_failures:
     - node_js: 'node'
@@ -21,6 +27,7 @@ env:
 before_install:
   - docker run -d --rm -p 8554:8554 steabert/gst-rtsp-launch
 script:
+  - yarn lint
   - yarn test
   - yarn build
   - node rtsp-ws-server/tcp-ws-proxy.js >& tcp-ws-proxy.log &
@@ -39,10 +46,9 @@ deploy:
       repo: AxisCommunications/media-stream-library-js
       node: '12'
   - provider: npm
-    email: stevenv@axis.com
-    tag: $NPM_TAG
-    api_key:
-      secure: D3qrZAW0kMoCpCjCThX1oIg8v0B+Bf2Ab7bX7drJjARaa6JUL3euFu103H9R2zJNBT9BrwtLeX/cS5fSgwg4i7pVkY+eb4a+7T+TeQuB1epXcGHOIhqfWbz3FKqyg3B4mXTSOdh1ptsrQh7S9XVLqgpHGgs2nVzVQnMUuzI8+AjZlSRcVslaT4Tc+FZa6802e7k4ig14zykVN3hwgeqr5qysnQ0Wf9cfJC+PUE+oNvJDieZE/C8CWHHXCUsngTLJ5mPpj9+MdabC+sgOsoe9kKKragAwGaX6PZ59RRsBC2G9WCjI3Cz72M+0eDsPd3/cJ2aNyZHId4ABPZHd35O6bJERxj3I9V+yPBz933aQ25waZ/iKPQdNrlxwfniO2m/xVqQaUovWH7Y5uiarZFFUpbnogMfrLarRsBUXmqi/mdUS/0jlCOp/TXe15uiCsWm6t9vn0phF0zY5xM/VoeFFcu1hLxhy3AyHtZltGVhCCtzBcwv3RANQmNmqA1DY6mXE0dskeIaGfB1UjefOSjTSGYvPau+xePYya8SR5nSUTthDUTxYROflYTdr7cyQAEDof+gwrvtq0idtGGsPOnzRsrGed3EkgBn1pkYOpyw4SCP2GhqQRuAJ1m0OHA1KVsc0fVMWCgn+9jlB+Hhpb6W/64JScfXuuB7M3MYLX4AKUm8=
+    email: '$NPM_EMAIL'
+    tag: '$NPM_TAG'
+    api_key: '$NPM_TOKEN'
     skip_cleanup: true
     on:
       tags: true
