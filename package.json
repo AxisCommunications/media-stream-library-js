@@ -41,7 +41,7 @@
   "dependencies": {
     "debug": "^4.0.0",
     "ws": "^7.0.0",
-    "yargs": "^14.0.0"
+    "yargs": "^15.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.7.2",
