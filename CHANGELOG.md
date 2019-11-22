@@ -1,3 +1,12 @@
+## [6.0.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.0.3...v6.0.4) (2019-11-22)
+
+
+### Bug Fixes
+
+* use proper types for the canvas context ([3883540](https://github.com/AxisCommunications/media-stream-library-js/commit/3883540a1da29cf31a51496dea1ed2f882c29840))
+
+
+
 ## [6.0.3](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.0.2...v6.0.3) (2019-08-07)
 
 
