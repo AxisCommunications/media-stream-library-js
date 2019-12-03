@@ -96,7 +96,7 @@ const play = (host, encoding) => {
   }
   const scheduler = new utils.Scheduler(pipeline, draw)
 
-  const runScheduler = components.Component.peek(msg => scheduler.run(msg))
+  const runScheduler = components.Tube.fromHandlers(msg => scheduler.run(msg))
   pipeline.insertBefore(pipeline.lastComponent, runScheduler)
 
   pipeline.onSync = ntpPresentationTime => {
