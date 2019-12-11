@@ -25,7 +25,7 @@ describe('h264 handler', () => {
     const msg = callback.mock.calls[0][0]
 
     expect(msg.timestamp).toEqual(547056949)
-    expect(msg.type).toEqual(MessageType.ELEMENTARY)
+    expect(msg.type).toEqual(MessageType.H264)
     expect(msg.data.length).toEqual(14)
     expect(msg.payloadType).toEqual(96)
   })
@@ -58,7 +58,7 @@ describe('h264 handler', () => {
     const msg = callback.mock.calls[0][0]
 
     expect(msg.timestamp).toEqual(153026579)
-    expect(msg.type).toEqual(MessageType.ELEMENTARY)
+    expect(msg.type).toEqual(MessageType.H264)
     expect(msg.data.length).toEqual(535)
     expect(msg.payloadType).toEqual(96)
   })
