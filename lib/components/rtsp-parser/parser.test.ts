@@ -199,5 +199,15 @@ describe('Parsing of interleaved data', () => {
       // Should end correctly
       expect(b.toString('ascii', b.length - 3)).toEqual('0\r\n')
     })
+
+    test('should handle segmented RTSP/SDP', () => {
+      const segmentedRTSP = sdpResponse.split(/(?<=\r\n\r\n)/g)
+      const RTSPBuffer: Buffer = Buffer.from(segmentedRTSP[0])
+      const SDPBuffer: Buffer = Buffer.from(segmentedRTSP[1])
+      messages = parser.parse(RTSPBuffer)
+      expect(messages.length).toBe(0)
+      messages = parser.parse(SDPBuffer)
+      expect(messages.length).toBe(2)
+    })
   })
 })
