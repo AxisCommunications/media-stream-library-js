@@ -370,6 +370,7 @@ export class RtspSession extends Tube {
         headers: {
           Range: `npt=${this.startTime || 0}-`,
         },
+        uri: this._contentBase ? this._contentBase : this.uri,
       })
     }
     this._dequeue()
@@ -396,6 +397,7 @@ export class RtspSession extends Tube {
         headers: {
           Session: this._sessionId,
         },
+        uri: this._contentBase ? this._contentBase : this.uri,
       })
     }
     this._state = STATE.PLAYING
