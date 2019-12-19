@@ -1,3 +1,12 @@
+## [6.0.5](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.0.4...v6.0.5) (2019-12-19)
+
+
+### Bug Fixes
+
+* only clear buffer before last I-frame ([c2587c9](https://github.com/AxisCommunications/media-stream-library-js/commit/c2587c9959a8dbf8c8068106c60200ceca0b15ec))
+
+
+
 ## [6.0.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.0.3...v6.0.4) (2019-11-22)
 
 

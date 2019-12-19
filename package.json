@@ -1,6 +1,6 @@
 {
   "name": "media-stream-library",
-  "version": "6.0.4",
+  "version": "6.0.5",
   "description": "Media stream library for Node & the Web.",
   "license": "MIT",
   "main": "dist/cjs/index.node.js",
@@ -44,11 +44,11 @@
     "yargs": "^14.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.7.5",
+    "@babel/core": "7.7.7",
     "@babel/plugin-proposal-class-properties": "7.7.4",
-    "@babel/plugin-proposal-object-rest-spread": "7.7.4",
-    "@babel/preset-env": "7.7.6",
-    "@babel/preset-typescript": "7.7.4",
+    "@babel/plugin-proposal-object-rest-spread": "7.7.7",
+    "@babel/preset-env": "7.7.7",
+    "@babel/preset-typescript": "7.7.7",
     "@types/debug": "4.1.5",
     "@types/jest": "24.0.22",
     "@types/node": "12.12.6",
