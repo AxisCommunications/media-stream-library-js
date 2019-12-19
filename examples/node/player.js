@@ -1,6 +1,6 @@
 const yargs = require('yargs')
 
-const { pipelines } = require('../../lib/index.node.js')
+const { pipelines } = require('../../dist/cjs/index.node.js')
 
 /**
  * Stream live from camera (to be used from Node CLI).
@@ -59,5 +59,5 @@ const config = {
 }
 
 // Setup a new pipeline
-const pipeline = new pipelines.TcpRtspMp4Pipeline(config)
+const pipeline = new pipelines.CliMp4Pipeline(config)
 pipeline.rtsp.play()

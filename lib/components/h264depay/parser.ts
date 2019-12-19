@@ -1,6 +1,14 @@
-import { RtpMessage, ElementaryMessage, MessageType } from '../message'
+import { RtpMessage, MessageType, H264Message } from '../message'
 import { payload, timestamp, payloadType } from '../../utils/protocols/rtp'
 import debug from 'debug'
+
+export enum NAL_TYPES {
+  UNSPECIFIED = 0,
+  NON_IDR_PICTURE = 1, // P-frame
+  IDR_PICTURE = 5, // I-frame
+  SPS = 7,
+  PPS = 8,
+}
 
 /*
 First byte in payload (rtp payload header):
@@ -23,7 +31,7 @@ const h264Debug = debug('msl:h264depay')
 export function h264depay(
   buffered: Buffer,
   rtp: RtpMessage,
-  callback: (msg: ElementaryMessage) => void,
+  callback: (msg: H264Message) => void,
 ) {
   const rtpPayload = payload(rtp.data)
   const type = rtpPayload[0] & 0x1f
@@ -46,12 +54,13 @@ export function h264depay(
         rtpPayload.slice(2),
       ])
       h264frame.writeUInt32BE(h264frame.length - 4, 0)
-      const msg: ElementaryMessage = {
+      const msg: H264Message = {
         data: h264frame,
-        type: MessageType.ELEMENTARY,
+        type: MessageType.H264,
         timestamp: timestamp(rtp.data),
         ntpTimestamp: rtp.ntpTimestamp,
         payloadType: payloadType(rtp.data),
+        nalType: nalType,
       }
       callback(msg)
       return Buffer.alloc(0)
@@ -59,18 +68,22 @@ export function h264depay(
       // Put the received data on the buffer and cut the header bytes
       return Buffer.concat([buffered, rtpPayload.slice(2)])
     }
-  } else if ((type === 1 || type === 5) && buffered.length === 0) {
+  } else if (
+    (type === NAL_TYPES.NON_IDR_PICTURE || type === NAL_TYPES.IDR_PICTURE) &&
+    buffered.length === 0
+  ) {
     /* Single NALU */ const h264frame = Buffer.concat([
       Buffer.from([0, 0, 0, 0]),
       rtpPayload,
     ])
     h264frame.writeUInt32BE(h264frame.length - 4, 0)
-    const msg: ElementaryMessage = {
+    const msg: H264Message = {
       data: h264frame,
-      type: MessageType.ELEMENTARY,
+      type: MessageType.H264,
       timestamp: timestamp(rtp.data),
       ntpTimestamp: rtp.ntpTimestamp,
       payloadType: payloadType(rtp.data),
+      nalType: type,
     }
     callback(msg)
     return Buffer.alloc(0)
