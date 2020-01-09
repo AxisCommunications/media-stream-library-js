@@ -15,7 +15,7 @@
  * point), also as a convenienve to closely match
  * the behaviour of a video element.
  */
-export default class Clock {
+export class Clock {
   private started: number
   private stopped: boolean
   private elapsed: number

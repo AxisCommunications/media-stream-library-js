@@ -1,3 +1,2 @@
-import Scheduler from './scheduler'
-
-export { Scheduler }
+export { Scheduler } from './scheduler'
+export * from './protocols'

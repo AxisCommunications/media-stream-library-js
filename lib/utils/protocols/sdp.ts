@@ -1,6 +1,25 @@
-import { Session } from 'inspector'
 import { MessageType, SdpMessage } from '../../components/message'
 import { NtpSeconds, seconds } from './ntp'
+
+interface ConnectionField {
+  // c=<nettype> <addrtype> <connection-address>
+  networkType: 'IN'
+  addressType: 'IP4' | 'IP6'
+  connectionAddress: string
+}
+
+interface BandwidthField {
+  readonly type: string
+  readonly value: number
+}
+
+// RTSP extensions: https://tools.ietf.org/html/rfc7826 (22.15)
+// exists on both session and media level
+interface RtspExtensions {
+  readonly range?: string
+  readonly control?: string
+  readonly mtag?: string
+}
 
 /**
  * The session description protocol (SDP).
@@ -36,7 +55,7 @@ import { NtpSeconds, seconds } from './ntp'
  * Names of the fields below are annotated above with
  * the names used in Appendix A: SDP Grammar of RFC 2327.
  */
-export interface SessionDescription {
+export interface SessionDescription extends RtspExtensions {
   // v=0
   readonly version: 0
   // o=<username> <sess-id> <sess-version> <nettype> <addrtype> <unicast-address>
@@ -58,10 +77,6 @@ export interface SessionDescription {
   // One or more time descriptions
   readonly time: TimeDescription
   readonly repeatTimes?: RepeatTimeDescription
-  // RTSP attributes
-  readonly range?: string
-  readonly control?: string
-  readonly mtag?: string
   // Zero or more media descriptions
   readonly media: MediaDescription[]
 }
@@ -74,26 +89,6 @@ interface OriginField {
   networkType: 'IN'
   addressType: 'IP4' | 'IP6'
   address: string
-}
-
-interface ConnectionField {
-  // c=<nettype> <addrtype> <connection-address>
-  networkType: 'IN'
-  addressType: 'IP4' | 'IP6'
-  connectionAddress: string
-}
-
-interface BandwidthField {
-  readonly type: string
-  readonly value: number
-}
-
-// RTSP extensions: https://tools.ietf.org/html/rfc7826 (22.15)
-// exists on both session and media level
-interface RtspExtensions {
-  readonly range?: string
-  readonly control?: string
-  readonly mtag?: string
 }
 
 /**
@@ -130,7 +125,7 @@ export interface RepeatTimeDescription {
  * can be multiple fmt values with corresponding rtpmap
  * attributes)
  */
-export interface MediaDescription {
+export interface MediaDescription extends RtspExtensions {
   // m=<media> <port> <proto> <fmt> ...
   // m=<media> <port>/<number of ports> <proto> <fmt> ...
   readonly type: 'audio' | 'video' | 'application' | 'data' | 'control'
@@ -143,10 +138,6 @@ export interface MediaDescription {
    * Any remaining attributes
    * a=...
    */
-  // RTSP attributes
-  readonly range?: string
-  readonly control?: string
-  readonly mtag?: string
   // a=rtpmap:<payload type> <encoding name>/<clock rate> [/<encoding parameters>]
   readonly rtpmap?: {
     readonly clockrate: number
@@ -214,7 +205,7 @@ export interface AACMedia extends AudioMedia {
 }
 
 export interface Sdp {
-  readonly session: Session
+  readonly session: SessionDescription
   readonly media: MediaDescription[]
 }
 
