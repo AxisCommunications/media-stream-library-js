@@ -6,7 +6,7 @@ import {
   RtcpMessage,
 } from '../message'
 import { messageFromBuffer } from '../../utils/protocols/sdp'
-import { bodyOffset } from '../../utils/protocols/rtsp'
+import { bodyOffset, extractHeaderValue } from '../../utils/protocols/rtsp'
 
 /**
  * The different possible internal parser states.
@@ -95,16 +95,22 @@ export class Parser {
   _parseRtsp(): Array<RtspMessage | SdpMessage> {
     const messages: Array<RtspMessage | SdpMessage> = []
 
-    const lastChunk = this._chunks[this._chunks.length - 1]
-    const chunkBodyOffset = bodyOffset(lastChunk)
-
+    const buffer = Buffer.concat(this._chunks)
+    const chunkBodyOffset = bodyOffset(buffer)
     // If last added chunk does not have the end of the header, return.
     if (chunkBodyOffset === -1) {
       return messages
     }
 
-    const rtspHeaderLength = this._length - lastChunk.length + chunkBodyOffset
-    const buffer = Buffer.concat(this._chunks)
+    const rtspHeaderLength = chunkBodyOffset
+    const contentLength = extractHeaderValue(buffer, 'Content-Length')
+    if (
+      contentLength &&
+      parseInt(contentLength) > buffer.length - rtspHeaderLength
+    ) {
+      // we do not have the whole body
+      return messages
+    }
 
     this._init() // resets this._chunks and this._length
 

@@ -1,3 +1,4 @@
+export * from './component'
 export * from './aacdepay'
 export * from './auth'
 export * from './basicdepay'
