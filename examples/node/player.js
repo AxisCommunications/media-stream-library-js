@@ -1,6 +1,6 @@
 const yargs = require('yargs')
 
-const { pipelines } = require('../../dist/cjs/index.node')
+const { pipelines } = require('../../dist/cjs/index.node.js')
 
 /**
  * Stream live from camera (to be used from Node CLI).

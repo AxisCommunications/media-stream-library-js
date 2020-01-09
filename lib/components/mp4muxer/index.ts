@@ -4,6 +4,7 @@ import { Box } from './helpers/isom'
 import { BoxBuilder } from './helpers/boxbuilder'
 import { Transform } from 'stream'
 import { Tube } from '../component'
+import { NAL_TYPES } from '../h264depay/parser'
 
 /**
  * Component that converts elementary stream data into MP4 boxes honouring
@@ -44,7 +45,10 @@ export class Mp4Muxer extends Tube {
 
           this.push(msg) // Pass on the original SDP message
           this.push({ type: MessageType.ISOM, data, ftyp, moov })
-        } else if (msg.type === MessageType.ELEMENTARY) {
+        } else if (
+          msg.type === MessageType.ELEMENTARY ||
+          msg.type === MessageType.H264
+        ) {
           /**
            * Otherwise we are getting some elementary stream data.
            * Set up the moof and mdat boxes.
@@ -61,6 +65,20 @@ export class Mp4Muxer extends Tube {
               }
             }
 
+            let checkpointTime: number | undefined = undefined
+            const idrPicture =
+              msg.type === MessageType.H264
+                ? msg.nalType === NAL_TYPES.IDR_PICTURE
+                : undefined
+            if (
+              boxBuilder.ntpPresentationTime &&
+              idrPicture &&
+              msg.ntpTimestamp !== undefined
+            ) {
+              checkpointTime =
+                (msg.ntpTimestamp - boxBuilder.ntpPresentationTime) / 1000
+            }
+
             const byteLength = msg.data.byteLength
             const moof = boxBuilder.moof({ trackId, timestamp, byteLength })
             const mdat = boxBuilder.mdat(msg.data)
@@ -75,6 +93,7 @@ export class Mp4Muxer extends Tube {
               moof,
               mdat,
               ntpTimestamp,
+              checkpointTime,
             })
           }
         } else {
