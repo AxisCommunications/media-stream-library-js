@@ -1,7 +1,10 @@
 # Media Stream Library JS
 
-![](https://github.com/AxisCommunications/media-stream-library-js/workflows/CI/badge.svg)
+[![CI][ci-image]][ci-url]
 [![NPM][npm-image]][npm-url]
+
+[ci-image]: https://github.com/AxisCommunications/media-stream-library-js/workflows/CI/badge.svg
+[ci-url]: https://github.com/AxisCommunications/media-stream-library-js/actions
 
 [npm-image]: https://img.shields.io/npm/v/media-stream-library.svg
 [npm-url]: https://www.npmjs.com/package/media-stream-library
