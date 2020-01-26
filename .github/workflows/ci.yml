@@ -1,9 +1,9 @@
-name: Build and test
+name: CI
 
 on: [push]
 
 jobs:
-  build-test:
+  build-test-deploy:
     runs-on: ubuntu-latest
     services:
       rtsp:
@@ -49,3 +49,13 @@ jobs:
         upload_url: ${{ steps.release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         asset_path: dist/media-stream-library.min.js
         asset_name: media-stream-library.min.js
+    - name: Deploy NPM package
+      if: startsWith(github.ref, 'refs/tags/v')
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      run: |
+        if [[ $GITHUB_REF =~ alpha|beta ]]; then
+            yarn publish --tag next --access public
+        else
+            yarn publish --tag latest --access public
+        fi
