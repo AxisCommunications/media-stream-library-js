@@ -15,7 +15,8 @@ jobs:
     - name: Setup node
       uses: actions/setup-node@v1
       with:
-        node-version: 12
+        node-version: '12.x'
+        registry-url: 'https://registry.npmjs.org'
     - name: Install dependencies
       run: yarn --frozen-lockfile
     - name: Linting & Unit testing
