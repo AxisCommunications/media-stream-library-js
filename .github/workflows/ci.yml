@@ -49,6 +49,7 @@ jobs:
         upload_url: ${{ steps.release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         asset_path: dist/media-stream-library.min.js
         asset_name: media-stream-library.min.js
+        asset_content_type: application/javascript
     - name: Deploy NPM package
       if: startsWith(github.ref, 'refs/tags/v')
       env:
