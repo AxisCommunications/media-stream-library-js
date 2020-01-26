@@ -34,7 +34,7 @@ const DEFAULT_TOLERANCE = 10
  * @class Scheduler
  */
 
-export default class Scheduler<T extends { readonly ntpTimestamp?: number }> {
+export class Scheduler<T extends { readonly ntpTimestamp?: number }> {
   private _clock: Clock
   private _handler: (msg: T) => void
   private _tolerance: number

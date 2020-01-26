@@ -84,7 +84,11 @@ describe('Sdp', () => {
           control:
             'rtsp://hostname/axis-media/media.amp/stream=0?audio=1&video=1',
           framerate: 25,
-          transform: [[1, 0, 0], [0, 0.75, 0], [0, 0, 1]],
+          transform: [
+            [1, 0, 0],
+            [0, 0.75, 0],
+            [0, 0, 1],
+          ],
         },
         {
           type: 'audio',
