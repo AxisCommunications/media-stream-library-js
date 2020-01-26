@@ -119,7 +119,9 @@ export class CanvasSink extends Sink {
     // it receives a blob of a JPEG image.
     let drawImageBlob: BlobMessageHandler
     if (ctx === null) {
-      drawImageBlob = () => {}
+      drawImageBlob = () => {
+        /** NOOP */
+      }
     } else if ('transferFromImageBitmap' in ctx) {
       const ctxBitmaprenderer = ctx
       drawImageBlob = ({ blob }) => {
