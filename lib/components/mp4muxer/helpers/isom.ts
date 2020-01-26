@@ -973,7 +973,10 @@ class Header {
   }
 
   static Box(type: string) {
-    return [['size', UInt32BE, 0], ['type', CharArray, type]]
+    return [
+      ['size', UInt32BE, 0],
+      ['type', CharArray, type],
+    ]
   }
 
   static FullBox(type: string) {

@@ -62,7 +62,12 @@ const badPairs = [
   [sink, sink],
 ]
 
-const goodPairs = [[source, pass], [source, sink], [pass, pass], [pass, sink]]
+const goodPairs = [
+  [source, pass],
+  [source, sink],
+  [pass, pass],
+  [pass, sink],
+]
 
 describe('connect', () => {
   test('bad pairs should not be allowed to be connected', () => {
