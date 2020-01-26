@@ -1,3 +1,33 @@
+## [6.1.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.1.3...v6.1.4) (2020-01-26)
+
+
+
+## [6.1.3](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.1.2...v6.1.3) (2020-01-26)
+
+
+
+## [6.1.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.1.1...v6.1.2) (2020-01-26)
+
+
+
+## [6.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.1.0...v6.1.1) (2020-01-26)
+
+
+
+# [6.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.0.5...v6.1.0) (2020-01-13)
+
+
+### Bug Fixes
+
+* correct wrong SDP types ([0dbc78d](https://github.com/AxisCommunications/media-stream-library-js/commit/0dbc78d6375980d45e41cc34118a884ea788af0c))
+
+
+### Features
+
+* convenience pipeline to extract SDP ([bef7dd2](https://github.com/AxisCommunications/media-stream-library-js/commit/bef7dd2941d7008577b70c91431cb9231307033a))
+
+
+
 ## [6.0.5](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.0.4...v6.0.5) (2019-12-19)
 
 

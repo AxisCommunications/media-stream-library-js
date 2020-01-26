@@ -1,6 +1,6 @@
 import { Sink } from '../component'
-import Clock from '../../utils/clock'
-import Scheduler from '../../utils/scheduler'
+import { Clock } from '../../utils/clock'
+import { Scheduler } from '../../utils/scheduler'
 import { Message, MessageType } from '../message'
 import { Writable, Readable } from 'stream'
 import { VideoMedia } from '../../utils/protocols/sdp'
@@ -11,13 +11,6 @@ interface BlobMessage {
 }
 
 type BlobMessageHandler = (msg: BlobMessage) => void
-
-// const { Readable, Writable } = require('stream')
-
-// const Component = require('../component')
-// const { SDP, JPEG } = require('../message')
-// const Clock = require('../../utils/clock')
-// const Scheduler = require('../../utils/scheduler')
 
 interface RateInfo {
   bitrate: number
@@ -126,7 +119,9 @@ export class CanvasSink extends Sink {
     // it receives a blob of a JPEG image.
     let drawImageBlob: BlobMessageHandler
     if (ctx === null) {
-      drawImageBlob = () => {}
+      drawImageBlob = () => {
+        /** NOOP */
+      }
     } else if ('transferFromImageBitmap' in ctx) {
       const ctxBitmaprenderer = ctx
       drawImageBlob = ({ blob }) => {
