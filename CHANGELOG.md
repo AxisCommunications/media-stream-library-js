@@ -1,3 +1,11 @@
+## [6.1.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.1.1...v6.1.2) (2020-01-26)
+
+
+
+## [6.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.1.0...v6.1.1) (2020-01-26)
+
+
+
 # [6.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.0.5...v6.1.0) (2020-01-13)
 
 
