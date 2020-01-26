@@ -45,7 +45,7 @@ export class TcpSource extends Source {
           const { hostname, port } = parse(url)
           socket = connect(
             Number(port) || 554,
-            hostname,
+            hostname === null ? undefined : hostname,
           )
           socket.on('error', e => {
             console.error('TCP socket error:', e)
