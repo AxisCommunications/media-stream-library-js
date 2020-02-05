@@ -1,0 +1,64 @@
+import { Tube } from '../component';
+import { Transform } from 'stream';
+import { MessageType } from '../message';
+import { payloadType, payload, marker, timestamp, } from '../../utils/protocols/rtp';
+export class ONVIFDepay extends Tube {
+    constructor(handler) {
+        let XMLPayloadType;
+        let packets = [];
+        const incoming = new Transform({
+            objectMode: true,
+            transform: function (msg, encoding, callback) {
+                if (msg.type === MessageType.SDP) {
+                    let validMedia;
+                    for (const media of msg.sdp.media) {
+                        if (media.type === 'application' &&
+                            media.rtpmap &&
+                            media.rtpmap.encodingName === 'VND.ONVIF.METADATA') {
+                            validMedia = media;
+                        }
+                    }
+                    if (validMedia && validMedia.rtpmap) {
+                        XMLPayloadType = Number(validMedia.rtpmap.payloadType);
+                    }
+                    callback(undefined, msg);
+                }
+                else if (msg.type === MessageType.RTP &&
+                    payloadType(msg.data) === XMLPayloadType) {
+                    // Add payload to packet stack
+                    packets.push(payload(msg.data));
+                    // XML over RTP uses the RTP marker bit to indicate end
+                    // of fragmentation. At this point, the packets can be used
+                    // to reconstruct an XML packet.
+                    if (marker(msg.data) && packets.length > 0) {
+                        const xmlMsg = {
+                            timestamp: timestamp(msg.data),
+                            ntpTimestamp: msg.ntpTimestamp,
+                            payloadType: payloadType(msg.data),
+                            data: Buffer.concat(packets),
+                            type: MessageType.XML,
+                        };
+                        // If there is a handler, the XML message will leave
+                        // through the handler, otherwise send it on to the
+                        // next component
+                        if (handler) {
+                            handler(xmlMsg);
+                        }
+                        else {
+                            this.push(xmlMsg);
+                        }
+                        packets = [];
+                    }
+                    callback();
+                }
+                else {
+                    // Not a message we should handle
+                    callback(undefined, msg);
+                }
+            },
+        });
+        // outgoing will be defaulted to a PassThrough stream
+        super(incoming);
+    }
+}
+//# sourceMappingURL=index.js.map

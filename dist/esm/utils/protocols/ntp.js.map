@@ -1,0 +1,1 @@
+{"version":3,"file":"ntp.js","sourceRoot":"","sources":["../../../../lib/utils/protocols/ntp.ts"],"names":[],"mappings":"AAAA,gCAAgC;AAChC,MAAM,qBAAqB,GAAG,IAAI,CAAC,GAAG,CAAC,IAAI,EAAE,CAAC,EAAE,CAAC,CAAC,CAAA;AAQlD;;;;GAIG;AACH,MAAM,UAAU,OAAO,CAAC,OAAe,EAAE,QAAgB;IACvD,MAAM,eAAe,GAAG,CAAC,OAAO,GAAG,QAAQ,GAAG,WAAW,CAAC,GAAG,IAAI,CAAA;IACjE,OAAO,qBAAqB,GAAG,eAAe,CAAA;AAChD,CAAC"}

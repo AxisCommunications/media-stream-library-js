@@ -1,0 +1,1 @@
+{"version":3,"file":"rtsp-mjpeg-pipeline.js","sourceRoot":"","sources":["../../../lib/pipelines/rtsp-mjpeg-pipeline.ts"],"names":[],"mappings":";;AAAA,mDAA8C;AAE9C,uDAAmD;AAEnD;;;;GAIG;AACH,MAAa,iBAAkB,SAAQ,4BAAY;IACjD,YAAY,UAAuB;QACjC,KAAK,CAAC,UAAU,CAAC,CAAA;QAEjB,MAAM,SAAS,GAAG,IAAI,qBAAS,EAAE,CAAA;QAEjC,IAAI,CAAC,MAAM,CAAC,SAAS,CAAC,CAAA;IACxB,CAAC;CACF;AARD,8CAQC"}
