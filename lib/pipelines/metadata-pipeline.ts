@@ -36,7 +36,7 @@ export class MetadataPipeline extends RtspPipeline {
     this.append(onvifDepay)
     const handlerSink = Sink.fromHandler(msg => {
       if (msg.type === MessageType.XML) {
-        metadataHandler(msg as XmlMessage)
+        metadataHandler(msg)
       }
     })
     this.append(handlerSink)

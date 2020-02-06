@@ -24,7 +24,7 @@ export class Html5VideoMetadataPipeline extends Html5VideoPipeline {
 
     const onvifHandlerPipe = Tube.fromHandlers(msg => {
       if (msg.type === MessageType.XML) {
-        metadataHandler(msg as XmlMessage)
+        metadataHandler(msg)
       }
     }, undefined)
     this.insertAfter(onvifDepay, onvifHandlerPipe)

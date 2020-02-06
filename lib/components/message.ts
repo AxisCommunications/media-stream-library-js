@@ -93,4 +93,4 @@ export type Message =
   | XmlMessage
   | JpegMessage
 
-export type MessageHandler = (msg: GenericMessage) => void
+export type MessageHandler = (msg: Message) => void
