@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Example metadata streaming from Axis camera</title>
+  </head>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .metadata-title {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .metadata-content {
+      margin-bottom: 20px;
+      font-family: monospace;
+      font-size: 80%;
+    }
+
+    .metadata-container {
+      height: 400px;
+      width: 100%;
+      border: 1px solid black;
+      padding: 10px;
+      margin: 10px 0;
+      overflow: hidden auto;
+    }
+  </style>
+  <body>
+    <div>
+      <div>
+        <label for="device">Device IP:</label>
+        <input id="device" type="text" placeholder="192.168.0.90" />
+      </div>
+      <button id="play">Play</button>
+    </div>
+    <div class="metadata-container" id="placeholder" />
+    <script src="../media-stream-library.min.js"></script>
+    <script src="simple-metadata-player.js"></script>
+  </body>
+</html>
