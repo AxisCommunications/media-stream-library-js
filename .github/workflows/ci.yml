@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x, 13.x]
+        node-version: ['12', '13']
     services:
       rtsp:
         image: steabert/gst-rtsp-launch
@@ -43,7 +43,7 @@ jobs:
         yarn cypress run
     - name: Release
       id: release
-      if: startsWith(github.ref, 'refs/tags/v')
+      if: startsWith(github.ref, 'refs/tags/v') && matrix.node-version == '12'
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # provided by Actions
@@ -53,7 +53,7 @@ jobs:
         draft: false
         prerelease: false
     - name: Upload Release Asset
-      if: startsWith(github.ref, 'refs/tags/v')
+      if: startsWith(github.ref, 'refs/tags/v') && matrix.node-version == '12'
       uses: actions/upload-release-asset@v1.0.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -63,7 +63,7 @@ jobs:
         asset_name: media-stream-library.min.js
         asset_content_type: application/javascript
     - name: Deploy NPM package
-      if: startsWith(github.ref, 'refs/tags/v')
+      if: startsWith(github.ref, 'refs/tags/v') && matrix.node-version == '12'
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       run: |
