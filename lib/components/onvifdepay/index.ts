@@ -9,7 +9,7 @@ import {
 } from '../../utils/protocols/rtp'
 
 export class ONVIFDepay extends Tube {
-  constructor(handler?: (msg: XmlMessage) => void) {
+  constructor() {
     let XMLPayloadType: number
     let packets: Buffer[] = []
 
@@ -49,15 +49,9 @@ export class ONVIFDepay extends Tube {
               data: Buffer.concat(packets),
               type: MessageType.XML,
             }
-            // If there is a handler, the XML message will leave
-            // through the handler, otherwise send it on to the
-            // next component
-            if (handler) {
-              handler(xmlMsg)
-            } else {
-              this.push(xmlMsg)
-            }
+            callback(undefined, xmlMsg)
             packets = []
+            return
           }
           callback()
         } else {
