@@ -1,3 +1,15 @@
+# [7.0.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.1.4...v7.0.0) (2020-02-06)
+
+
+### Bug Fixes
+
+* comment instead of empty arrow function ([8f95b4c](https://github.com/AxisCommunications/media-stream-library-js/commit/8f95b4cc923abc78952093c4d9d552a3f27487f8))
+* pass proper type to connect function ([f72fd3d](https://github.com/AxisCommunications/media-stream-library-js/commit/f72fd3d08639a5f84dacf547f82d50a6345d6f79))
+* reformat using prettier ([d90c53b](https://github.com/AxisCommunications/media-stream-library-js/commit/d90c53ba965a65569268761494192e4dee2a559e))
+* use union Message type for MessageHandler ([bda70ef](https://github.com/AxisCommunications/media-stream-library-js/commit/bda70ef700d9d161aa9e047726c0cc17080dcbea))
+
+
+
 ## [6.1.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.1.3...v6.1.4) (2020-01-26)
 
 
