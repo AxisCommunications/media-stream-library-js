@@ -8,7 +8,7 @@ import { h264depay } from './parser'
 export class H264Depay extends Tube {
   constructor() {
     let h264PayloadType: number
-    let idrFound: boolean = false
+    let idrFound = false
 
     // Incoming
 
@@ -16,7 +16,7 @@ export class H264Depay extends Tube {
     let parseMessage: (buffer: Buffer, rtp: RtpMessage) => Buffer = () =>
       Buffer.alloc(0)
     
-    let checkIdr = (msg: RtpMessage) => {
+    const checkIdr = (msg: RtpMessage) => {
       const rtpPayload = payload(msg.data)
       const nalType = rtpPayload[0] & 0x1f
       const fuNalType = rtpPayload[1] & 0x1f
