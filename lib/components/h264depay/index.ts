@@ -15,12 +15,12 @@ export class H264Depay extends Tube {
     let buffer = Buffer.alloc(0)
     let parseMessage: (buffer: Buffer, rtp: RtpMessage) => Buffer = () =>
       Buffer.alloc(0)
-    
+
     const checkIdr = (msg: RtpMessage) => {
       const rtpPayload = payload(msg.data)
       const nalType = rtpPayload[0] & 0x1f
       const fuNalType = rtpPayload[1] & 0x1f
-      if ((nalType === 28 && fuNalType === 5) || (nalType === 5)) {
+      if ((nalType === 28 && fuNalType === 5) || nalType === 5) {
         idrFound = true
       }
     }
