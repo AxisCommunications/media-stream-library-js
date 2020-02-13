@@ -2,18 +2,28 @@ import { Tube } from '../component'
 import { Transform } from 'stream'
 import { MessageType, Message, RtpMessage } from '../message'
 import { VideoMedia } from '../../utils/protocols/sdp'
-import { payloadType } from '../../utils/protocols/rtp'
+import { payload, payloadType } from '../../utils/protocols/rtp'
 import { h264depay } from './parser'
 
 export class H264Depay extends Tube {
   constructor() {
     let h264PayloadType: number
+    let idrFound: boolean = false
 
     // Incoming
 
     let buffer = Buffer.alloc(0)
     let parseMessage: (buffer: Buffer, rtp: RtpMessage) => Buffer = () =>
       Buffer.alloc(0)
+    
+    let checkIdr = (msg: RtpMessage) => {
+      const rtpPayload = payload(msg.data)
+      const nalType = rtpPayload[0] & 0x1f
+      const fuNalType = rtpPayload[1] & 0x1f
+      if ((nalType === 28 && fuNalType === 5) || (nalType === 5)) {
+        idrFound = true
+      }
+    }
 
     const incoming = new Transform({
       objectMode: true,
@@ -35,7 +45,12 @@ export class H264Depay extends Tube {
           msg.type === MessageType.RTP &&
           payloadType(msg.data) === h264PayloadType
         ) {
-          buffer = parseMessage(buffer, msg)
+          if (!idrFound) {
+            checkIdr(msg)
+          }
+          if (idrFound) {
+            buffer = parseMessage(buffer, msg)
+          }
           callback()
         } else {
           // Not a message we should handle
