@@ -1,6 +1,7 @@
 import { Html5VideoPipeline, Html5VideoConfig } from './html5-video-pipeline'
 import { ONVIFDepay } from '../components/onvifdepay'
-import { XmlMessage } from '../components/message'
+import { XmlMessage, MessageType } from '../components/message'
+import { Tube } from '../components/component'
 
 export interface Html5VideoMetadataConfig extends Html5VideoConfig {
   metadataHandler: (msg: XmlMessage) => void
@@ -18,7 +19,14 @@ export class Html5VideoMetadataPipeline extends Html5VideoPipeline {
 
     super(config)
 
-    const onvifDepay = new ONVIFDepay(metadataHandler)
+    const onvifDepay = new ONVIFDepay()
     this.insertAfter(this.rtsp, onvifDepay)
+
+    const onvifHandlerPipe = Tube.fromHandlers(msg => {
+      if (msg.type === MessageType.XML) {
+        metadataHandler(msg)
+      }
+    }, undefined)
+    this.insertAfter(onvifDepay, onvifHandlerPipe)
   }
 }

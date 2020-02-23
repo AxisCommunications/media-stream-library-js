@@ -157,8 +157,8 @@ export class Source extends AbstractComponent {
 
 export class Tube extends Source {
   public static fromHandlers(
-    fnIncoming: MessageHandler,
-    fnOutgoing: MessageHandler,
+    fnIncoming: MessageHandler | undefined,
+    fnOutgoing: MessageHandler | undefined,
   ) {
     const incomingStream = fnIncoming
       ? StreamFactory.peeker(fnIncoming)

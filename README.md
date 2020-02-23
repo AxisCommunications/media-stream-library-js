@@ -1,10 +1,11 @@
 # Media Stream Library JS
 
-[![Travis CI][travis-image]][travis-url]
+[![CI][ci-image]][ci-url]
 [![NPM][npm-image]][npm-url]
 
-[travis-image]: https://travis-ci.com/AxisCommunications/media-stream-library-js.svg?branch=master
-[travis-url]: https://travis-ci.com/AxisCommunications/media-stream-library-js
+[ci-image]: https://github.com/AxisCommunications/media-stream-library-js/workflows/CI/badge.svg
+[ci-url]: https://github.com/AxisCommunications/media-stream-library-js/actions
+
 [npm-image]: https://img.shields.io/npm/v/media-stream-library.svg
 [npm-url]: https://www.npmjs.com/package/media-stream-library
 
@@ -93,27 +94,41 @@ or
 yarn examples
 ```
 
-## Contributing
-
-Please read our [contributing guidelines](CONTRIBUTING.md) before making pull requests.
-
 ## Debugging
 
 The easiest way to debug is to use a Node CLI pipeline (see examples) and
 log what is happening to your component(s).
 
+In the browser, you can set `localStorage.debug = 'msl:*'` to log everything
+related to just this library (make sure to reload the page after setting the value).
+
+## Contributing
+
+Please read our [contributing guidelines](CONTRIBUTING.md) before making pull requests.
+
+### Code formatting
+
+We use [prettier](https://prettier.io/) to automatically format code, and this is verified
+during testing (part of linting).
+To make sure tests don't fail on format problems, it's recommended to use a prettier plugin
+for you editor, or to run `yarn prettier:fix` before committing any changes.
+
+### Testing
+
+Make sure your changes pass linting and unit testing locally to save time with your PR,
+by running `yarn test`.
+If you add a new feature, please write a new unit test to catch any future regressions.
+
 ## Continuous integration
 
-Automated tests are run on the master branch and pull requests with Travis CI.
+Automated tests are run on the master branch and pull requests with GitHub Actions,
+for which the configuration can be found in the `.github/workflows/ci.yml` file.
 When tags are pushed, an automated deploy will release to both Github and NPM.
-Any tags that are prereleases will be tagged `next` for NPM.
-Releases depend on access tokens that are encrypted.
-In order to use a new access token, you can create one using the Github or NPM
-web interface, and then encrypt it using the `travis` command line tool:
+Any tags that are prereleases will be tagged `next` for NPM, otherwise `latest` is used.
 
-```sh
-cd path/to/git/repo
-travis encrypt <token>
+To release, make sure you are on the master branch and run:
 ```
-
-and then copy-paste the secure string to the appropriate place in `.travis.yml`.
+yarn release
+git push --follow-tags
+```
+after which the pushed tag will cause a build + deploy through GitHub Actions.

@@ -3,7 +3,8 @@ import { ONVIFDepay } from '../components/onvifdepay'
 import { WSSource } from '../components/ws-source'
 import { WSConfig } from '../components/ws-source/openwebsocket'
 import { RtspConfig } from '../components/rtsp-session'
-import { XmlMessage } from '../components/message'
+import { XmlMessage, MessageType } from '../components/message'
+import { Sink } from '../components/component'
 
 // Default configuration for XML event stream
 const DEFAULT_RTSP_PARAMETERS = {
@@ -31,8 +32,14 @@ export class MetadataPipeline extends RtspPipeline {
 
     super(Object.assign({}, DEFAULT_RTSP_PARAMETERS, rtspConfig))
 
-    const onvifDepay = new ONVIFDepay(metadataHandler)
+    const onvifDepay = new ONVIFDepay()
     this.append(onvifDepay)
+    const handlerSink = Sink.fromHandler(msg => {
+      if (msg.type === MessageType.XML) {
+        metadataHandler(msg)
+      }
+    })
+    this.append(handlerSink)
 
     const waitForWs = WSSource.open(wsConfig)
     this.ready = waitForWs.then(wsSource => {
