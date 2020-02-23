@@ -28,30 +28,58 @@ First byte in payload (rtp payload header):
 
 const h264Debug = debug('msl:h264depay')
 
-export function h264depay(
-  buffered: Buffer,
-  rtp: RtpMessage,
-  callback: (msg: H264Message) => void,
-) {
-  const rtpPayload = payload(rtp.data)
-  const type = rtpPayload[0] & 0x1f
+export class H264DepayParser {
+  private _buffer: Buffer
 
-  if (type === 28) {
-    /* FU-A NALU */ const fuIndicator = rtpPayload[0]
-    const fuHeader = rtpPayload[1]
-    const startBit = !!(fuHeader >> 7)
-    const nalType = fuHeader & 0x1f
-    const nal = (fuIndicator & 0xe0) | nalType
-    const stopBit = fuHeader & 64
-    if (startBit) {
-      return Buffer.concat([
-        Buffer.from([0, 0, 0, 0, nal]),
-        rtpPayload.slice(2),
-      ])
-    } else if (stopBit) {
-      /* receieved end bit */ const h264frame = Buffer.concat([
-        buffered,
-        rtpPayload.slice(2),
+  constructor() {
+    this._buffer = Buffer.alloc(0)
+  }
+
+  parse(rtp: RtpMessage): H264Message | null {
+    const rtpPayload = payload(rtp.data)
+    const type = rtpPayload[0] & 0x1f
+
+    if (type === 28) {
+      /* FU-A NALU */ const fuIndicator = rtpPayload[0]
+      const fuHeader = rtpPayload[1]
+      const startBit = !!(fuHeader >> 7)
+      const nalType = fuHeader & 0x1f
+      const nal = (fuIndicator & 0xe0) | nalType
+      const stopBit = fuHeader & 64
+      if (startBit) {
+        this._buffer = Buffer.concat([
+          Buffer.from([0, 0, 0, 0, nal]),
+          rtpPayload.slice(2),
+        ])
+        return null
+      } else if (stopBit) {
+        /* receieved end bit */ const h264frame = Buffer.concat([
+          this._buffer,
+          rtpPayload.slice(2),
+        ])
+        h264frame.writeUInt32BE(h264frame.length - 4, 0)
+        const msg: H264Message = {
+          data: h264frame,
+          type: MessageType.H264,
+          timestamp: timestamp(rtp.data),
+          ntpTimestamp: rtp.ntpTimestamp,
+          payloadType: payloadType(rtp.data),
+          nalType: nalType,
+        }
+        this._buffer = Buffer.alloc(0)
+        return msg
+      } else {
+        // Put the received data on the buffer and cut the header bytes
+        this._buffer = Buffer.concat([this._buffer, rtpPayload.slice(2)])
+        return null
+      }
+    } else if (
+      (type === NAL_TYPES.NON_IDR_PICTURE || type === NAL_TYPES.IDR_PICTURE) &&
+      this._buffer.length === 0
+    ) {
+      /* Single NALU */ const h264frame = Buffer.concat([
+        Buffer.from([0, 0, 0, 0]),
+        rtpPayload,
       ])
       h264frame.writeUInt32BE(h264frame.length - 4, 0)
       const msg: H264Message = {
@@ -60,37 +88,16 @@ export function h264depay(
         timestamp: timestamp(rtp.data),
         ntpTimestamp: rtp.ntpTimestamp,
         payloadType: payloadType(rtp.data),
-        nalType: nalType,
+        nalType: type,
       }
-      callback(msg)
-      return Buffer.alloc(0)
+      this._buffer = Buffer.alloc(0)
+      return msg
     } else {
-      // Put the received data on the buffer and cut the header bytes
-      return Buffer.concat([buffered, rtpPayload.slice(2)])
+      h264Debug(
+        `H264depayComponent can only extract types 1,5 and 28, got ${type}`,
+      )
+      this._buffer = Buffer.alloc(0)
+      return null
     }
-  } else if (
-    (type === NAL_TYPES.NON_IDR_PICTURE || type === NAL_TYPES.IDR_PICTURE) &&
-    buffered.length === 0
-  ) {
-    /* Single NALU */ const h264frame = Buffer.concat([
-      Buffer.from([0, 0, 0, 0]),
-      rtpPayload,
-    ])
-    h264frame.writeUInt32BE(h264frame.length - 4, 0)
-    const msg: H264Message = {
-      data: h264frame,
-      type: MessageType.H264,
-      timestamp: timestamp(rtp.data),
-      ntpTimestamp: rtp.ntpTimestamp,
-      payloadType: payloadType(rtp.data),
-      nalType: type,
-    }
-    callback(msg)
-    return Buffer.alloc(0)
-  } else {
-    h264Debug(
-      `H264depayComponent can only extract types 1,5 and 28, got ${type}`,
-    )
-    return Buffer.alloc(0)
   }
 }
