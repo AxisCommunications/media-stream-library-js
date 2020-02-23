@@ -1,29 +1,18 @@
 import { Tube } from '../component'
 import { Transform } from 'stream'
-import { MessageType, Message, RtpMessage } from '../message'
+import { MessageType, Message } from '../message'
 import { VideoMedia } from '../../utils/protocols/sdp'
-import { payload, payloadType } from '../../utils/protocols/rtp'
-import { h264depay } from './parser'
+import { payloadType } from '../../utils/protocols/rtp'
+import { H264DepayParser, NAL_TYPES } from './parser'
 
 export class H264Depay extends Tube {
   constructor() {
     let h264PayloadType: number
     let idrFound = false
 
+    const h264DepayParser = new H264DepayParser()
+
     // Incoming
-
-    let buffer = Buffer.alloc(0)
-    let parseMessage: (buffer: Buffer, rtp: RtpMessage) => Buffer = () =>
-      Buffer.alloc(0)
-
-    const checkIdr = (msg: RtpMessage) => {
-      const rtpPayload = payload(msg.data)
-      const nalType = rtpPayload[0] & 0x1f
-      const fuNalType = rtpPayload[1] & 0x1f
-      if ((nalType === 28 && fuNalType === 5) || nalType === 5) {
-        idrFound = true
-      }
-    }
 
     const incoming = new Transform({
       objectMode: true,
@@ -45,21 +34,25 @@ export class H264Depay extends Tube {
           msg.type === MessageType.RTP &&
           payloadType(msg.data) === h264PayloadType
         ) {
-          if (!idrFound) {
-            checkIdr(msg)
+          const h264Message = h264DepayParser.parse(msg)
+
+          // Skip if not a full H264 frame, or when there hasn't been an I-frame yet
+          if (
+            h264Message === null ||
+            (!idrFound && h264Message.nalType !== NAL_TYPES.IDR_PICTURE)
+          ) {
+            callback()
+            return
           }
-          if (idrFound) {
-            buffer = parseMessage(buffer, msg)
-          }
-          callback()
+
+          idrFound = true
+          callback(undefined, h264Message)
         } else {
           // Not a message we should handle
           callback(undefined, msg)
         }
       },
     })
-    const callback = incoming.push.bind(incoming)
-    parseMessage = (buffer, rtp) => h264depay(buffer, rtp, callback)
 
     // outgoing will be defaulted to a PassThrough stream
     super(incoming)
