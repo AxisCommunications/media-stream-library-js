@@ -1,29 +1,32 @@
-import { h264depay } from './parser'
+import { H264DepayParser } from './parser'
 import { MessageType } from '../message'
+import { AssertionError } from 'assert'
 
 /*
  * The h264Handler is more thoroughly tested in the end2end test.
  *
  */
 describe('h264 handler', () => {
-  let callback: any
+  let h264Parser: H264DepayParser
 
   beforeEach(() => {
-    callback = jest.fn()
+    h264Parser = new H264DepayParser()
   })
 
   it('parses a single NALU packet', () => {
     const singleNalu = Buffer.from('gOATzCCbbTXpPLiiQZrALBJ/AEphqA==', 'base64')
-    const remaining = h264depay(
-      Buffer.alloc(0),
-      { type: MessageType.RTP, data: singleNalu, channel: 0 },
-      callback,
-    )
-    expect(callback).toHaveBeenCalledTimes(1)
-    expect(remaining.length).toEqual(0)
+    const msg = h264Parser.parse({
+      type: MessageType.RTP,
+      data: singleNalu,
+      channel: 0,
+    })
 
-    const msg = callback.mock.calls[0][0]
+    expect(msg).not.toBeNull()
+    expect((h264Parser as any)._buffer.length).toEqual(0)
 
+    if (msg === null) {
+      throw new AssertionError()
+    }
     expect(msg.timestamp).toEqual(547056949)
     expect(msg.type).toEqual(MessageType.H264)
     expect(msg.data.length).toEqual(14)
@@ -41,22 +44,24 @@ describe('h264 handler', () => {
       'base64',
     )
     /* eslint-enable */
-    const remaining = h264depay(
-      Buffer.alloc(0),
-      { type: MessageType.RTP, data: fuaPart1, channel: 0 },
-      callback,
-    )
-    expect(callback).toHaveBeenCalledTimes(0)
-    expect(remaining.length).toBeGreaterThan(0)
+    let msg = h264Parser.parse({
+      type: MessageType.RTP,
+      data: fuaPart1,
+      channel: 0,
+    })
+    expect(msg).toBeNull()
+    expect((h264Parser as any)._buffer.length).toBeGreaterThan(0)
 
-    h264depay(
-      remaining,
-      { type: MessageType.RTP, data: fuaPart2, channel: 0 },
-      callback,
-    )
-    expect(callback).toHaveBeenCalledTimes(1)
-    const msg = callback.mock.calls[0][0]
+    msg = h264Parser.parse({
+      type: MessageType.RTP,
+      data: fuaPart2,
+      channel: 0,
+    })
+    expect(msg).not.toBeNull()
 
+    if (msg === null) {
+      throw new AssertionError()
+    }
     expect(msg.timestamp).toEqual(153026579)
     expect(msg.type).toEqual(MessageType.H264)
     expect(msg.data.length).toEqual(535)
