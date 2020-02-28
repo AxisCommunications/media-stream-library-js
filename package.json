@@ -59,7 +59,7 @@
     "conventional-changelog-cli": "2.0.31",
     "conventional-recommended-bump": "6.0.5",
     "core-js": "3.6.4",
-    "cypress": "4.0.2",
+    "cypress": "4.1.0",
     "eslint": "6.8.0",
     "eslint-config-prettier": "6.10.0",
     "eslint-plugin-import": "2.20.1",
@@ -71,7 +71,7 @@
     "mock-socket": "9.0.3",
     "prettier": "1.19.1",
     "ts-jest": "25.2.1",
-    "typescript": "3.8.2",
+    "typescript": "3.8.3",
     "webpack": "4.41.6",
     "webpack-cli": "3.3.11"
   },
