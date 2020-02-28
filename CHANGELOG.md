@@ -1,3 +1,12 @@
+## [7.0.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v7.0.0...v7.0.1) (2020-02-28)
+
+
+### Bug Fixes
+
+* update H.264 parser unit tests ([96ddfd5](https://github.com/AxisCommunications/media-stream-library-js/commit/96ddfd5f2851bcca17059e9d90d386e22e12d5c9))
+
+
+
 # [7.0.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v6.1.4...v7.0.0) (2020-02-06)
 
 
