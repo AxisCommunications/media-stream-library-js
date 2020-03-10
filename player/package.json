@@ -13,7 +13,7 @@
     "eslint": "eslint --ext '.ts,.js' lib/",
     "prettier:check": "prettier --check 'lib/**/*.{ts,js}'",
     "prettier:fix": "prettier --write 'lib/**/*.{ts,js}' --fix --loglevel silent",
-    "test": "jest --coverage",
+    "test": "jest --coverage --passWithNoTests",
     "dev": "yarn tsc --watch --project tsconfig.example.json & webpack-dev-server --config webpack.example.js --port 3000 --host localhost",
     "build:esm": "yarn tsc",
     "build:bundle": "yarn webpack --config webpack.config.js",
