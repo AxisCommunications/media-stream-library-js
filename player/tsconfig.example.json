@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.json",
+  "rootDir": "./examples/react-app",
+  "include": ["./lib", "./examples/react-app"]
+}

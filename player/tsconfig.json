@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    /* Include Typescript declaration files */
+    "declaration": true,
+    "declarationDir": "./dist",
+
+    /* Basic Options */
+    "target": "esnext",
+    "module": "esnext",
+    "outDir": "./dist/esm",
+    "skipLibCheck": true,
+    "sourceMap": true,
+
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "strictNullChecks": true,
+
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+
+    // react
+    "jsx": "react",
+
+    // default types
+    "typeRoots": ["./typings"]
+  },
+  "include": ["./lib"]
+}
