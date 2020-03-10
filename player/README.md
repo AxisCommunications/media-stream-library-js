@@ -1,5 +1,14 @@
 # Media Stream Player JS
 
+[![CI][ci-image]][ci-url]
+[![NPM][npm-image]][npm-url]
+
+[ci-image]: https://github.com/AxisCommunications/media-stream-player-js/workflows/CI/badge.svg
+[ci-url]: https://github.com/AxisCommunications/media-stream-player-js/actions
+
+[npm-image]: https://img.shields.io/npm/v/media-stream-player.svg
+[npm-url]: https://www.npmjs.com/package/media-stream-player
+
 Media-stream-player is a video player built around [media-stream-library-js](https://github.com/AxisCommunications/media-stream-library-js) based
 on React. The main idea is to define the video state entirely within specialized
 React components for each format (currently RTP H.264 and JPEG, and still images
