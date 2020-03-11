@@ -1,3 +1,13 @@
+## [1.1.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v1.1.0...v1.1.1) (2020-03-11)
+
+
+### Bug Fixes
+
+* Remove source map from build ([6f92e12](https://github.com/AxisCommunications/media-stream-player-js/commit/6f92e12e91de2fe8287645c9ad646dd4386fedde))
+* target more sensible ECMAScript version ([4f954ce](https://github.com/AxisCommunications/media-stream-player-js/commit/4f954ce7066de228833951bb3e8717781e90998e))
+
+
+
 # 1.1.0 (2020-03-10)
 
 
