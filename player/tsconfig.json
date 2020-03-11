@@ -5,8 +5,8 @@
     "declarationDir": "./dist",
 
     /* Basic Options */
-    "target": "esnext",
-    "module": "esnext",
+    "target": "es2015",
+    "module": "es2015",
     "outDir": "./dist/esm",
     "skipLibCheck": true,
     "sourceMap": true,
