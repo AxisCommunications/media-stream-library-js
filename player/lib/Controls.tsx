@@ -50,6 +50,7 @@ interface ControlsProps {
     refresh?: string
     settings?: string
   }
+  toggleStats: () => void
 }
 
 export const Controls: React.FC<ControlsProps> = ({
@@ -62,6 +63,7 @@ export const Controls: React.FC<ControlsProps> = ({
   onFormat,
   onVapix,
   labels,
+  toggleStats,
 }) => {
   const controlArea = useRef(null)
   const userActive = useUserActive(controlArea)
@@ -99,6 +101,7 @@ export const Controls: React.FC<ControlsProps> = ({
           parameters={parameters}
           onFormat={onFormat}
           onVapix={onVapix}
+          toggleStats={toggleStats}
         />
       )}
     </ControlArea>
