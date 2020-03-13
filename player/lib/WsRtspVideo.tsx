@@ -93,7 +93,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
 
   // State tied to resources
   const [pipeline, setPipeline] = useState<null | pipelines.Html5VideoPipeline>(
-    null
+    null,
   )
   const [fetching, setFetching] = useState(false)
 
@@ -155,7 +155,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
         const xmlMessageHandler = (msg: XmlMessage) => {
           const xmlDocument = xmlParser.parseFromString(
             msg.data.toString(),
-            'text/xml'
+            'text/xml',
           )
           if (msg.ntpTimestamp) {
             scheduler.run({ ntpTimestamp: msg.ntpTimestamp, xmlDocument })
