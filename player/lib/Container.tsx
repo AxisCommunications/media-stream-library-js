@@ -32,12 +32,6 @@ const getHeightPct = (aspectRatio: number) => {
   return 100 / aspectRatio
 }
 
-const ContainerBase = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
 const ContainerBody = styled.div.attrs<{ readonly aspectRatio: number }>(
   ({ aspectRatio }) => {
     return { style: { paddingTop: `${getHeightPct(aspectRatio)}%` } }
@@ -65,7 +59,5 @@ export const Container: React.FC<ContainerProps> = ({
   aspectRatio = DEFAULT_ASPECT_RATIO,
   children,
 }) => (
-  <ContainerBase>
-    <ContainerBody aspectRatio={aspectRatio}>{children}</ContainerBody>
-  </ContainerBase>
+  <ContainerBody aspectRatio={aspectRatio}>{children}</ContainerBody>
 )
