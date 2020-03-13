@@ -48,14 +48,14 @@ export const Player: React.FC<PlayerProps> = forwardRef(
       metadataHandler,
       aspectRatio,
     },
-    ref: RefType
+    ref: RefType,
   ) => {
     const [play, setPlay] = useState(autoPlay || false)
     const [refresh, setRefresh] = useState(0)
     const [host, setHost] = useState(hostname)
     const [waiting, setWaiting] = useState(autoPlay)
     const [api, setApi] = useState(
-      format ? FORMAT_API[format] : DEFAULT_API_TYPE
+      format ? FORMAT_API[format] : DEFAULT_API_TYPE,
     )
     const [parameters, setParameters] = useState(vapixParams)
     const [naturalAspectRatio, setNaturalAspectRatio] = useState(aspectRatio)
@@ -139,7 +139,7 @@ export const Player: React.FC<PlayerProps> = forwardRef(
         setNaturalAspectRatio(width / height)
         setWaiting(false)
       },
-      [setWaiting, setNaturalAspectRatio]
+      [setWaiting, setNaturalAspectRatio],
     )
 
     return (
@@ -181,7 +181,7 @@ export const Player: React.FC<PlayerProps> = forwardRef(
         </Layer>
       </Container>
     )
-  }
+  },
 )
 
 Player.displayName = 'Player'

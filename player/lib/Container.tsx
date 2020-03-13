@@ -35,7 +35,7 @@ const getHeightPct = (aspectRatio: number) => {
 const ContainerBody = styled.div.attrs<{ readonly aspectRatio: number }>(
   ({ aspectRatio }) => {
     return { style: { paddingTop: `${getHeightPct(aspectRatio)}%` } }
-  }
+  },
 )<{ readonly aspectRatio: number }>`
   width: 100%;
   background: black;
@@ -58,6 +58,4 @@ interface ContainerProps {
 export const Container: React.FC<ContainerProps> = ({
   aspectRatio = DEFAULT_ASPECT_RATIO,
   children,
-}) => (
-  <ContainerBody aspectRatio={aspectRatio}>{children}</ContainerBody>
-)
+}) => <ContainerBody aspectRatio={aspectRatio}>{children}</ContainerBody>
