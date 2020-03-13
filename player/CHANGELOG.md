@@ -1,3 +1,12 @@
+## [1.1.3](https://github.com/AxisCommunications/media-stream-player-js/compare/v1.1.2...v1.1.3) (2020-03-13)
+
+
+### Bug Fixes
+
+* remove unnecessary container ([cacbe9e](https://github.com/AxisCommunications/media-stream-player-js/commit/cacbe9e067cfc047f350c21a0433fd3fb84b9f01))
+
+
+
 ## [1.1.2](https://github.com/AxisCommunications/media-stream-player-js/compare/v1.1.1...v1.1.2) (2020-03-11)
 
 
