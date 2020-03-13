@@ -11,9 +11,8 @@ module.exports = {
   mode: 'development',
   resolve: {
     alias: {
-      'media-stream-player$': path.resolve(__dirname, 'lib'),
+      'media-stream-player$': path.resolve(__dirname, 'dist/esm'),
     },
-    modules: ['node_modules', 'lib', 'example'],
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   module: {
@@ -25,7 +24,6 @@ module.exports = {
           options: {
             babelrc: false,
             presets: [
-              '@babel/typescript',
               '@babel/preset-react',
               [
                 '@babel/env',
