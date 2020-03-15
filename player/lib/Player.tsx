@@ -12,6 +12,8 @@ import { Controls } from './Controls'
 import { Feedback } from './Feedback'
 import { Sdp } from 'media-stream-library/dist/esm/utils/protocols'
 import { MetadataMessage } from './WsRtspVideo'
+import { Stats } from './Stats'
+import { useSwitch } from './hooks/useSwitch'
 
 const DEFAULT_API_TYPE = AXIS_IMAGE_CGI
 
@@ -59,6 +61,7 @@ export const Player: React.FC<PlayerProps> = forwardRef(
     )
     const [parameters, setParameters] = useState(vapixParams)
     const [naturalAspectRatio, setNaturalAspectRatio] = useState(aspectRatio)
+    const [isOpen, setToggleStats] = useSwitch()
 
     // persist all vapix parameters
     window.localStorage.setItem('vapix', JSON.stringify(parameters))
@@ -161,6 +164,15 @@ export const Player: React.FC<PlayerProps> = forwardRef(
           <Feedback waiting={waiting} />
         </Layer>
         <Layer>
+          <Stats
+            api={api}
+            parameters={parameters}
+            host={host}
+            open={isOpen}
+            refresh={refresh}
+          />
+        </Layer>
+        <Layer>
           <Controls
             play={play}
             src={host}
@@ -177,6 +189,7 @@ export const Player: React.FC<PlayerProps> = forwardRef(
               refresh: 'Refresh',
               settings: 'Settings',
             }}
+            toggleStats={setToggleStats}
           />
         </Layer>
       </Container>

@@ -43,12 +43,14 @@ interface SettingsProps {
   parameters: VapixParameters
   onFormat: (format: Format) => void
   onVapix: (key: string, value: string) => void
+  toggleStats: () => void
 }
 
 export const Settings: React.FC<SettingsProps> = ({
   parameters,
   onFormat,
   onVapix,
+  toggleStats,
 }) => {
   const changeParam = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     switch (e.target.name) {
@@ -144,6 +146,9 @@ export const Settings: React.FC<SettingsProps> = ({
           value={parameters['textstring']}
           onChange={changeParam}
         />
+      </SettingsItem>
+      <SettingsItem>
+        <button onClick={toggleStats}>Stats</button>
       </SettingsItem>
     </SettingsMenu>
   )
