@@ -50,6 +50,7 @@ interface ControlsProps {
     refresh?: string
     settings?: string
   }
+  showStatsOverlay: boolean
   toggleStats: () => void
 }
 
@@ -63,6 +64,7 @@ export const Controls: React.FC<ControlsProps> = ({
   onFormat,
   onVapix,
   labels,
+  showStatsOverlay,
   toggleStats,
 }) => {
   const controlArea = useRef(null)
@@ -101,6 +103,7 @@ export const Controls: React.FC<ControlsProps> = ({
           parameters={parameters}
           onFormat={onFormat}
           onVapix={onVapix}
+          showStatsOverlay={showStatsOverlay}
           toggleStats={toggleStats}
         />
       )}

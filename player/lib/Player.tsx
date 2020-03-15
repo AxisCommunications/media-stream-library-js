@@ -1,4 +1,11 @@
-import React, { useState, forwardRef, useEffect, useCallback } from 'react'
+import React, {
+  useState,
+  forwardRef,
+  Ref,
+  useEffect,
+  useCallback,
+  useMemo,
+} from 'react'
 
 import { Container, Layer } from './Container'
 import {
@@ -60,14 +67,29 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     const [api, setApi] = useState(
       format ? FORMAT_API[format] : DEFAULT_API_TYPE,
     )
-    const [parameters, setParameters] = useState(vapixParams)
-    const [naturalAspectRatio, setNaturalAspectRatio] = useState(aspectRatio)
-    const [isOpen, setToggleStats] = useSwitch()
 
-    // persist all vapix parameters
+    /**
+     * VAPIX parameters
+     */
+    const [parameters, setParameters] = useState(vapixParams)
     window.localStorage.setItem('vapix', JSON.stringify(parameters))
 
-    const onToggle = useCallback(() => {
+    /**
+     * Stats overlay
+     */
+    const [showStatsOverlay, toggleStatsOverlay] = useSwitch(
+      window.localStorage.getItem('stats-overlay') === 'on',
+    )
+    window.localStorage.setItem(
+      'stats-overlay',
+      showStatsOverlay ? 'on' : 'off',
+    )
+
+    /**
+     * Controls
+     */
+
+    const onPlayPause = useCallback(() => {
       if (play) {
         setPlay(false)
       } else {
@@ -137,14 +159,40 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       return () => document.removeEventListener('visibilitychange', cb)
     }, [hostname])
 
+    /**
+     * Aspect ratio
+     *
+     * This needs to be set so make the Container (and Layers) match the size of
+     * the visible image of the video or still image.
+     */
+
+    const [videoProperties, setVideoProperties] = useState<VideoProperties>()
     const onPlaying = useCallback(
-      (videoProperties: VideoProperties) => {
-        const { width, height } = videoProperties
-        setNaturalAspectRatio(width / height)
+      (props: VideoProperties) => {
+        setVideoProperties(props)
         setWaiting(false)
       },
-      [setWaiting, setNaturalAspectRatio],
+      [setWaiting],
     )
+
+    const naturalAspectRatio = useMemo(() => {
+      if (videoProperties === undefined) {
+        return undefined
+      }
+      const { width, height } = videoProperties
+      return width / height
+    }, [videoProperties])
+
+    /**
+     * Render
+     *
+     * Each layer is positioned exactly on top of the visible image, since the
+     * aspect ratio is carried over to the container, and the layers match the
+     * container size.
+     *
+     * There is a layer for the spinner (feedback), a statistics overlay, and a
+     * control bar with play/pause/stop/refresh and a settings menu.
+     */
 
     return (
       <Container aspectRatio={naturalAspectRatio}>
@@ -165,20 +213,23 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
           <Feedback waiting={waiting} />
         </Layer>
         <Layer>
-          <Stats
-            api={api}
-            parameters={parameters}
-            host={host}
-            open={isOpen}
-            refresh={refresh}
-          />
+          {showStatsOverlay && videoProperties !== undefined ? (
+            <Stats
+              api={api}
+              parameters={parameters}
+              videoProperties={videoProperties}
+              host={host}
+              open={showStatsOverlay}
+              refresh={refresh}
+            />
+          ) : null}
         </Layer>
         <Layer>
           <Controls
             play={play}
             src={host}
             parameters={parameters}
-            onPlay={onToggle}
+            onPlay={onPlayPause}
             onStop={onStop}
             onRefresh={onRefresh}
             onFormat={onFormat}
@@ -190,7 +241,8 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
               refresh: 'Refresh',
               settings: 'Settings',
             }}
-            toggleStats={setToggleStats}
+            showStatsOverlay={showStatsOverlay}
+            toggleStats={toggleStatsOverlay}
           />
         </Layer>
       </Container>
