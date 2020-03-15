@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import useUserActive from './hooks/useUserActive'
 
-import { Button } from './Button'
+import { Button } from './components/Button'
 import { Format } from './Player'
 import { Play, Pause, Stop, Refresh, CogWheel } from './img'
 import { Settings } from './Settings'

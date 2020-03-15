@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { Format } from './Player'
 import { VapixParameters } from './PlaybackArea'
+import { Switch } from './components/Switch'
 
 const SettingsMenu = styled.div`
   font-family: sans-serif;
@@ -135,9 +136,8 @@ export const Settings: React.FC<SettingsProps> = ({
       </SettingsItem>
       <SettingsItem>
         <div>Text overlay</div>
-        <input
+        <Switch
           name="text"
-          type="checkbox"
           checked={parameters['text'] === '1'}
           onChange={changeParam}
         />
