@@ -108,3 +108,11 @@ Date: Tue, 23 Jun 2015 08:38:03 GMT
 `
   .split('\n')
   .join('\r\n')
+
+// Example response from issue #310, with lower-case "cseq"
+export const optionsResponseLowerCase = `RTSP/1.0 200 OK
+Server: H264DVR 1.0
+cseq: 1
+Public: OPTIONS, DESCRIBE, SETUP, TEARDOWN, GET_PARAMETER, PLAY, PAUSE
+
+`
