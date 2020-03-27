@@ -30,12 +30,12 @@ export class WSSource extends Source {
      */
     const incoming = new Readable({
       objectMode: true,
-      read: function() {
+      read: function () {
         //
       },
     })
 
-    socket.onmessage = msg => {
+    socket.onmessage = (msg) => {
       const buffer = Buffer.from(msg.data)
       if (!incoming.push({ data: buffer, type: MessageType.RAW })) {
         // Something happened down stream that it is no longer processing the
@@ -50,7 +50,7 @@ export class WSSource extends Source {
     }
 
     // When an error is sent on the incoming stream, close the socket.
-    incoming.on('error', e => {
+    incoming.on('error', (e) => {
       console.warn('closing socket due to incoming error', e)
       socket.close()
     })
@@ -61,7 +61,7 @@ export class WSSource extends Source {
      */
     const outgoing = new Writable({
       objectMode: true,
-      write: function(msg, encoding, callback) {
+      write: function (msg, encoding, callback) {
         try {
           socket.send(msg.data)
         } catch (e) {
@@ -72,7 +72,7 @@ export class WSSource extends Source {
     })
 
     // When an error happens on the outgoing stream, just warn.
-    outgoing.on('error', e => {
+    outgoing.on('error', (e) => {
       console.warn('error during websocket send, ignoring:', e)
     })
 
@@ -92,7 +92,7 @@ export class WSSource extends Source {
      *   https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
      * @return {undefined}
      */
-    socket.onclose = e => {
+    socket.onclose = (e) => {
       debug('msl:websocket:close')(`${e.code}`)
       if (e.code === CLOSE_GOING_AWAY) {
         this.onServerClose && this.onServerClose()
@@ -113,6 +113,6 @@ export class WSSource extends Source {
    * resolves with a new WebSocketComponent.
    */
   static open(config?: WSConfig) {
-    return openWebSocket(config).then(socket => new WSSource(socket))
+    return openWebSocket(config).then((socket) => new WSSource(socket))
   }
 }

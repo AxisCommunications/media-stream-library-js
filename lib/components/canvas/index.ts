@@ -128,7 +128,7 @@ export class CanvasSink extends Sink {
         info.renderedFrames++
         window
           .createImageBitmap(blob)
-          .then(imageBitmap => {
+          .then((imageBitmap) => {
             ctxBitmaprenderer.transferFromImageBitmap(imageBitmap)
           })
           .catch(() => {
@@ -249,7 +249,7 @@ export class CanvasSink extends Sink {
     // Set up an outgoing stream.
     const outgoing = new Readable({
       objectMode: true,
-      read: function() {
+      read: function () {
         //
       },
     })

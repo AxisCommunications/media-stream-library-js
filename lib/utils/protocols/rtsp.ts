@@ -84,14 +84,14 @@ export const range = (buffer: Buffer) => {
  */
 export const bodyOffset = (chunk: Buffer) => {
   const bodyOffsets = ['\n\n', '\r\r', '\r\n\r\n']
-    .map(s => {
+    .map((s) => {
       const offset = chunk.indexOf(s)
       if (offset !== -1) {
         return offset + s.length
       }
       return offset
     })
-    .filter(offset => offset !== -1)
+    .filter((offset) => offset !== -1)
   if (bodyOffsets.length > 0) {
     return bodyOffsets.reduce((acc, offset) => {
       return Math.min(acc, offset)

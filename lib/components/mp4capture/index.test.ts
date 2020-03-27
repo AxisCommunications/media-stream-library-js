@@ -12,7 +12,7 @@ const MOCK_MOVIE_ENDING_DATA = 0xfe
 // We want to simulate the beginning and end of a movie, as well
 // as non-movie packets.
 const MOCK_MOVIE = [MessageType.SDP, MessageType.ISOM, MessageType.ISOM].map(
-  type => {
+  (type) => {
     return { type, data: Buffer.allocUnsafe(1).fill(MOCK_MOVIE_DATA) }
   },
 )
@@ -23,11 +23,11 @@ const MOCK_MOVIE_ENDING = [
   MessageType.ISOM,
   MessageType.ISOM,
   MessageType.ISOM,
-].map(type => {
+].map((type) => {
   return { type, data: Buffer.allocUnsafe(1).fill(MOCK_MOVIE_ENDING_DATA) }
 })
 
-const MOCK_NOT_MOVIE = ['', ''].map(type => {
+const MOCK_NOT_MOVIE = ['', ''].map((type) => {
   return {
     type: (type as unknown) as MessageType, // Intentionally bad type for testing
     data: Buffer.allocUnsafe(1).fill(0),
@@ -36,8 +36,8 @@ const MOCK_NOT_MOVIE = ['', ''].map(type => {
 
 const copySpies = (type: MessageType, messages: GenericMessage[]) => {
   return messages
-    .filter(msg => msg.type === type)
-    .map(msg => jest.spyOn(msg.data, 'copy'))
+    .filter((msg) => msg.type === type)
+    .map((msg) => jest.spyOn(msg.data, 'copy'))
 }
 
 /**
@@ -69,7 +69,7 @@ describe('it should follow standard component rules', () => {
 })
 
 describe('data copying', () => {
-  test('should not occur when capture inactive', done => {
+  test('should not occur when capture inactive', (done) => {
     const pipeline = pipelineFactory(MOCK_MOVIE)
 
     // Spy on the copy method of the underlying movie data.
@@ -79,13 +79,13 @@ describe('data copying', () => {
     pipeline.flow()
 
     pipeline.sink.incoming.on('finish', () => {
-      shouldNotCopy.forEach(copy => expect(copy).not.toHaveBeenCalled())
+      shouldNotCopy.forEach((copy) => expect(copy).not.toHaveBeenCalled())
       expect(pipeline.sinkHandler.mock.calls.length).toBe(MOCK_MOVIE.length)
       done()
     })
   })
 
-  test('should occur when capture active', done => {
+  test('should occur when capture active', (done) => {
     const pipeline = pipelineFactory(MOCK_MOVIE)
 
     // Spy on the copy method of the underlying movie data.
@@ -99,13 +99,13 @@ describe('data copying', () => {
     pipeline.flow()
 
     pipeline.sink.incoming.on('finish', () => {
-      shouldCopy.forEach(copy => expect(copy).toHaveBeenCalled())
+      shouldCopy.forEach((copy) => expect(copy).toHaveBeenCalled())
       expect(captureHandler).toHaveBeenCalledWith(MOCK_MOVIE_BUFFER)
       done()
     })
   })
 
-  test('should only occur when new movie has started', done => {
+  test('should only occur when new movie has started', (done) => {
     const pipeline = pipelineFactory(MOCK_MOVIE_ENDING, MOCK_MOVIE)
 
     const shouldNotCopy = copySpies(MessageType.ISOM, MOCK_MOVIE_ENDING)
@@ -119,14 +119,14 @@ describe('data copying', () => {
     pipeline.flow()
 
     pipeline.sink.incoming.on('finish', () => {
-      shouldNotCopy.forEach(copy => expect(copy).not.toHaveBeenCalled())
-      shouldCopy.forEach(copy => expect(copy).toHaveBeenCalled())
+      shouldNotCopy.forEach((copy) => expect(copy).not.toHaveBeenCalled())
+      shouldCopy.forEach((copy) => expect(copy).toHaveBeenCalled())
       expect(captureHandler).toHaveBeenCalledWith(MOCK_MOVIE_BUFFER)
       done()
     })
   })
 
-  test('should not occur when not a movie', done => {
+  test('should not occur when not a movie', (done) => {
     const pipeline = pipelineFactory(MOCK_MOVIE, MOCK_NOT_MOVIE)
 
     const shouldCopy = copySpies(MessageType.ISOM, MOCK_MOVIE)
@@ -140,14 +140,14 @@ describe('data copying', () => {
     pipeline.flow()
 
     pipeline.sink.incoming.on('finish', () => {
-      shouldCopy.forEach(copy => expect(copy).toHaveBeenCalled())
-      shouldNotCopy.forEach(copy => expect(copy).not.toHaveBeenCalled())
+      shouldCopy.forEach((copy) => expect(copy).toHaveBeenCalled())
+      shouldNotCopy.forEach((copy) => expect(copy).not.toHaveBeenCalled())
       expect(captureHandler).toHaveBeenCalledWith(MOCK_MOVIE_BUFFER)
       done()
     })
   })
 
-  test('should stop when requested', done => {
+  test('should stop when requested', (done) => {
     const pipeline = pipelineFactory(MOCK_MOVIE, MOCK_MOVIE_ENDING)
 
     const shouldCopy = copySpies(MessageType.ISOM, MOCK_MOVIE)
@@ -156,7 +156,7 @@ describe('data copying', () => {
     // Activate capture.
     const captureHandler = jest.fn()
     pipeline.capture.start(captureHandler)
-    pipeline.source.incoming.on('data', msg => {
+    pipeline.source.incoming.on('data', (msg) => {
       if (msg.data[0] === 0xfe) {
         pipeline.capture.stop()
       }
@@ -166,8 +166,8 @@ describe('data copying', () => {
     pipeline.flow()
 
     pipeline.sink.incoming.on('finish', () => {
-      shouldCopy.forEach(copy => expect(copy).toHaveBeenCalled())
-      shouldNotCopy.forEach(copy => expect(copy).not.toHaveBeenCalled())
+      shouldCopy.forEach((copy) => expect(copy).toHaveBeenCalled())
+      shouldNotCopy.forEach((copy) => expect(copy).not.toHaveBeenCalled())
       expect(captureHandler).toHaveBeenCalledWith(MOCK_MOVIE_BUFFER)
       done()
     })

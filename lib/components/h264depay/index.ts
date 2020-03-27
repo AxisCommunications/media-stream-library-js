@@ -16,7 +16,7 @@ export class H264Depay extends Tube {
 
     const incoming = new Transform({
       objectMode: true,
-      transform: function(msg: Message, encoding, callback) {
+      transform: function (msg: Message, encoding, callback) {
         // Get correct payload types from sdp to identify video and audio
         if (msg.type === MessageType.SDP) {
           const h264Media = msg.sdp.media.find((media): media is VideoMedia => {

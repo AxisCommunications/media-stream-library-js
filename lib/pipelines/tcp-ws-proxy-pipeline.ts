@@ -8,7 +8,7 @@ export class TcpWsProxyPipeline extends Pipeline {
 
   constructor(config = {}) {
     const wss = new Server(config)
-    wss.on('connection', socket => {
+    wss.on('connection', (socket) => {
       const wsSink = new WSSink(socket)
       const tcpSource = new TcpSource()
 

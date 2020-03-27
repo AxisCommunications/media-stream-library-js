@@ -15,7 +15,7 @@ export class ONVIFDepay extends Tube {
 
     const incoming = new Transform({
       objectMode: true,
-      transform: function(msg: Message, encoding, callback) {
+      transform: function (msg: Message, encoding, callback) {
         if (msg.type === MessageType.SDP) {
           let validMedia
           for (const media of msg.sdp.media) {

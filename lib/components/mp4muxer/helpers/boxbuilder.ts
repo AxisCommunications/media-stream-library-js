@@ -156,7 +156,7 @@ export class BoxBuilder {
     let trackId = 0
     this.trackData = []
 
-    sdp.media.forEach(media => {
+    sdp.media.forEach((media) => {
       if (media.rtpmap === undefined) {
         return
       }

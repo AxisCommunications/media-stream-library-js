@@ -7,7 +7,7 @@ const fakeStorage = jest.fn()
 const recorder = new Recorder(StreamFactory.consumer(fakeStorage))
 runComponentTests(recorder, 'websocket component')
 
-test('recorder saves data', done => {
+test('recorder saves data', (done) => {
   const fakeStorage = jest.fn()
   const recorder = new Recorder(StreamFactory.consumer(fakeStorage))
 
@@ -22,7 +22,7 @@ test('recorder saves data', done => {
   // Wait for stream to end, then check what has happened.
   sink.incoming.on('finish', () => {
     expect(logger).toHaveBeenCalledTimes(send.length)
-    const receive = logger.mock.calls.map(args => args[0])
+    const receive = logger.mock.calls.map((args) => args[0])
     expect(send).toEqual(receive)
     done()
   })

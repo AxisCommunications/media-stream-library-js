@@ -45,10 +45,10 @@ export class DigestAuth {
 
     const qop = params.get('qop')
     if (qop !== undefined) {
-      const possibleQops = qop.split(',').map(qopType => qopType.trim())
-      if (possibleQops.some(qopValue => qopValue === 'auth')) {
+      const possibleQops = qop.split(',').map((qopType) => qopType.trim())
+      if (possibleQops.some((qopValue) => qopValue === 'auth')) {
         this.qop = 'auth'
-      } else if (possibleQops.some(qopValue => qopValue === 'auth-int')) {
+      } else if (possibleQops.some((qopValue) => qopValue === 'auth-int')) {
         this.qop = 'auth-int'
       }
     }
@@ -66,7 +66,7 @@ export class DigestAuth {
     return new Array(4)
       .fill(0)
       .map(() => Math.floor(Math.random() * 256))
-      .map(n => n.toString(16))
+      .map((n) => n.toString(16))
       .join('')
   }
 

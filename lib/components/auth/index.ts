@@ -33,7 +33,7 @@ export class Auth extends Tube {
     let lastSentMessage: RtspMessage
     let authHeader: string
 
-    const outgoing = createTransform(function(
+    const outgoing = createTransform(function (
       msg: Message,
       encoding,
       callback,
@@ -48,7 +48,7 @@ export class Auth extends Tube {
       callback(undefined, msg)
     })
 
-    const incoming = createTransform(function(
+    const incoming = createTransform(function (
       msg: Message,
       encoding,
       callback,
@@ -58,7 +58,7 @@ export class Auth extends Tube {
         statusCode(msg.data) === UNAUTHORIZED
       ) {
         const headers = msg.data.toString().split('\n')
-        const wwwAuth = headers.find(header => /WWW-Auth/i.test(header))
+        const wwwAuth = headers.find((header) => /WWW-Auth/i.test(header))
         if (wwwAuth === undefined) {
           throw new Error('cannot find WWW-Authenticate header')
         }

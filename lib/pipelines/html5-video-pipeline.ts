@@ -55,7 +55,7 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
     this._sink = mseSink
 
     const waitForWs = WSSource.open(wsConfig)
-    this.ready = waitForWs.then(wsSource => {
+    this.ready = waitForWs.then((wsSource) => {
       wsSource.onServerClose = () => {
         this.onServerClose && this.onServerClose()
       }

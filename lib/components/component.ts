@@ -106,12 +106,12 @@ export class Source extends AbstractComponent {
      * to all previous streams (but not further than any endpoints). What happens
      * when an error is emitted on a stream is up to the stream's implementation.
      */
-    const incomingErrorHandler: ErrorEventHandler = err => {
+    const incomingErrorHandler: ErrorEventHandler = (err) => {
       this.incoming.emit('error', err)
     }
     next.incoming.on('error', incomingErrorHandler)
 
-    const outgoingErrorHandler: ErrorEventHandler = err => {
+    const outgoingErrorHandler: ErrorEventHandler = (err) => {
       next.outgoing.emit('error', err)
     }
     this.outgoing.on('error', outgoingErrorHandler)
