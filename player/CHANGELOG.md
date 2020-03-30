@@ -1,3 +1,17 @@
+# [1.2.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v1.1.3...v1.2.0) (2020-03-30)
+
+
+### Bug Fixes
+
+* apply prettier code formatting ([589dc60](https://github.com/AxisCommunications/media-stream-player-js/commit/589dc60c475ce06837bf63266381b9a66d74155c))
+
+
+### Features
+
+* Stream statistics ([9d6e938](https://github.com/AxisCommunications/media-stream-player-js/commit/9d6e93879587361b49b96bf72bf6e87ba7443115))
+
+
+
 ## [1.1.3](https://github.com/AxisCommunications/media-stream-player-js/compare/v1.1.2...v1.1.3) (2020-03-13)
 
 
