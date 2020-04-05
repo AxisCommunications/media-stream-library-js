@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["./index.tsx"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "media-overlay-library": ["../lib/"]
+    }
+  }
+}

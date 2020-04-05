@@ -1,0 +1,15 @@
+# Logs
+*.log
+
+# Coverage directory (tests with coverage)
+coverage/
+
+# Bundles
+dist/
+
+# Dependencies
+node_modules/
+
+# Editors
+.vscode/
+.idea/
