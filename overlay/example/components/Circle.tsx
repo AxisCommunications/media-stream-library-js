@@ -30,10 +30,6 @@ interface CircleProps extends React.SVGProps<SVGCircleElement> {
    * A coordinate pair [x, y] that represents the middle of the circle.
    */
   readonly pos: Coord
-  /**
-   * Callback with new coordinates when they were changed.
-   */
-  readonly onChangePos: (pos: Coord) => void
 }
 
 export const Circle: React.FC<CircleProps> = ({ pos, ...circleProps }) => {
@@ -144,7 +140,7 @@ export const FastDraggableCircle: React.FC<DraggableCircleProps> = ({
       const [x0, y0] = toSvgBasis(pos)
       const updatePosition: DraggableHandler = (
         { vector: [tx, ty] },
-        ended
+        ended,
       ) => {
         const newSvgPos: Coord = clampCoord([x0 + tx, y0 + ty])
         circleEl.setAttribute('cx', String(newSvgPos[0]))
