@@ -29,3 +29,18 @@ Automated tests are run for all pull requests with GitHub Actions, for which
 the configuration can be found in the `.github/workflows/ci.yml` file. These
 are required to pass before a PR can be merged, so please keep your PR
 up-to-date by merging the latest `master` branch.
+
+## Releases (internal)
+
+When tags are pushed, an automated deploy will release to both Github and NPM.
+Any tags that are prereleases will be tagged `next` for NPM, otherwise `latest`
+is used.
+
+To release, make sure you are on the master branch and run:
+
+```
+yarn release
+git push --follow-tags
+```
+
+after which the pushed tag will cause a build + deploy through GitHub Actions.
