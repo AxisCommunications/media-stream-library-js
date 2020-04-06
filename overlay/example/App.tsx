@@ -40,7 +40,7 @@ const App: React.FC = () => {
   const [circle3Pos, setCircle3Pos] = useState<Coord>([-0.5, -0.3001])
 
   return (
-    <div>
+    <div className="main">
       <header>
         <h1>Welcome to media-overlay-library</h1>
       </header>
