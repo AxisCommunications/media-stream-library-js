@@ -61,7 +61,14 @@ export const Text: React.FC<TextProps> = ({
   const [x, y] = toSvgBasis([userX, userY])
 
   return (
-    <SvgText ref={textRef} x={x} y={y} {...props} onPointerDown={startDragging}>
+    <SvgText
+      name="text"
+      ref={textRef}
+      x={x}
+      y={y}
+      {...props}
+      onPointerDown={startDragging}
+    >
       {children}
     </SvgText>
   )
