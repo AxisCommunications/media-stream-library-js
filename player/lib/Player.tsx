@@ -79,7 +79,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
 
     const onRefresh = useCallback(() => {
       setPlay(true)
-      setRefresh(value => value + 1)
+      setRefresh((value) => value + 1)
       setWaiting(true)
     }, [])
 
@@ -105,7 +105,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
         default:
         // no-op
       }
-      setRefresh(value => value + 1)
+      setRefresh((value) => value + 1)
     }
 
     const onVapix = (key: string, value: string) => {
@@ -117,7 +117,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
 
         return { ...p, [key]: value }
       })
-      setRefresh(value => value + 1)
+      setRefresh((value) => value + 1)
     }
 
     useEffect(() => {

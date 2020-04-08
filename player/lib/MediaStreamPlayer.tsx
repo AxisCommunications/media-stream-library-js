@@ -45,7 +45,7 @@ export class MediaStreamPlayer extends HTMLElement {
         .then(() => {
           ReactDOM.render(<Player hostname={hostname} />, this)
         })
-        .catch(err => {
+        .catch((err) => {
           console.error(`Authorization failed: ${err.message}`)
         })
     }
