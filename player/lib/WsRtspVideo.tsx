@@ -186,14 +186,24 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
     }
   }, [ws, rtsp])
 
-  if (play && pipeline && !fetching) {
-    pipeline.ready.then(() => {
-      debugLog('fetch')
-      pipeline.onSdp = onSdp
-      pipeline.rtsp.play()
-      setFetching(true)
-    })
-  }
+  // keep a stable reference to the external SDP handler
+  const __onSdpRef = useRef(onSdp)
+  __onSdpRef.current = onSdp
+
+  useEffect(() => {
+    if (play && pipeline && !fetching) {
+      pipeline.ready.then(() => {
+        debugLog('fetch')
+        pipeline.onSdp = sdp => {
+          if (__onSdpRef.current !== undefined) {
+            __onSdpRef.current(sdp)
+          }
+        }
+        pipeline.rtsp.play()
+        setFetching(true)
+      })
+    }
+  }, [play, pipeline, fetching])
 
   return <VideoNative autoPlay={autoPlay} muted={muted} ref={videoRef} />
 }
