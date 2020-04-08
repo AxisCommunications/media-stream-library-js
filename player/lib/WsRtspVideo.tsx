@@ -106,7 +106,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
 
     if (play && canplay && !playing) {
       debugLog('play')
-      videoEl.play().catch(err => {
+      videoEl.play().catch((err) => {
         console.error('VideoElement error: ', err.message)
       })
     } else if (!play && playing) {
@@ -164,7 +164,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
 
         // Add extra components to the pipeline.
         const onvifDepay = new components.ONVIFDepay()
-        const onvifHandlerPipe = components.Tube.fromHandlers(msg => {
+        const onvifHandlerPipe = components.Tube.fromHandlers((msg) => {
           if (msg.type === MessageType.XML) {
             xmlMessageHandler(msg)
           }
@@ -194,7 +194,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
     if (play && pipeline && !fetching) {
       pipeline.ready.then(() => {
         debugLog('fetch')
-        pipeline.onSdp = sdp => {
+        pipeline.onSdp = (sdp) => {
           if (__onSdpRef.current !== undefined) {
             __onSdpRef.current(sdp)
           }
