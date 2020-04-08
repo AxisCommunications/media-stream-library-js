@@ -1,7 +1,7 @@
 import React, { Ref } from 'react'
 import { Sdp } from 'media-stream-library/lib/utils/protocols/sdp'
 
-import { RefType } from './Player'
+import { PlayerNativeElement } from './Player'
 import { WsRtspVideo, MetadataMessage } from './WsRtspVideo'
 import { WsRtspCanvas } from './WsRtspCanvas'
 import { StillImage } from './StillImage'
@@ -15,13 +15,17 @@ export interface VapixParameters {
 }
 
 export interface VideoProperties {
-  readonly el: HTMLVideoElement | HTMLCanvasElement | HTMLImageElement
+  readonly el: PlayerNativeElement
   readonly width: number
   readonly height: number
+  readonly media?: ReadonlyArray<{
+    readonly type: 'video' | 'audio' | 'data'
+    readonly mime: string
+  }>
 }
 
 interface PlaybackAreaProps {
-  forwardedRef?: RefType
+  forwardedRef?: Ref<PlayerNativeElement>
   host: string
   api: string
   parameters?: VapixParameters
