@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, Ref, useEffect, useCallback } from 'react'
+import React, { useState, forwardRef, useEffect, useCallback } from 'react'
 
 import { Container, Layer } from './Container'
 import {
@@ -27,9 +27,10 @@ interface PlayerProps {
   aspectRatio?: number
 }
 
-export type RefType = Ref<
-  HTMLVideoElement | HTMLCanvasElement | HTMLImageElement
->
+export type PlayerNativeElement =
+  | HTMLVideoElement
+  | HTMLCanvasElement
+  | HTMLImageElement
 
 export type Format = 'H264' | 'MJPEG' | 'JPEG'
 
@@ -39,7 +40,7 @@ export const FORMAT_API = {
   JPEG: AXIS_IMAGE_CGI,
 }
 
-export const Player: React.FC<PlayerProps> = forwardRef(
+export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
   (
     {
       hostname,
@@ -50,7 +51,7 @@ export const Player: React.FC<PlayerProps> = forwardRef(
       metadataHandler,
       aspectRatio,
     },
-    ref: RefType,
+    ref,
   ) => {
     const [play, setPlay] = useState(autoPlay || false)
     const [refresh, setRefresh] = useState(0)
