@@ -22,9 +22,9 @@ export class RtspParser extends Tube {
     // Incoming stream
     const incoming = new Transform({
       objectMode: true,
-      transform: function(msg: Message, encoding, callback) {
+      transform: function (msg: Message, encoding, callback) {
         if (msg.type === MessageType.RAW) {
-          parser.parse(msg.data).forEach(message => incoming.push(message))
+          parser.parse(msg.data).forEach((message) => incoming.push(message))
           callback()
         } else {
           // Not a message we should handle
@@ -36,7 +36,7 @@ export class RtspParser extends Tube {
     // Outgoing stream
     const outgoing = new Transform({
       objectMode: true,
-      transform: function(msg: Message, encoding, callback) {
+      transform: function (msg: Message, encoding, callback) {
         if (msg.type === MessageType.RTSP) {
           const data = builder(msg)
           callback(undefined, { type: MessageType.RAW, data })

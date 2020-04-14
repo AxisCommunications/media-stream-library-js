@@ -38,7 +38,7 @@ export class WsSdpPipeline extends RtspPipeline {
     }
 
     const waitForWs = WSSource.open(wsConfig)
-    this.ready = waitForWs.then(wsSource => {
+    this.ready = waitForWs.then((wsSource) => {
       wsSource.onServerClose = () => {
         this.onServerClose && this.onServerClose()
       }
@@ -53,7 +53,7 @@ export class WsSdpPipeline extends RtspPipeline {
 
   get sdp() {
     return this.ready.then(() => {
-      const sdpPromise = new Promise(resolve => {
+      const sdpPromise = new Promise((resolve) => {
         this.rtsp.onSdp = resolve
       })
       this.rtsp.send({ method: RTSP_METHOD.DESCRIBE })

@@ -47,7 +47,7 @@ export class MseSink extends Sink {
 
           // Set up a list of tracks that contain info about
           // the type of media, encoding, and codec are present.
-          const tracks = msg.sdp.media.map(media => {
+          const tracks = msg.sdp.media.map((media) => {
             return {
               type: media.type,
               encoding: media.rtpmap && media.rtpmap.encodingName,
@@ -65,8 +65,8 @@ export class MseSink extends Sink {
             mse.removeEventListener('sourceopen', handler)
             this.onSourceOpen && this.onSourceOpen(mse, tracks)
             const mimeCodecs = tracks
-              .map(track => track.mime)
-              .filter(mime => mime)
+              .map((track) => track.mime)
+              .filter((mime) => mime)
               .join(', ')
             sourceBuffer = this.addSourceBuffer(
               el,
@@ -120,7 +120,7 @@ export class MseSink extends Sink {
      */
     const outgoing = new Readable({
       objectMode: true,
-      read: function() {
+      read: function () {
         //
       },
     })

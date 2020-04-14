@@ -24,7 +24,7 @@ export class Recorder extends Tube {
     const streamsFinished = []
     for (const [key, value] of Object.entries(interleaved)) {
       streamsFinished.push(
-        new Promise(resolve =>
+        new Promise((resolve) =>
           value.on('finish', () => {
             const timestamp = Date.now()
             const message = null

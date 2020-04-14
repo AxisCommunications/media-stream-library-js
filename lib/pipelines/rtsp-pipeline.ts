@@ -25,11 +25,11 @@ export class RtspPipeline extends Pipeline {
     const rtspParser = new RtspParser()
     const rtspSession = new RtspSession(rtspConfig)
 
-    rtspSession.onSdp = sdp => {
+    rtspSession.onSdp = (sdp) => {
       this.onSdp && this.onSdp(sdp)
     }
 
-    rtspSession.onPlay = range => {
+    rtspSession.onPlay = (range) => {
       this.onPlay && this.onPlay(range)
     }
 

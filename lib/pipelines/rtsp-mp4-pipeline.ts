@@ -26,7 +26,7 @@ export class RtspMp4Pipeline extends RtspPipeline {
     const aacDepay = new AACDepay()
     const mp4Muxer = new Mp4Muxer()
 
-    mp4Muxer.onSync = ntpPresentationTime => {
+    mp4Muxer.onSync = (ntpPresentationTime) => {
       this.onSync && this.onSync(ntpPresentationTime)
     }
 

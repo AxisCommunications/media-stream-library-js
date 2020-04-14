@@ -58,7 +58,7 @@ Date: Wed, 03 Jun 2015 14:23:48 GMT
 `,
 ]
 
-export const responses = responsesRaw.map(item => {
+export const responses = responsesRaw.map((item) => {
   return item.split('\n').join('\r\n')
 })
 

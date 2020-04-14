@@ -61,14 +61,14 @@ export class Html5CanvasPipeline extends RtspMjpegPipeline {
       canvasSink.play()
       this.onCanplay && this.onCanplay()
     }
-    canvasSink.onSync = ntpPresentationTime => {
+    canvasSink.onSync = (ntpPresentationTime) => {
       this.onSync && this.onSync(ntpPresentationTime)
     }
     this.append(canvasSink)
     this._sink = canvasSink
 
     const waitForWs = WSSource.open(wsConfig)
-    this.ready = waitForWs.then(wsSource => {
+    this.ready = waitForWs.then((wsSource) => {
       wsSource.onServerClose = () => {
         this.onServerClose && this.onServerClose()
       }

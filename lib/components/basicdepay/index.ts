@@ -16,7 +16,7 @@ export class BasicDepay extends Tube {
 
     let buffer = Buffer.alloc(0)
 
-    const incoming = createTransform(function(
+    const incoming = createTransform(function (
       msg: Message,
       encoding,
       callback,

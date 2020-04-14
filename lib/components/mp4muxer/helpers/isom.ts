@@ -220,7 +220,7 @@ class UInt64BE extends BoxElement {
  * @param  {Number} [sizeMask=0x00]  A bit mask to use for the size.
  * @return {Class}  An element type that groups parameter sets.
  */
-const createParameterSetArrayClass = function(sizeMask = 0x00) {
+const createParameterSetArrayClass = function (sizeMask = 0x00) {
   return class ParameterSetArray extends BoxElement {
     public value: any[]
     /**
