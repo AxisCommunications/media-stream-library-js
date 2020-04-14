@@ -22,7 +22,7 @@ export class Replayer extends Source {
 
     const incoming = new Readable({
       objectMode: true,
-      read: function() {
+      read: function () {
         //
       },
     })
@@ -47,7 +47,7 @@ export class Replayer extends Source {
 
     const outgoing = new Writable({
       objectMode: true,
-      write: function(msg, encoding, callback) {
+      write: function (msg, encoding, callback) {
         start().catch(() => {
           /** ignore */
         }) // resume streaming

@@ -47,7 +47,7 @@ export class AACDepay extends Tube {
     let AACPayloadType: number
     let hasHeader: boolean
 
-    const incoming = createTransform(function(
+    const incoming = createTransform(function (
       msg: Message,
       encoding,
       callback,

@@ -24,7 +24,7 @@ export class Mp4Muxer extends Tube {
     }
     const incoming = new Transform({
       objectMode: true,
-      transform: function(msg: Message, encoding, callback) {
+      transform: function (msg: Message, encoding, callback) {
         if (msg.type === MessageType.SDP) {
           /**
            * Arrival of SDP signals the beginning of a new movie.
@@ -111,14 +111,14 @@ export class Mp4Muxer extends Tube {
   get bitrate() {
     return (
       this.boxBuilder.trackData &&
-      this.boxBuilder.trackData.map(data => data.bitrate)
+      this.boxBuilder.trackData.map((data) => data.bitrate)
     )
   }
 
   get framerate() {
     return (
       this.boxBuilder.trackData &&
-      this.boxBuilder.trackData.map(data => data.framerate)
+      this.boxBuilder.trackData.map((data) => data.framerate)
     )
   }
 

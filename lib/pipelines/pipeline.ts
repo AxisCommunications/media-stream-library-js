@@ -103,7 +103,7 @@ export class Pipeline {
   }
 
   append(...components: Array<Tube | Sink>) {
-    components.forEach(component => {
+    components.forEach((component) => {
       this.insertAfter(this.lastComponent as Source | Tube, component)
     })
 
@@ -111,7 +111,7 @@ export class Pipeline {
   }
 
   prepend(...components: Array<Source | Tube>) {
-    components.forEach(component => {
+    components.forEach((component) => {
       this.insertBefore(this.firstComponent as Tube | Sink, component)
     })
 

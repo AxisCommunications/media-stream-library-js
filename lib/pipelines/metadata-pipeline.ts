@@ -34,7 +34,7 @@ export class MetadataPipeline extends RtspPipeline {
 
     const onvifDepay = new ONVIFDepay()
     this.append(onvifDepay)
-    const handlerSink = Sink.fromHandler(msg => {
+    const handlerSink = Sink.fromHandler((msg) => {
       if (msg.type === MessageType.XML) {
         metadataHandler(msg)
       }
@@ -42,7 +42,7 @@ export class MetadataPipeline extends RtspPipeline {
     this.append(handlerSink)
 
     const waitForWs = WSSource.open(wsConfig)
-    this.ready = waitForWs.then(wsSource => {
+    this.ready = waitForWs.then((wsSource) => {
       wsSource.onServerClose = () => {
         this.onServerClose && this.onServerClose()
       }

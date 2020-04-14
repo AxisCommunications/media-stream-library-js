@@ -46,10 +46,7 @@
  */
 export const extractHeaderValue = (buffer: Buffer, header: string) => {
   const anchor = `\n${header.toLowerCase()}: `
-  const start = buffer
-    .toString()
-    .toLowerCase()
-    .indexOf(anchor)
+  const start = buffer.toString().toLowerCase().indexOf(anchor)
   if (start >= 0) {
     const end = buffer.indexOf('\n', start + anchor.length)
     const headerValue = buffer
@@ -169,14 +166,14 @@ export const bodyOffset = (chunk: Buffer) => {
    * flexible here and also allow LF LF or CR CR instead of CRLF CRLF.
    */
   const bodyOffsets = ['\n\n', '\r\r', '\r\n\r\n']
-    .map(s => {
+    .map((s) => {
       const offset = chunk.indexOf(s)
       if (offset !== -1) {
         return offset + s.length
       }
       return offset
     })
-    .filter(offset => offset !== -1)
+    .filter((offset) => offset !== -1)
   if (bodyOffsets.length > 0) {
     return bodyOffsets.reduce((acc, offset) => {
       return Math.min(acc, offset)

@@ -22,7 +22,7 @@ export class Html5VideoMetadataPipeline extends Html5VideoPipeline {
     const onvifDepay = new ONVIFDepay()
     this.insertAfter(this.rtsp, onvifDepay)
 
-    const onvifHandlerPipe = Tube.fromHandlers(msg => {
+    const onvifHandlerPipe = Tube.fromHandlers((msg) => {
       if (msg.type === MessageType.XML) {
         metadataHandler(msg)
       }

@@ -249,7 +249,7 @@ const attributeParsers: any = {
       default:
         const pairs = stringParameters.trim().split(';')
         const parameters: { [key: string]: any } = {}
-        pairs.forEach(pair => {
+        pairs.forEach((pair) => {
           const [key, val] = splitOnFirst('=', pair)
           const normalizedKey = key.trim().toLowerCase()
           if (normalizedKey !== '') {
@@ -283,13 +283,10 @@ const attributeParsers: any = {
     }
   },
   transform: (value: string) => {
-    return value.split(';').map(row => row.split(',').map(Number))
+    return value.split(';').map((row) => row.split(',').map(Number))
   },
   framesize: (value: string) => {
-    return value
-      .split(' ')[1]
-      .split('-')
-      .map(Number)
+    return value.split(' ')[1].split('-').map(Number)
   },
 }
 
@@ -406,7 +403,7 @@ export const parse = (buffer: Buffer): Sdp => {
   const sdp = buffer
     .toString('ascii')
     .split('\n')
-    .map(s => s.trim())
+    .map((s) => s.trim())
   const struct: { [key: string]: any } = { session: {}, media: [] }
   let mediaCounter = 0
   let current = struct.session

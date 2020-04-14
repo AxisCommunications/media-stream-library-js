@@ -50,51 +50,51 @@ describe('session', () => {
       expect(() => s.send(undefined as any)).toThrow()
     })
 
-    test('should emit a message with the correct method', done => {
+    test('should emit a message with the correct method', (done) => {
       const s = new RtspSession({ uri: 'rtsp://whatever/path' })
-      s.outgoing.once('data', msg => {
+      s.outgoing.once('data', (msg) => {
         expect(msg.method).toEqual(RTSP_METHOD.DESCRIBE)
         done()
       })
       s.send({ method: RTSP_METHOD.DESCRIBE })
     })
 
-    test('should use 1 as first sequence', done => {
+    test('should use 1 as first sequence', (done) => {
       const s = new RtspSession({ uri: 'rtsp://whatever/path' })
-      s.outgoing.once('data', msg => {
+      s.outgoing.once('data', (msg) => {
         expect(msg.headers.CSeq).toEqual(1)
         done()
       })
       s.send({ method: RTSP_METHOD.DESCRIBE })
     })
 
-    test('should use the supplied URI', done => {
+    test('should use the supplied URI', (done) => {
       const uri = 'rtsp://whatever/path'
       const s = new RtspSession({ uri })
-      s.outgoing.once('data', req => {
+      s.outgoing.once('data', (req) => {
         expect(req.uri).toEqual(uri)
         done()
       })
       s.send({ method: RTSP_METHOD.DESCRIBE })
     })
 
-    test('should use the supplied headers', done => {
+    test('should use the supplied headers', (done) => {
       const defaultHeaders = { customheader: 'customVal' }
       const s = new RtspSession({
         uri: 'rtsp://whatever/path',
         defaultHeaders,
       })
-      s.outgoing.once('data', req => {
+      s.outgoing.once('data', (req) => {
         expect(req.headers.customheader).toEqual('customVal')
         done()
       })
       s.send({ method: RTSP_METHOD.DESCRIBE })
     })
 
-    test('should not send if incoming is closed', done => {
+    test('should not send if incoming is closed', (done) => {
       const s = new RtspSession()
       const w = new Writable()
-      w._write = function(msg, enc, next) {
+      w._write = function (msg, enc, next) {
         // consume the msg
         next()
       }
@@ -112,13 +112,13 @@ describe('session', () => {
   })
 
   describe('onIncoming', () => {
-    test('should get the controlURIs from a SDP message', done => {
+    test('should get the controlURIs from a SDP message', (done) => {
       const s = new RtspSession({ uri: 'whatever' })
       const expectedControlUri =
         'rtsp://192.168.0.90/axis-media/media.amp/stream=0?audio=1'
       const expectedControlUri2 =
         'rtsp://192.168.0.90/axis-media/media.amp/stream=1?audio=1'
-      s.outgoing.once('data', msg => {
+      s.outgoing.once('data', (msg) => {
         expect(msg.type).toEqual(MessageType.RTSP)
         expect(expectedControlUri).toEqual(msg.uri)
         expect(msg.method).toEqual('SETUP')
@@ -139,9 +139,9 @@ describe('session', () => {
       expect((s as any)._renewSessionInterval).not.toBeNull()
     })
 
-    test('should emit a Request using SETUP command', done => {
+    test('should emit a Request using SETUP command', (done) => {
       const s = new RtspSession({ uri: 'whatever' })
-      s.outgoing.on('data', msg => {
+      s.outgoing.on('data', (msg) => {
         expect(msg.type).toEqual(MessageType.RTSP)
         expect(msg.method).toEqual('SETUP')
         expect(msg.uri).toEqual(
@@ -155,9 +155,9 @@ describe('session', () => {
       s.incoming.write(messageFromBuffer(sdp))
     })
 
-    test('The SETUP request should contain the Blocksize header by default', done => {
+    test('The SETUP request should contain the Blocksize header by default', (done) => {
       const s = new RtspSession({ uri: 'whatever' })
-      s.outgoing.once('data', msg => {
+      s.outgoing.once('data', (msg) => {
         expect(msg.headers.Blocksize).toEqual('64000')
         done()
       })
@@ -166,7 +166,7 @@ describe('session', () => {
     })
   })
   describe('retry', () => {
-    test('should emit a Request with similar props', done => {
+    test('should emit a Request with similar props', (done) => {
       const s = new RtspSession({ uri: 'rtsp://whatever/path' }) as any
       s.outgoing.once('data', () => {
         s.outgoing.once('data', (retry: any) => {
@@ -179,7 +179,7 @@ describe('session', () => {
       s.send({ method: RTSP_METHOD.DESCRIBE })
     })
 
-    test('should increment the sequence', done => {
+    test('should increment the sequence', (done) => {
       const s = new RtspSession({ uri: 'rtsp://whatever/path' }) as any
       s.outgoing.once('data', (req: any) => {
         s.outgoing.once('data', (retry: any) => {
@@ -193,11 +193,11 @@ describe('session', () => {
   })
 
   describe('play', () => {
-    test('should emit 1 OPTIONS request and wait for an answer', done => {
+    test('should emit 1 OPTIONS request and wait for an answer', (done) => {
       const s = new RtspSession({ uri: 'rtsp://whatever/path' })
       let calls = 0
       let method: RTSP_METHOD
-      s.outgoing.on('data', req => {
+      s.outgoing.on('data', (req) => {
         calls++
         method = req.method
       })
@@ -213,11 +213,11 @@ describe('session', () => {
       }, 10)
     })
 
-    test('should emit 4 commands in a given sequence', done => {
+    test('should emit 4 commands in a given sequence', (done) => {
       const s = new RtspSession({ uri: 'rtsp://whatever/path' })
       let calls = 0
       const methods: RTSP_METHOD[] = []
-      s.outgoing.on('data', req => {
+      s.outgoing.on('data', (req) => {
         if (req.type !== MessageType.RTSP) {
           return
         }
@@ -247,9 +247,9 @@ describe('session', () => {
   })
 
   describe('pause', () => {
-    test('should emit 1 PAUSE request', done => {
+    test('should emit 1 PAUSE request', (done) => {
       const s = new RtspSession({ uri: 'rtsp://whatever/path' })
-      s.outgoing.once('data', req => {
+      s.outgoing.once('data', (req) => {
         expect(req.method).toEqual('PAUSE')
         done()
       })
@@ -258,7 +258,7 @@ describe('session', () => {
   })
 
   describe('stop', () => {
-    test('should emit 1 TEARDOWN request', done => {
+    test('should emit 1 TEARDOWN request', (done) => {
       const s = new RtspSession({ uri: 'rtsp://whatever/path' }) as any
       // Fake that SETUP was issued to trigger an actual TEARDOWN
       s._sessionId = '18315797286303868614'

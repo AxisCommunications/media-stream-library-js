@@ -73,14 +73,14 @@ export const openWebSocket = (config: WSConfig = {}): Promise<WebSocket> => {
           const newUri = `${uri}?rtspwssession=${token}`
           const ws2 = new WebSocket(newUri, protocol)
           ws2.binaryType = 'arraybuffer'
-          ws2.onerror = err => {
+          ws2.onerror = (err) => {
             reject(err)
           }
           ws2.onopen = () => resolve(ws2)
         }
         const request = new XMLHttpRequest()
         request.addEventListener('load', onLoadToken)
-        request.addEventListener('error', err => {
+        request.addEventListener('error', (err) => {
           console.warn('failed to get token')
           reject(err)
         })

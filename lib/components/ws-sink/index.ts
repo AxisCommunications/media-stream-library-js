@@ -28,11 +28,11 @@ export class WSSink extends Sink {
       },
     })
 
-    socket.on('message', function(data: Buffer) {
+    socket.on('message', function (data: Buffer) {
       outgoing.push({ data, type: MessageType.RAW })
     })
 
-    socket.on('close', function() {
+    socket.on('close', function () {
       outgoing.push(null)
     })
     socket.on('error', (e: Error) => {
@@ -42,7 +42,7 @@ export class WSSink extends Sink {
     })
 
     // When an error is sent on the incoming stream, close the socket.
-    incoming.on('error', e => {
+    incoming.on('error', (e) => {
       console.log('closing WebSocket due to incoming error', e)
       socket && socket.close && socket.close()
     })
@@ -53,7 +53,7 @@ export class WSSink extends Sink {
     })
 
     // When an error happens on the outgoing stream, just warn.
-    outgoing.on('error', e => {
+    outgoing.on('error', (e) => {
       console.warn('error during WebSocket send, ignoring:', e)
     })
 
