@@ -12,6 +12,7 @@ import {
   sdpResponse,
   sdpResponseLive555,
   setupResponse,
+  optionsResponseLowerCase,
   teardownResponse,
   setupResponseNoTimeout,
 } from './fixtures'
@@ -21,6 +22,7 @@ describe('Rtsp', () => {
     it('should return an int', () => {
       expect(sequence(Buffer.from(sdpResponse))).toEqual(3)
       expect(sequence(Buffer.from(setupResponse))).toEqual(5)
+      expect(sequence(Buffer.from(optionsResponseLowerCase))).toEqual(1)
     })
   })
   describe('sessionId', () => {
