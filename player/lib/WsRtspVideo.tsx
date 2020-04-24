@@ -2,19 +2,12 @@ import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import debug from 'debug'
 
-import {
-  MessageType,
-  XmlMessage,
-} from 'media-stream-library/dist/esm/components/message'
 import { Sdp } from 'media-stream-library/dist/esm/utils/protocols'
-import {
-  pipelines,
-  utils,
-  components,
-} from 'media-stream-library/dist/esm/index.browser'
+import { pipelines } from 'media-stream-library/dist/esm/index.browser'
 
 import useEventState from './hooks/useEventState'
 import { VideoProperties } from './PlaybackArea'
+import { attachMetadataHandler, MetadataHandler } from './metadata'
 
 const debugLog = debug('msp:ws-rtsp-video')
 
@@ -23,11 +16,6 @@ const VideoNative = styled.video`
   object-fit: contain;
   width: 100%;
 `
-
-export interface MetadataMessage {
-  ntpTimestamp: number
-  xmlDocument: XMLDocument
-}
 
 /**
  * WebSocket + RTSP playback component.
@@ -60,7 +48,7 @@ interface WsRtspVideoProps {
    */
   onPlaying: (videoProperties: VideoProperties) => void
   onSdp?: (msg: Sdp) => void
-  metadataHandler?: (msg: MetadataMessage) => void
+  metadataHandler?: MetadataHandler
 }
 
 export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
@@ -143,38 +131,8 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
       })
       setPipeline(pipeline)
 
-      if (metadataHandler) {
-        /**
-         * When a metadata handler is available on this component, it will be
-         * called in sync with the player, using a scheduler to synchronize the
-         * callback with the video presentation time.
-         */
-        const scheduler = new utils.Scheduler(pipeline, metadataHandler, 30)
-        const xmlParser = new DOMParser()
-
-        const xmlMessageHandler = (msg: XmlMessage) => {
-          const xmlDocument = xmlParser.parseFromString(
-            msg.data.toString(),
-            'text/xml',
-          )
-          if (msg.ntpTimestamp) {
-            scheduler.run({ ntpTimestamp: msg.ntpTimestamp, xmlDocument })
-          }
-        }
-
-        // Add extra components to the pipeline.
-        const onvifDepay = new components.ONVIFDepay()
-        const onvifHandlerPipe = components.Tube.fromHandlers((msg) => {
-          if (msg.type === MessageType.XML) {
-            xmlMessageHandler(msg)
-          }
-        }, undefined)
-        pipeline.insertAfter(pipeline.rtsp, onvifDepay)
-        pipeline.insertAfter(onvifDepay, onvifHandlerPipe)
-
-        // Initialize the scheduler when presentation time is ready
-        pipeline.onSync = (ntpPresentationTime: number) =>
-          scheduler.init(ntpPresentationTime)
+      if (metadataHandler !== undefined) {
+        attachMetadataHandler(pipeline, metadataHandler)
       }
 
       return () => {

@@ -18,9 +18,9 @@ import {
 import { Controls } from './Controls'
 import { Feedback } from './Feedback'
 import { Sdp } from 'media-stream-library/dist/esm/utils/protocols'
-import { MetadataMessage } from './WsRtspVideo'
 import { Stats } from './Stats'
 import { useSwitch } from './hooks/useSwitch'
+import { MetadataHandler } from './metadata'
 
 const DEFAULT_API_TYPE = AXIS_IMAGE_CGI
 
@@ -30,7 +30,7 @@ interface PlayerProps {
   format?: Format
   autoPlay?: boolean
   onSdp?: (msg: Sdp) => void
-  metadataHandler?: (msg: MetadataMessage) => void
+  metadataHandler?: MetadataHandler
   aspectRatio?: number
 }
 

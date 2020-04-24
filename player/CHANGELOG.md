@@ -1,3 +1,28 @@
+# [2.0.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v1.2.1...v2.0.0) (2020-04-23)
+
+
+* feat!: metadata with custom NTP timestamp ([b8f6a10](https://github.com/AxisCommunications/media-stream-player-js/commit/b8f6a10da1bef44903938d988e5b21999b873aab))
+
+
+### BREAKING CHANGES
+
+* the optional `metadataHandler` property
+has changed to an object {parser, cb} instead of a simple
+function. If you use this property, consult the TypeScript
+documentation for the new interface.
+
+
+
+## [1.2.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v1.2.0...v1.2.1) (2020-04-08)
+
+
+### Bug Fixes
+
+* properly type forwarded refs ([7a301fb](https://github.com/AxisCommunications/media-stream-player-js/commit/7a301fba791eb23d672855844f7f80582a020aa8))
+* wrap data fetching step in useEffect hook ([0c16ed6](https://github.com/AxisCommunications/media-stream-player-js/commit/0c16ed664b858d2af007af24675a3aac15911178))
+
+
+
 # [1.2.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v1.1.3...v1.2.0) (2020-03-30)
 
 

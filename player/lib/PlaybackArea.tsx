@@ -2,9 +2,10 @@ import React, { Ref } from 'react'
 import { Sdp } from 'media-stream-library/lib/utils/protocols/sdp'
 
 import { PlayerNativeElement } from './Player'
-import { WsRtspVideo, MetadataMessage } from './WsRtspVideo'
+import { WsRtspVideo } from './WsRtspVideo'
 import { WsRtspCanvas } from './WsRtspCanvas'
 import { StillImage } from './StillImage'
+import { MetadataHandler } from './metadata'
 
 export const AXIS_IMAGE_CGI = 'jpg'
 const AXIS_VIDEO_CGI = 'mjpg'
@@ -33,7 +34,7 @@ interface PlaybackAreaProps {
   refresh: number
   onPlaying: (properties: VideoProperties) => void
   onSdp?: (msg: Sdp) => void
-  metadataHandler?: (msg: MetadataMessage) => void
+  metadataHandler?: MetadataHandler
 }
 
 const API_TYPES = new Set([AXIS_IMAGE_CGI, AXIS_VIDEO_CGI, AXIS_MEDIA_AMP])
