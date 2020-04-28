@@ -10,7 +10,7 @@ import { Player } from './Player'
 
 export class MediaStreamPlayer extends HTMLElement {
   static get observedAttributes() {
-    return ['hostname']
+    return ['hostname', 'autoplay']
   }
 
   get hostname() {
@@ -19,6 +19,20 @@ export class MediaStreamPlayer extends HTMLElement {
 
   set hostname(value: string) {
     this.setAttribute('hostname', value)
+  }
+
+  get autoplay() {
+    return this.getAttribute('autoplay') ?? 'false'
+  }
+
+  set autoplay(value: string) {
+    this.setAttribute('autoplay', value)
+  }
+
+  createPlayer() {
+    const { autoplay, hostname } = this
+
+    return <Player hostname={hostname} autoPlay={Boolean(autoplay)} />
   }
 
   connectedCallback() {
@@ -31,19 +45,19 @@ export class MediaStreamPlayer extends HTMLElement {
      */
   }
 
-  attributeChangedCallback(attrName: string, _: string, hostname: string) {
-    if (attrName === 'hostname') {
+  attributeChangedCallback(attrName: string, _: string, value: string) {
+    if (attrName === 'hostname' || attrName === 'autoplay') {
       // cleanup previous
       ReactDOM.unmountComponentAtNode(this)
 
       // Provide default authentication
       window
-        .fetch(`http://${hostname}/axis-cgi/usergroup.cgi`, {
+        .fetch(`http://${value}/axis-cgi/usergroup.cgi`, {
           credentials: 'include',
           mode: 'no-cors',
         })
         .then(() => {
-          ReactDOM.render(<Player hostname={hostname} />, this)
+          ReactDOM.render(this.createPlayer(), this)
         })
         .catch((err) => {
           console.error(`Authorization failed: ${err.message}`)
