@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import useUserActive from './hooks/useUserActive'
 
-import { Button } from './Button'
+import { Button } from './components/Button'
 import { Format } from './Player'
 import { Play, Pause, Stop, Refresh, CogWheel } from './img'
 import { Settings } from './Settings'
@@ -50,6 +50,7 @@ interface ControlsProps {
     refresh?: string
     settings?: string
   }
+  showStatsOverlay: boolean
   toggleStats: () => void
 }
 
@@ -63,6 +64,7 @@ export const Controls: React.FC<ControlsProps> = ({
   onFormat,
   onVapix,
   labels,
+  showStatsOverlay,
   toggleStats,
 }) => {
   const controlArea = useRef(null)
@@ -101,6 +103,7 @@ export const Controls: React.FC<ControlsProps> = ({
           parameters={parameters}
           onFormat={onFormat}
           onVapix={onVapix}
+          showStatsOverlay={showStatsOverlay}
           toggleStats={toggleStats}
         />
       )}
