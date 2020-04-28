@@ -18,7 +18,7 @@ const HostnameContainer = styled.div`
 const DEFAULT_HOSTNAME = '192.168.0.90'
 
 // force auth
-const authorize = async host => {
+const authorize = async (host) => {
   // Force a login by fetching usergroup
   try {
     await window.fetch(`http://${host}/axis-cgi/usergroup.cgi`, {
@@ -42,9 +42,9 @@ export const App = () => {
 
   let vapixParams = {}
   try {
-    vapixParams = JSON.parse(window.localStorage.getItem('vapix'))
-  } catch (e) {
-    console.warn('no stored VAPIX parameters')
+    vapixParams = JSON.parse(window.localStorage.getItem('vapix')) ?? {}
+  } catch (err) {
+    console.warn('no stored VAPIX parameters: ', err)
   }
 
   useEffect(() => {
