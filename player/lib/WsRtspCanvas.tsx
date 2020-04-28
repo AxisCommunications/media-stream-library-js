@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import debug from 'debug'
 
-import { pipelines } from 'media-stream-library/dist/cjs/index.browser'
+import { pipelines } from 'media-stream-library/dist/esm/index.browser'
 import { VideoProperties } from './PlaybackArea'
 
 const debugLog = debug('msp:ws-rtsp-video')
