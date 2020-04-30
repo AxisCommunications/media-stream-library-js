@@ -10,10 +10,10 @@ export const useSwitch = (
       if (state !== undefined) {
         setValue(state)
       } else {
-        setValue(!value)
+        setValue((oldValue) => !oldValue)
       }
     },
-    [value, setValue],
+    [setValue],
   )
 
   return [value, toggleValue]

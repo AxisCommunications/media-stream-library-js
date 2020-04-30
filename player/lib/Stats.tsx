@@ -1,15 +1,13 @@
 import React, { useMemo } from 'react'
 import styled from 'styled-components'
-import { VapixParameters } from './PlaybackArea'
+import { VapixParameters, VideoProperties } from './PlaybackArea'
 
 const StatsWrapper = styled.div`
-  width: 400px;
-  height: 150px;
   background: rgb(0, 0, 0, 0.66);
   position: absolute;
-  top: 16px;
-  left: 16px;
-  padding: 16px;
+  top: 24px;
+  left: 24px;
+  padding: 8px 16px;
   font-family: sans-serif;
   max-width: 80%;
   max-height: 80%;
@@ -32,18 +30,19 @@ const StatContainer = styled.div`
 const Stat = styled.div`
   color: white;
   text-align: left;
-  margin: 8px 0;
+  margin: 8px 0 0;
   width: 45%;
   font-size: 12px;
 `
 
-const Bold = styled.span`
+const Title = styled.div`
   font-weight: bold;
 `
 
 interface StatsProps {
   api: string
   parameters: VapixParameters
+  videoProperties: VideoProperties
   host: string
   open: boolean
   refresh: number
@@ -52,8 +51,8 @@ interface StatsProps {
 export const Stats: React.FC<StatsProps> = ({
   api,
   parameters,
+  videoProperties,
   host,
-  open,
   refresh,
 }) => {
   const streamType = useMemo(() => {
@@ -63,35 +62,40 @@ export const Stats: React.FC<StatsProps> = ({
 
     if (api === 'media') {
       if (parameters['videocodec'] === 'h264') {
-        return 'H264 over RTP'
+        return 'H.264'
       }
-      return 'MJPG over RTP'
+      return 'Motion JPEG'
     }
 
     return 'Unknown'
   }, [api, parameters])
 
+  const resolution = useMemo(() => {
+    const { width, height } = videoProperties
+    return `${width}x${height}`
+  }, [videoProperties])
+
   return (
-    <>
-      {open ? (
-        <StatsWrapper>
-          <StatsHeader>Stream statistics:</StatsHeader>
-          <StatContainer>
-            <Stat>
-              <Bold>Host:</Bold> {host}
-            </Stat>
-            <Stat>
-              <Bold>Type:</Bold> {streamType}
-            </Stat>
-            <Stat>
-              <Bold>Size:</Bold> {parameters['resolution'] ?? 'Unknown'}
-            </Stat>
-            <Stat>
-              <Bold>Refreshes:</Bold> {refresh}
-            </Stat>
-          </StatContainer>
-        </StatsWrapper>
-      ) : null}
-    </>
+    <StatsWrapper>
+      <StatsHeader>Stream statistics</StatsHeader>
+      <StatContainer>
+        <Stat>
+          <Title>Host</Title>
+          <div> {host}</div>
+        </Stat>
+        <Stat>
+          <Title>Format</Title>
+          <div> {streamType}</div>
+        </Stat>
+        <Stat>
+          <Title>Resolution</Title>
+          <div> {resolution}</div>
+        </Stat>
+        <Stat>
+          <Title>Refreshes</Title>
+          <div> {refresh}</div>
+        </Stat>
+      </StatContainer>
+    </StatsWrapper>
   )
 }
