@@ -1,0 +1,33 @@
+# {
+#   "extends": [
+#     "plugin:@typescript-eslint/recommended",
+#     "prettier",
+#     "prettier/@typescript-eslint"
+#   ],
+#   "parser": "@typescript-eslint/parser",
+#   "parserOptions": {
+#     "project": "./tsconfig.json"
+#   },
+#   "plugins": ["@typescript-eslint"],
+#   "rules": {
+#     "@typescript-eslint/explicit-function-return-type": "off",
+#     "@typescript-eslint/explicit-member-accessibility": "off",
+#     "@typescript-eslint/camelcase": "off",
+#     "@typescript-eslint/no-explicit-any": "off",
+#     "@typescript-eslint/array-type": ["error", { "default": "array-simple" }]
+#   }
+# }
+extends:
+  - 'typescript-shareable'
+  - 'prettier'
+  - 'prettier/@typescript-eslint'
+parserOptions:
+  project: './tsconfig.json'
+env:
+  node: true
+  browser: true
+  es6: true
+overrides:
+  - files: ['**/*.test.ts']
+    env:
+      jest: true
