@@ -52,11 +52,6 @@ export class TcpSource extends Source {
             socket.destroy()
             incoming.push(null)
           })
-          socket.setTimeout(2000, () => {
-            console.error(`Timeout when connecting to ${hostname}:${port}`)
-            socket.destroy()
-            incoming.push(null)
-          })
 
           socket.on('data', (buffer) => {
             if (!incoming.push({ data: buffer, type: MessageType.RAW })) {
