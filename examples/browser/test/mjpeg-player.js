@@ -1,6 +1,6 @@
 const { pipelines } = window.mediaStreamLibrary
 
-const play = host => {
+const play = (host) => {
   // Grab a reference to the video element
   const mediaElement = document.querySelector('canvas')
 

@@ -1,7 +1,7 @@
 const { pipelines } = window.mediaStreamLibrary
 
 // force auth
-const authorize = async host => {
+const authorize = async (host) => {
   // Force a login by fetching usergroup
   const fetchOptions = {
     credentials: 'include',
@@ -55,7 +55,7 @@ let pipeline
 
 // Each time a device ip is entered, authorize and then play
 const playButton = document.querySelector('#play')
-playButton.addEventListener('click', async e => {
+playButton.addEventListener('click', async (e) => {
   pipeline && pipeline.close()
 
   const device = document.querySelector('#device')
