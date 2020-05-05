@@ -9,9 +9,15 @@
 [npm-url]: https://www.npmjs.com/package/media-stream-library
 
 Media Stream Library JS is an open-source JavaScript library to handle media
-stream transforms for Node & the Web.
-The primary purpose is to deal with RTP streams in a browser without
-the need to use plugins or Flash, but relying on the [Media Source Extensions](https://www.w3.org/TR/media-source/) standard, which is supported in all modern browsers.
+stream transforms for Node & the Web. The primary purpose is to deal with RTP
+streams in a browser without the need to use plugins or Flash, but relying on
+the [Media Source Extensions](https://www.w3.org/TR/media-source/) standard,
+which is supported in all modern browsers.
+
+Although RTP streams is the main focus, the library is not limited to handling
+RTP streams, or to the browser. It is suited to handle streams of messages of
+any kind, and makes it easier to stitch together transformations from one message
+type to another. Contributions of new components/pipelines are always welcome.
 
 _Note for IE11 users_: if you want to build the library yourself for IE11 instead
 of using the provided bundle, you need import from `dist/es5` with the following fix in webpack:
@@ -42,16 +48,20 @@ yarn add media-stream-library
 
 ## Usage
 
-This library is not a full media player: the framework provides
-no video controls, progress bar, or other features typically
-associated with a media player. However, getting video to play
-in the browser is quite easy (check the browser example).
-There are currently no codecs included either, we rely on
-browser support for that.
+This library is not a full media player: the framework provides no video
+controls, progress bar, or other features typically associated with a media
+player. For a simple React-based player we refer to the [Media Stream
+Player](https://github.com/AxisCommunications/media-stream-player-js) library,
+which is built around this library.
 
-Although RTP streams is the main focus, the library is not limited
-to handling RTP streams. Contributions of new components/pipelines are
-always welcome.
+However, getting video to play in the browser is quite easy (check the browser
+example). There are currently no codecs included either, we rely on browser
+support for that.
+
+Although RTP streams is the main focus, the library is not limited to handling
+RTP streams, or to the browser. Its main focus is to handle streams of messages,
+and make it easier to stitch together transformations from one message type to
+another. Contributions of new components/pipelines are always welcome.
 
 ### Importing
 
