@@ -53,7 +53,7 @@ const play = (host) => {
   // a peek component, which will call the run method of the
   // scheduler every time a message passes on the pipeline.
   const scheduler = new utils.Scheduler(pipeline, draw)
-  const runScheduler = components.Component.peek((msg) => scheduler.run(msg))
+  const runScheduler = components.Tube.fromHandlers((msg) => scheduler.run(msg))
   pipeline.insertBefore(pipeline.lastComponent, runScheduler)
 
   // When we now the UNIX time of the start of the presentation,
