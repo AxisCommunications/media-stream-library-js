@@ -14,19 +14,53 @@ If your changes cause problems with how the library was used before,
 don't forget to write `BREAKING CHANGE:` inside the commit message body,
 followed by a description of what has changed and how to adapt for it.
 
+We use `node` and `yarn` for any development related things, so make sure you
+have those installed. If you want to run the examples against a test RTSP server,
+you'll need to have a working `docker` environment with access to docker hub.
+
+### Testing
+
+Make sure your changes pass linting and unit testing locally to save time with your PR,
+by running `yarn test`.
+If you add a new feature, please write a new unit test to catch any future regressions.
+
 Most components have unit tests, and basic proper behaviour is always
 tested, but we don't have full coverage (yet) of all the component code.
 If you contribute a new component, please make sure it has appropriate
 unit tests with sufficient coverage.
 
-You can run all test with:
+### Code formatting
+
+We use [prettier](https://prettier.io/) to automatically format code, and this is verified
+during testing (part of linting).
+To make sure tests don't fail on format problems, it's recommended to use a prettier plugin
+for you editor, or to run `yarn prettier:fix` before committing any changes.
+
+## Getting started
+
+After cloning this repository, run `yarn` to install all dependencies.
+The easiest way to get started is to get the examples up and running,
+so you can test any changes you make.
+
+There are two sets of examples: those that expect a camera backend,
+and those that work with a test video provided by an RTSP server that
+you can run locally via this library.
+
+Run `yarn dev` to build the library, run a local RTSP test server, and serve
+the examples. You'll see a link to a port on `localhost` (usually 8080).
+
+## Continuous integration
+
+Automated tests are run on the master branch and pull requests with GitHub Actions,
+for which the configuration can be found in the `.github/workflows/ci.yml` file.
+When tags are pushed, an automated deploy will release to both Github and NPM.
+Any tags that are prereleases will be tagged `next` for NPM, otherwise `latest` is used.
+
+To release, make sure you are on the master branch and run:
 
 ```
-npm run test
+yarn release
+git push --follow-tags
 ```
 
-or
-
-```
-yarn test
-```
+after which the pushed tag will cause a build + deploy through GitHub Actions.
