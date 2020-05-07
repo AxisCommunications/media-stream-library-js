@@ -1,7 +1,14 @@
-import React, { useMemo, useEffect } from 'react'
+import React, {
+  useMemo,
+  useEffect,
+  useLayoutEffect,
+  useState,
+  useRef,
+  useCallback,
+} from 'react'
 
 import { multiply, inverse, apply, Matrix } from './utils/affine'
-import { Coord, CoordArray } from './utils/geometry'
+import { Coord } from './utils/geometry'
 
 // Prototype of an Svg implementation with basis transform capabilities.
 
@@ -102,10 +109,12 @@ const throwIfNoFoundationProvider = () => {
   )
 }
 
+export type CoordTransform = (P: Coord) => Coord
+
 export interface FoundationContextProps {
   userBasis: Area
-  toSvgBasis: (p: Coord) => Coord
-  toUserBasis: (p: Coord) => Coord
+  toSvgBasis: CoordTransform
+  toUserBasis: CoordTransform
 }
 
 export const FoundationContext = React.createContext<FoundationContextProps>({
@@ -114,15 +123,22 @@ export const FoundationContext = React.createContext<FoundationContextProps>({
   toUserBasis: throwIfNoFoundationProvider,
 })
 
+interface TransformData {
+  readonly toSvgBasis: CoordTransform
+  readonly toUserBasis: CoordTransform
+  readonly width: number
+  readonly height: number
+}
+
 export interface FoundationProps extends React.SVGProps<SVGSVGElement> {
   /**
    * Width of the visible area in pixels
    */
-  readonly width: number
+  readonly initialWidth?: number
   /**
    * Height of the visible area in pixels
    */
-  readonly height: number
+  readonly initialHeight?: number
   /**
    * Area representing the user coordinates
    */
@@ -133,10 +149,20 @@ export interface FoundationProps extends React.SVGProps<SVGSVGElement> {
    */
   readonly transformationMatrix?: Matrix
   /**
-   * Callback returning the use coordinates of the
-   * visible area (same as user are if no transform).
+   * Callback returning the size and transformation functions for the drawing
+   * area. These can be used to pre-compute the user coordinates of objects with
+   * a known position on the drawing area.
+   * The callback will be called each time width or height changes.
+   *
+   * Example: compute the visible area of a stream in user coordinates,
+   * using `width`, `height`, and `toUserBasis` data from `onReady`:
+   * ```
+   * const visibleCorners: CoordArray = [[0, 0],[width, height]]
+   * const visibleArea = visibleCorners.map(toUserBasis)
+   * const [[x, y], [x2, y2]] = visibleArea
+   * ```
    */
-  readonly onReady?: (visibleArea: BBox) => void
+  readonly onReady?: (data: TransformData) => void
   /**
    * Extra style overrides for the <svg> container
    */
@@ -153,8 +179,8 @@ export const Foundation = React.forwardRef<
 >(
   (
     {
-      width,
-      height,
+      initialWidth,
+      initialHeight,
       userBasis = DEFAULT_USER_BASIS,
       transformationMatrix,
       onReady,
@@ -164,7 +190,17 @@ export const Foundation = React.forwardRef<
     },
     ref,
   ) => {
+    const [width, setWidth] = useState(initialWidth)
+    const [height, setHeight] = useState(initialHeight)
+
+    /**
+     * Compute the transformation functions to go from
+     * user coordinates to SVG coordinates and back.
+     */
     const { toSvgBasis, toUserBasis } = useMemo(() => {
+      if (width === undefined || height === undefined) {
+        return {}
+      }
       // Set up basis transform from user to svg space:
       // p_s = bSU p_u
       let bSU = svgBasisTransform(width, height, userBasis)
@@ -193,48 +229,91 @@ export const Foundation = React.forwardRef<
       return { toSvgBasis, toUserBasis }
     }, [width, height, userBasis, transformationMatrix])
 
+    /**
+     * Communicate the transformation functions to the outside world,
+     * as well as the visible area in user coordinates.
+     */
     useEffect(() => {
-      if (onReady !== undefined) {
-        const visibleCorners: CoordArray = [
-          [0, 0],
-          [width, height],
-        ]
-        const visibleArea = visibleCorners.map(toUserBasis)
-        const [[x, y], [x2, y2]] = visibleArea
+      if (
+        onReady !== undefined &&
+        width !== undefined &&
+        height !== undefined &&
+        toSvgBasis !== undefined &&
+        toUserBasis !== undefined
+      ) {
         onReady({
-          x,
-          y,
-          x2,
-          y2,
-          width: Math.abs(x2 - x),
-          height: Math.abs(y2 - y),
-          left: x,
-          right: x2,
-          top: y,
-          bottom: y2,
+          toUserBasis,
+          toSvgBasis,
+          width,
+          height,
         })
       }
-    }, [width, height, toUserBasis])
+    }, [width, height, toUserBasis, toSvgBasis])
+
+    /**
+     * Keep track of the SVG element (both internally and externally forwarded).
+     */
+    const internalRef = useRef<SVGSVGElement | null>(null)
+    const callbackRef = useCallback((node: SVGSVGElement | null) => {
+      // Set the external forwarded ref if present
+      if (ref !== null) {
+        if (typeof ref === 'function') {
+          ref(node)
+        } else {
+          ref.current = node
+        }
+      }
+      // Keep track of the element internally
+      internalRef.current = node
+    }, [])
+
+    /**
+     * Keep track of the size of the SVG drawing area and adjust width/height.
+     */
+    useLayoutEffect(() => {
+      if (internalRef.current === null) {
+        return
+      }
+
+      const setDimensions = (el: Element) => {
+        setWidth(el.clientWidth)
+        setHeight(el.clientHeight)
+      }
+
+      const observer = new window.ResizeObserver(([entry]) => {
+        const element = entry.target
+        setDimensions(element)
+      })
+
+      setDimensions(internalRef.current)
+      observer.observe(internalRef.current)
+
+      return () => observer.disconnect()
+    }, [])
+
+    /**
+     * Render SVG drawing area.
+     */
 
     return (
-      <FoundationContext.Provider
-        value={{
-          userBasis,
-          toSvgBasis,
-          toUserBasis,
-        }}
+      <svg
+        className={className}
+        touch-action="none"
+        ref={callbackRef}
+        {...svgProps}
       >
-        <svg
-          width={width}
-          height={height}
-          className={className}
-          touch-action="none"
-          ref={ref}
-          {...svgProps}
-        >
-          {children}
-        </svg>
-      </FoundationContext.Provider>
+        {toSvgBasis !== undefined && toUserBasis !== undefined ? (
+          <FoundationContext.Provider
+            value={{
+              userBasis,
+              toSvgBasis,
+              toUserBasis,
+            }}
+          >
+            {children}
+          </FoundationContext.Provider>
+        ) : null}
+      </svg>
     )
   },
 )

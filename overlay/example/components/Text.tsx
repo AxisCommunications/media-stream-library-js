@@ -56,7 +56,7 @@ export const Text: React.FC<TextProps> = ({
     return () => {
       unsubscribe()
     }
-  }, [userX, userY])
+  }, [userX, userY, toUserBasis])
 
   const [x, y] = toSvgBasis([userX, userY])
 

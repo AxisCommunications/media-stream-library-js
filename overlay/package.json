@@ -32,7 +32,9 @@
     "react": ">= 16.8.2 < 17",
     "react-dom": ">= 16.8.2 < 17"
   },
-  "dependencies": {},
+  "dependencies": {
+    "@juggle/resize-observer": "3.1.3"
+  },
   "devDependencies": {
     "@babel/cli": "7.8.4",
     "@babel/core": "7.9.0",

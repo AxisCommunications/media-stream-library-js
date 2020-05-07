@@ -45,6 +45,9 @@ export const Polygon: React.FC<PolygonProps> = ({ pos, onChangePos }) => {
   const { clampCoord, clampCoordArray } = useContext(LinerContext)
 
   const [svgPos, setSvgPos] = useState<CoordArray>(pos.map(toSvgBasis))
+  useEffect(() => {
+    setSvgPos(pos.map(toSvgBasis))
+  }, [pos, toSvgBasis])
 
   const { subscribe, unsubscribe, start: startDrag } = useDraggable()
 
@@ -60,13 +63,13 @@ export const Polygon: React.FC<PolygonProps> = ({ pos, onChangePos }) => {
      */
     const updatePosition: DraggableHandler = (
       { name, vector: [tx, ty] },
-      ended
+      ended,
     ) => {
       const newSvgPos: CoordArray =
         name === 'g'
           ? clampCoordArray(initialSvgPos.map(([x, y]) => [x + tx, y + ty]))
           : initialSvgPos.map(([x, y], index) =>
-              name === `p${index}` ? clampCoord([x + tx, y + ty]) : [x, y]
+              name === `p${index}` ? clampCoord([x + tx, y + ty]) : [x, y],
             )
 
       if (ended) {
@@ -84,7 +87,7 @@ export const Polygon: React.FC<PolygonProps> = ({ pos, onChangePos }) => {
     return () => {
       unsubscribe()
     }
-  }, [pos])
+  }, [pos, toSvgBasis, toUserBasis])
 
   return (
     <g name="g" onPointerDown={startDrag}>

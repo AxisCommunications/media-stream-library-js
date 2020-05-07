@@ -80,7 +80,11 @@ export const DraggableCircle: React.FC<DraggableCircleProps> = ({
 }) => {
   const { toSvgBasis, toUserBasis } = useContext(FoundationContext)
   const { clampCoord } = useContext(LinerContext)
+
   const [svgPos, setSvgPos] = useState(toSvgBasis(pos))
+  useEffect(() => {
+    setSvgPos(toSvgBasis(pos))
+  }, [pos, toSvgBasis])
 
   const { subscribe, unsubscribe, start: drag } = useDraggable()
 
@@ -97,7 +101,7 @@ export const DraggableCircle: React.FC<DraggableCircleProps> = ({
     return () => {
       unsubscribe()
     }
-  }, [pos])
+  }, [pos, toSvgBasis, toUserBasis])
 
   const [cx, cy] = svgPos
 
@@ -154,7 +158,7 @@ export const FastDraggableCircle: React.FC<DraggableCircleProps> = ({
         unsubscribe()
       }
     }
-  }, [pos])
+  }, [pos, toSvgBasis, toUserBasis])
 
   const [cx, cy] = toSvgBasis(pos)
 

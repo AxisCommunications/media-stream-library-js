@@ -49,10 +49,10 @@ const App: React.FC = () => {
       </p>
 
       <Foundation
-        width={640}
-        height={480}
         userBasis={USER_BASIS}
         style={{
+          width: '640px',
+          height: '480px',
           border: '1px solid deepskyblue',
         }}
       >
