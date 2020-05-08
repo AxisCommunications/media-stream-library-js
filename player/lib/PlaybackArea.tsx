@@ -168,7 +168,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   onPlaying,
   onSdp,
   metadataHandler,
-  secure,
+  secure = window.location.protocol === 'https',
 }) => {
   const searchParams = search(api, {
     ...parameters,
