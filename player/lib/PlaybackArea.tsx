@@ -35,6 +35,7 @@ interface PlaybackAreaProps {
   onPlaying: (properties: VideoProperties) => void
   onSdp?: (msg: Sdp) => void
   metadataHandler?: MetadataHandler
+  secure?: boolean
 }
 
 const API_TYPES = new Set([AXIS_IMAGE_CGI, AXIS_VIDEO_CGI, AXIS_MEDIA_AMP])
@@ -49,9 +50,18 @@ const AXIS_API = {
 
 const DEFAULT_VIDEO_CODEC = 'h264'
 
-const wsUri = (host: string) => {
-  const wsProtocol = window.location.protocol === 'http:' ? 'ws:' : 'wss:'
-  return host ? `${wsProtocol}//${host}/rtsp-over-websocket` : ''
+const wsUri = (host: string, secure?: boolean) => {
+  if (host.length === 0) {
+    return ''
+  }
+
+  const uri = new URL(`ws://${host}/rtsp-over-websocket`)
+
+  if (secure) {
+    uri.protocol = 'wss'
+  }
+
+  return uri.href
 }
 
 const rtspUri = (host: string, searchParams: string) => {
@@ -60,10 +70,20 @@ const rtspUri = (host: string, searchParams: string) => {
     : ''
 }
 
-const imgUri = (host: string, searchParams: string) => {
-  return host
-    ? `http://${host}/${AXIS_API[AXIS_IMAGE_CGI]}?${searchParams}`
-    : ''
+const imgUri = (host: string, searchParams: string, secure?: boolean) => {
+  if (host.length === 0) {
+    return ''
+  }
+
+  const uri = new URL(
+    `http://${host}/${AXIS_API[AXIS_IMAGE_CGI]}?${searchParams}`,
+  )
+
+  if (secure) {
+    uri.protocol = 'https'
+  }
+
+  return uri.href
 }
 
 const PARAMETERS = {
@@ -148,6 +168,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   onPlaying,
   onSdp,
   metadataHandler,
+  secure,
 }) => {
   const searchParams = search(api, {
     ...parameters,
@@ -156,7 +177,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
 
   switch (api) {
     case AXIS_MEDIA_AMP:
-      const ws = wsUri(host)
+      const ws = wsUri(host, secure)
       const rtsp = rtspUri(host, searchParams)
       const videocodec = parameters.videocodec || DEFAULT_VIDEO_CODEC
 
@@ -188,7 +209,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
           return null
       }
     case AXIS_IMAGE_CGI:
-      const src = imgUri(host, searchParams)
+      const src = imgUri(host, searchParams, secure)
       return (
         <StillImage
           key={refresh}

@@ -1,7 +1,6 @@
 import React, {
   useState,
   forwardRef,
-  Ref,
   useEffect,
   useCallback,
   useMemo,
@@ -31,7 +30,11 @@ interface PlayerProps {
   autoPlay?: boolean
   onSdp?: (msg: Sdp) => void
   metadataHandler?: MetadataHandler
-  aspectRatio?: number
+  /**
+   * Set to true if the camera requires a secure
+   * connection, "https" and "wss" protocols.
+   */
+  secure?: boolean
 }
 
 export type PlayerNativeElement =
@@ -56,7 +59,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       autoPlay,
       onSdp,
       metadataHandler,
-      aspectRatio,
+      secure,
     },
     ref,
   ) => {
@@ -207,6 +210,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
             onPlaying={onPlaying}
             onSdp={onSdp}
             metadataHandler={metadataHandler}
+            secure={secure}
           />
         </Layer>
         <Layer>
