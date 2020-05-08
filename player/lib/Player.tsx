@@ -104,18 +104,34 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
      * VAPIX parameters
      */
     const [parameters, setParameters] = useState(vapixParams)
-    window.localStorage.setItem('vapix', JSON.stringify(parameters))
+
+    useEffect(() => {
+      /**
+       * Check if localStorage actually exists, since if you
+       * server side render, localStorage won't be available.
+       */
+      if (window?.localStorage !== undefined) {
+        window.localStorage.setItem('vapix', JSON.stringify(parameters))
+      }
+    }, [parameters])
 
     /**
      * Stats overlay
      */
     const [showStatsOverlay, toggleStatsOverlay] = useSwitch(
-      window.localStorage.getItem('stats-overlay') === 'on',
+      window?.localStorage !== undefined
+        ? window.localStorage.getItem('stats-overlay') === 'on'
+        : false,
     )
-    window.localStorage.setItem(
-      'stats-overlay',
-      showStatsOverlay ? 'on' : 'off',
-    )
+
+    useEffect(() => {
+      if (window?.localStorage !== undefined) {
+        window.localStorage.setItem(
+          'stats-overlay',
+          showStatsOverlay ? 'on' : 'off',
+        )
+      }
+    }, [showStatsOverlay])
 
     /**
      * Controls
