@@ -121,17 +121,9 @@ const search = (api: string, parameters: VapixParameters = {}) => {
   }
   const parameterList = PARAMETERS[api]
   return Object.entries(parameters)
-    .filter(([key]) => {
-      if (!parameterList.includes(key)) {
-        // throw new Error(`unknown parameter ${key}`)
-        console.warn(`ignored unknown parameter ${key}`)
-        return false
-      }
-      return true
-    })
     .map(([key, value]) => {
       if (!parameterList.includes(key)) {
-        throw new Error(`unknown parameter ${key}`)
+        console.warn(`undocumented VAPIX parameter ${key}`)
       }
       return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
     })
