@@ -1,10 +1,11 @@
 import React, {
   useState,
   forwardRef,
-  Ref,
   useEffect,
   useCallback,
   useMemo,
+  useLayoutEffect,
+  useRef,
 } from 'react'
 
 import { Container, Layer } from './Container'
@@ -21,8 +22,37 @@ import { Sdp } from 'media-stream-library/dist/esm/utils/protocols'
 import { Stats } from './Stats'
 import { useSwitch } from './hooks/useSwitch'
 import { MetadataHandler } from './metadata'
+import styled from 'styled-components'
 
 const DEFAULT_API_TYPE = AXIS_IMAGE_CGI
+
+/**
+ * Wrapper for the entire player that will take up all available place from the
+ * parent.
+ */
+const MediaStreamPlayerContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`
+
+/**
+ * The limiter prevents the video element to use up all of the available width.
+ * The player container will automatically limit it's own height based on the
+ * available width (keeping aspect ratio).
+ */
+const Limiter = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
 
 interface PlayerProps {
   hostname: string
@@ -32,6 +62,7 @@ interface PlayerProps {
   onSdp?: (msg: Sdp) => void
   metadataHandler?: MetadataHandler
   aspectRatio?: number
+  className?: string
 }
 
 export type PlayerNativeElement =
@@ -56,7 +87,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       autoPlay,
       onSdp,
       metadataHandler,
-      aspectRatio,
+      className,
     },
     ref,
   ) => {
@@ -184,6 +215,29 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     }, [videoProperties])
 
     /**
+     * Limit video size.
+     *
+     * The video size should not expand outside the available container, and
+     * should be recomputed on resize.
+     */
+
+    const limiterRef = useRef<HTMLDivElement>(null)
+    useLayoutEffect(() => {
+      if (naturalAspectRatio === undefined || limiterRef.current === null) {
+        return
+      }
+
+      const observer = new window.ResizeObserver(([entry]) => {
+        const element = entry.target as HTMLElement
+        const maxWidth = element.clientHeight * naturalAspectRatio
+        element.style.maxWidth = `${maxWidth}px`
+      })
+      observer.observe(limiterRef.current)
+
+      return () => observer.disconnect()
+    }, [naturalAspectRatio])
+
+    /**
      * Render
      *
      * Each layer is positioned exactly on top of the visible image, since the
@@ -195,57 +249,61 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
      */
 
     return (
-      <Container aspectRatio={naturalAspectRatio}>
-        <Layer>
-          <PlaybackArea
-            forwardedRef={ref}
-            refresh={refresh}
-            play={play}
-            host={host}
-            api={api}
-            parameters={parameters}
-            onPlaying={onPlaying}
-            onSdp={onSdp}
-            metadataHandler={metadataHandler}
-          />
-        </Layer>
-        <Layer>
-          <Feedback waiting={waiting} />
-        </Layer>
-        <Layer>
-          {showStatsOverlay && videoProperties !== undefined ? (
-            <Stats
-              api={api}
-              parameters={parameters}
-              videoProperties={videoProperties}
-              host={host}
-              open={showStatsOverlay}
-              refresh={refresh}
-            />
-          ) : null}
-        </Layer>
-        <Layer>
-          <Controls
-            play={play}
-            src={host}
-            parameters={parameters}
-            onPlay={onPlayPause}
-            onStop={onStop}
-            onRefresh={onRefresh}
-            onFormat={onFormat}
-            onVapix={onVapix}
-            labels={{
-              play: 'Play',
-              pause: 'Pause',
-              stop: 'Stop',
-              refresh: 'Refresh',
-              settings: 'Settings',
-            }}
-            showStatsOverlay={showStatsOverlay}
-            toggleStats={toggleStatsOverlay}
-          />
-        </Layer>
-      </Container>
+      <MediaStreamPlayerContainer className={className}>
+        <Limiter ref={limiterRef}>
+          <Container aspectRatio={naturalAspectRatio}>
+            <Layer>
+              <PlaybackArea
+                forwardedRef={ref}
+                refresh={refresh}
+                play={play}
+                host={host}
+                api={api}
+                parameters={parameters}
+                onPlaying={onPlaying}
+                onSdp={onSdp}
+                metadataHandler={metadataHandler}
+              />
+            </Layer>
+            <Layer>
+              <Feedback waiting={waiting} />
+            </Layer>
+            <Layer>
+              {showStatsOverlay && videoProperties !== undefined ? (
+                <Stats
+                  api={api}
+                  parameters={parameters}
+                  videoProperties={videoProperties}
+                  host={host}
+                  open={showStatsOverlay}
+                  refresh={refresh}
+                />
+              ) : null}
+            </Layer>
+            <Layer>
+              <Controls
+                play={play}
+                src={host}
+                parameters={parameters}
+                onPlay={onPlayPause}
+                onStop={onStop}
+                onRefresh={onRefresh}
+                onFormat={onFormat}
+                onVapix={onVapix}
+                labels={{
+                  play: 'Play',
+                  pause: 'Pause',
+                  stop: 'Stop',
+                  refresh: 'Refresh',
+                  settings: 'Settings',
+                }}
+                showStatsOverlay={showStatsOverlay}
+                toggleStats={toggleStatsOverlay}
+              />
+            </Layer>
+          </Container>
+        </Limiter>
+      </MediaStreamPlayerContainer>
     )
   },
 )
