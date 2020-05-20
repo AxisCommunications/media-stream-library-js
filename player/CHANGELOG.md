@@ -1,3 +1,17 @@
+# [2.2.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.1.0...v2.2.0) (2020-05-20)
+
+
+### Bug Fixes
+
+* robust cleanup (abort) when changing state ([4d7a30f](https://github.com/AxisCommunications/media-stream-player-js/commit/4d7a30fbe4f105decfd3fce6c7cfc099e8f1052e))
+
+
+### Features
+
+* properly limit width of video ([1f9109b](https://github.com/AxisCommunications/media-stream-player-js/commit/1f9109be3306dc13b1979a292753c78df93a37ec))
+
+
+
 # [2.1.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.0.0...v2.1.0) (2020-05-14)
 
 
