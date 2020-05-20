@@ -1,7 +1,7 @@
 const { pipelines } = window.mediaStreamLibrary
 
 // force auth
-const authorize = async host => {
+const authorize = async (host) => {
   // Force a login by fetching usergroup
   const fetchOptions = {
     credentials: 'include',
@@ -18,7 +18,7 @@ const authorize = async host => {
   }
 }
 
-const play = host => {
+const play = (host) => {
   const initialTime = window.performance.now()
   // Setup a new pipeline
   const pipeline = new pipelines.MetadataPipeline({
@@ -31,7 +31,7 @@ const play = host => {
     rtsp: {
       uri: `rtsp://${host}/axis-media/media.amp?event=on&video=0&audio=0`,
     },
-    metadataHandler: msg => {
+    metadataHandler: (msg) => {
       const title = document.createElement('div')
       title.textContent = `+${window.performance.now() - initialTime}`
       title.classList.add('metadata-title')
@@ -54,7 +54,7 @@ let pipeline
 
 // Each time a device ip is entered, authorize and then play
 const playButton = document.querySelector('#play')
-playButton.addEventListener('click', async e => {
+playButton.addEventListener('click', async (e) => {
   pipeline && pipeline.close()
 
   const device = document.querySelector('#device')

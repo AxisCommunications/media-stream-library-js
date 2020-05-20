@@ -2,7 +2,7 @@ const { components, pipelines, utils } = window.mediaStreamLibrary
 const d3 = window.d3
 
 // force auth
-const authorize = async host => {
+const authorize = async (host) => {
   // Force a login by fetching usergroup
   const fetchOptions = {
     credentials: 'include',
@@ -64,29 +64,20 @@ const play = (host, encoding) => {
     height: svgHeight,
   } = svg.node().getBoundingClientRect()
 
-  const x = d3
-    .scaleLinear()
-    .domain([0, 59])
-    .rangeRound([0, svgWidth])
+  const x = d3.scaleLinear().domain([0, 59]).rangeRound([0, svgWidth])
   let maxBytes = 0
-  let y = d3
-    .scaleLinear()
-    .domain([0, maxBytes])
-    .rangeRound([svgHeight, 0])
+  let y = d3.scaleLinear().domain([0, maxBytes]).rangeRound([svgHeight, 0])
   const line = d3
     .line()
     .x((d, i) => x(i))
-    .y(d => y(d))
+    .y((d) => y(d))
     .curve(d3.curveStep)
 
-  const draw = msg => {
+  const draw = (msg) => {
     data.push(msg.data.length)
     if (maxBytes < msg.data.length - 100) {
       maxBytes = 2 * msg.data.length
-      y = d3
-        .scaleLinear()
-        .domain([0, maxBytes])
-        .rangeRound([svgHeight, 0])
+      y = d3.scaleLinear().domain([0, maxBytes]).rangeRound([svgHeight, 0])
     }
     if (data.length > 60) {
       data.shift()
@@ -96,10 +87,10 @@ const play = (host, encoding) => {
   }
   const scheduler = new utils.Scheduler(pipeline, draw)
 
-  const runScheduler = components.Tube.fromHandlers(msg => scheduler.run(msg))
+  const runScheduler = components.Tube.fromHandlers((msg) => scheduler.run(msg))
   pipeline.insertBefore(pipeline.lastComponent, runScheduler)
 
-  pipeline.onSync = ntpPresentationTime => {
+  pipeline.onSync = (ntpPresentationTime) => {
     console.log('sync!', ntpPresentationTime)
     scheduler.init(ntpPresentationTime)
   }
@@ -115,7 +106,7 @@ let pipeline
 
 // Each time a device ip is entered, authorize and then play
 const playButton = document.querySelector('#play')
-playButton.addEventListener('click', async e => {
+playButton.addEventListener('click', async (e) => {
   pipeline && pipeline.close()
   group && group.remove()
   data = []

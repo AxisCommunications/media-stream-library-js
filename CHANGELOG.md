@@ -1,3 +1,16 @@
+## [7.0.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v7.0.3...v7.0.4) (2020-05-04)
+
+
+### Bug Fixes
+
+* **deps:** move md5.js to dependencies ([bdb41a3](https://github.com/AxisCommunications/media-stream-library-js/commit/bdb41a369b0fbf9851b95942d136b38e27565c10)), closes [#396](https://github.com/AxisCommunications/media-stream-library-js/issues/396)
+* **TcpSource:** do not close socket on inactivity ([0ed5e08](https://github.com/AxisCommunications/media-stream-library-js/commit/0ed5e081c0dc9e3737ea08451d72388262941787)), closes [#400](https://github.com/AxisCommunications/media-stream-library-js/issues/400)
+* **TcpSource:** subscribe to correct event ([e50b85b](https://github.com/AxisCommunications/media-stream-library-js/commit/e50b85b122f73e9a6542b2940de813c0fca0f62f)), closes [#403](https://github.com/AxisCommunications/media-stream-library-js/issues/403)
+* allow lower-case header names as per RFC spec ([78f589e](https://github.com/AxisCommunications/media-stream-library-js/commit/78f589e3be3754fc2005d26777147a780723b3d2)), closes [#310](https://github.com/AxisCommunications/media-stream-library-js/issues/310)
+* re-format with latest prettier version ([0c938a9](https://github.com/AxisCommunications/media-stream-library-js/commit/0c938a998c5247e757620445171f30cb738e5420))
+
+
+
 ## [7.0.3](https://github.com/AxisCommunications/media-stream-library-js/compare/v7.0.2...v7.0.3) (2020-03-10)
 
 
