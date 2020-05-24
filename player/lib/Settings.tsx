@@ -3,6 +3,7 @@ import styled from 'styled-components'
 
 import { Format } from './Player'
 import { VapixParameters } from './PlaybackArea'
+import { Switch } from './components/Switch'
 
 const SettingsMenu = styled.div`
   font-family: sans-serif;
@@ -43,13 +44,15 @@ interface SettingsProps {
   parameters: VapixParameters
   onFormat: (format: Format) => void
   onVapix: (key: string, value: string) => void
-  toggleStats: () => void
+  showStatsOverlay: boolean
+  toggleStats: (newValue?: boolean) => void
 }
 
 export const Settings: React.FC<SettingsProps> = ({
   parameters,
   onFormat,
   onVapix,
+  showStatsOverlay,
   toggleStats,
 }) => {
   const changeParam = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -64,6 +67,13 @@ export const Settings: React.FC<SettingsProps> = ({
         console.warn('internal error')
     }
   }, [])
+
+  const changeStatsOverlay = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      toggleStats(e.target.checked)
+    },
+    [toggleStats],
+  )
 
   return (
     <SettingsMenu>
@@ -136,19 +146,19 @@ export const Settings: React.FC<SettingsProps> = ({
       <SettingsItem>
         <div>Text overlay</div>
         <input
-          name="text"
-          type="checkbox"
-          checked={parameters['text'] === '1'}
-          onChange={changeParam}
-        />
-        <input
           name="textstring"
           value={parameters['textstring']}
           onChange={changeParam}
         />
+        <Switch
+          name="text"
+          checked={parameters['text'] === '1'}
+          onChange={changeParam}
+        />
       </SettingsItem>
       <SettingsItem>
-        <button onClick={toggleStats}>Stats</button>
+        <div>Stats overlay</div>
+        <Switch checked={showStatsOverlay} onChange={changeStatsOverlay} />
       </SettingsItem>
     </SettingsMenu>
   )

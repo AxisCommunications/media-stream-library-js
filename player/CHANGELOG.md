@@ -1,3 +1,35 @@
+# [2.2.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.1.0...v2.2.0) (2020-05-20)
+
+
+### Bug Fixes
+
+* robust cleanup (abort) when changing state ([4d7a30f](https://github.com/AxisCommunications/media-stream-player-js/commit/4d7a30fbe4f105decfd3fce6c7cfc099e8f1052e))
+
+
+### Features
+
+* properly limit width of video ([1f9109b](https://github.com/AxisCommunications/media-stream-player-js/commit/1f9109be3306dc13b1979a292753c78df93a37ec))
+
+
+
+# [2.1.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.0.0...v2.1.0) (2020-05-14)
+
+
+### Bug Fixes
+
+* allow any kind of RTSP URI parameters ([c46c856](https://github.com/AxisCommunications/media-stream-player-js/commit/c46c85611584346960865cc71e37441398b35f10))
+* make sure vapixParams is not null ([c48d969](https://github.com/AxisCommunications/media-stream-player-js/commit/c48d969658606bee7f6f8fdaf6bde165fcc0787f)), closes [#8](https://github.com/AxisCommunications/media-stream-player-js/issues/8)
+
+
+### Features
+
+* General solution for WebComponent attributes ([62ba18e](https://github.com/AxisCommunications/media-stream-player-js/commit/62ba18e9ef8cc0322200833c58e4d15a1b40b962))
+* statistics overlay improvements ([123ed2b](https://github.com/AxisCommunications/media-stream-player-js/commit/123ed2b6030a2d053520e69bb0cd3fabcc67dc74))
+* Switch component ([5fb3afe](https://github.com/AxisCommunications/media-stream-player-js/commit/5fb3afecc6359ae17c77b80debc0c62147615234))
+* WebComponent autoPlay ability ([c4732a6](https://github.com/AxisCommunications/media-stream-player-js/commit/c4732a6b9aebf66a909489a96d9f1803cbffb85e))
+
+
+
 # [2.0.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v1.2.1...v2.0.0) (2020-04-23)
 
 
