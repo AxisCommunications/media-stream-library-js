@@ -1,3 +1,12 @@
+## [2.2.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.2.0...v2.2.1) (2020-05-24)
+
+
+### Bug Fixes
+
+* all imports of MSL to use same module type ([1b4c9b3](https://github.com/AxisCommunications/media-stream-player-js/commit/1b4c9b39f2c435f73dda01cf47b5b5ae541a9d2a))
+
+
+
 # [2.2.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.1.0...v2.2.0) (2020-05-20)
 
 
