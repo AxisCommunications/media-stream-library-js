@@ -1,3 +1,19 @@
+# [3.0.0](https://github.com/AxisCommunications/media-overlay-library-js/compare/v2.0.0...v3.0.0) (2020-06-03)
+
+
+* fix!: resize observer does not track SVG layout ([865789b](https://github.com/AxisCommunications/media-overlay-library-js/commit/865789b1155b92367c97b139ee5732a916cbcdf5))
+
+
+### BREAKING CHANGES
+
+* the main wrapper element for
+`Foundation` is changed from `svg` to `div`.
+This affects the extra properties sent to the
+`Foundation` component, as well as the forwarded
+ref.
+
+
+
 # [2.0.0](https://github.com/AxisCommunications/media-overlay-library-js/compare/v1.1.0...v2.0.0) (2020-05-08)
 
 
