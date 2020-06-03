@@ -130,7 +130,7 @@ interface TransformData {
   readonly height: number
 }
 
-export interface FoundationProps extends React.SVGProps<SVGSVGElement> {
+export interface FoundationProps extends React.Props<HTMLDivElement> {
   /**
    * Width of the visible area in pixels
    */
@@ -174,7 +174,7 @@ export interface FoundationProps extends React.SVGProps<SVGSVGElement> {
 }
 
 export const Foundation = React.forwardRef<
-  SVGSVGElement,
+  HTMLDivElement,
   React.PropsWithChildren<FoundationProps>
 >(
   (
@@ -186,7 +186,7 @@ export const Foundation = React.forwardRef<
       onReady,
       className,
       children,
-      ...svgProps
+      ...externalProps
     },
     ref,
   ) => {
@@ -253,8 +253,8 @@ export const Foundation = React.forwardRef<
     /**
      * Keep track of the SVG element (both internally and externally forwarded).
      */
-    const internalRef = useRef<SVGSVGElement | null>(null)
-    const callbackRef = useCallback((node: SVGSVGElement | null) => {
+    const internalRef = useRef<HTMLDivElement | null>(null)
+    const callbackRef = useCallback((node: HTMLDivElement | null) => {
       // Set the external forwarded ref if present
       if (ref !== null) {
         if (typeof ref === 'function') {
@@ -296,24 +296,21 @@ export const Foundation = React.forwardRef<
      */
 
     return (
-      <svg
-        className={className}
-        touch-action="none"
-        ref={callbackRef}
-        {...svgProps}
-      >
-        {toSvgBasis !== undefined && toUserBasis !== undefined ? (
-          <FoundationContext.Provider
-            value={{
-              userBasis,
-              toSvgBasis,
-              toUserBasis,
-            }}
-          >
-            {children}
-          </FoundationContext.Provider>
-        ) : null}
-      </svg>
+      <div ref={callbackRef} className={className} {...externalProps}>
+        <svg width={width} height={height}>
+          {toSvgBasis !== undefined && toUserBasis !== undefined ? (
+            <FoundationContext.Provider
+              value={{
+                userBasis,
+                toSvgBasis,
+                toUserBasis,
+              }}
+            >
+              {children}
+            </FoundationContext.Provider>
+          ) : null}
+        </svg>
+      </div>
     )
   },
 )
