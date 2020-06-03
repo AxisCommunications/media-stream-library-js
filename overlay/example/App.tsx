@@ -51,8 +51,8 @@ const App: React.FC = () => {
       <Foundation
         userBasis={USER_BASIS}
         style={{
-          width: '640px',
-          height: '480px',
+          width: '80vw',
+          height: '80vh',
           border: '1px solid deepskyblue',
         }}
       >
