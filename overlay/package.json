@@ -1,6 +1,6 @@
 {
   "name": "media-overlay-library",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "React library for SVG drawing.",
   "license": "MIT",
   "main": "dist/esm/index.js",

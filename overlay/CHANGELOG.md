@@ -1,3 +1,12 @@
+## [3.0.1](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.0.0...v3.0.1) (2020-06-17)
+
+
+### Bug Fixes
+
+* do not render when width/height <= 0 ([8e6f459](https://github.com/AxisCommunications/media-overlay-library-js/commit/8e6f459555379bd0573688230bbf8afd74e1dd4e))
+
+
+
 # [3.0.0](https://github.com/AxisCommunications/media-overlay-library-js/compare/v2.0.0...v3.0.0) (2020-06-03)
 
 
