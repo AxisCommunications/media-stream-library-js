@@ -198,7 +198,12 @@ export const Foundation = React.forwardRef<
      * user coordinates to SVG coordinates and back.
      */
     const { toSvgBasis, toUserBasis } = useMemo(() => {
-      if (width === undefined || height === undefined) {
+      if (
+        width === undefined ||
+        width <= 0 ||
+        height === undefined ||
+        height <= 0
+      ) {
         return {}
       }
       // Set up basis transform from user to svg space:
