@@ -21,6 +21,7 @@ import { Feedback } from './Feedback'
 import { Sdp } from 'media-stream-library/dist/esm/utils/protocols'
 import { Stats } from './Stats'
 import { useSwitch } from './hooks/useSwitch'
+import { getImageURL } from './utils'
 import { MetadataHandler } from './metadata'
 import styled from 'styled-components'
 
@@ -119,6 +120,15 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     /**
      * Controls
      */
+    const [videoProperties, setVideoProperties] = useState<VideoProperties>()
+
+    const onPlaying = useCallback(
+      (props: VideoProperties) => {
+        setVideoProperties(props)
+        setWaiting(false)
+      },
+      [setWaiting],
+    )
 
     const onPlayPause = useCallback(() => {
       if (play) {
@@ -135,6 +145,21 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       setRefresh((value) => value + 1)
       setWaiting(true)
     }, [])
+
+    const onScreenshot = useCallback(() => {
+      if (videoProperties === undefined) {
+        return undefined
+      }
+
+      const { el, width, height } = videoProperties
+      const imageURL = getImageURL(el, { width, height })
+      const link = document.createElement('a')
+      const event = new window.MouseEvent('click')
+
+      link.download = `snapshot_${Date.now()}.jpg`
+      link.href = imageURL
+      link.dispatchEvent(event)
+    }, [videoProperties])
 
     const onStop = useCallback(() => {
       setPlay(false)
@@ -197,20 +222,13 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
      * the visible image of the video or still image.
      */
 
-    const [videoProperties, setVideoProperties] = useState<VideoProperties>()
-    const onPlaying = useCallback(
-      (props: VideoProperties) => {
-        setVideoProperties(props)
-        setWaiting(false)
-      },
-      [setWaiting],
-    )
-
     const naturalAspectRatio = useMemo(() => {
       if (videoProperties === undefined) {
         return undefined
       }
+
       const { width, height } = videoProperties
+
       return width / height
     }, [videoProperties])
 
@@ -288,6 +306,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 onPlay={onPlayPause}
                 onStop={onStop}
                 onRefresh={onRefresh}
+                onScreenshot={onScreenshot}
                 onFormat={onFormat}
                 onVapix={onVapix}
                 labels={{
@@ -296,6 +315,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                   stop: 'Stop',
                   refresh: 'Refresh',
                   settings: 'Settings',
+                  screenshot: 'Take a snapshot',
                 }}
                 showStatsOverlay={showStatsOverlay}
                 toggleStats={toggleStatsOverlay}
