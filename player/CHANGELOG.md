@@ -1,3 +1,12 @@
+# [2.3.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.2.1...v2.3.0) (2020-07-15)
+
+
+### Features
+
+* GetImageURL and Screenshot ([6c0d3c3](https://github.com/AxisCommunications/media-stream-player-js/commit/6c0d3c35591b1c0cdf3b545a52051717dae15c3d))
+
+
+
 ## [2.2.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.2.0...v2.2.1) (2020-05-24)
 
 
