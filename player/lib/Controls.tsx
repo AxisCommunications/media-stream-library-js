@@ -5,7 +5,7 @@ import useUserActive from './hooks/useUserActive'
 
 import { Button } from './components/Button'
 import { Format } from './Player'
-import { Play, Pause, Stop, Refresh, CogWheel } from './img'
+import { Play, Pause, Stop, Refresh, CogWheel, Screenshot } from './img'
 import { Settings } from './Settings'
 import { VapixParameters } from './PlaybackArea'
 
@@ -41,6 +41,7 @@ interface ControlsProps {
   onPlay: () => void
   onStop: () => void
   onRefresh: () => void
+  onScreenshot: () => void
   onFormat: (format: Format) => void
   onVapix: (key: string, value: string) => void
   labels?: {
@@ -48,6 +49,7 @@ interface ControlsProps {
     pause?: string
     stop?: string
     refresh?: string
+    screenshot?: string
     settings?: string
   }
   showStatsOverlay: boolean
@@ -61,6 +63,7 @@ export const Controls: React.FC<ControlsProps> = ({
   onPlay,
   onStop,
   onRefresh,
+  onScreenshot,
   onFormat,
   onVapix,
   labels,
@@ -90,6 +93,11 @@ export const Controls: React.FC<ControlsProps> = ({
         {src && (
           <Button onClick={onRefresh}>
             <Refresh title={labels?.refresh} />
+          </Button>
+        )}
+        {src && (
+          <Button onClick={onScreenshot}>
+            <Screenshot title={labels?.screenshot} />
           </Button>
         )}
         <Progress />
