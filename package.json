@@ -63,7 +63,7 @@
     "cypress": "4.5.0",
     "eslint": "7.0.0",
     "eslint-config-prettier": "6.11.0",
-    "eslint-plugin-import": "2.20.2",
+    "eslint-plugin-import": "2.22.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
     "http-server": "0.12.3",
