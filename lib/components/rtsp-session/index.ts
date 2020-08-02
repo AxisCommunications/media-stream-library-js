@@ -19,6 +19,7 @@ import {
   contentBase,
   range,
   sessionTimeout,
+  contentLocation,
 } from '../../utils/protocols/rtsp'
 import { packetType, SR } from '../../utils/protocols/rtcp'
 import { getTime } from '../../utils/protocols/ntp'
@@ -116,7 +117,9 @@ export class RtspSession extends Tube {
   private _state?: STATE
   private _waiting?: boolean
   private _contentBase?: string | null
+  private _contentLocation?: string | null
   private _sessionId?: string | null
+  private _sessionControlURL: string
   private _renewSessionInterval?: number | null
 
   /**
@@ -170,6 +173,8 @@ export class RtspSession extends Tube {
 
     this._reset()
     this.update(uri, headers, defaultHeaders)
+
+    this._sessionControlURL = this._controlURL()
   }
 
   /**
@@ -226,6 +231,24 @@ export class RtspSession extends Tube {
     this.clockrates = undefined
   }
 
+  _controlURL(attribute?: string) {
+    if (attribute !== undefined && isAbsolute(attribute)) {
+      return attribute
+    }
+
+    // Not defined or not absolute, we need a base URI
+    const baseURL = this._contentBase ?? this._contentLocation ?? this.uri
+    if (baseURL === null || baseURL === undefined) {
+      throw new Error(
+        'relative or missing control attribute but no base URL available',
+      )
+    }
+    if (attribute === undefined || attribute === '*') {
+      return baseURL
+    }
+    return new URL(attribute, baseURL).href
+  }
+
   /**
    * Handles incoming RTSP messages and send the next command in the queue.
    * @param  msg - An incoming RTSP message.
@@ -264,6 +287,9 @@ export class RtspSession extends Tube {
 
     if (!this._contentBase) {
       this._contentBase = contentBase(msg.data)
+    }
+    if (!this._contentLocation) {
+      this._contentLocation = contentLocation(msg.data)
     }
     if (status >= 400) {
       // TODO: Retry in certain cases?
@@ -326,8 +352,10 @@ export class RtspSession extends Tube {
     this.n0 = {}
     this.t0 = {}
     this.clockrates = {}
+
+    this._sessionControlURL = this._controlURL(msg.sdp.session.control)
+
     msg.sdp.media.forEach((media, index) => {
-      let uri = media.control
       // We should actually be able to handle
       // non-dynamic payload types, but ignored for now.
       if (media.rtpmap === undefined) {
@@ -338,13 +366,10 @@ export class RtspSession extends Tube {
       const rtp = index * 2
       const rtcp = rtp + 1
 
-      // TODO: investigate if we can make sure this is defined
-      if (uri === undefined) {
-        return
-      }
-      if (!isAbsolute(uri)) {
-        uri = this._contentBase + uri
-      }
+      const uri =
+        media.control === undefined
+          ? this._sessionControlURL
+          : this._controlURL(media.control)
 
       this._enqueue({
         method: RTSP_METHOD.SETUP,
@@ -366,7 +391,7 @@ export class RtspSession extends Tube {
         headers: {
           Range: `npt=${this.startTime || 0}-`,
         },
-        uri: this._contentBase ? this._contentBase : this.uri,
+        uri: this._sessionControlURL,
       })
     }
     this._dequeue()
@@ -392,7 +417,7 @@ export class RtspSession extends Tube {
         headers: {
           Session: this._sessionId,
         },
-        uri: this._contentBase ? this._contentBase : this.uri,
+        uri: this._sessionControlURL,
       })
     }
     this._state = STATE.PLAYING
@@ -450,7 +475,7 @@ export class RtspSession extends Tube {
     const message = Object.assign(
       {
         type: MessageType.RTSP,
-        uri: uri || this.uri,
+        uri: uri || this._sessionControlURL,
         data: Buffer.alloc(0), // data is a mandatory field. Not used by session -> parser messages.
       },
       { method, headers },
