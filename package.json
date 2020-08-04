@@ -60,7 +60,7 @@
     "conventional-changelog-cli": "2.0.34",
     "conventional-recommended-bump": "6.0.9",
     "core-js": "3.6.5",
-    "cypress": "4.11.0",
+    "cypress": "4.12.0",
     "eslint": "7.6.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-import": "2.22.0",
