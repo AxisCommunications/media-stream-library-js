@@ -1,0 +1,20 @@
+extends:
+  - 'typescript-shareable'
+
+parserOptions:
+  project: './tsconfig.json'
+  ecmaVersion: 2019
+  ecmaFeatures:
+    jsx: true
+
+env:
+  browser: true
+  es6: true
+  node: true
+
+settings:
+  react:
+    version: detect
+
+rules:
+  '@typescript-eslint/unbound-method': 'off'

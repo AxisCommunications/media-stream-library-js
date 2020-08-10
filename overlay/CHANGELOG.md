@@ -1,112 +1,67 @@
-# [3.2.0](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.1.1...v3.2.0) (2020-09-11)
+# Changelog
 
+All notable changes to this project will be documented in this file.
 
-### Bug Fixes
+## v3.1.2 (2020-09-11 09:03:09 +0200)
 
-* correct run step in release workflow ([062ea0f](https://github.com/AxisCommunications/media-overlay-library-js/commit/062ea0f3654bb76857e394eab1c73ad39e0a8025))
-* git config before push ([713e3bf](https://github.com/AxisCommunications/media-overlay-library-js/commit/713e3bff88d3dd20d7b116a5107c7fa1d55d1210))
-* remove unnecessary context value changes ([0046ab7](https://github.com/AxisCommunications/media-overlay-library-js/commit/0046ab7029cd23e6bcf6a88f60c99d62444a4dcb))
-* run yarn after setting git config ([a168c32](https://github.com/AxisCommunications/media-overlay-library-js/commit/a168c32e235b34be0dd0bb0bbebde97331601570))
-* run yarn before release ([8fffa02](https://github.com/AxisCommunications/media-overlay-library-js/commit/8fffa02ca50c32d895fc4193c16fd334dabc49d9))
-* specify node version 14 for release ([2748aa6](https://github.com/AxisCommunications/media-overlay-library-js/commit/2748aa6b7b8c331d3693588943f75f97d41ed782))
+### Bug fixes
 
+  -  remove unnecessary context value changes
 
-### Features
+## v3.1.1 (2020-09-03 15:32:03 +0200)
 
-* new workflows ([860d8bb](https://github.com/AxisCommunications/media-overlay-library-js/commit/860d8bb623aadf20273981b5e8cc7ab9c6f6530c))
+### Maintenance
 
+  -  update babel monorepo
 
+### Bug fixes
 
-## [3.1.2](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.1.1...v3.1.2) (2020-09-11)
+  -  explicitly specify GitHub package registry
 
+## v3.1.0 (2020-09-03 11:45:57 +0200)
 
-### Bug Fixes
+### Maintenance
 
-* remove unnecessary context value changes ([0046ab7](https://github.com/AxisCommunications/media-overlay-library-js/commit/0046ab7029cd23e6bcf6a88f60c99d62444a4dcb))
-
-
-
-## [3.1.1](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.1.0...v3.1.1) (2020-09-03)
-
-
-### Bug Fixes
-
-* explicitly specify GitHub package registry ([e9e36c2](https://github.com/AxisCommunications/media-overlay-library-js/commit/e9e36c2d6ce5b35c64b02fac6b22d69de1a92e96))
-
-
-
-# [3.1.0](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.0.1...v3.1.0) (2020-09-03)
-
-
-### Bug Fixes
-
-* **deps:** update all ([3e6da2f](https://github.com/AxisCommunications/media-overlay-library-js/commit/3e6da2f2d7ce131e5f511c476af95176d464b972))
-
+  -  configure renovate grouping
+  -  pin dependency styled-components to 5.0.1
+  -  update dependency eslint-plugin-react-hooks to v4
 
 ### Features
 
-* use GitHub package registry ([0deb928](https://github.com/AxisCommunications/media-overlay-library-js/commit/0deb928046a3cf5b2997aac7a1ec44bf17490d32))
+  -  use GitHub package registry
 
+### Bug fixes
 
+  -  update all
 
-## [3.0.1](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.0.0...v3.0.1) (2020-06-17)
+## v3.0.1 (2020-06-17 10:06:37 +0200)
 
+### Maintenance
 
-### Bug Fixes
+  -  update CI to use NodeJS 14
 
-* do not render when width/height <= 0 ([8e6f459](https://github.com/AxisCommunications/media-overlay-library-js/commit/8e6f459555379bd0573688230bbf8afd74e1dd4e))
+### Bug fixes
 
+  -  do not render when width/height <= 0
 
+## v3.0.0 (2020-06-03 14:11:16 +0200)
 
-# [3.0.0](https://github.com/AxisCommunications/media-overlay-library-js/compare/v2.0.0...v3.0.0) (2020-06-03)
+### Bug fixes
 
+  -  resize observer does not track SVG layout
 
-* fix!: resize observer does not track SVG layout ([865789b](https://github.com/AxisCommunications/media-overlay-library-js/commit/865789b1155b92367c97b139ee5732a916cbcdf5))
+## v2.0.0 (2020-05-08 12:41:20 +0200)
 
+### Maintenance
 
-### BREAKING CHANGES
-
-* the main wrapper element for
-`Foundation` is changed from `svg` to `div`.
-This affects the extra properties sent to the
-`Foundation` component, as well as the forwarded
-ref.
-
-
-
-# [2.0.0](https://github.com/AxisCommunications/media-overlay-library-js/compare/v1.1.0...v2.0.0) (2020-05-08)
-
-
-### Bug Fixes
-
-* Add name to Text example ([149f1fa](https://github.com/AxisCommunications/media-overlay-library-js/commit/149f1fa98943258b24b2ba37b5134b2c434ad9e7))
-* Example styling ([06c604d](https://github.com/AxisCommunications/media-overlay-library-js/commit/06c604d9a17309f946176a0f4e134ad44ada7d3d))
-* Non draggable Circle throws error ([ca8e6e0](https://github.com/AxisCommunications/media-overlay-library-js/commit/ca8e6e0fa2fd5878211cd34e4490d8a36fee58f2))
-
+  -  explain the coordinate conversion idea
 
 ### Features
 
-* compute width/height internally ([431969f](https://github.com/AxisCommunications/media-overlay-library-js/commit/431969f29800ed8c8e9f83e2c5e9718f198c086f))
+  -  compute width/height internally
 
+### Bug fixes
 
-### BREAKING CHANGES
-
-*  - `onReady` no longer passes `visibleArea`, but an object with
-   data to be able to compute any transformation (more generic).
-   Check the docs for `onReady` for an example how to compute the
-   visible area.
- - `width` and `height` properties removed from `Foundation`,
-   you can still set the size for the <svg> element via CSS
-   (if auto size does not work for you).
-
-
-
-# 1.1.0 (2020-04-05)
-
-
-### Features
-
-* first commit of media-overlay-library-js ([09f00a6](https://github.com/AxisCommunications/media-overlay-library-js/commit/09f00a6be745e2e4fdc95fe004d33e7c141de29c))
-
-
-
+  -  Add name to Text example
+  -  Example styling
+  -  Non draggable Circle throws error

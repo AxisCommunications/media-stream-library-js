@@ -161,10 +161,10 @@ lets you specify an area to which to limit your components. There is also a
 With the React SVG elements and utilities as building blocks, you can then make
 your own SVG components that will be used inside the `Foundation` component.
 The best way to get started is to have a look at the example section, which
-shows how you can build your components to make use of this library. The
-example can be run with `yarn dev`. Instead of defining a whole array of new
-SVG components that wrap the browser elements, the idea is that you can easily
-do this already with React, and therefore we focused on providing the basics to
-aid with building your components, instead of creating a component library.
-Maybe the latter can grow out of the example components, but for now that is
-not what this is about.
+shows how you can build your components to make use of this library.
+
+Instead of defining a whole array of new SVG components that wrap the browser
+elements, the idea is that you can easily do this already with React, and
+therefore we focused on providing the basics to aid with building your
+components, instead of creating a component library. Maybe the latter can grow
+out of the example components, but for now that is not what this is about.

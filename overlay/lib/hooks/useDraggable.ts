@@ -60,20 +60,18 @@ export function useDraggable(): DraggableControls {
     e.stopPropagation()
     const name = e.currentTarget.getAttribute('name')
     if (name === null) {
-      console.error(
-        `${useDraggable.name}: \'name\' attribute missing on element`,
-      )
+      console.error(`${useDraggable.name}: 'name' attribute missing on element`)
     }
     setOrigin([e.pageX, e.pageY])
     __translationName.current = name
   }, [])
 
   useEffect(() => {
-    if (origin) {
+    if (origin !== null) {
       const [originX, originY] = origin
       const emitTranslationEvent = (ended: boolean) => {
         if (__translationSubscriber.current === undefined) {
-          console.error(`${useDraggable.name}: \'missing subscriber function\'`)
+          console.error(`${useDraggable.name}: 'missing subscriber function'`)
           return
         }
         __translationSubscriber.current(

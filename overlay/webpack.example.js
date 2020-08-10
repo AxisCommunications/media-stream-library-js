@@ -1,5 +1,4 @@
 const path = require('path')
-
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
@@ -22,18 +21,18 @@ module.exports = {
           options: {
             sourceType: 'unambiguous',
             presets: [
-              '@babel/typescript',
+              '@babel/preset-typescript',
               '@babel/preset-react',
               [
-                '@babel/env',
+                '@babel/preset-env',
                 {
                   debug: false,
                 },
               ],
             ],
             plugins: [
-              '@babel/proposal-class-properties',
-              '@babel/proposal-object-rest-spread',
+              '@babel/plugin-proposal-class-properties',
+              '@babel/plugin-proposal-object-rest-spread',
             ],
             babelrc: false,
           },

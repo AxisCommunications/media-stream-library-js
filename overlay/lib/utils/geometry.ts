@@ -1,5 +1,5 @@
 export type Coord = readonly [number, number]
-export type CoordArray = readonly Coord[]
+export type CoordArray = ReadonlyArray<Coord>
 
 /**
  * Compute a ranged version of a number so that is always
@@ -18,7 +18,7 @@ export const modulo = (i: number, n: number) => {
  * @param  {Number} i - The index of the element to select
  * @return {Object} - The element corresponding to cyclic index i
  */
-export const select = <T>(arr: readonly T[], i: number) => {
+export const select = <T>(arr: ReadonlyArray<T>, i: number) => {
   return arr[modulo(i, arr.length)]
 }
 
@@ -27,7 +27,9 @@ export const select = <T>(arr: readonly T[], i: number) => {
  * @param  {Array} items - The array to double
  * @return {Array} - A new array of doubled items
  */
-export const doubled = <T>(items: readonly T[]): ReadonlyArray<[T, T]> => {
+export const doubled = <T>(
+  items: ReadonlyArray<T>,
+): ReadonlyArray<readonly [T, T]> => {
   return items.map((item, i, arr) => {
     return [item, select(arr, i + 1)]
   })
@@ -45,7 +47,7 @@ export const midPoints = (points: CoordArray): CoordArray => {
 }
 
 export const withMidPoints = (points: CoordArray): CoordArray => {
-  return doubled(points).reduce<Coord[]>((acc, [p1, p2]) => {
+  return doubled(points).reduce<Array<Coord>>((acc, [p1, p2]) => {
     acc.push(p1)
     acc.push([(p1[0] + p2[0]) / 2, (p1[1] + p2[1]) / 2])
     return acc
@@ -59,11 +61,11 @@ const SMALL = Number.MIN_SAFE_INTEGER
 const LARGE = Number.MAX_SAFE_INTEGER
 export const bbox = (coords: CoordArray) => {
   const { x, y, x2, y2 } = coords.reduce(
-    (acc, [x, y]) => {
-      acc.x = Math.min(acc.x, x)
-      acc.y = Math.min(acc.y, y)
-      acc.x2 = Math.max(acc.x2, x)
-      acc.y2 = Math.max(acc.y2, y)
+    (acc, [cx, cy]) => {
+      acc.x = Math.min(acc.x, cx)
+      acc.y = Math.min(acc.y, cy)
+      acc.x2 = Math.max(acc.x2, cx)
+      acc.y2 = Math.max(acc.y2, cy)
       return acc
     },
     { x: LARGE, y: LARGE, x2: SMALL, y2: SMALL },

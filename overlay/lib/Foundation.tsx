@@ -55,10 +55,10 @@ import { Coord } from './utils/geometry'
  * An area is represented by the top left and bottom right
  * corner coordinates.
  */
-export type Area = [Coord, Coord]
+export type Area = readonly [Coord, Coord]
 
 /**
- * A boundix box is represented by the top left and bottom right
+ * A bounding box is represented by the top left and bottom right
  * corner coordinates.
  *
  * We use an over-specified bounding box so that it can easily be
@@ -69,7 +69,7 @@ export type Area = [Coord, Coord]
  *  width = |x2 - x| = |right - left|
  *  height = |y2 - y| = |bottom - top|
  */
-export type BBox = {
+export interface BBox {
   readonly x: number
   readonly y: number
   readonly x2?: number
@@ -112,9 +112,9 @@ const throwIfNoFoundationProvider = () => {
 export type CoordTransform = (P: Coord) => Coord
 
 export interface FoundationContextProps {
-  userBasis: Area
-  toSvgBasis: CoordTransform
-  toUserBasis: CoordTransform
+  readonly userBasis: Area
+  readonly toSvgBasis: CoordTransform
+  readonly toUserBasis: CoordTransform
 }
 
 export const FoundationContext = React.createContext<FoundationContextProps>({
@@ -228,10 +228,11 @@ export const Foundation = React.forwardRef<
         bSU = multiply(bSN, multiply(inverse(transformationMatrix), bNU))
       }
       const bUS = inverse(bSU)
-      const toSvgBasis = (p: Coord) => apply(bSU, p)
-      const toUserBasis = (p: Coord) => apply(bUS, p)
 
-      return { toSvgBasis, toUserBasis }
+      return {
+        toSvgBasis: (p: Coord) => apply(bSU, p),
+        toUserBasis: (p: Coord) => apply(bUS, p),
+      }
     }, [width, height, userBasis, transformationMatrix])
 
     /**
@@ -253,24 +254,27 @@ export const Foundation = React.forwardRef<
           height,
         })
       }
-    }, [width, height, toUserBasis, toSvgBasis])
+    }, [width, height, toUserBasis, toSvgBasis, onReady])
 
     /**
      * Keep track of the SVG element (both internally and externally forwarded).
      */
     const internalRef = useRef<HTMLDivElement | null>(null)
-    const callbackRef = useCallback((node: HTMLDivElement | null) => {
-      // Set the external forwarded ref if present
-      if (ref !== null) {
-        if (typeof ref === 'function') {
-          ref(node)
-        } else {
-          ref.current = node
+    const callbackRef = useCallback(
+      (node: HTMLDivElement | null) => {
+        // Set the external forwarded ref if present
+        if (ref !== null) {
+          if (typeof ref === 'function') {
+            ref(node)
+          } else {
+            ref.current = node
+          }
         }
-      }
-      // Keep track of the element internally
-      internalRef.current = node
-    }, [])
+        // Keep track of the element internally
+        internalRef.current = node
+      },
+      [ref],
+    )
 
     /**
      * Keep track of the size of the SVG drawing area and adjust width/height.

@@ -21,7 +21,7 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           scope: '@axiscommunications'
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: yarn install --immutable
       - name: Build
         run: yarn build
       - name: Release
