@@ -1,3 +1,18 @@
+# [2.4.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.3.0...v2.4.0) (2020-08-14)
+
+
+### Bug Fixes
+
+* **deps:** update all ([01ede42](https://github.com/AxisCommunications/media-stream-player-js/commit/01ede423c9b00d1a5780f3e78772e025b1ccd422))
+* remove unused dependency ([2a448ac](https://github.com/AxisCommunications/media-stream-player-js/commit/2a448accd54342edaa3bb50b7274f22337b0adf1))
+
+
+### Features
+
+* move `undocumented VAPIX parameter` to debug environment ([2e0b0a3](https://github.com/AxisCommunications/media-stream-player-js/commit/2e0b0a3538b1a51c2a257eec63870473d1ae946c))
+
+
+
 # [2.3.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.2.1...v2.3.0) (2020-07-15)
 
 
