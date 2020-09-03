@@ -22,6 +22,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@axiscommunications'
       - name: Install dependencies
         run: yarn --frozen-lockfile
       - name: Linting & Unit testing
