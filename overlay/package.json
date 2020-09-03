@@ -59,7 +59,7 @@
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
     "eslint-plugin-react": "7.20.6",
-    "eslint-plugin-react-hooks": "3.0.0",
+    "eslint-plugin-react-hooks": "4.1.0",
     "file-loader": "6.1.0",
     "html-webpack-plugin": "4.4.1",
     "pepjs": "0.5.2",
