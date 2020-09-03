@@ -1,3 +1,12 @@
+## [3.1.1](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.1.0...v3.1.1) (2020-09-03)
+
+
+### Bug Fixes
+
+* explicitly specify GitHub package registry ([e9e36c2](https://github.com/AxisCommunications/media-overlay-library-js/commit/e9e36c2d6ce5b35c64b02fac6b22d69de1a92e96))
+
+
+
 # [3.1.0](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.0.1...v3.1.0) (2020-09-03)
 
 
