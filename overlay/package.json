@@ -1,5 +1,12 @@
 {
-  "name": "media-overlay-library",
+  "name": "@axiscommunications/media-overlay-library",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com/AxisCommunications/media-overlay-library-js.git"
+  },
   "version": "3.0.1",
   "description": "React library for SVG drawing.",
   "license": "MIT",
@@ -7,10 +14,6 @@
   "browser": "dist/esm/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/index.d.ts",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/AxisCommunications/media-overlay-library-js"
-  },
   "keywords": [
     "react",
     "svg"

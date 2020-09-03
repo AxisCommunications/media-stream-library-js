@@ -1,12 +1,9 @@
 # Media Overlay Library JS
 
 [![CI][ci-image]][ci-url]
-[![NPM][npm-image]][npm-url]
 
 [ci-image]: https://github.com/AxisCommunications/media-overlay-library-js/workflows/CI/badge.svg
 [ci-url]: https://github.com/AxisCommunications/media-overlay-library-js/actions
-[npm-image]: https://img.shields.io/npm/v/media-overlay-library.svg
-[npm-url]: https://www.npmjs.com/package/media-overlay-library
 
 Media Overlay Library JS is a small React library to make it easier to draw SVG
 elements with a custom user-defined coordinate system, especially when there is
@@ -23,9 +20,19 @@ manipulate objects (e.g. dragging).
 
 ## Installation
 
-Use `yarn` or `npm` to install `media-overlay-library`. There are peer
-dependencies you should have installed in your main app, such as `react` and
-`pepjs`.
+The package is hosted on GitHub packages.
+First, set the appropriate registry for the AxisCommunications scope in your
+`.npmrc` file:
+
+```
+@axiscommunications:registry=https://npm.pkg.github.com
+```
+
+Then, use `yarn` or `npm` to install
+`@axiscommunications/media-overlay-library`.
+
+Make sure you have the necessary peer dependencies installed in your main app,
+such as `react` and `pepjs`.
 
 ## Usage
 
