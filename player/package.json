@@ -69,7 +69,7 @@
     "eslint-plugin-react-hooks": "4.1.0",
     "file-loader": "6.1.0",
     "html-webpack-plugin": "4.4.1",
-    "jest": "26.3.0",
+    "jest": "26.4.2",
     "lint-staged": "10.3.0",
     "prettier": "2.1.1",
     "react": "16.13.1",
