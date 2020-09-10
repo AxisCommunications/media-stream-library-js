@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react'
+import React, { useContext, useCallback, useMemo } from 'react'
 
 import { FoundationContext, Area, BBox } from './Foundation'
 import { bbox, Coord, CoordArray } from './utils/geometry'
@@ -35,9 +35,11 @@ export interface LinerProps {
 export const Liner: React.FC<LinerProps> = ({ area, children }) => {
   const { userBasis, toSvgBasis } = useContext(FoundationContext)
 
-  const areaUserBasis = area ?? userBasis
-  const areaSvgBasis = areaUserBasis.map(toSvgBasis)
-  const areaBBox = bbox(areaSvgBasis)
+  const areaBBox = useMemo(() => {
+    const areaUserBasis = area ?? userBasis
+    const areaSvgBasis = areaUserBasis.map(toSvgBasis)
+    return bbox(areaSvgBasis)
+  }, [area, userBasis, toSvgBasis, bbox])
 
   // Function that limits a point within the area's bounding box
   const clampCoord = useCallback(
@@ -80,15 +82,18 @@ export const Liner: React.FC<LinerProps> = ({ area, children }) => {
     [areaBBox],
   )
 
+  const contextValue: LinerContextProps = useMemo(
+    () => ({
+      areaBBox,
+      clampCoord,
+      clampCoordArray,
+      clampBBox,
+    }),
+    [areaBBox, clampCoord, clampCoordArray, clampBBox],
+  )
+
   return (
-    <LinerContext.Provider
-      value={{
-        areaBBox,
-        clampCoord,
-        clampCoordArray,
-        clampBBox,
-      }}
-    >
+    <LinerContext.Provider value={contextValue}>
       {children}
     </LinerContext.Provider>
   )

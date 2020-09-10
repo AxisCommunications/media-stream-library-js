@@ -296,6 +296,18 @@ export const Foundation = React.forwardRef<
       return () => observer.disconnect()
     }, [])
 
+    const contextValue: FoundationContextProps | undefined = useMemo(
+      () =>
+        toSvgBasis !== undefined && toUserBasis !== undefined
+          ? {
+              userBasis,
+              toSvgBasis,
+              toUserBasis,
+            }
+          : undefined,
+      [userBasis, toSvgBasis, toUserBasis],
+    )
+
     /**
      * Render SVG drawing area.
      */
@@ -303,14 +315,8 @@ export const Foundation = React.forwardRef<
     return (
       <div ref={callbackRef} className={className} {...externalProps}>
         <svg width={width} height={height}>
-          {toSvgBasis !== undefined && toUserBasis !== undefined ? (
-            <FoundationContext.Provider
-              value={{
-                userBasis,
-                toSvgBasis,
-                toUserBasis,
-              }}
-            >
+          {contextValue !== undefined ? (
+            <FoundationContext.Provider value={contextValue}>
               {children}
             </FoundationContext.Provider>
           ) : null}
