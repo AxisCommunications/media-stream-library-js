@@ -10,10 +10,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Generate new version
     - uses: actions/checkout@v2
       with:
         ref: master
+    - name: Generate new version
       run: |
         yarn release
         git push --follow-tags
