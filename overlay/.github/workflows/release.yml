@@ -16,7 +16,7 @@ jobs:
     - name: Setup node
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: '14'
     - name: Install dependencies
       run: yarn --frozen-lockfile
     - name: Generate new version
