@@ -1,3 +1,22 @@
+# [3.2.0](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.1.1...v3.2.0) (2020-09-11)
+
+
+### Bug Fixes
+
+* correct run step in release workflow ([062ea0f](https://github.com/AxisCommunications/media-overlay-library-js/commit/062ea0f3654bb76857e394eab1c73ad39e0a8025))
+* git config before push ([713e3bf](https://github.com/AxisCommunications/media-overlay-library-js/commit/713e3bff88d3dd20d7b116a5107c7fa1d55d1210))
+* remove unnecessary context value changes ([0046ab7](https://github.com/AxisCommunications/media-overlay-library-js/commit/0046ab7029cd23e6bcf6a88f60c99d62444a4dcb))
+* run yarn after setting git config ([a168c32](https://github.com/AxisCommunications/media-overlay-library-js/commit/a168c32e235b34be0dd0bb0bbebde97331601570))
+* run yarn before release ([8fffa02](https://github.com/AxisCommunications/media-overlay-library-js/commit/8fffa02ca50c32d895fc4193c16fd334dabc49d9))
+* specify node version 14 for release ([2748aa6](https://github.com/AxisCommunications/media-overlay-library-js/commit/2748aa6b7b8c331d3693588943f75f97d41ed782))
+
+
+### Features
+
+* new workflows ([860d8bb](https://github.com/AxisCommunications/media-overlay-library-js/commit/860d8bb623aadf20273981b5e8cc7ab9c6f6530c))
+
+
+
 ## [3.1.2](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.1.1...v3.1.2) (2020-09-11)
 
 
