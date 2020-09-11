@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## v4.0.1 (2020-09-11 16:42:50 +0200)
+
+### Maintenance
+
+  -  upgrade to Yarn v2
+
+### Bug fixes
+
+  -  improve release script
+
+## v3.2.0 (2020-09-11 11:17:54 +0200)
+
+### Maintenance
+
+  -  remove manual release workflow
+
+### Features
+
+  -  new workflows
+
+### Bug fixes
+
+  -  correct run step in release workflow
+  -  git config before push
+  -  run yarn after setting git config
+  -  run yarn before release
+  -  specify node version 14 for release
+
 ## v3.1.2 (2020-09-11 09:03:09 +0200)
 
 ### Bug fixes
