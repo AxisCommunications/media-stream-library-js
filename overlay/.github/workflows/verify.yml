@@ -1,0 +1,32 @@
+# Run linting, unit tests, check build is possible.
+# Standard requirements that should always be green.
+# Tested on NodeJS LTS and current stable.
+name: Verify
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['12', '14']
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn --frozen-lockfile
+      - name: Linting & Unit testing
+        run: |
+          yarn lint
+      - name: Build
+        run: yarn build
