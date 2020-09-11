@@ -1,3 +1,12 @@
+## [3.1.2](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.1.1...v3.1.2) (2020-09-11)
+
+
+### Bug Fixes
+
+* remove unnecessary context value changes ([0046ab7](https://github.com/AxisCommunications/media-overlay-library-js/commit/0046ab7029cd23e6bcf6a88f60c99d62444a4dcb))
+
+
+
 ## [3.1.1](https://github.com/AxisCommunications/media-overlay-library-js/compare/v3.1.0...v3.1.1) (2020-09-03)
 
 
