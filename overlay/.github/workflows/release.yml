@@ -22,4 +22,6 @@ jobs:
     - name: Generate new version
       run: |
         yarn release
+        git config --global user.name 'release-action'
+        git config --global user.email 'steabert@users.noreply.github.com'
         git push --follow-tags
