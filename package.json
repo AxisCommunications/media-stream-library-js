@@ -61,7 +61,7 @@
     "conventional-recommended-bump": "6.0.10",
     "core-js": "3.6.5",
     "cypress": "5.1.0",
-    "eslint": "7.8.1",
+    "eslint": "7.9.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-import": "2.22.0",
     "eslint-plugin-node": "11.1.0",
