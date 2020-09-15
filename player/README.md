@@ -27,7 +27,7 @@ and `PlaybackArea` components.
 ### As a stand-alone element
 
 If you don't use the player as part of you React app, the easiest way to use it
-is to download the `media-stream-player.min.js` file from the [releases](https://github.com/AxisCommunications/media-stream-player-js/releases)
+is to download the `media-stream-player.min.js` file from the [releases](https://github.com/AxisCommunications/media-stream-player-js/releases/latest)
 page and include it in your html file as a script:
 
 ```html
