@@ -5,54 +5,6 @@ __metadata:
   version: 4
   cacheKey: 5
 
-"@axiscommunications/media-overlay-library@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@axiscommunications/media-overlay-library@workspace:."
-  dependencies:
-    "@babel/cli": 7.11.5
-    "@babel/core": 7.11.5
-    "@babel/plugin-proposal-class-properties": 7.10.4
-    "@babel/plugin-proposal-object-rest-spread": 7.11.0
-    "@babel/polyfill": 7.11.5
-    "@babel/preset-env": 7.11.5
-    "@babel/preset-react": 7.10.4
-    "@babel/preset-typescript": 7.10.4
-    "@juggle/resize-observer": 3.2.0
-    "@types/react": 16.9.49
-    "@types/react-dom": 16.9.8
-    "@types/styled-components": 5.1.3
-    "@typescript-eslint/eslint-plugin": 2.34.0
-    "@typescript-eslint/parser": 2.34.0
-    babel-loader: 8.1.0
-    css-loader: 3.6.0
-    eslint: 7.6.0
-    eslint-config-typescript-shareable: 0.10.0
-    eslint-import-resolver-node: ^0.3.4
-    eslint-plugin-functional: 3.0.1
-    eslint-plugin-import: 2.22.0
-    eslint-plugin-node: 11.1.0
-    eslint-plugin-react: 7.20.5
-    eslint-plugin-react-hooks: 4.1.0
-    file-loader: 6.1.0
-    html-webpack-plugin: 4.4.1
-    pepjs: 0.5.2
-    prettier: 2.1.1
-    react: 16.13.1
-    react-dom: 16.13.1
-    react-is: ^16.13.1
-    style-loader: 1.2.1
-    styled-components: 5.1.1
-    typescript: 3.9.7
-    webpack: next
-    webpack-cli: 3.3.12
-    webpack-dev-server: 3.11.0
-  peerDependencies:
-    pepjs: ">= 0.4.3 < 1"
-    react: ">= 16.8.2 < 17"
-    react-dom: ">= 16.8.2 < 17"
-  languageName: unknown
-  linkType: soft
-
 "@babel/cli@npm:7.11.5":
   version: 7.11.5
   resolution: "@babel/cli@npm:7.11.5"
@@ -6100,6 +6052,54 @@ fsevents@^1.2.7:
   checksum: 0f1d42a28bb8dac13d663acdca0074e23547fe5859cf5dd1c807867f2988983da2a661108a3b1caf071e56e1fb1a3ebac9247f1cd88ad1eb93da07dc139b5bff
   languageName: node
   linkType: hard
+
+"media-overlay-library@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "media-overlay-library@workspace:."
+  dependencies:
+    "@babel/cli": 7.11.5
+    "@babel/core": 7.11.5
+    "@babel/plugin-proposal-class-properties": 7.10.4
+    "@babel/plugin-proposal-object-rest-spread": 7.11.0
+    "@babel/polyfill": 7.11.5
+    "@babel/preset-env": 7.11.5
+    "@babel/preset-react": 7.10.4
+    "@babel/preset-typescript": 7.10.4
+    "@juggle/resize-observer": 3.2.0
+    "@types/react": 16.9.49
+    "@types/react-dom": 16.9.8
+    "@types/styled-components": 5.1.3
+    "@typescript-eslint/eslint-plugin": 2.34.0
+    "@typescript-eslint/parser": 2.34.0
+    babel-loader: 8.1.0
+    css-loader: 3.6.0
+    eslint: 7.6.0
+    eslint-config-typescript-shareable: 0.10.0
+    eslint-import-resolver-node: ^0.3.4
+    eslint-plugin-functional: 3.0.1
+    eslint-plugin-import: 2.22.0
+    eslint-plugin-node: 11.1.0
+    eslint-plugin-react: 7.20.5
+    eslint-plugin-react-hooks: 4.1.0
+    file-loader: 6.1.0
+    html-webpack-plugin: 4.4.1
+    pepjs: 0.5.2
+    prettier: 2.1.1
+    react: 16.13.1
+    react-dom: 16.13.1
+    react-is: ^16.13.1
+    style-loader: 1.2.1
+    styled-components: 5.1.1
+    typescript: 3.9.7
+    webpack: next
+    webpack-cli: 3.3.12
+    webpack-dev-server: 3.11.0
+  peerDependencies:
+    pepjs: ">= 0.4.3 < 1"
+    react: ">= 16.8.2 < 17"
+    react-dom: ">= 16.8.2 < 17"
+  languageName: unknown
+  linkType: soft
 
 "media-typer@npm:0.3.0":
   version: 0.3.0

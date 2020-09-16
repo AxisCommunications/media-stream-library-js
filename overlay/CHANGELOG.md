@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## v4.0.4 (2020-09-16 11:07:28 +0200)
+
+### Maintenance
+
+  -  move back to npmjs.org registry
+
+### Bug fixes
+
+  -  use yarn for publishing
+
 ## v4.0.3 (2020-09-16 10:29:17 +0200)
 
 ### Bug fixes
