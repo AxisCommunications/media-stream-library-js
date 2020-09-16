@@ -4,8 +4,9 @@
 # Coverage directory (tests with coverage)
 coverage/
 
-# Dependencies
-node_modules/
+# Yarn
+.yarn
+.pnp.*
 
 # Editors
 .vscode/
