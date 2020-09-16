@@ -1,7 +1,7 @@
 {
-  "name": "@axiscommunications/media-overlay-library",
+  "name": "media-overlay-library",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://registry.npmjs.org/"
   },
   "repository": {
     "type": "git",

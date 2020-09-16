@@ -1,9 +1,12 @@
 # Media Overlay Library JS
 
 [![CI][ci-image]][ci-url]
+[![NPM][npm-image]][npm-url]
 
 [ci-image]: https://github.com/AxisCommunications/media-overlay-library-js/workflows/CI/badge.svg
 [ci-url]: https://github.com/AxisCommunications/media-overlay-library-js/actions
+[npm-image]: https://img.shields.io/npm/v/media-overlay-library.svg
+[npm-url]: https://www.npmjs.com/package/media-overlay-library
 
 Media Overlay Library JS is a small React library to make it easier to draw SVG
 elements with a custom user-defined coordinate system, especially when there is
@@ -20,19 +23,9 @@ manipulate objects (e.g. dragging).
 
 ## Installation
 
-The package is hosted on GitHub packages.
-First, set the appropriate registry for the AxisCommunications scope in your
-`.npmrc` file:
-
-```
-@axiscommunications:registry=https://npm.pkg.github.com
-```
-
-Then, use `yarn` or `npm` to install
-`@axiscommunications/media-overlay-library`.
-
-Make sure you have the necessary peer dependencies installed in your main app,
-such as `react` and `pepjs`.
+Use `yarn` or `npm` to install `media-overlay-library`. There are peer
+dependencies you should have installed in your main app, such as `react` and
+`pepjs`.
 
 ## Usage
 
@@ -161,10 +154,10 @@ lets you specify an area to which to limit your components. There is also a
 With the React SVG elements and utilities as building blocks, you can then make
 your own SVG components that will be used inside the `Foundation` component.
 The best way to get started is to have a look at the example section, which
-shows how you can build your components to make use of this library.
-
-Instead of defining a whole array of new SVG components that wrap the browser
-elements, the idea is that you can easily do this already with React, and
-therefore we focused on providing the basics to aid with building your
-components, instead of creating a component library. Maybe the latter can grow
-out of the example components, but for now that is not what this is about.
+shows how you can build your components to make use of this library. The
+example can be run with `yarn dev`. Instead of defining a whole array of new
+SVG components that wrap the browser elements, the idea is that you can easily
+do this already with React, and therefore we focused on providing the basics to
+aid with building your components, instead of creating a component library.
+Maybe the latter can grow out of the example components, but for now that is
+not what this is about.
