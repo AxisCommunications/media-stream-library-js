@@ -3776,7 +3776,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-resolver-node@npm:^0.3.3, eslint-import-resolver-node@npm:^0.3.4":
+"eslint-import-resolver-node@npm:0.3.4, eslint-import-resolver-node@npm:^0.3.3":
   version: 0.3.4
   resolution: "eslint-import-resolver-node@npm:0.3.4"
   dependencies:
@@ -6075,7 +6075,7 @@ fsevents@^1.2.7:
     css-loader: 3.6.0
     eslint: 7.6.0
     eslint-config-typescript-shareable: 0.10.0
-    eslint-import-resolver-node: ^0.3.4
+    eslint-import-resolver-node: 0.3.4
     eslint-plugin-functional: 3.0.1
     eslint-plugin-import: 2.22.0
     eslint-plugin-node: 11.1.0
@@ -6087,7 +6087,7 @@ fsevents@^1.2.7:
     prettier: 2.1.1
     react: 16.13.1
     react-dom: 16.13.1
-    react-is: ^16.13.1
+    react-is: 16.13.1
     style-loader: 1.2.1
     styled-components: 5.1.1
     typescript: 3.9.7
@@ -7513,7 +7513,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"react-is@npm:^16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.1":
+"react-is@npm:16.13.1, react-is@npm:^16.7.0, react-is@npm:^16.8.1":
   version: 16.13.1
   resolution: "react-is@npm:16.13.1"
   checksum: 11bcf1267a314a522615f626f3ce3727a3a24cdbf61c4d452add3550a7875326669631326cfb1ba3e92b6f72244c32ffecf93ad21c0cad8455d3e169d0e3f060
