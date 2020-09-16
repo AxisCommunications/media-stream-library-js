@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## v4.0.2 (2020-09-16 09:30:07 +0200)
+
 ## v4.0.1 (2020-09-11 16:42:50 +0200)
 
 ### Maintenance
