@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v4.0.2 (2020-09-16 09:30:07 +0200)
+## v4.0.3 (2020-09-16 10:29:17 +0200)
+
+### Bug fixes
+
+  -  keep yarn v2 out of npm package
+
+## v4.0.2 (2020-09-16 09:30:08 +0200)
 
 ## v4.0.1 (2020-09-11 16:42:50 +0200)
 
