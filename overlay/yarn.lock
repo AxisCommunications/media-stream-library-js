@@ -5,9 +5,9 @@ __metadata:
   version: 4
   cacheKey: 5
 
-"@babel/cli@npm:7.11.5":
-  version: 7.11.5
-  resolution: "@babel/cli@npm:7.11.5"
+"@babel/cli@npm:7.11.6":
+  version: 7.11.6
+  resolution: "@babel/cli@npm:7.11.6"
   dependencies:
     chokidar: ^2.1.8
     commander: ^4.0.1
@@ -17,7 +17,7 @@ __metadata:
     lodash: ^4.17.19
     make-dir: ^2.1.0
     slash: ^2.0.0
-    source-map: ^0.6.1
+    source-map: ^0.5.0
   peerDependencies:
     "@babel/core": ^7.0.0-0
   dependenciesMeta:
@@ -26,7 +26,7 @@ __metadata:
   bin:
     babel: ./bin/babel.js
     babel-external-helpers: ./bin/babel-external-helpers.js
-  checksum: 88a1be31e76fcf7a6a704ea13a82082877e8398b8c42b3aa30577e07dfeac396494fc040cf298064f0c622ba7fd0ec11ea87892432bfed34db35600ce882bd64
+  checksum: b52d62e3c751b3357130a458487c1d7f08a0c348a56f5da200f6e12ac6a1b8b560190c50085abb12f4cba9b2a84c8478e155acf3621912d42e67b248da0c40c1
   languageName: node
   linkType: hard
 
@@ -50,7 +50,31 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:7.11.5, @babel/core@npm:>=7.9.0":
+"@babel/core@npm:7.11.6":
+  version: 7.11.6
+  resolution: "@babel/core@npm:7.11.6"
+  dependencies:
+    "@babel/code-frame": ^7.10.4
+    "@babel/generator": ^7.11.6
+    "@babel/helper-module-transforms": ^7.11.0
+    "@babel/helpers": ^7.10.4
+    "@babel/parser": ^7.11.5
+    "@babel/template": ^7.10.4
+    "@babel/traverse": ^7.11.5
+    "@babel/types": ^7.11.5
+    convert-source-map: ^1.7.0
+    debug: ^4.1.0
+    gensync: ^1.0.0-beta.1
+    json5: ^2.1.2
+    lodash: ^4.17.19
+    resolve: ^1.3.2
+    semver: ^5.4.1
+    source-map: ^0.5.0
+  checksum: ad61c22807c904247ae61f11d176b33b3e44f0f2ca3b8d2b31e781ebd558db3381291f5a8a6a3acc28f5c1d6fdbb2b3ad29ca73b4d656d128a406e641b2e985a
+  languageName: node
+  linkType: hard
+
+"@babel/core@npm:>=7.9.0":
   version: 7.11.5
   resolution: "@babel/core@npm:7.11.5"
   dependencies:
@@ -74,7 +98,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/generator@npm:^7.11.5":
+"@babel/generator@npm:^7.11.5, @babel/generator@npm:^7.11.6":
   version: 7.11.6
   resolution: "@babel/generator@npm:7.11.6"
   dependencies:
@@ -6063,8 +6087,8 @@ fsevents@^1.2.7:
   version: 0.0.0-use.local
   resolution: "media-overlay-library@workspace:."
   dependencies:
-    "@babel/cli": 7.11.5
-    "@babel/core": 7.11.5
+    "@babel/cli": 7.11.6
+    "@babel/core": 7.11.6
     "@babel/plugin-proposal-class-properties": 7.10.4
     "@babel/plugin-proposal-object-rest-spread": 7.11.0
     "@babel/polyfill": 7.11.5
