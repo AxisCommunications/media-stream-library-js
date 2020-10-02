@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## v4.0.5 (2020-10-02 16:37:21 +0200)
+
+### Maintenance
+
+  -  pin dependencies
+  -  update all
+  -  update babel monorepo to v7.11.6
+  -  update dependency eslint-plugin-react-hooks to v4.1.2
+
 ## v4.0.4 (2020-09-16 11:07:28 +0200)
 
 ### Maintenance
