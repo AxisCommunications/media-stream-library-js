@@ -52,7 +52,7 @@
     "@typescript-eslint/eslint-plugin": "2.34.0",
     "@typescript-eslint/parser": "2.34.0",
     "babel-loader": "8.1.0",
-    "css-loader": "3.6.0",
+    "css-loader": "4.3.0",
     "eslint": "7.6.0",
     "eslint-config-typescript-shareable": "0.10.0",
     "eslint-import-resolver-node": "0.3.4",
@@ -70,7 +70,7 @@
     "react-is": "16.13.1",
     "style-loader": "1.2.1",
     "styled-components": "5.1.1",
-    "typescript": "3.9.7",
+    "typescript": "4.0.3",
     "webpack": "next",
     "webpack-cli": "3.3.12",
     "webpack-dev-server": "3.11.0"
