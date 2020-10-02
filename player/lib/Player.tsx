@@ -96,9 +96,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     const [refresh, setRefresh] = useState(0)
     const [host, setHost] = useState(hostname)
     const [waiting, setWaiting] = useState(autoPlay)
-    const [api, setApi] = useState(
-      format ? FORMAT_API[format] : DEFAULT_API_TYPE,
-    )
+    const [api, setApi] = useState<string>(DEFAULT_API_TYPE)
 
     /**
      * VAPIX parameters
@@ -183,7 +181,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       setWaiting(false)
     }, [])
 
-    const onFormat = (format: Format) => {
+    const onFormat = useCallback((format: Format | undefined) => {
       switch (format) {
         case 'H264':
           setApi(AXIS_MEDIA_AMP)
@@ -194,13 +192,16 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
           setParameters({ ...parameters, videocodec: 'jpeg' })
           break
         case 'JPEG':
+        default:
           setApi(AXIS_IMAGE_CGI)
           break
-        default:
-        // no-op
       }
       setRefresh((value) => value + 1)
-    }
+    }, [])
+
+    useEffect(() => {
+      onFormat(format)
+    }, [format])
 
     const onVapix = (key: string, value: string) => {
       setParameters((p: typeof vapixParams) => {
@@ -323,6 +324,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 onStop={onStop}
                 onRefresh={onRefresh}
                 onScreenshot={onScreenshot}
+                format={format}
                 onFormat={onFormat}
                 onVapix={onVapix}
                 labels={{

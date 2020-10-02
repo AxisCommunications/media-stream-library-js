@@ -42,6 +42,7 @@ interface ControlsProps {
   onStop: () => void
   onRefresh: () => void
   onScreenshot: () => void
+  format?: Format
   onFormat: (format: Format) => void
   onVapix: (key: string, value: string) => void
   labels?: {
@@ -64,6 +65,7 @@ export const Controls: React.FC<ControlsProps> = ({
   onStop,
   onRefresh,
   onScreenshot,
+  format,
   onFormat,
   onVapix,
   labels,
@@ -109,6 +111,7 @@ export const Controls: React.FC<ControlsProps> = ({
       {settings && (
         <Settings
           parameters={parameters}
+          format={format}
           onFormat={onFormat}
           onVapix={onVapix}
           showStatsOverlay={showStatsOverlay}

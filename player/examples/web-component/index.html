@@ -5,10 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>media-stream-player</title>
     <script src="./media-stream-player.min.js"></script>
+    <style>
+      #root {
+        height: 98vh;
+      }
+    </style>
   </head>
 
   <body>
     <div id="root" />
-    <media-stream-player hostname="192.168.0.90" autoplay />
+    <media-stream-player hostname="192.168.0.90" format="JPEG" autoplay />
   </body>
 </html>
