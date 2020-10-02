@@ -1,3 +1,13 @@
+## [7.0.5](https://github.com/AxisCommunications/media-stream-library-js/compare/v7.0.4...v7.0.5) (2020-10-02)
+
+
+### Bug Fixes
+
+* debug no longer ships dist/debug.js ([f7a3652](https://github.com/AxisCommunications/media-stream-library-js/commit/f7a36522488c20d440b7a54bffa4b0b59ed9526d))
+* replace deprecated component in overlay examples ([8b52353](https://github.com/AxisCommunications/media-stream-library-js/commit/8b52353b7ff8784310cadc01d3061feffe667029))
+
+
+
 ## [7.0.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v7.0.3...v7.0.4) (2020-05-04)
 
 
