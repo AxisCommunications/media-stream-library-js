@@ -24,8 +24,12 @@ export class RtspParser extends Tube {
       objectMode: true,
       transform: function (msg: Message, encoding, callback) {
         if (msg.type === MessageType.RAW) {
-          parser.parse(msg.data).forEach((message) => incoming.push(message))
-          callback()
+          try {
+            parser.parse(msg.data).forEach((message) => incoming.push(message))
+            callback()
+          } catch (e) {
+            callback(e)
+          }
         } else {
           // Not a message we should handle
           callback(undefined, msg)
