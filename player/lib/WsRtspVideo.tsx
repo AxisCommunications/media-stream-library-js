@@ -3,11 +3,15 @@ import styled from 'styled-components'
 import debug from 'debug'
 
 import { Sdp } from 'media-stream-library/dist/esm/utils/protocols'
-import { pipelines } from 'media-stream-library/dist/esm/index.browser'
+import { pipelines, utils } from 'media-stream-library/dist/esm/index.browser'
 
 import useEventState from './hooks/useEventState'
 import { VideoProperties } from './PlaybackArea'
-import { attachMetadataHandler, MetadataHandler } from './metadata'
+import {
+  attachMetadataHandler,
+  MetadataHandler,
+  ScheduledMessage,
+} from './metadata'
 
 const debugLog = debug('msp:ws-rtsp-video')
 
@@ -122,14 +126,16 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
       })
       setPipeline(pipeline)
 
+      let scheduler: utils.Scheduler<ScheduledMessage> | undefined
       if (metadataHandler !== undefined) {
-        attachMetadataHandler(pipeline, metadataHandler)
+        scheduler = attachMetadataHandler(pipeline, metadataHandler)
       }
 
       return () => {
         debugLog('close pipeline and clear video')
         pipeline.close()
         videoEl.src = ''
+        scheduler?.reset()
         setPipeline(null)
         setFetching(false)
         unsetCanplay()
