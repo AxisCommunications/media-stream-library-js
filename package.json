@@ -1,6 +1,6 @@
 {
   "name": "media-stream-library",
-  "version": "7.0.4",
+  "version": "7.0.5",
   "description": "Media stream library for Node & the Web.",
   "license": "MIT",
   "main": "dist/cjs/index.node.js",
