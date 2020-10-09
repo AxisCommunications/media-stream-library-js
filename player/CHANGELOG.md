@@ -1,3 +1,24 @@
+# [2.5.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.4.1...v2.5.0) (2020-10-09)
+
+
+### Bug Fixes
+
+* Default value for secure property ([22d12af](https://github.com/AxisCommunications/media-stream-player-js/commit/22d12af7c77373baf3d60734d792ba9608a82a7e))
+* disable explicit module boundary types ([4f4eefe](https://github.com/AxisCommunications/media-stream-player-js/commit/4f4eefee191ef2ae073cc7c52e1a201b318c8171))
+* Don't assume that localStorage works ([289fe21](https://github.com/AxisCommunications/media-stream-player-js/commit/289fe213b6672c1beafc1431e80ed5e7d9bc3d8e)), closes [#20](https://github.com/AxisCommunications/media-stream-player-js/issues/20)
+* reset the scheduler on teardown ([6361504](https://github.com/AxisCommunications/media-stream-player-js/commit/636150452b9ec49937a5c4ca793e44ef276b2659))
+* Update readme with link to media-stream-player.min.js ([a8ca79d](https://github.com/AxisCommunications/media-stream-player-js/commit/a8ca79d725127ba7da67a8365e04d947c7e73d9c)), closes [#51](https://github.com/AxisCommunications/media-stream-player-js/issues/51)
+* Update to latest link ([60f00a3](https://github.com/AxisCommunications/media-stream-player-js/commit/60f00a397f6a63355589f52d3f553c64b7f9b3b2))
+
+
+### Features
+
+* ability to set initial format for webcomponent ([fb674df](https://github.com/AxisCommunications/media-stream-player-js/commit/fb674df9875c7a50f11852f7b8ecdbd763cc2977))
+* Ability to specify protocol ([3090d25](https://github.com/AxisCommunications/media-stream-player-js/commit/3090d25e1b8bcb7d43d840b3fd456e1925e2690b))
+* vapix parameters for web component ([238455d](https://github.com/AxisCommunications/media-stream-player-js/commit/238455d0f43a09ef830cb64ab956114761fd9536))
+
+
+
 ## [2.4.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.4.0...v2.4.1) (2020-10-01)
 
 
