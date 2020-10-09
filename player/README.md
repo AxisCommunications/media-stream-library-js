@@ -44,9 +44,15 @@ You can find an example of this under `examples/web-component`.
 
 Supported properties right now are:
 
-- `hostname` - the ip address to your device
-- `autoplay` - if the property exists, we try to autoplay your video
-- `format` - accepted values are `JPEG`, `MJPEG` or `H264`
+| Property      | Comment                                                        |
+| ------------- | -------------------------------------------------------------- |
+| `hostname`    | The ip address to your device                                  |
+| `autoplay`    | If the property exists, we try and autoplay your video         |
+| `format`      | Accepted values are `JPEG`, `MJPEG` or `H264`                  |
+| `compression` | Accepted values are `0..100`, with 10 between each step        |
+| `resolution`  | Written as WidthXHeight, eg `1920x1080`                        |
+| `rotation`    | Accepted values are `0`, `90`, `180` and `270`                 |
+| `camera`      | Accepted values are `0...n` or `quad` depending on your device |
 
 Example:
 

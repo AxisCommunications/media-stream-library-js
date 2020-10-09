@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import ReactDOM from 'react-dom'
+import { VapixParameters } from './PlaybackArea'
 import { Format, Player } from './Player'
 
 interface InitialAttributes {
   readonly hostname: string
   readonly autoplay: boolean
   readonly format: string
+  readonly compression: string
+  readonly resolution: string
+  readonly rotation: string
+  readonly camera: string
 }
 
 type SetStateType = React.Dispatch<React.SetStateAction<InitialAttributes>>
@@ -58,6 +63,38 @@ export class MediaStreamPlayer extends HTMLElement {
     this.setAttribute('format', value)
   }
 
+  public get compression() {
+    return this.getAttribute('compression') ?? ''
+  }
+
+  public set compression(value: string) {
+    this.setAttribute('compression', value)
+  }
+
+  public get resolution() {
+    return this.getAttribute('resolution') ?? ''
+  }
+
+  public set resolution(value: string) {
+    this.setAttribute('resolution', value)
+  }
+
+  public get rotation() {
+    return this.getAttribute('rotation') ?? ''
+  }
+
+  public set rotation(value: string) {
+    this.setAttribute('rotation', value)
+  }
+
+  public get camera() {
+    return this.getAttribute('camera') ?? ''
+  }
+
+  public set camera(value: string) {
+    this.setAttribute('camera', value)
+  }
+
   connectedCallback() {
     window
       .fetch(`http://${this.hostname}/axis-cgi/usergroup.cgi`, {
@@ -65,7 +102,15 @@ export class MediaStreamPlayer extends HTMLElement {
         mode: 'no-cors',
       })
       .then(() => {
-        const { hostname, autoplay, format } = this
+        const {
+          hostname,
+          autoplay,
+          format,
+          compression,
+          resolution,
+          rotation,
+          camera,
+        } = this
 
         ReactDOM.render(
           <PlayerComponent
@@ -76,6 +121,10 @@ export class MediaStreamPlayer extends HTMLElement {
               hostname,
               autoplay,
               format,
+              compression,
+              resolution,
+              rotation,
+              camera,
             }}
           />,
           this,
@@ -96,11 +145,24 @@ export class MediaStreamPlayer extends HTMLElement {
       return
     }
 
-    const { hostname, autoplay, format } = this
+    const {
+      hostname,
+      autoplay,
+      format,
+      compression,
+      resolution,
+      rotation,
+      camera,
+    } = this
+
     this._setState({
       hostname,
       autoplay,
       format,
+      compression,
+      resolution,
+      rotation,
+      camera,
     })
   }
 }
@@ -120,9 +182,44 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
     subscribeAttributesChanged(setState)
   }, [subscribeAttributesChanged])
 
-  const { hostname, autoplay, format } = state
+  const {
+    hostname,
+    autoplay,
+    format,
+    compression,
+    resolution,
+    rotation,
+    camera,
+  } = state
+
+  const vapixParameters = useMemo(() => {
+    const params: VapixParameters = {}
+
+    if (compression !== '') {
+      params['compression'] = compression
+    }
+
+    if (resolution !== '') {
+      params['resolution'] = resolution
+    }
+
+    if (rotation !== '') {
+      params['rotation'] = rotation
+    }
+
+    if (camera !== '') {
+      params['camera'] = camera
+    }
+
+    return params
+  }, [compression, resolution, rotation, camera])
 
   return (
-    <Player hostname={hostname} autoPlay={autoplay} format={format as Format} />
+    <Player
+      hostname={hostname}
+      autoPlay={autoplay}
+      format={format as Format}
+      vapixParams={vapixParameters}
+    />
   )
 }
