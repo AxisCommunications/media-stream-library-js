@@ -37,11 +37,7 @@ export class MediaStreamPlayer extends HTMLElement {
     this._setState = cb
   }
 
-  constructor() {
-    super()
-  }
-
-  static get observedAttributes() {
+  public static get observedAttributes() {
     return [
       'hostname',
       'autoplay',
@@ -105,19 +101,19 @@ export class MediaStreamPlayer extends HTMLElement {
     }
   }
 
-  get hostname() {
+  public get hostname() {
     return this.getAttribute('hostname') ?? ''
   }
 
-  set hostname(value: string) {
+  public set hostname(value: string) {
     this.setAttribute('hostname', value)
   }
 
-  get autoplay() {
+  public get autoplay() {
     return this.hasAttribute('autoplay')
   }
 
-  set autoplay(value) {
+  public set autoplay(value) {
     if (value !== undefined) {
       this.setAttribute('autoplay', '')
     } else {
@@ -125,11 +121,11 @@ export class MediaStreamPlayer extends HTMLElement {
     }
   }
 
-  get format() {
+  public get format() {
     return this.getAttribute('format') ?? 'JPEG'
   }
 
-  set format(value: string) {
+  public set format(value: string) {
     this.setAttribute('format', value)
   }
 
@@ -237,11 +233,11 @@ export class MediaStreamPlayer extends HTMLElement {
     this.setAttribute('textpos', value)
   }
 
-  get secure() {
+  public get secure() {
     return this.hasAttribute('secure')
   }
 
-  set secure(value) {
+  public set secure(value) {
     if (value !== undefined) {
       this.setAttribute('secure', '')
     } else {
@@ -249,7 +245,7 @@ export class MediaStreamPlayer extends HTMLElement {
     }
   }
 
-  connectedCallback() {
+  public connectedCallback() {
     const userGroupUrl = new URL(
       `http://${this.hostname}/axis-cgi/usergroup.cgi`,
     )
@@ -263,6 +259,7 @@ export class MediaStreamPlayer extends HTMLElement {
       .then(() => {
         ReactDOM.render(
           <PlayerComponent
+            // eslint-disable-next-line react/jsx-no-bind
             subscribeAttributesChanged={(cb) =>
               this.attributeChangeSubscriber(cb)
             }
@@ -278,11 +275,11 @@ export class MediaStreamPlayer extends HTMLElement {
       })
   }
 
-  disconnectedCallback() {
+  public disconnectedCallback() {
     ReactDOM.unmountComponentAtNode(this)
   }
 
-  attributeChangedCallback(attrName: string, _: string, value: string) {
+  public attributeChangedCallback(attrName: string, _: string, value: string) {
     if (this._setState === undefined) {
       console.warn(`ignored attribute change: ${attrName}=${value}`)
       return

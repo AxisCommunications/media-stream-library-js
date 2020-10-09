@@ -40,12 +40,12 @@ const Title = styled.div`
 `
 
 interface StatsProps {
-  api: string
-  parameters: VapixParameters
-  videoProperties: VideoProperties
-  host: string
-  open: boolean
-  refresh: number
+  readonly api: string
+  readonly parameters: VapixParameters
+  readonly videoProperties: VideoProperties
+  readonly host: string
+  readonly open: boolean
+  readonly refresh: number
 }
 
 export const Stats: React.FC<StatsProps> = ({

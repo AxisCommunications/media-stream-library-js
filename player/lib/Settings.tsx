@@ -41,12 +41,12 @@ const SettingsItem = styled.div`
 `
 
 interface SettingsProps {
-  parameters: VapixParameters
-  format?: Format
-  onFormat: (format: Format) => void
-  onVapix: (key: string, value: string) => void
-  showStatsOverlay: boolean
-  toggleStats: (newValue?: boolean) => void
+  readonly parameters: VapixParameters
+  readonly format?: Format
+  readonly onFormat: (format: Format) => void
+  readonly onVapix: (key: string, value: string) => void
+  readonly showStatsOverlay: boolean
+  readonly toggleStats: (newValue?: boolean) => void
 }
 
 export const Settings: React.FC<SettingsProps> = ({
@@ -72,6 +72,7 @@ export const Settings: React.FC<SettingsProps> = ({
         }, 300)
 
         break
+
       case 'text':
         onVapix(e.target.name, e.target.checked ? '1' : '0')
         break
@@ -87,33 +88,51 @@ export const Settings: React.FC<SettingsProps> = ({
     [toggleStats],
   )
 
+  const changeFormat = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      onFormat(e.target.value as Format)
+    },
+    [onFormat],
+  )
+
+  const changeResolution = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      if (e.target.value === '') {
+        onVapix('resolution', '')
+        return
+      }
+      onVapix('resolution', e.target.value)
+    },
+    [onVapix],
+  )
+
+  const changeRotation = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      onVapix('rotation', e.target.value)
+    },
+    [onVapix],
+  )
+
+  const changeCompression = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      onVapix('compression', e.target.value)
+    },
+    [onVapix],
+  )
+
   return (
     <SettingsMenu>
       <SettingsItem>
         <div>Format</div>
-        <select
-          onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-            onFormat(e.target.value as Format)
-          }
-          defaultValue={format}
-        >
-          <option value={'H264'}>H.264 over RTP</option>
-          <option value={'MJPEG'}>JPEG over RTP</option>
-          <option value={'JPEG'}>Still image</option>
+        <select onChange={changeFormat} defaultValue={format}>
+          <option value="H264">H.264 over RTP</option>
+          <option value="MJPEG">JPEG over RTP</option>
+          <option value="JPEG">Still image</option>
         </select>
       </SettingsItem>
       <SettingsItem>
         <div>Resolution</div>
-        <select
-          value={parameters['resolution']}
-          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-            if (e.target.value === '') {
-              onVapix('resolution', '')
-              return
-            }
-            onVapix('resolution', e.target.value)
-          }}
-        >
+        <select value={parameters['resolution']} onChange={changeResolution}>
           <option value="">default</option>
           <option value="1920x1080">1920 x 1080 (FHD)</option>
           <option value="1280x720">1280 x 720 (HD)</option>
@@ -122,12 +141,7 @@ export const Settings: React.FC<SettingsProps> = ({
       </SettingsItem>
       <SettingsItem>
         <div>Rotation</div>
-        <select
-          value={parameters['rotation']}
-          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-            onVapix('rotation', e.target.value)
-          }}
-        >
+        <select value={parameters['rotation']} onChange={changeRotation}>
           <option value="0">0</option>
           <option value="90">90</option>
           <option value="180">180</option>
@@ -136,12 +150,7 @@ export const Settings: React.FC<SettingsProps> = ({
       </SettingsItem>
       <SettingsItem>
         <div>Compression</div>
-        <select
-          value={parameters['compression']}
-          onChange={(e: ChangeEvent<HTMLSelectElement>) => {
-            onVapix('compression', e.target.value)
-          }}
-        >
+        <select value={parameters['compression']} onChange={changeCompression}>
           <option value="">default</option>
           <option value="0">0</option>
           <option value="10">10</option>

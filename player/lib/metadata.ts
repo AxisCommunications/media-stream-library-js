@@ -21,7 +21,7 @@ import {
  * whenever the message is synchronized with the presentation.
  */
 export interface MetadataXMLMessage extends XmlMessage {
-  xmlDocument: XMLDocument
+  readonly xmlDocument: XMLDocument
 }
 export interface ScheduledMessage {
   readonly ntpTimestamp: number | undefined
@@ -66,7 +66,7 @@ export const attachMetadataHandler = (
       'text/xml',
     )
     const newMsg = parser({ ...msg, xmlDocument })
-    if (msg.ntpTimestamp) {
+    if (msg.ntpTimestamp !== undefined) {
       scheduler.run(newMsg)
     }
   }

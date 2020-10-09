@@ -51,8 +51,8 @@ export const Layer = styled.div`
 `
 
 interface ContainerProps {
-  aspectRatio?: number
-  children: ReactNode
+  readonly aspectRatio?: number
+  readonly children: ReactNode
 }
 
 export const Container: React.FC<ContainerProps> = ({

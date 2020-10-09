@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import debug from 'debug'
 
-import useEventState from './hooks/useEventState'
+import { useEventState } from './hooks/useEventState'
 import { VideoProperties } from './PlaybackArea'
 
 const debugLog = debug('msp:still-image')
@@ -15,10 +15,10 @@ const ImageNative = styled.img`
 `
 
 interface StillImageProps {
-  forwardedRef?: React.Ref<HTMLImageElement>
-  play?: boolean
-  src?: string
-  onPlaying: (props: VideoProperties) => void
+  readonly forwardedRef?: React.Ref<HTMLImageElement>
+  readonly play?: boolean
+  readonly src?: string
+  readonly onPlaying: (props: VideoProperties) => void
 }
 
 /**
@@ -34,7 +34,7 @@ interface StillImageProps {
 
 export const StillImage: React.FC<StillImageProps> = ({
   forwardedRef,
-  play,
+  play = false,
   onPlaying,
   src,
 }) => {
@@ -51,20 +51,28 @@ export const StillImage: React.FC<StillImageProps> = ({
   const [loaded, unsetLoaded] = useEventState(imgRef, 'load')
 
   useEffect(() => {
-    if (imgRef && imgRef.current) {
-      if (play && src) {
+    if (imgRef.current !== null) {
+      if (play && src !== undefined) {
         imgRef.current.src = src
       } else {
         imgRef.current.src = ''
         unsetLoaded()
       }
     }
-  }, [play, src])
+  }, [play, src, unsetLoaded])
+
+  // keep a stable reference to the external onPlaying callback
+  const __onPlayingRef = useRef(onPlaying)
+  __onPlayingRef.current = onPlaying
 
   useEffect(() => {
     const el = imgRef.current
-    if (loaded && el !== null) {
-      onPlaying({ el, width: el.naturalWidth, height: el.naturalHeight })
+    if (loaded && el !== null && __onPlayingRef.current !== undefined) {
+      __onPlayingRef.current({
+        el,
+        width: el.naturalWidth,
+        height: el.naturalHeight,
+      })
     }
   }, [loaded])
 

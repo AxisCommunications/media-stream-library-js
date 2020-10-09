@@ -1,6 +1,6 @@
 export const getImageURL = (
   el: CanvasImageSource,
-  { width, height }: { width: number; height: number },
+  { width, height }: { readonly width: number; readonly height: number },
 ) => {
   const canvas = document.createElement('canvas')
 

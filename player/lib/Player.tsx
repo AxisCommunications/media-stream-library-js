@@ -56,19 +56,19 @@ const Limiter = styled.div`
 `
 
 interface PlayerProps {
-  hostname: string
-  vapixParams?: VapixParameters
-  format?: Format
-  autoPlay?: boolean
-  onSdp?: (msg: Sdp) => void
-  metadataHandler?: MetadataHandler
+  readonly hostname: string
+  readonly vapixParams?: VapixParameters
+  readonly format?: Format
+  readonly autoPlay?: boolean
+  readonly onSdp?: (msg: Sdp) => void
+  readonly metadataHandler?: MetadataHandler
   /**
    * Set to true if the camera requires a secure
    * connection, "https" and "wss" protocols.
    */
-  secure?: boolean
-  aspectRatio?: number
-  className?: string
+  readonly secure?: boolean
+  readonly aspectRatio?: number
+  readonly className?: string
 }
 
 export type PlayerNativeElement =
@@ -90,7 +90,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       hostname,
       vapixParams = {},
       format,
-      autoPlay,
+      autoPlay = false,
       onSdp,
       metadataHandler,
       secure,
@@ -98,7 +98,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     },
     ref,
   ) => {
-    const [play, setPlay] = useState(autoPlay || false)
+    const [play, setPlay] = useState(autoPlay)
     const [refresh, setRefresh] = useState(0)
     const [host, setHost] = useState(hostname)
     const [waiting, setWaiting] = useState(autoPlay)
@@ -187,39 +187,41 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       setWaiting(false)
     }, [])
 
-    const onFormat = useCallback((format: Format | undefined) => {
-      switch (format) {
-        case 'H264':
-          setApi(AXIS_MEDIA_AMP)
-          setParameters({ ...parameters, videocodec: 'h264' })
-          break
-        case 'MJPEG':
-          setApi(AXIS_MEDIA_AMP)
-          setParameters({ ...parameters, videocodec: 'jpeg' })
-          break
-        case 'JPEG':
-        default:
-          setApi(AXIS_IMAGE_CGI)
-          break
-      }
-      setRefresh((value) => value + 1)
-    }, [])
+    const onFormat = useCallback(
+      (newFormat: Format | undefined) => {
+        switch (newFormat) {
+          case 'H264':
+            setApi(AXIS_MEDIA_AMP)
+            setParameters({ ...parameters, videocodec: 'h264' })
+            break
+          case 'MJPEG':
+            setApi(AXIS_MEDIA_AMP)
+            setParameters({ ...parameters, videocodec: 'jpeg' })
+            break
+          case 'JPEG':
+          default:
+            setApi(AXIS_IMAGE_CGI)
+            break
+        }
+        setRefresh((value) => value + 1)
+      },
+      [parameters],
+    )
 
     useEffect(() => {
       onFormat(format)
-    }, [format])
+    }, [format, onFormat])
 
-    const onVapix = (key: string, value: string) => {
+    const onVapix = useCallback((key: string, value: string) => {
       setParameters((p: typeof vapixParams) => {
+        const newParams = { ...p, [key]: value }
         if (value === '') {
-          delete p[key]
-          return { ...p }
+          delete newParams[key]
         }
-
-        return { ...p, [key]: value }
+        return newParams
       })
-      setRefresh((value) => value + 1)
-    }
+      setRefresh((refreshCount) => refreshCount + 1)
+    }, [])
 
     useEffect(() => {
       const cb = () => {

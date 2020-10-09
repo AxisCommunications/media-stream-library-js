@@ -13,9 +13,9 @@ const FeedbackArea = styled.div`
 `
 
 interface FeedbackProps {
-  waiting?: boolean
+  readonly waiting?: boolean
 }
 
-export const Feedback: React.FC<FeedbackProps> = ({ waiting }) => (
+export const Feedback: React.FC<FeedbackProps> = ({ waiting = false }) => (
   <FeedbackArea>{waiting && <Spinner />}</FeedbackArea>
 )

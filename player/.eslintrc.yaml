@@ -1,0 +1,18 @@
+extends:
+  - 'typescript-shareable'
+
+parserOptions:
+  project: './tsconfig.json'
+
+env:
+  browser: true
+  es6: true
+  node: true
+
+overrides:
+  ###
+  # Test file overrides
+  ###
+  - files: ['**/*.test.tsx', '**/*.test.ts']
+    env:
+      jest: true

@@ -2,7 +2,7 @@ import { useState, useCallback } from 'react'
 
 export const useSwitch = (
   initialValue = false,
-): [boolean, (state?: boolean) => void] => {
+): readonly [boolean, (state?: boolean) => void] => {
   const [value, setValue] = useState(initialValue)
 
   const toggleValue = useCallback(
