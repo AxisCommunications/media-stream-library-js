@@ -62,6 +62,11 @@ interface PlayerProps {
   autoPlay?: boolean
   onSdp?: (msg: Sdp) => void
   metadataHandler?: MetadataHandler
+  /**
+   * Set to true if the camera requires a secure
+   * connection, "https" and "wss" protocols.
+   */
+  secure?: boolean
   aspectRatio?: number
   className?: string
 }
@@ -88,6 +93,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       autoPlay,
       onSdp,
       metadataHandler,
+      secure,
       className,
     },
     ref,
@@ -298,6 +304,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 onPlaying={onPlaying}
                 onSdp={onSdp}
                 metadataHandler={metadataHandler}
+                secure={secure}
               />
             </Layer>
             <Layer>
