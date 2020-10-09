@@ -1,11 +1,14 @@
 import React, { Ref } from 'react'
 import { Sdp } from 'media-stream-library/lib/utils/protocols/sdp'
+import debug from 'debug'
 
 import { PlayerNativeElement } from './Player'
 import { WsRtspVideo } from './WsRtspVideo'
 import { WsRtspCanvas } from './WsRtspCanvas'
 import { StillImage } from './StillImage'
 import { MetadataHandler } from './metadata'
+
+const debugLog = debug('msp:api')
 
 export const AXIS_IMAGE_CGI = 'jpg'
 const AXIS_VIDEO_CGI = 'mjpg'
@@ -141,17 +144,9 @@ const search = (api: string, parameters: VapixParameters = {}) => {
   }
   const parameterList = PARAMETERS[api]
   return Object.entries(parameters)
-    .filter(([key]) => {
-      if (!parameterList.includes(key)) {
-        // throw new Error(`unknown parameter ${key}`)
-        console.warn(`ignored unknown parameter ${key}`)
-        return false
-      }
-      return true
-    })
     .map(([key, value]) => {
       if (!parameterList.includes(key)) {
-        throw new Error(`unknown parameter ${key}`)
+        debugLog(`undocumented VAPIX parameter ${key}`)
       }
       return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
     })

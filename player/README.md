@@ -5,7 +5,6 @@
 
 [ci-image]: https://github.com/AxisCommunications/media-stream-player-js/workflows/CI/badge.svg
 [ci-url]: https://github.com/AxisCommunications/media-stream-player-js/actions
-
 [npm-image]: https://img.shields.io/npm/v/media-stream-player.svg
 [npm-url]: https://www.npmjs.com/package/media-stream-player
 
@@ -27,8 +26,8 @@ and `PlaybackArea` components.
 ### As a stand-alone element
 
 If you don't use the player as part of you React app, the easiest way to use it
-is to download the `media-stream-player.min.js` file and include it in your
-html file as a script:
+is to download the `media-stream-player.min.js` file from the [releases](https://github.com/AxisCommunications/media-stream-player-js/releases/latest)
+page and include it in your html file as a script:
 
 ```html
 <script src="media-stream-player.min.js"></script>
@@ -42,6 +41,29 @@ Then, you can use the `<media-stream-player/>` tag, similar to how you would use
 ```
 
 You can find an example of this under `examples/web-component`.
+
+Supported properties right now are:
+
+- `hostname` - the ip address to your device
+- `autoplay` - if the property exists, we try to autoplay your video
+- `format` - accepted values are `JPEG`, `MJPEG` or `H264`
+
+Example:
+
+```html
+<media-stream-player hostname="192.168.0.90" format="H264" autoplay />
+```
+
+You may need to start a localhost server to get H264 and MJPEG video to run properly.
+It doesn't work with the `file:///` protocol. The easiest way to do that is Pythons simpleHttpServer.
+
+Go to the web-component example folder and type the following in you terminal:
+
+```bash
+python -m SimpleHTTPServer 8080
+```
+
+Then you can open up http://localhost:8080 to see the result.
 
 ### As part of your React application
 

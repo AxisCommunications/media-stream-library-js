@@ -4,6 +4,8 @@ import React, {
   useEffect,
   useCallback,
   useMemo,
+  useLayoutEffect,
+  useRef,
 } from 'react'
 
 import { Container, Layer } from './Container'
@@ -19,9 +21,39 @@ import { Feedback } from './Feedback'
 import { Sdp } from 'media-stream-library/dist/esm/utils/protocols'
 import { Stats } from './Stats'
 import { useSwitch } from './hooks/useSwitch'
+import { getImageURL } from './utils'
 import { MetadataHandler } from './metadata'
+import styled from 'styled-components'
 
 const DEFAULT_API_TYPE = AXIS_IMAGE_CGI
+
+/**
+ * Wrapper for the entire player that will take up all available place from the
+ * parent.
+ */
+const MediaStreamPlayerContainer = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+`
+
+/**
+ * The limiter prevents the video element to use up all of the available width.
+ * The player container will automatically limit it's own height based on the
+ * available width (keeping aspect ratio).
+ */
+const Limiter = styled.div`
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
 
 interface PlayerProps {
   hostname: string
@@ -35,6 +67,8 @@ interface PlayerProps {
    * connection, "https" and "wss" protocols.
    */
   secure?: boolean
+  aspectRatio?: number
+  className?: string
 }
 
 export type PlayerNativeElement =
@@ -60,6 +94,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       onSdp,
       metadataHandler,
       secure,
+      className,
     },
     ref,
   ) => {
@@ -67,30 +102,53 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     const [refresh, setRefresh] = useState(0)
     const [host, setHost] = useState(hostname)
     const [waiting, setWaiting] = useState(autoPlay)
-    const [api, setApi] = useState(
-      format ? FORMAT_API[format] : DEFAULT_API_TYPE,
-    )
+    const [api, setApi] = useState<string>(DEFAULT_API_TYPE)
 
     /**
      * VAPIX parameters
      */
     const [parameters, setParameters] = useState(vapixParams)
-    window.localStorage.setItem('vapix', JSON.stringify(parameters))
+
+    useEffect(() => {
+      /**
+       * Check if localStorage actually exists, since if you
+       * server side render, localStorage won't be available.
+       */
+      if (window?.localStorage !== undefined) {
+        window.localStorage.setItem('vapix', JSON.stringify(parameters))
+      }
+    }, [parameters])
 
     /**
      * Stats overlay
      */
     const [showStatsOverlay, toggleStatsOverlay] = useSwitch(
-      window.localStorage.getItem('stats-overlay') === 'on',
+      window?.localStorage !== undefined
+        ? window.localStorage.getItem('stats-overlay') === 'on'
+        : false,
     )
-    window.localStorage.setItem(
-      'stats-overlay',
-      showStatsOverlay ? 'on' : 'off',
-    )
+
+    useEffect(() => {
+      if (window?.localStorage !== undefined) {
+        window.localStorage.setItem(
+          'stats-overlay',
+          showStatsOverlay ? 'on' : 'off',
+        )
+      }
+    }, [showStatsOverlay])
 
     /**
      * Controls
      */
+    const [videoProperties, setVideoProperties] = useState<VideoProperties>()
+
+    const onPlaying = useCallback(
+      (props: VideoProperties) => {
+        setVideoProperties(props)
+        setWaiting(false)
+      },
+      [setWaiting],
+    )
 
     const onPlayPause = useCallback(() => {
       if (play) {
@@ -108,13 +166,28 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       setWaiting(true)
     }, [])
 
+    const onScreenshot = useCallback(() => {
+      if (videoProperties === undefined) {
+        return undefined
+      }
+
+      const { el, width, height } = videoProperties
+      const imageURL = getImageURL(el, { width, height })
+      const link = document.createElement('a')
+      const event = new window.MouseEvent('click')
+
+      link.download = `snapshot_${Date.now()}.jpg`
+      link.href = imageURL
+      link.dispatchEvent(event)
+    }, [videoProperties])
+
     const onStop = useCallback(() => {
       setPlay(false)
       setHost('')
       setWaiting(false)
     }, [])
 
-    const onFormat = (format: Format) => {
+    const onFormat = useCallback((format: Format | undefined) => {
       switch (format) {
         case 'H264':
           setApi(AXIS_MEDIA_AMP)
@@ -125,13 +198,16 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
           setParameters({ ...parameters, videocodec: 'jpeg' })
           break
         case 'JPEG':
+        default:
           setApi(AXIS_IMAGE_CGI)
           break
-        default:
-        // no-op
       }
       setRefresh((value) => value + 1)
-    }
+    }, [])
+
+    useEffect(() => {
+      onFormat(format)
+    }, [format])
 
     const onVapix = (key: string, value: string) => {
       setParameters((p: typeof vapixParams) => {
@@ -169,22 +245,38 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
      * the visible image of the video or still image.
      */
 
-    const [videoProperties, setVideoProperties] = useState<VideoProperties>()
-    const onPlaying = useCallback(
-      (props: VideoProperties) => {
-        setVideoProperties(props)
-        setWaiting(false)
-      },
-      [setWaiting],
-    )
-
     const naturalAspectRatio = useMemo(() => {
       if (videoProperties === undefined) {
         return undefined
       }
+
       const { width, height } = videoProperties
+
       return width / height
     }, [videoProperties])
+
+    /**
+     * Limit video size.
+     *
+     * The video size should not expand outside the available container, and
+     * should be recomputed on resize.
+     */
+
+    const limiterRef = useRef<HTMLDivElement>(null)
+    useLayoutEffect(() => {
+      if (naturalAspectRatio === undefined || limiterRef.current === null) {
+        return
+      }
+
+      const observer = new window.ResizeObserver(([entry]) => {
+        const element = entry.target as HTMLElement
+        const maxWidth = element.clientHeight * naturalAspectRatio
+        element.style.maxWidth = `${maxWidth}px`
+      })
+      observer.observe(limiterRef.current)
+
+      return () => observer.disconnect()
+    }, [naturalAspectRatio])
 
     /**
      * Render
@@ -198,58 +290,65 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
      */
 
     return (
-      <Container aspectRatio={naturalAspectRatio}>
-        <Layer>
-          <PlaybackArea
-            forwardedRef={ref}
-            refresh={refresh}
-            play={play}
-            host={host}
-            api={api}
-            parameters={parameters}
-            onPlaying={onPlaying}
-            onSdp={onSdp}
-            metadataHandler={metadataHandler}
-            secure={secure}
-          />
-        </Layer>
-        <Layer>
-          <Feedback waiting={waiting} />
-        </Layer>
-        <Layer>
-          {showStatsOverlay && videoProperties !== undefined ? (
-            <Stats
-              api={api}
-              parameters={parameters}
-              videoProperties={videoProperties}
-              host={host}
-              open={showStatsOverlay}
-              refresh={refresh}
-            />
-          ) : null}
-        </Layer>
-        <Layer>
-          <Controls
-            play={play}
-            src={host}
-            parameters={parameters}
-            onPlay={onPlayPause}
-            onStop={onStop}
-            onRefresh={onRefresh}
-            onFormat={onFormat}
-            onVapix={onVapix}
-            labels={{
-              play: 'Play',
-              pause: 'Pause',
-              stop: 'Stop',
-              refresh: 'Refresh',
-              settings: 'Settings',
-            }}
-            showStatsOverlay={showStatsOverlay}
-            toggleStats={toggleStatsOverlay}
-          />
-        </Layer>
-      </Container>
+      <MediaStreamPlayerContainer className={className}>
+        <Limiter ref={limiterRef}>
+          <Container aspectRatio={naturalAspectRatio}>
+            <Layer>
+              <PlaybackArea
+                forwardedRef={ref}
+                refresh={refresh}
+                play={play}
+                host={host}
+                api={api}
+                parameters={parameters}
+                onPlaying={onPlaying}
+                onSdp={onSdp}
+                metadataHandler={metadataHandler}
+                secure={secure}
+              />
+            </Layer>
+            <Layer>
+              <Feedback waiting={waiting} />
+            </Layer>
+            <Layer>
+              {showStatsOverlay && videoProperties !== undefined ? (
+                <Stats
+                  api={api}
+                  parameters={parameters}
+                  videoProperties={videoProperties}
+                  host={host}
+                  open={showStatsOverlay}
+                  refresh={refresh}
+                />
+              ) : null}
+            </Layer>
+            <Layer>
+              <Controls
+                play={play}
+                src={host}
+                parameters={parameters}
+                onPlay={onPlayPause}
+                onStop={onStop}
+                onRefresh={onRefresh}
+                onScreenshot={onScreenshot}
+                format={format}
+                onFormat={onFormat}
+                onVapix={onVapix}
+                labels={{
+                  play: 'Play',
+                  pause: 'Pause',
+                  stop: 'Stop',
+                  refresh: 'Refresh',
+                  settings: 'Settings',
+                  screenshot: 'Take a snapshot',
+                }}
+                showStatsOverlay={showStatsOverlay}
+                toggleStats={toggleStatsOverlay}
+              />
+            </Layer>
+          </Container>
+        </Limiter>
+      </MediaStreamPlayerContainer>
     )
   },
 )

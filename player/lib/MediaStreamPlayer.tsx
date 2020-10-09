@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import { Player } from './Player'
+import { Format, Player } from './Player'
 
 interface InitialAttributes {
   readonly hostname: string
   readonly autoplay: boolean
+  readonly format: string
 }
 
 type SetStateType = React.Dispatch<React.SetStateAction<InitialAttributes>>
@@ -26,7 +27,7 @@ export class MediaStreamPlayer extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['hostname', 'autoplay']
+    return ['hostname', 'autoplay', 'format']
   }
 
   get hostname() {
@@ -49,6 +50,14 @@ export class MediaStreamPlayer extends HTMLElement {
     }
   }
 
+  get format() {
+    return this.getAttribute('format') ?? 'JPEG'
+  }
+
+  set format(value: string) {
+    this.setAttribute('format', value)
+  }
+
   connectedCallback() {
     window
       .fetch(`http://${this.hostname}/axis-cgi/usergroup.cgi`, {
@@ -56,7 +65,7 @@ export class MediaStreamPlayer extends HTMLElement {
         mode: 'no-cors',
       })
       .then(() => {
-        const { hostname, autoplay } = this
+        const { hostname, autoplay, format } = this
 
         ReactDOM.render(
           <PlayerComponent
@@ -66,6 +75,7 @@ export class MediaStreamPlayer extends HTMLElement {
             initialAttributes={{
               hostname,
               autoplay,
+              format,
             }}
           />,
           this,
@@ -86,10 +96,11 @@ export class MediaStreamPlayer extends HTMLElement {
       return
     }
 
-    const { hostname, autoplay } = this
+    const { hostname, autoplay, format } = this
     this._setState({
       hostname,
       autoplay,
+      format,
     })
   }
 }
@@ -109,7 +120,9 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
     subscribeAttributesChanged(setState)
   }, [subscribeAttributesChanged])
 
-  const { hostname, autoplay } = state
+  const { hostname, autoplay, format } = state
 
-  return <Player hostname={hostname} autoPlay={autoplay} />
+  return (
+    <Player hostname={hostname} autoPlay={autoplay} format={format as Format} />
+  )
 }

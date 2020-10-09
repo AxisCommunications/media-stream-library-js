@@ -1,0 +1,9 @@
+{
+  "extends": ["config:base"],
+  "groupName": "all",
+  "automerge": true,
+  "major": {
+    "automerge": false
+  },
+  "semanticCommits": true
+}

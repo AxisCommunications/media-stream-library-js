@@ -42,6 +42,7 @@ const SettingsItem = styled.div`
 
 interface SettingsProps {
   parameters: VapixParameters
+  format?: Format
   onFormat: (format: Format) => void
   onVapix: (key: string, value: string) => void
   showStatsOverlay: boolean
@@ -50,6 +51,7 @@ interface SettingsProps {
 
 export const Settings: React.FC<SettingsProps> = ({
   parameters,
+  format,
   onFormat,
   onVapix,
   showStatsOverlay,
@@ -83,6 +85,7 @@ export const Settings: React.FC<SettingsProps> = ({
           onChange={(e: ChangeEvent<HTMLSelectElement>) =>
             onFormat(e.target.value as Format)
           }
+          defaultValue={format}
         >
           <option value={'H264'}>H.264 over RTP</option>
           <option value={'MJPEG'}>JPEG over RTP</option>

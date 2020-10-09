@@ -113,21 +113,12 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   useEffect(() => {
     const videoEl = videoRef.current
 
-    if (videoEl === null) {
-      return
-    }
-
-    if (!ws || !rtsp) {
-      debugLog('src removed')
-      videoEl.src = ''
-      unsetCanplay()
-      unsetPlaying()
-    } else if (videoRef.current) {
+    if (ws && rtsp && videoEl) {
       debugLog('create pipeline', ws, rtsp)
       const pipeline = new pipelines.Html5VideoPipeline({
         ws: { uri: ws },
         rtsp: { uri: rtsp },
-        mediaElement: videoRef.current,
+        mediaElement: videoEl,
       })
       setPipeline(pipeline)
 
@@ -136,10 +127,13 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
       }
 
       return () => {
-        debugLog('destroy pipeline')
+        debugLog('close pipeline and clear video')
         pipeline.close()
+        videoEl.src = ''
         setPipeline(null)
         setFetching(false)
+        unsetCanplay()
+        unsetPlaying()
       }
     }
   }, [ws, rtsp])
@@ -151,15 +145,15 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   useEffect(() => {
     if (play && pipeline && !fetching) {
       pipeline.ready.then(() => {
-        debugLog('fetch')
         pipeline.onSdp = (sdp) => {
           if (__onSdpRef.current !== undefined) {
             __onSdpRef.current(sdp)
           }
         }
         pipeline.rtsp.play()
-        setFetching(true)
       })
+      debugLog('initiated data fetching')
+      setFetching(true)
     }
   }, [play, pipeline, fetching])
 
