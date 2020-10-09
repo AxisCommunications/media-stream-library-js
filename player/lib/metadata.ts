@@ -23,7 +23,7 @@ import {
 export interface MetadataXMLMessage extends XmlMessage {
   xmlDocument: XMLDocument
 }
-interface ScheduledMessage {
+export interface ScheduledMessage {
   readonly ntpTimestamp: number | undefined
   readonly data: unknown
 }
@@ -51,7 +51,7 @@ export interface MetadataHandler {
 export const attachMetadataHandler = (
   pipeline: pipelines.Html5VideoPipeline,
   { parser, cb }: MetadataHandler,
-) => {
+): utils.Scheduler<ScheduledMessage> => {
   /**
    * When a metadata handler is available on this component, it will be
    * called in sync with the player, using a scheduler to synchronize the
@@ -84,4 +84,6 @@ export const attachMetadataHandler = (
   // Initialize the scheduler when presentation time is ready
   pipeline.onSync = (ntpPresentationTime: number) =>
     scheduler.init(ntpPresentationTime)
+
+  return scheduler
 }
