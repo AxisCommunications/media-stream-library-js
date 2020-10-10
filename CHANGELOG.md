@@ -1,3 +1,12 @@
+## [7.0.6](https://github.com/AxisCommunications/media-stream-library-js/compare/v7.0.5...v7.0.6) (2020-10-10)
+
+
+### Bug Fixes
+
+* prevent process exit on parse error ([ed7bad0](https://github.com/AxisCommunications/media-stream-library-js/commit/ed7bad0fbcb279072e86b28652a1ae4c97045c9b))
+
+
+
 ## [7.0.5](https://github.com/AxisCommunications/media-stream-library-js/compare/v7.0.4...v7.0.5) (2020-10-02)
 
 
