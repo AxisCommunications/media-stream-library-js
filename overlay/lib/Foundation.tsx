@@ -123,7 +123,7 @@ export const FoundationContext = React.createContext<FoundationContextProps>({
   toUserBasis: throwIfNoFoundationProvider,
 })
 
-interface TransformData {
+export interface TransformData {
   readonly toSvgBasis: CoordTransform
   readonly toUserBasis: CoordTransform
   readonly width: number
