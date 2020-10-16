@@ -193,25 +193,13 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
   } = state
 
   const vapixParameters = useMemo(() => {
-    const params: VapixParameters = {}
+    const params = [{ compression }, { resolution }, { rotation }, { camera }]
+      .filter((item) => Object.values(item)[0] !== '')
+      .map((item) => {
+        return { [Object.keys(item)[0]]: Object.values(item)[0] ?? '' }
+      })
 
-    if (compression !== '') {
-      params['compression'] = compression
-    }
-
-    if (resolution !== '') {
-      params['resolution'] = resolution
-    }
-
-    if (rotation !== '') {
-      params['rotation'] = rotation
-    }
-
-    if (camera !== '') {
-      params['camera'] = camera
-    }
-
-    return params
+    return Object.assign({}, ...params) as VapixParameters
   }, [compression, resolution, rotation, camera])
 
   return (
@@ -223,3 +211,17 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
     />
   )
 }
+
+/**
+ * fps
+ * audio
+ * color
+ * clock
+ * date
+ *
+ * text
+ * textstring
+ * textcolor
+ * textbackgroundcolor
+ * textpos
+ */
