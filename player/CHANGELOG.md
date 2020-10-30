@@ -1,3 +1,19 @@
+# [2.6.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.5.0...v2.6.0) (2020-10-30)
+
+
+### Bug Fixes
+
+* debounce textstring updates ([f061b0d](https://github.com/AxisCommunications/media-stream-player-js/commit/f061b0d4575ab81736a56ae4e84a2260c67c4b20))
+* webcomponent has hardcoded http call ([7507f6f](https://github.com/AxisCommunications/media-stream-player-js/commit/7507f6fc356dddf930384699092c2b0064de9cec)), closes [#65](https://github.com/AxisCommunications/media-stream-player-js/issues/65)
+
+
+### Features
+
+* additional vapix parameters for web component ([a38dcac](https://github.com/AxisCommunications/media-stream-player-js/commit/a38dcac9c8a8b6d8ed9b68ea7c3d3f75564d41f3))
+* multi stream example ([86e1576](https://github.com/AxisCommunications/media-stream-player-js/commit/86e15762614655cabfed12dba455a9e33b358b49))
+
+
+
 # [2.5.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.4.1...v2.5.0) (2020-10-09)
 
 
