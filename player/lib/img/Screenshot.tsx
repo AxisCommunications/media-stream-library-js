@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Screenshot = ({ title }: { title?: string }) => {
+export const Screenshot = ({ title }: { readonly title?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

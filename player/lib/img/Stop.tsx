@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Stop = ({ title }: { title?: string }) => {
+export const Stop = ({ title }: { readonly title?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

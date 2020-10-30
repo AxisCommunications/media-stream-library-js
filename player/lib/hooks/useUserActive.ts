@@ -9,7 +9,7 @@ const DEFAULT_TIMEOUT = 3000
  * @param {Number} duration The duration of inactivity
  * @return {Boolean} The current user activity state
  */
-const useUserActive = (
+export const useUserActive = (
   ref: RefObject<HTMLElement>,
   duration = DEFAULT_TIMEOUT,
 ) => {
@@ -44,9 +44,7 @@ const useUserActive = (
         el.removeEventListener('pointerleave', stopUserActive)
       }
     }
-  }, [userActive])
+  }, [userActive, ref])
 
   return userActive
 }
-
-export default useUserActive

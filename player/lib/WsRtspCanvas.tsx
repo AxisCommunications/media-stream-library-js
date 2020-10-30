@@ -15,23 +15,23 @@ const CanvasNative = styled.canvas`
 `
 
 interface WsRtspCanvasProps {
-  forwardedRef?: React.Ref<HTMLCanvasElement>
+  readonly forwardedRef?: React.Ref<HTMLCanvasElement>
   /**
    * The _intended_ playback state.
    */
-  play?: boolean
+  readonly play?: boolean
   /**
    * The source URI for the WebSocket server.
    */
-  ws?: string
+  readonly ws?: string
   /**
    * The RTSP URI.
    */
-  rtsp?: string
+  readonly rtsp?: string
   /**
    * Callback to signal video is playing.
    */
-  onPlaying: (props: VideoProperties) => void
+  readonly onPlaying: (props: VideoProperties) => void
 }
 
 /**
@@ -72,17 +72,17 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
     const canvas = canvasRef.current
     if (ws && rtsp && canvas) {
       debugLog('create pipeline')
-      const pipeline = new pipelines.Html5CanvasPipeline({
+      const newPipeline = new pipelines.Html5CanvasPipeline({
         ws: { uri: ws },
         rtsp: { uri: rtsp },
         mediaElement: canvas,
       })
-      setPipeline(pipeline)
+      setPipeline(newPipeline)
 
       return () => {
         debugLog('destroy pipeline')
-        pipeline.pause()
-        pipeline.close()
+        newPipeline.pause()
+        newPipeline.close()
         setPipeline(null)
         setFetching(false)
         debugLog('canvas cleared')
@@ -90,13 +90,19 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
     }
   }, [ws, rtsp])
 
+  // keep a stable reference to the external onPlaying callback
+  const __onPlayingRef = useRef(onPlaying)
+  __onPlayingRef.current = onPlaying
+
   useEffect(() => {
     if (play && pipeline && !fetching) {
-      pipeline.ready.then(() => {
-        debugLog('fetch')
-        pipeline.rtsp.play()
-        setFetching(true)
-      })
+      pipeline.ready
+        .then(() => {
+          debugLog('fetch')
+          pipeline.rtsp.play()
+          setFetching(true)
+        })
+        .catch(console.error)
     } else if (play && pipeline !== null) {
       debugLog('play')
       pipeline.play()
@@ -104,8 +110,11 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
       // Callback `onCanPlay` is called when the canvas element is ready to
       // play. We need to wait for that event to get the correct width/height.
       pipeline.onCanplay = () => {
-        if (canvasRef.current !== null) {
-          onPlaying({
+        if (
+          canvasRef.current !== null &&
+          __onPlayingRef.current !== undefined
+        ) {
+          __onPlayingRef.current({
             el: canvasRef.current,
             width: canvasRef.current.width,
             height: canvasRef.current.height,

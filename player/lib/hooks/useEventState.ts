@@ -9,10 +9,10 @@ import { RefObject, useState, useEffect } from 'react'
  * @param {String} eventName The name of the event setting the state to true
  * @return {Array} The boolean state and a function to switch state to false
  */
-const useEventState = (
+export const useEventState = (
   ref: RefObject<HTMLElement>,
   eventName: string,
-): [boolean, () => void] => {
+): readonly [boolean, () => void] => {
   const [eventState, setEventState] = useState(false)
 
   const setEventStateTrue = () => setEventState(true)
@@ -27,9 +27,7 @@ const useEventState = (
         el.removeEventListener(eventName, setEventStateTrue)
       }
     }
-  }, [eventState])
+  }, [eventState, eventName, ref])
 
   return [eventState, setEventStateFalse]
 }
-
-export default useEventState

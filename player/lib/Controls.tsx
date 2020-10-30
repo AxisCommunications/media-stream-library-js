@@ -1,7 +1,7 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useCallback } from 'react'
 import styled from 'styled-components'
 
-import useUserActive from './hooks/useUserActive'
+import { useUserActive } from './hooks/useUserActive'
 
 import { Button } from './components/Button'
 import { Format } from './Player'
@@ -35,26 +35,26 @@ const Progress = styled.div`
 const Time = styled.div``
 
 interface ControlsProps {
-  play?: boolean
-  src?: string
-  parameters: VapixParameters
-  onPlay: () => void
-  onStop: () => void
-  onRefresh: () => void
-  onScreenshot: () => void
-  format?: Format
-  onFormat: (format: Format) => void
-  onVapix: (key: string, value: string) => void
-  labels?: {
-    play?: string
-    pause?: string
-    stop?: string
-    refresh?: string
-    screenshot?: string
-    settings?: string
+  readonly play?: boolean
+  readonly src?: string
+  readonly parameters: VapixParameters
+  readonly onPlay: () => void
+  readonly onStop: () => void
+  readonly onRefresh: () => void
+  readonly onScreenshot: () => void
+  readonly format?: Format
+  readonly onFormat: (format: Format) => void
+  readonly onVapix: (key: string, value: string) => void
+  readonly labels?: {
+    readonly play?: string
+    readonly pause?: string
+    readonly stop?: string
+    readonly refresh?: string
+    readonly screenshot?: string
+    readonly settings?: string
   }
-  showStatsOverlay: boolean
-  toggleStats: () => void
+  readonly showStatsOverlay: boolean
+  readonly toggleStats: () => void
 }
 
 export const Controls: React.FC<ControlsProps> = ({
@@ -76,35 +76,42 @@ export const Controls: React.FC<ControlsProps> = ({
   const userActive = useUserActive(controlArea)
 
   const [settings, setSettings] = useState(false)
+  const toggleSettings = useCallback(
+    () => setSettings((currentSettings) => !currentSettings),
+    [setSettings],
+  )
 
   return (
-    <ControlArea ref={controlArea} visible={!play || settings || userActive}>
+    <ControlArea
+      ref={controlArea}
+      visible={play !== true || settings || userActive}
+    >
       <ControlBar>
         <Button onClick={onPlay}>
-          {play ? (
+          {play === true ? (
             <Pause title={labels?.pause} />
           ) : (
             <Play title={labels?.play} />
           )}
         </Button>
-        {src && (
+        {src !== undefined && (
           <Button onClick={onStop}>
             <Stop title={labels?.stop} />
           </Button>
         )}
-        {src && (
+        {src !== undefined && (
           <Button onClick={onRefresh}>
             <Refresh title={labels?.refresh} />
           </Button>
         )}
-        {src && (
+        {src !== undefined && (
           <Button onClick={onScreenshot}>
             <Screenshot title={labels?.screenshot} />
           </Button>
         )}
         <Progress />
         <Time />
-        <Button onClick={() => setSettings(!settings)}>
+        <Button onClick={toggleSettings}>
           <CogWheel title={labels?.settings} />
         </Button>
       </ControlBar>

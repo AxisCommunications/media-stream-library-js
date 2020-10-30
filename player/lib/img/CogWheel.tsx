@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const CogWheel = ({ title }: { title?: string }) => {
+export const CogWheel = ({ title }: { readonly title?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
