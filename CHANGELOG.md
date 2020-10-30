@@ -1,3 +1,18 @@
+# [7.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v7.0.6...v7.1.0) (2020-10-30)
+
+
+### Bug Fixes
+
+* explicitly include fallback polyfills ([b4c92eb](https://github.com/AxisCommunications/media-stream-library-js/commit/b4c92ebfacb10fe1e72c57ef23ec834f1b14c3b1))
+* export message types ([41acc65](https://github.com/AxisCommunications/media-stream-library-js/commit/41acc6583baa8565846c089b7e46865142ddc570))
+
+
+### Features
+
+* streaming MP4 over HTTP ([64e6969](https://github.com/AxisCommunications/media-stream-library-js/commit/64e696939107d638c1f3f7bc0e64ac919b347e10))
+
+
+
 ## [7.0.6](https://github.com/AxisCommunications/media-stream-library-js/compare/v7.0.5...v7.0.6) (2020-10-10)
 
 
