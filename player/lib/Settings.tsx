@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useRef, useState } from 'react'
+import React, { ChangeEventHandler, useCallback, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Format } from './Player'
@@ -60,8 +60,8 @@ export const Settings: React.FC<SettingsProps> = ({
   const [textString, setTextString] = useState(parameters['textstring'])
   const textStringTimeout = useRef<number>()
 
-  const changeParam = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
+  const changeParam: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => {
       const { name, value } = e.target
 
       switch (name) {
@@ -85,42 +85,28 @@ export const Settings: React.FC<SettingsProps> = ({
     [onVapix],
   )
 
-  const changeStatsOverlay = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      toggleStats(e.target.checked)
-    },
+  const changeStatsOverlay: ChangeEventHandler<HTMLInputElement> = useCallback(
+    (e) => toggleStats(e.target.checked),
     [toggleStats],
   )
 
-  const changeFormat = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      onFormat(e.target.value as Format)
-    },
+  const changeFormat: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (e) => onFormat(e.target.value as Format),
     [onFormat],
   )
 
-  const changeResolution = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      if (e.target.value === '') {
-        onVapix('resolution', '')
-        return
-      }
-      onVapix('resolution', e.target.value)
-    },
+  const changeResolution: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (e) => onVapix('resolution', e.target.value),
     [onVapix],
   )
 
-  const changeRotation = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      onVapix('rotation', e.target.value)
-    },
+  const changeRotation: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (e) => onVapix('rotation', e.target.value),
     [onVapix],
   )
 
-  const changeCompression = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      onVapix('compression', e.target.value)
-    },
+  const changeCompression: ChangeEventHandler<HTMLSelectElement> = useCallback(
+    (e) => onVapix('compression', e.target.value),
     [onVapix],
   )
 

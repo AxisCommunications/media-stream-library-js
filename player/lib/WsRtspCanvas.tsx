@@ -102,9 +102,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
           pipeline.rtsp.play()
           setFetching(true)
         })
-        .catch((err) => {
-          console.error(err)
-        })
+        .catch(console.error)
     } else if (play && pipeline !== null) {
       debugLog('play')
       pipeline.play()
