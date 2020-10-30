@@ -44,15 +44,26 @@ You can find an example of this under `examples/web-component`.
 
 Supported properties right now are:
 
-| Property      | Comment                                                        |
-| ------------- | -------------------------------------------------------------- |
-| `hostname`    | The ip address to your device                                  |
-| `autoplay`    | If the property exists, we try and autoplay your video         |
-| `format`      | Accepted values are `JPEG`, `MJPEG` or `H264`                  |
-| `compression` | Accepted values are `0..100`, with 10 between each step        |
-| `resolution`  | Written as WidthXHeight, eg `1920x1080`                        |
-| `rotation`    | Accepted values are `0`, `90`, `180` and `270`                 |
-| `camera`      | Accepted values are `0...n` or `quad` depending on your device |
+| Property              | Comment                                                                   |
+| --------------------- | ------------------------------------------------------------------------- |
+| `hostname`            | The ip address to your device                                             |
+| `autoplay`            | If the property exists, we try and autoplay your video                    |
+| `secure`              | If the property exists, we will connect with https instead of http        |
+| `format`              | Accepted values are `JPEG`, `MJPEG` or `H264`                             |
+| `compression`         | Accepted values are `0..100`, with 10 between each step                   |
+| `resolution`          | Written as WidthXHeight, eg `1920x1080`                                   |
+| `rotation`            | Accepted values are `0`, `90`, `180` and `270`                            |
+| `camera`              | Accepted values are `0...n` or `quad` depending on your device            |
+|                       | **H264 / MJPEG specific properties**                                      |
+| `fps`                 | Accepted values are `0...n`                                               |
+| `audio`               | Accepted values are `0` (off) and `1` (on)                                |
+| `clock`               | Accepted values are `0` (hide) and `1` (show)                             |
+| `date`                | Accepted values are `0` (hide) and `1` (show)                             |
+| `text`                | Accepted values are `0` (hide text overlay) and `1` (show text overlay)   |
+| `textstring`          | A percent-encoded string for the text overlay                             |
+| `textcolor`           | Accepted values are `black` and `white`                                   |
+| `textbackgroundcolor` | Accepted values are `black`, `white`, `transparent` and `semitransparent` |
+| `textpos`             | Accepted values are `0` (top) and `1` (bottom)                            |
 
 Example:
 
