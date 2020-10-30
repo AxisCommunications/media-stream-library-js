@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useCallback, useState } from 'react'
+import React, { ChangeEvent, useCallback, useRef, useState } from 'react'
 import styled from 'styled-components'
 
 import { Format } from './Player'
@@ -58,28 +58,32 @@ export const Settings: React.FC<SettingsProps> = ({
   toggleStats,
 }) => {
   const [textString, setTextString] = useState(parameters['textstring'])
-  let textStringTimeout: number
+  const textStringTimeout = useRef<number>()
 
-  const changeParam = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    switch (e.target.name) {
-      case 'textstring':
-        const { name, value } = e.target
-        setTextString(value)
+  const changeParam = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target
 
-        clearTimeout(textStringTimeout)
-        textStringTimeout = window.setTimeout(() => {
-          onVapix(name, value)
-        }, 300)
+      switch (name) {
+        case 'textstring':
+          setTextString(value)
 
-        break
+          clearTimeout(textStringTimeout.current)
+          textStringTimeout.current = window.setTimeout(() => {
+            onVapix(name, value)
+          }, 300)
 
-      case 'text':
-        onVapix(e.target.name, e.target.checked ? '1' : '0')
-        break
-      default:
-        console.warn('internal error')
-    }
-  }, [])
+          break
+
+        case 'text':
+          onVapix(name, value ? '1' : '0')
+          break
+        default:
+          console.warn('internal error')
+      }
+    },
+    [onVapix],
+  )
 
   const changeStatsOverlay = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
