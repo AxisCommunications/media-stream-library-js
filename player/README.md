@@ -48,6 +48,7 @@ Supported properties right now are:
 | --------------------- | ------------------------------------------------------------------------- |
 | `hostname`            | The ip address to your device                                             |
 | `autoplay`            | If the property exists, we try and autoplay your video                    |
+| `secure`              | If the property exists, we will connect with https instead of http        |
 | `format`              | Accepted values are `JPEG`, `MJPEG` or `H264`                             |
 | `compression`         | Accepted values are `0..100`, with 10 between each step                   |
 | `resolution`          | Written as WidthXHeight, eg `1920x1080`                                   |

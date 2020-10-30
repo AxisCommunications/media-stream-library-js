@@ -20,6 +20,7 @@ interface InitialAttributes {
   readonly textcolor: string
   readonly textbackgroundcolor: string
   readonly textpos: string
+  readonly secure: boolean
 }
 
 type SetStateType = React.Dispatch<React.SetStateAction<InitialAttributes>>
@@ -58,6 +59,7 @@ export class MediaStreamPlayer extends HTMLElement {
       'textcolor',
       'textbackgroundcolor',
       'textpos',
+      'secure',
     ]
   }
 
@@ -79,6 +81,7 @@ export class MediaStreamPlayer extends HTMLElement {
       textcolor,
       textbackgroundcolor,
       textpos,
+      secure,
     } = this
 
     return {
@@ -98,6 +101,7 @@ export class MediaStreamPlayer extends HTMLElement {
       textcolor,
       textbackgroundcolor,
       textpos,
+      secure,
     }
   }
 
@@ -233,9 +237,26 @@ export class MediaStreamPlayer extends HTMLElement {
     this.setAttribute('textpos', value)
   }
 
+  get secure() {
+    return this.hasAttribute('secure')
+  }
+
+  set secure(value) {
+    if (value !== undefined) {
+      this.setAttribute('secure', '')
+    } else {
+      this.removeAttribute('secure')
+    }
+  }
+
   connectedCallback() {
+    const userGroupUrl = new URL(
+      `http://${this.hostname}/axis-cgi/usergroup.cgi`,
+    )
+    userGroupUrl.protocol = this.secure === true ? 'https' : 'http'
+
     window
-      .fetch(`http://${this.hostname}/axis-cgi/usergroup.cgi`, {
+      .fetch(userGroupUrl.href, {
         credentials: 'include',
         mode: 'no-cors',
       })
@@ -305,6 +326,7 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
     textcolor,
     textbackgroundcolor,
     textpos,
+    secure,
   } = state
 
   const vapixParameters = useMemo(() => {
@@ -351,6 +373,7 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
       autoPlay={autoplay}
       format={format as Format}
       vapixParams={vapixParameters}
+      secure={secure}
     />
   )
 }
