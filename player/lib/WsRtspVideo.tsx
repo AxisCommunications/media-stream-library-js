@@ -115,6 +115,9 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
           pipeline: pipeline ?? undefined,
           width: videoEl.videoWidth,
           height: videoEl.videoHeight,
+          volume: pipeline?.tracks?.find((track) => track.type === 'audio')
+            ? videoEl.volume
+            : undefined,
         })
       }
     }

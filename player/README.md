@@ -109,6 +109,15 @@ yarn add media-stream-player
 
 You can find an example of this under `examples/react-app`
 
+## FAQ
+
+**Does this library support audio?**
+Yes, yes it does. With a few caveats though.
+
+- Make sure your AXIS camera actually supports audio
+- Make sure the audio is enabled on the camera.
+- It only works with H.264 and only after user interaction with the volume slider
+
 ## Icons
 
 The icons used are from https://github.com/google/material-design-icons/, which

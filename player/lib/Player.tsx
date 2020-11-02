@@ -103,6 +103,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     const [host, setHost] = useState(hostname)
     const [waiting, setWaiting] = useState(autoPlay)
     const [api, setApi] = useState<string>(DEFAULT_API_TYPE)
+    const [volume, setVolume] = useState<number>()
 
     /**
      * VAPIX parameters
@@ -146,6 +147,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       (props: VideoProperties) => {
         setVideoProperties(props)
         setWaiting(false)
+        setVolume(props.volume)
       },
       [setWaiting],
     )
@@ -278,6 +280,17 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     }, [naturalAspectRatio])
 
     /**
+     * Volume control on the VideoElement (h264 only)
+     */
+    useEffect(() => {
+      if (videoProperties?.volume !== undefined && volume !== undefined) {
+        const videoEl = videoProperties.el as HTMLVideoElement
+        videoEl.muted = volume === 0
+        videoEl.volume = volume
+      }
+    }, [videoProperties, volume])
+
+    /**
      * Render
      *
      * Each layer is positioned exactly on top of the visible image, since the
@@ -327,10 +340,13 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                   refresh: 'Refresh',
                   settings: 'Settings',
                   screenshot: 'Take a snapshot',
+                  volume: 'Volume',
                 }}
                 showStatsOverlay={showStatsOverlay}
                 toggleStats={toggleStatsOverlay}
                 api={api}
+                volume={volume}
+                setVolume={setVolume}
               />
             </Layer>
             {showStatsOverlay && videoProperties !== undefined ? (
@@ -339,6 +355,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 parameters={parameters}
                 videoProperties={videoProperties}
                 refresh={refresh}
+                volume={volume}
               />
             ) : null}
           </Container>

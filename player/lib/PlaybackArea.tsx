@@ -27,6 +27,7 @@ export interface VideoProperties {
     readonly type: 'video' | 'audio' | 'data'
     readonly mime: string
   }>
+  readonly volume?: number
 }
 
 interface PlaybackAreaProps {

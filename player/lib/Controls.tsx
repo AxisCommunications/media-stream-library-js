@@ -34,6 +34,10 @@ const Progress = styled.div`
 `
 const Time = styled.div``
 
+const VolumeContainer = styled.div`
+  margin-left: 8px;
+`
+
 interface ControlsProps {
   readonly play?: boolean
   readonly src?: string
@@ -51,10 +55,13 @@ interface ControlsProps {
     readonly refresh?: string
     readonly screenshot?: string
     readonly settings?: string
+    readonly volume?: string
   }
   readonly showStatsOverlay: boolean
   readonly toggleStats: () => void
   readonly api: string
+  readonly volume?: number
+  readonly setVolume?: (v: number) => void
 }
 
 export const Controls: React.FC<ControlsProps> = ({
@@ -71,6 +78,8 @@ export const Controls: React.FC<ControlsProps> = ({
   showStatsOverlay,
   toggleStats,
   api,
+  volume,
+  setVolume,
 }) => {
   const controlArea = useRef(null)
   const userActive = useUserActive(controlArea)
@@ -79,6 +88,15 @@ export const Controls: React.FC<ControlsProps> = ({
   const toggleSettings = useCallback(
     () => setSettings((currentSettings) => !currentSettings),
     [setSettings],
+  )
+
+  const onVolumeChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (setVolume !== undefined) {
+        setVolume(parseFloat(e.target.value))
+      }
+    },
+    [setVolume],
   )
 
   return (
@@ -109,6 +127,18 @@ export const Controls: React.FC<ControlsProps> = ({
             <Screenshot title={labels?.screenshot} />
           </Button>
         )}
+        {volume !== undefined ? (
+          <VolumeContainer title={labels?.volume}>
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.05"
+              onChange={onVolumeChange}
+              value={volume ?? 0}
+            />
+          </VolumeContainer>
+        ) : null}
         <Progress />
         <Time />
         <Button onClick={toggleSettings}>

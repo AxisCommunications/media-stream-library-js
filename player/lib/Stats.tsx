@@ -104,6 +104,7 @@ interface StatsProps {
   readonly parameters: VapixParameters
   readonly videoProperties: VideoProperties
   readonly refresh: number
+  readonly volume?: number
 }
 
 interface Stat {
@@ -117,6 +118,7 @@ const StatsData: React.FC<StatsProps> = ({
   parameters,
   videoProperties,
   refresh,
+  volume,
 }) => {
   const [stats, setStats] = useState<Array<Stat>>([])
 
@@ -179,8 +181,16 @@ const StatsData: React.FC<StatsProps> = ({
       }
     }
 
+    if (volume !== undefined) {
+      statsData.push({
+        name: 'Volume',
+        value: Math.floor(volume * 100),
+        unit: '%',
+      })
+    }
+
     setStats(statsData)
-  }, [api, parameters, refresh, videoProperties])
+  }, [api, parameters, refresh, videoProperties, volume])
 
   useEffect(() => {
     updateValues()
@@ -211,6 +221,7 @@ export const Stats: React.FC<StatsProps> = ({
   parameters,
   videoProperties,
   refresh,
+  volume,
 }) => {
   const [showStats, setShowStats] = useState(true)
 
@@ -243,6 +254,7 @@ export const Stats: React.FC<StatsProps> = ({
             parameters={parameters}
             videoProperties={videoProperties}
             refresh={refresh}
+            volume={volume}
           />
         </StatsWrapper>
       ) : (

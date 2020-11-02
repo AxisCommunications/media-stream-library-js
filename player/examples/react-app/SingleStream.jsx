@@ -83,7 +83,7 @@ export const SingleStream = () => {
         {state.authorized ? (
           <MediaPlayer
             hostname={state.hostname}
-            format="MJPEG"
+            format="H264"
             autoPlay
             vapixParams={vapixParams}
           />
