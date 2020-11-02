@@ -24,6 +24,7 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
   public onSourceOpen?: (mse: MediaSource, tracks: MediaTrack[]) => void
   public onServerClose?: () => void
   public ready: Promise<void>
+  public tracks?: MediaTrack[]
 
   private _src?: WSSource
   private _sink: MseSink
@@ -50,6 +51,7 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
 
     const mseSink = new MseSink(mediaElement)
     mseSink.onSourceOpen = (mse, tracks) => {
+      this.tracks = tracks
       this.onSourceOpen && this.onSourceOpen(mse, tracks)
     }
     this.append(mseSink)
