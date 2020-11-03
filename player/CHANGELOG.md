@@ -1,3 +1,12 @@
+## [2.6.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.6.0...v2.6.1) (2020-11-03)
+
+
+### Bug Fixes
+
+* replace unstable dependency arrays ([e929f1a](https://github.com/AxisCommunications/media-stream-player-js/commit/e929f1abe6d2d0a24dd1a3d836f2903d6a827246))
+
+
+
 # [2.6.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.5.0...v2.6.0) (2020-10-30)
 
 
