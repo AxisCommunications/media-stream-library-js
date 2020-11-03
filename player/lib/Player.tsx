@@ -187,26 +187,23 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       setWaiting(false)
     }, [])
 
-    const onFormat = useCallback(
-      (newFormat: Format | undefined) => {
-        switch (newFormat) {
-          case 'H264':
-            setApi(AXIS_MEDIA_AMP)
-            setParameters({ ...parameters, videocodec: 'h264' })
-            break
-          case 'MJPEG':
-            setApi(AXIS_MEDIA_AMP)
-            setParameters({ ...parameters, videocodec: 'jpeg' })
-            break
-          case 'JPEG':
-          default:
-            setApi(AXIS_IMAGE_CGI)
-            break
-        }
-        setRefresh((value) => value + 1)
-      },
-      [parameters],
-    )
+    const onFormat = useCallback((newFormat: Format | undefined) => {
+      switch (newFormat) {
+        case 'H264':
+          setApi(AXIS_MEDIA_AMP)
+          setParameters((prevParams) => ({ ...prevParams, videocodec: 'h264' }))
+          break
+        case 'MJPEG':
+          setApi(AXIS_MEDIA_AMP)
+          setParameters((prevParams) => ({ ...prevParams, videocodec: 'jpeg' }))
+          break
+        case 'JPEG':
+        default:
+          setApi(AXIS_IMAGE_CGI)
+          break
+      }
+      setRefresh((value) => value + 1)
+    }, [])
 
     useEffect(() => {
       onFormat(format)

@@ -1,4 +1,4 @@
-import { RefObject, useState, useEffect } from 'react'
+import { RefObject, useState, useEffect, useCallback } from 'react'
 
 /**
  * Use a state set by an event:
@@ -15,8 +15,8 @@ export const useEventState = (
 ): readonly [boolean, () => void] => {
   const [eventState, setEventState] = useState(false)
 
-  const setEventStateTrue = () => setEventState(true)
-  const setEventStateFalse = () => setEventState(false)
+  const setEventStateTrue = useCallback(() => setEventState(true), [])
+  const setEventStateFalse = useCallback(() => setEventState(false), [])
 
   useEffect(() => {
     const el = ref.current
@@ -27,7 +27,7 @@ export const useEventState = (
         el.removeEventListener(eventName, setEventStateTrue)
       }
     }
-  }, [eventState, eventName, ref])
+  }, [eventState, eventName, ref, setEventStateTrue])
 
   return [eventState, setEventStateFalse]
 }
