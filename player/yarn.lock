@@ -4293,7 +4293,7 @@ eslint-config-prettier@6.12.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-config-typescript-shareable@^0.17.0:
+eslint-config-typescript-shareable@0.17.0:
   version "0.17.0"
   resolved "https://registry.yarnpkg.com/eslint-config-typescript-shareable/-/eslint-config-typescript-shareable-0.17.0.tgz#edb49b9b5ebd09c3ea1f2f6bdfa6f98f048d9e22"
   integrity sha512-tzkRkzxB4LASELs4fJlImjPVdva9metd2DIyBrOSn1wDvz7gJ+4zhhmO5RxYaKSiGANjJgMMiR0ZCCFaaC/W8A==
