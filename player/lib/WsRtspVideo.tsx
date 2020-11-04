@@ -127,7 +127,13 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   useEffect(() => {
     const videoEl = videoRef.current
 
-    if (ws !== undefined && rtsp !== undefined && videoEl !== null) {
+    if (
+      ws !== undefined &&
+      ws.length > 0 &&
+      rtsp !== undefined &&
+      rtsp.length > 0 &&
+      videoEl !== null
+    ) {
       debugLog('create pipeline', ws, rtsp)
       const newPipeline = new pipelines.Html5VideoPipeline({
         ws: { uri: ws },
