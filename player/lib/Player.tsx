@@ -330,7 +330,6 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 onStop={onStop}
                 onRefresh={onRefresh}
                 onScreenshot={onScreenshot}
-                format={format}
                 onFormat={onFormat}
                 onVapix={onVapix}
                 labels={{
@@ -343,6 +342,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 }}
                 showStatsOverlay={showStatsOverlay}
                 toggleStats={toggleStatsOverlay}
+                api={api}
               />
             </Layer>
           </Container>

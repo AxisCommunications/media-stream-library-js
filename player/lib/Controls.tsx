@@ -42,7 +42,6 @@ interface ControlsProps {
   readonly onStop: () => void
   readonly onRefresh: () => void
   readonly onScreenshot: () => void
-  readonly format?: Format
   readonly onFormat: (format: Format) => void
   readonly onVapix: (key: string, value: string) => void
   readonly labels?: {
@@ -55,6 +54,7 @@ interface ControlsProps {
   }
   readonly showStatsOverlay: boolean
   readonly toggleStats: () => void
+  readonly api: string
 }
 
 export const Controls: React.FC<ControlsProps> = ({
@@ -65,12 +65,12 @@ export const Controls: React.FC<ControlsProps> = ({
   onStop,
   onRefresh,
   onScreenshot,
-  format,
   onFormat,
   onVapix,
   labels,
   showStatsOverlay,
   toggleStats,
+  api,
 }) => {
   const controlArea = useRef(null)
   const userActive = useUserActive(controlArea)
@@ -118,7 +118,7 @@ export const Controls: React.FC<ControlsProps> = ({
       {settings && (
         <Settings
           parameters={parameters}
-          format={format}
+          api={api}
           onFormat={onFormat}
           onVapix={onVapix}
           showStatsOverlay={showStatsOverlay}

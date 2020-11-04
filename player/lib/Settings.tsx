@@ -1,8 +1,14 @@
-import React, { ChangeEventHandler, useCallback, useRef, useState } from 'react'
+import React, {
+  ChangeEventHandler,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import styled from 'styled-components'
 
 import { Format } from './Player'
-import { VapixParameters } from './PlaybackArea'
+import { AXIS_IMAGE_CGI, AXIS_MEDIA_AMP, VapixParameters } from './PlaybackArea'
 import { Switch } from './components/Switch'
 
 const SettingsMenu = styled.div`
@@ -42,7 +48,7 @@ const SettingsItem = styled.div`
 
 interface SettingsProps {
   readonly parameters: VapixParameters
-  readonly format?: Format
+  readonly api: string
   readonly onFormat: (format: Format) => void
   readonly onVapix: (key: string, value: string) => void
   readonly showStatsOverlay: boolean
@@ -51,13 +57,14 @@ interface SettingsProps {
 
 export const Settings: React.FC<SettingsProps> = ({
   parameters,
-  format,
+  api,
   onFormat,
   onVapix,
   showStatsOverlay,
   toggleStats,
 }) => {
   const [textString, setTextString] = useState(parameters['textstring'])
+  const [videoCodec] = useState(parameters['videocodec'])
   const textStringTimeout = useRef<number>()
 
   const changeParam: ChangeEventHandler<HTMLInputElement> = useCallback(
@@ -110,11 +117,21 @@ export const Settings: React.FC<SettingsProps> = ({
     [onVapix],
   )
 
+  const determinedFormat = useMemo(() => {
+    if (api === AXIS_IMAGE_CGI) {
+      return 'JPEG'
+    }
+
+    if (api === AXIS_MEDIA_AMP) {
+      return videoCodec === 'h264' ? 'H264' : 'MJPEG'
+    }
+  }, [api, videoCodec])
+
   return (
     <SettingsMenu>
       <SettingsItem>
         <div>Format</div>
-        <select onChange={changeFormat} defaultValue={format}>
+        <select onChange={changeFormat} defaultValue={determinedFormat}>
           <option value="H264">H.264 over RTP</option>
           <option value="MJPEG">JPEG over RTP</option>
           <option value="JPEG">Still image</option>
