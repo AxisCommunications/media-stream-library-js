@@ -1,3 +1,12 @@
+# [7.2.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v7.1.0...v7.2.0) (2020-11-04)
+
+
+### Features
+
+* add tracks to html5 video pipeline ([19571ad](https://github.com/AxisCommunications/media-stream-library-js/commit/19571adbcd39e68160e4e3ff7f631515016eb6e9))
+
+
+
 # [7.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v7.0.6...v7.1.0) (2020-10-30)
 
 
