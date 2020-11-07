@@ -29,6 +29,7 @@ alias: {
 ```
 
 You can look at the `webpack.config.js` to see how it's used for building the bundle.
+Since IE11 is not supported or tested at all, you might run into different issues as well.
 
 ## Installation
 

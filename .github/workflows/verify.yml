@@ -1,0 +1,40 @@
+# Run linting, unit tests, check build is possible.
+# Standard requirements that should always be green.
+# Tested on NodeJS LTS and current stable.
+name: Verify
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['14', '15']
+    services:
+      rtsp:
+        image: steabert/gst-rtsp-launch
+        ports:
+          - 8554:8554
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn install --immutable --immutable-cache
+      - name: Linting & Unit testing
+        run: |
+          yarn lint
+          yarn test
+      - name: Build
+        run: yarn build
+      - name: Test basic video functionality
+        run: sbin/test.sh
