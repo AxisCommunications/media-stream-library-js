@@ -94,6 +94,14 @@ export class Source extends AbstractComponent {
       throw new Error('connection failed: component(s) already connected')
     }
 
+    if (!this.incoming.readable || !this.outgoing.writable) {
+      throw new Error('connection failed: this component not compatible')
+    }
+
+    if (!next.incoming.writable || !next.outgoing.readable) {
+      throw new Error('connection failed: next component not compatible')
+    }
+
     try {
       this.incoming.pipe(next.incoming)
       next.outgoing.pipe(this.outgoing)

@@ -51,9 +51,16 @@ the examples. You'll see a link to a port on `localhost` (usually 8080).
 
 ## Continuous integration
 
+### Verification
+
 Automated tests are run on the master branch and pull requests with GitHub Actions,
-for which the configuration can be found in the `.github/workflows/ci.yml` file.
-When tags are pushed, an automated deploy will release to both Github and NPM.
+for which the configuration can be found in the `.github/workflows/verify.yml` file.
+These tests always need to pass before a PR can be merged.
+
+### Releases
+
+When tags are pushed, an automated deploy will release to both Github and NPM, which
+can be found in `.github/workflows/publish.yml`.
 Any tags that are prereleases will be tagged `next` for NPM, otherwise `latest` is used.
 
 To release, make sure you are on the master branch and run:
