@@ -58,7 +58,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
           if [[ $GITHUB_REF =~ alpha|beta ]]; then
-              yarn npm publish --tag next
+              npm publish --tag next
           else
-              yarn npm publish --tag latest
+              npm publish --tag latest
           fi
