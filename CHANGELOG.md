@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v8.0.1 (2020-11-08 16:39:28 +0100)
+## v8.0.2 (2020-11-08 16:44:37 +0100)
+
+## v8.0.1 (2020-11-08 16:39:49 +0100)
+
+### Bug fixes
+
+  - use correct bundle name in publish workflow
 
 ## v8.0.0 (2020-11-08 16:26:34 +0100)
 
