@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Generate new commit
-if [[ ! -d .yarn/version ]]; then
+if [[ ! -d .yarn/versions ]]; then
   yarn version patch
 fi
 yarn version apply --all
