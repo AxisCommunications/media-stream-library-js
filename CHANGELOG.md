@@ -2,7 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## 8.0.0 (2020-11-08 16:26:21 +0100)
+## v8.0.1 (2020-11-08 16:39:28 +0100)
+
+## v8.0.0 (2020-11-08 16:26:34 +0100)
 
 ### Features
 
