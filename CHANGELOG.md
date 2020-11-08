@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## 7.8 (2020-11-07 14:11:36 +0100)
+## 8.0.0 (2020-11-08 16:26:21 +0100)
+
+### Features
+
+  - Yarn v2 with Pnp support and zero-install
 
 ## v7.2.0 (2020-11-04 09:36:04 +0100)
 
