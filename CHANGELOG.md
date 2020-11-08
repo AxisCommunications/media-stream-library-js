@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v8.0.2 (2020-11-08 16:44:37 +0100)
+## v8.0.3 (2020-11-08 16:50:39 +0100)
+
+## v8.0.2 (2020-11-08 16:45:20 +0100)
+
+### Bug fixes
+
+  - use npm for publishing
 
 ## v8.0.1 (2020-11-08 16:39:49 +0100)
 
