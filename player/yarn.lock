@@ -8659,6 +8659,13 @@ react-dom@16.13.1:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
+react-hooks-shareable@1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-hooks-shareable/-/react-hooks-shareable-1.3.1.tgz#75badcba988407154469bcb82e3ce40dda65f322"
+  integrity sha512-38f4BBWl7ayyWsEOCg64oyUv2HluZ0+2E0+5XxvAquSWLgAZASOQ9lWBmEGYVjWybRk0dJAuuIICHa5fujjvfg==
+  dependencies:
+    "@juggle/resize-observer" "3.2.0"
+
 react-is@^16.12.0, react-is@^16.7.0:
   version "16.13.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.0.tgz#0f37c3613c34fe6b37cd7f763a0d6293ab15c527"

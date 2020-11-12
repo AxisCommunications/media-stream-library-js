@@ -1,5 +1,5 @@
 import React, { Ref } from 'react'
-import { Sdp } from 'media-stream-library/dist/esm/index.browser'
+import { Sdp, pipelines } from 'media-stream-library/dist/esm/index.browser'
 import debug from 'debug'
 
 import { PlayerNativeElement } from './Player'
@@ -22,6 +22,7 @@ export interface VideoProperties {
   readonly el: PlayerNativeElement
   readonly width: number
   readonly height: number
+  readonly pipeline?: pipelines.Html5VideoPipeline
   readonly media?: ReadonlyArray<{
     readonly type: 'video' | 'audio' | 'data'
     readonly mime: string
