@@ -1,9 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import ReactDOM from 'react-dom'
+import { BasicPlayer } from './BasicPlayer'
 import { VapixParameters } from './PlaybackArea'
-import { Format, Player } from './Player'
+import { Player } from './Player'
+import { Format } from './utils/common'
 
+enum PlayerVariants {
+  BASIC = 'basic',
+  ADVANCED = 'advanced',
+}
 interface InitialAttributes {
+  readonly variant: string
   readonly hostname: string
   readonly autoplay: boolean
   readonly format: string
@@ -39,6 +46,7 @@ export class MediaStreamPlayer extends HTMLElement {
 
   public static get observedAttributes() {
     return [
+      'variant',
       'hostname',
       'autoplay',
       'format',
@@ -61,6 +69,7 @@ export class MediaStreamPlayer extends HTMLElement {
 
   private get allAttributes() {
     const {
+      variant,
       hostname,
       autoplay,
       format,
@@ -81,6 +90,7 @@ export class MediaStreamPlayer extends HTMLElement {
     } = this
 
     return {
+      variant,
       hostname,
       autoplay,
       format,
@@ -99,6 +109,14 @@ export class MediaStreamPlayer extends HTMLElement {
       textpos,
       secure,
     }
+  }
+
+  public get variant() {
+    return this.getAttribute('variant') ?? PlayerVariants.ADVANCED
+  }
+
+  public set variant(value: string) {
+    this.setAttribute('variant', value)
   }
 
   public get hostname() {
@@ -307,6 +325,7 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
   }, [subscribeAttributesChanged])
 
   const {
+    variant,
     hostname,
     autoplay,
     format,
@@ -364,13 +383,29 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
     textpos,
   ])
 
-  return (
-    <Player
-      hostname={hostname}
-      autoPlay={autoplay}
-      format={format as Format}
-      vapixParams={vapixParameters}
-      secure={secure}
-    />
-  )
+  switch (variant) {
+    case PlayerVariants.ADVANCED:
+      return (
+        <Player
+          hostname={hostname}
+          autoPlay={autoplay}
+          format={format as Format}
+          vapixParams={vapixParameters}
+          secure={secure}
+        />
+      )
+    case PlayerVariants.BASIC:
+      return (
+        <BasicPlayer
+          hostname={hostname}
+          autoPlay={autoplay}
+          format={format as Format}
+          vapixParams={vapixParameters}
+          secure={secure}
+        />
+      )
+    default:
+      console.error('No player variant selected')
+      return null
+  }
 }

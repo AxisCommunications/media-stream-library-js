@@ -7,7 +7,6 @@ import React, {
   useLayoutEffect,
   useRef,
 } from 'react'
-import styled from 'styled-components'
 import { Sdp } from 'media-stream-library/dist/esm/utils/protocols'
 
 import { Container, Layer } from './Container'
@@ -22,38 +21,12 @@ import { Controls } from './Controls'
 import { Feedback } from './Feedback'
 import { Stats } from './Stats'
 import { useSwitch } from './hooks/useSwitch'
-import { getImageURL } from './utils'
+import { getImageURL, Format, PlayerNativeElement } from './utils'
 import { MetadataHandler } from './metadata'
+import { Limiter } from './components/Limiter'
+import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
 
 const DEFAULT_API_TYPE = AXIS_IMAGE_CGI
-
-/**
- * Wrapper for the entire player that will take up all available place from the
- * parent.
- */
-const MediaStreamPlayerContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-`
-
-/**
- * The limiter prevents the video element to use up all of the available width.
- * The player container will automatically limit it's own height based on the
- * available width (keeping aspect ratio).
- */
-const Limiter = styled.div`
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`
 
 interface PlayerProps {
   readonly hostname: string
@@ -69,19 +42,6 @@ interface PlayerProps {
   readonly secure?: boolean
   readonly aspectRatio?: number
   readonly className?: string
-}
-
-export type PlayerNativeElement =
-  | HTMLVideoElement
-  | HTMLCanvasElement
-  | HTMLImageElement
-
-export type Format = 'H264' | 'MJPEG' | 'JPEG'
-
-export const FORMAT_API = {
-  H264: AXIS_MEDIA_AMP,
-  MJPEG: AXIS_MEDIA_AMP,
-  JPEG: AXIS_IMAGE_CGI,
 }
 
 export const Player = forwardRef<PlayerNativeElement, PlayerProps>(

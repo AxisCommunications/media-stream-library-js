@@ -14,8 +14,8 @@ React components for each format (currently RTP H.264 and JPEG, and still images
 ). The main video player will only handle the intended video state (attached to
 handlers) and format.
 
-You can either import the `Player` and use it directly (see the example
-application). If you want to build your own customized player, you can look at
+You can either import the `Player` or `BasicPlayer` and use them directly (see the example
+applications). If you want to build your own customized player, you can look at
 the latter component and build your own player, using the `Container`, `Layer`,
 and `PlaybackArea` components.
 
@@ -44,26 +44,27 @@ You can find an example of this under `examples/web-component`.
 
 Supported properties right now are:
 
-| Property              | Comment                                                                   |
-| --------------------- | ------------------------------------------------------------------------- |
-| `hostname`            | The ip address to your device                                             |
-| `autoplay`            | If the property exists, we try and autoplay your video                    |
-| `secure`              | If the property exists, we will connect with https instead of http        |
-| `format`              | Accepted values are `JPEG`, `MJPEG` or `H264`                             |
-| `compression`         | Accepted values are `0..100`, with 10 between each step                   |
-| `resolution`          | Written as WidthXHeight, eg `1920x1080`                                   |
-| `rotation`            | Accepted values are `0`, `90`, `180` and `270`                            |
-| `camera`              | Accepted values are `0...n` or `quad` depending on your device            |
-|                       | **H264 / MJPEG specific properties**                                      |
-| `fps`                 | Accepted values are `0...n`                                               |
-| `audio`               | Accepted values are `0` (off) and `1` (on)                                |
-| `clock`               | Accepted values are `0` (hide) and `1` (show)                             |
-| `date`                | Accepted values are `0` (hide) and `1` (show)                             |
-| `text`                | Accepted values are `0` (hide text overlay) and `1` (show text overlay)   |
-| `textstring`          | A percent-encoded string for the text overlay                             |
-| `textcolor`           | Accepted values are `black` and `white`                                   |
-| `textbackgroundcolor` | Accepted values are `black`, `white`, `transparent` and `semitransparent` |
-| `textpos`             | Accepted values are `0` (top) and `1` (bottom)                            |
+| Property              | Comment                                                                            |
+| --------------------- | ---------------------------------------------------------------------------------- |
+| `variant`             | Supported choices are `basic` or `advanced`. Refers to `BasicPlayer` and `Player`. |
+| `hostname`            | The ip address to your device                                                      |
+| `autoplay`            | If the property exists, we try and autoplay your video                             |
+| `secure`              | If the property exists, we will connect with https instead of http                 |
+| `format`              | Accepted values are `JPEG`, `MJPEG` or `H264`                                      |
+| `compression`         | Accepted values are `0..100`, with 10 between each step                            |
+| `resolution`          | Written as WidthXHeight, eg `1920x1080`                                            |
+| `rotation`            | Accepted values are `0`, `90`, `180` and `270`                                     |
+| `camera`              | Accepted values are `0...n` or `quad` depending on your device                     |
+|                       | **H264 / MJPEG specific properties**                                               |
+| `fps`                 | Accepted values are `0...n`                                                        |
+| `audio`               | Accepted values are `0` (off) and `1` (on)                                         |
+| `clock`               | Accepted values are `0` (hide) and `1` (show)                                      |
+| `date`                | Accepted values are `0` (hide) and `1` (show)                                      |
+| `text`                | Accepted values are `0` (hide text overlay) and `1` (show text overlay)            |
+| `textstring`          | A percent-encoded string for the text overlay                                      |
+| `textcolor`           | Accepted values are `black` and `white`                                            |
+| `textbackgroundcolor` | Accepted values are `black`, `white`, `transparent` and `semitransparent`          |
+| `textpos`             | Accepted values are `0` (top) and `1` (bottom)                                     |
 
 Example:
 

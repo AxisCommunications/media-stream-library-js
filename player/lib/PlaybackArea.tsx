@@ -2,11 +2,11 @@ import React, { Ref } from 'react'
 import { Sdp, pipelines } from 'media-stream-library/dist/esm/index.browser'
 import debug from 'debug'
 
-import { PlayerNativeElement } from './Player'
 import { WsRtspVideo } from './WsRtspVideo'
 import { WsRtspCanvas } from './WsRtspCanvas'
 import { StillImage } from './StillImage'
 import { MetadataHandler } from './metadata'
+import { PlayerNativeElement } from './utils/common'
 
 const debugLog = debug('msp:api')
 

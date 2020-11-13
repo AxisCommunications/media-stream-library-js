@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react'
 import styled, { createGlobalStyle } from 'styled-components'
 
-import { Player } from 'media-stream-player'
 import { SingleStream } from './SingleStream'
+import { BasicStream } from './BasicStream'
 import { MultiStream } from './MultiStream'
 
 const GlobalStyle = createGlobalStyle`
@@ -33,6 +33,11 @@ export const App = () => {
     localStorage.setItem(LOCALSTORAGE_KEY, 'single')
   }, [setState])
 
+  const basic = useCallback(() => {
+    setState('basic')
+    localStorage.setItem(LOCALSTORAGE_KEY, 'basic')
+  }, [setState])
+
   const multi = useCallback(() => {
     setState('multi')
     localStorage.setItem(LOCALSTORAGE_KEY, 'multi')
@@ -43,9 +48,11 @@ export const App = () => {
       <GlobalStyle />
       <ButtonContainer>
         <Button onClick={single}>Single stream example</Button>
+        <Button onClick={basic}>Basic stream example</Button>
         <Button onClick={multi}>Multi stream example</Button>
       </ButtonContainer>
       {state === 'single' ? <SingleStream /> : null}
+      {state === 'basic' ? <BasicStream /> : null}
       {state === 'multi' ? <MultiStream /> : null}
     </>
   )

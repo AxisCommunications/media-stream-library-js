@@ -4,12 +4,12 @@ import styled from 'styled-components'
 import { useUserActive } from './hooks/useUserActive'
 
 import { Button } from './components/Button'
-import { Format } from './Player'
 import { Play, Pause, Stop, Refresh, CogWheel, Screenshot } from './img'
 import { Settings } from './Settings'
 import { VapixParameters } from './PlaybackArea'
+import { Format } from './utils'
 
-const ControlArea = styled.div<{ readonly visible: boolean }>`
+export const ControlArea = styled.div<{ readonly visible: boolean }>`
   width: 100%;
   height: 100%;
   display: flex;
@@ -19,7 +19,7 @@ const ControlArea = styled.div<{ readonly visible: boolean }>`
   transition: opacity 0.3s ease-in-out;
 `
 
-const ControlBar = styled.div`
+export const ControlBar = styled.div`
   width: 100%;
   height: 32px;
   background: rgb(0, 0, 0, 0.66);
