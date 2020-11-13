@@ -37,7 +37,7 @@
   "dependencies": {
     "@juggle/resize-observer": "3.2.0",
     "debug": "4.2.0",
-    "media-stream-library": "7.0.5",
+    "media-stream-library": "8.0.3",
     "styled-components": "5.2.0"
   },
   "devDependencies": {

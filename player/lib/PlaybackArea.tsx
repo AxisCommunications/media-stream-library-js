@@ -1,5 +1,5 @@
 import React, { Ref } from 'react'
-import { Sdp } from 'media-stream-library/lib/utils/protocols/sdp'
+import { Sdp } from 'media-stream-library/dist/esm/index.browser'
 import debug from 'debug'
 
 import { PlayerNativeElement } from './Player'
