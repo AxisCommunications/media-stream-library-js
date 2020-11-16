@@ -6,6 +6,7 @@ coverage/
 
 # Bundles
 dist/
+examples/web-component/media-stream-player.min.js
 
 # Dependencies
 node_modules/

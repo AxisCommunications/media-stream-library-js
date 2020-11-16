@@ -74,7 +74,14 @@ Example:
 You may need to start a localhost server to get H264 and MJPEG video to run properly.
 It doesn't work with the `file:///` protocol. The easiest way to do that is Pythons simpleHttpServer.
 
-Go to the web-component example folder and type the following in you terminal:
+First run
+
+```bash
+yarn build
+```
+
+to get a local copy of the minified file. Then go to the web-component example folder and type the following
+in you terminal:
 
 ```bash
 python -m SimpleHTTPServer 8080
