@@ -1,3 +1,27 @@
+# [3.0.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.6.1...v3.0.0) (2020-11-20)
+
+
+### Features
+
+* **stats:** improvements and additions ([5c05e2f](https://github.com/AxisCommunications/media-stream-player-js/commit/5c05e2f6f7789c028af4d0c001e791db91370f35))
+
+
+* fix!: remember correct format ([e9f537b](https://github.com/AxisCommunications/media-stream-player-js/commit/e9f537bf11c6fcdaf2abe273a4b90f3ea0b1a2df)), closes [#79](https://github.com/AxisCommunications/media-stream-player-js/issues/79)
+
+
+### Bug Fixes
+
+* invalid websocket url when switching tabs ([60bbb7b](https://github.com/AxisCommunications/media-stream-player-js/commit/60bbb7b1daff13d7da3ca3a0325751d731900379)), closes [#76](https://github.com/AxisCommunications/media-stream-player-js/issues/76)
+
+
+### BREAKING CHANGES
+
+* Removes the `format` property from `Controls` and `Settings`.
+Replaces it with `api` instead to properly determine which
+format is in current use in the `Settings` menu.
+
+
+
 ## [2.6.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.6.0...v2.6.1) (2020-11-03)
 
 
