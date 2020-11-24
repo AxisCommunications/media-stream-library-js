@@ -2,8 +2,13 @@
 
 ## Getting started
 
-To start serving the browser examples, just type:
 
+If you have cloned the repository, you must build the "media-stream-library.min.js" file at first:
+```
+yarn build
+```
+
+To start serving the browser examples, just type:
 ```
 yarn examples
 ```
