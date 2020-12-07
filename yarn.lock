@@ -4940,17 +4940,6 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"hash-base@npm:^3.0.0":
-  version: 3.1.0
-  resolution: "hash-base@npm:3.1.0"
-  dependencies:
-    inherits: ^2.0.4
-    readable-stream: ^3.6.0
-    safe-buffer: ^5.2.0
-  checksum: 9f4b0d183daf13f79ef60f117efc7004bb3570de48fe2d3c7d03c546313490decb2dff2b08d71b8a0049a7de4b79eda16096c2a96f33a7f4916e7616bce4dc11
-  languageName: node
-  linkType: hard
-
 "he@npm:^1.1.1":
   version: 1.2.0
   resolution: "he@npm:1.2.0"
@@ -5109,7 +5098,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"inherits@npm:2, inherits@npm:^2.0.1, inherits@npm:^2.0.3, inherits@npm:^2.0.4, inherits@npm:~2.0.3, inherits@npm:~2.0.4":
+"inherits@npm:2, inherits@npm:^2.0.3, inherits@npm:~2.0.3, inherits@npm:~2.0.4":
   version: 2.0.4
   resolution: "inherits@npm:2.0.4"
   checksum: 98426da247ddfc3dcd7d7daedd90c3ca32d5b08deca08949726f12d49232aef94772a07b36cf4ff833e105ae2ef931777f6de4a6dd8245a216b9299ad4a50bea
@@ -6465,17 +6454,6 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"md5.js@npm:1.3.5":
-  version: 1.3.5
-  resolution: "md5.js@npm:1.3.5"
-  dependencies:
-    hash-base: ^3.0.0
-    inherits: ^2.0.1
-    safe-buffer: ^5.1.2
-  checksum: ca0b260ea29746f1017ad16bc0e164299ae453d2d6a24d635cc6ec03e280f350b09faa4899bfed9387c81457ca55981e9a684336d89faa94b1d2a01903fae2ec
-  languageName: node
-  linkType: hard
-
 "media-stream-library@workspace:.":
   version: 0.0.0-use.local
   resolution: "media-stream-library@workspace:."
@@ -6503,13 +6481,13 @@ fsevents@^2.1.2:
     eslint-plugin-promise: 4.2.1
     http-server: 0.12.3
     jest: 26.4.2
-    md5.js: 1.3.5
     mock-socket: 9.0.3
     prettier: 2.1.2
     process: 0.11.10
     semver: 7.3.2
     stream-browserify: 3.0.0
     ts-jest: 26.4.3
+    ts-md5: 1.2.7
     typescript: 4.0.5
     webpack: 5.4.0
     webpack-cli: 4.2.0
@@ -7561,7 +7539,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"readable-stream@npm:^3.5.0, readable-stream@npm:^3.6.0":
+"readable-stream@npm:^3.5.0":
   version: 3.6.0
   resolution: "readable-stream@npm:3.6.0"
   dependencies:
@@ -7899,7 +7877,7 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
-"safe-buffer@npm:^5.0.1, safe-buffer@npm:^5.1.0, safe-buffer@npm:^5.1.2, safe-buffer@npm:^5.2.0, safe-buffer@npm:~5.2.0":
+"safe-buffer@npm:^5.0.1, safe-buffer@npm:^5.1.0, safe-buffer@npm:^5.1.2, safe-buffer@npm:~5.2.0":
   version: 5.2.1
   resolution: "safe-buffer@npm:5.2.1"
   checksum: 0bb57f0d8f9d1fa4fe35ad8a2db1f83a027d48f2822d59ede88fd5cd4ddad83c0b497213feb7a70fbf90597a70c5217f735b0eb1850df40ce9b4ae81dd22b3f9
@@ -8780,6 +8758,13 @@ fsevents@^2.1.2:
   bin:
     ts-jest: cli.js
   checksum: d9c2f802ece58a61ddd23acd6d05c6bb6d5b094b03d90465d2efa67ffbbe9afc6525dd29bfea571d4e8f343a566785372c613f63fae7268b39b88c5b9111b153
+  languageName: node
+  linkType: hard
+
+"ts-md5@npm:1.2.7":
+  version: 1.2.7
+  resolution: "ts-md5@npm:1.2.7"
+  checksum: 9aa5f788de8937883ff1c2072936e7cea7f229e38a3852c7cd647243c3403f7886d597e07ec5211c69a68bc9f6e7dfb79d5d196222e37558b700bf5e9cc2ad27
   languageName: node
   linkType: hard
 

@@ -60,13 +60,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-promise", "npm:4.2.1"],
             ["http-server", "npm:0.12.3"],
             ["jest", "npm:26.4.2"],
-            ["md5.js", "npm:1.3.5"],
             ["mock-socket", "npm:9.0.3"],
             ["prettier", "npm:2.1.2"],
             ["process", "npm:0.11.10"],
             ["semver", "npm:7.3.2"],
             ["stream-browserify", "npm:3.0.0"],
             ["ts-jest", "virtual:7b1dd90ab60769a90e0393fe37468e6cce279eefd191a424a2e5b7f2747b51199abd99e73cc700321987619580ee1ff0f361b0bcb97e36c451e513e7933d6d31#npm:26.4.3"],
+            ["ts-md5", "npm:1.2.7"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"],
             ["webpack", "virtual:7b1dd90ab60769a90e0393fe37468e6cce279eefd191a424a2e5b7f2747b51199abd99e73cc700321987619580ee1ff0f361b0bcb97e36c451e513e7933d6d31#npm:5.4.0"],
             ["webpack-cli", "virtual:7b1dd90ab60769a90e0393fe37468e6cce279eefd191a424a2e5b7f2747b51199abd99e73cc700321987619580ee1ff0f361b0bcb97e36c451e513e7933d6d31#npm:4.2.0"],
@@ -5952,18 +5952,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["hash-base", [
-        ["npm:3.1.0", {
-          "packageLocation": "./.yarn/cache/hash-base-npm-3.1.0-26fc5711dd-9f4b0d183d.zip/node_modules/hash-base/",
-          "packageDependencies": [
-            ["hash-base", "npm:3.1.0"],
-            ["inherits", "npm:2.0.4"],
-            ["readable-stream", "npm:3.6.0"],
-            ["safe-buffer", "npm:5.2.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["he", [
         ["npm:1.2.0", {
           "packageLocation": "./.yarn/cache/he-npm-1.2.0-3b73a2ff07-212122003c.zip/node_modules/he/",
@@ -7598,18 +7586,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["md5.js", [
-        ["npm:1.3.5", {
-          "packageLocation": "./.yarn/cache/md5.js-npm-1.3.5-130901125a-ca0b260ea2.zip/node_modules/md5.js/",
-          "packageDependencies": [
-            ["md5.js", "npm:1.3.5"],
-            ["hash-base", "npm:3.1.0"],
-            ["inherits", "npm:2.0.4"],
-            ["safe-buffer", "npm:5.2.1"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["media-stream-library", [
         ["workspace:.", {
           "packageLocation": "./",
@@ -7638,13 +7614,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-promise", "npm:4.2.1"],
             ["http-server", "npm:0.12.3"],
             ["jest", "npm:26.4.2"],
-            ["md5.js", "npm:1.3.5"],
             ["mock-socket", "npm:9.0.3"],
             ["prettier", "npm:2.1.2"],
             ["process", "npm:0.11.10"],
             ["semver", "npm:7.3.2"],
             ["stream-browserify", "npm:3.0.0"],
             ["ts-jest", "virtual:7b1dd90ab60769a90e0393fe37468e6cce279eefd191a424a2e5b7f2747b51199abd99e73cc700321987619580ee1ff0f361b0bcb97e36c451e513e7933d6d31#npm:26.4.3"],
+            ["ts-md5", "npm:1.2.7"],
             ["typescript", "patch:typescript@npm%3A4.0.5#builtin<compat/typescript>::version=4.0.5&hash=5bf698"],
             ["webpack", "virtual:7b1dd90ab60769a90e0393fe37468e6cce279eefd191a424a2e5b7f2747b51199abd99e73cc700321987619580ee1ff0f361b0bcb97e36c451e513e7933d6d31#npm:5.4.0"],
             ["webpack-cli", "virtual:7b1dd90ab60769a90e0393fe37468e6cce279eefd191a424a2e5b7f2747b51199abd99e73cc700321987619580ee1ff0f361b0bcb97e36c451e513e7933d6d31#npm:4.2.0"],
@@ -10133,6 +10109,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             "@types/typescript",
             "jest",
             "typescript"
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["ts-md5", [
+        ["npm:1.2.7", {
+          "packageLocation": "./.yarn/cache/ts-md5-npm-1.2.7-42ac527940-9aa5f788de.zip/node_modules/ts-md5/",
+          "packageDependencies": [
+            ["ts-md5", "npm:1.2.7"]
           ],
           "linkType": "HARD",
         }]
