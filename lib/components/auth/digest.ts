@@ -1,6 +1,5 @@
 // https://tools.ietf.org/html/rfc2617#section-3.2.1
-
-import MD5 from 'md5.js'
+import { Md5 as MD5 } from 'ts-md5'
 import { ChallengeParams } from './www-authenticate'
 
 export class DigestAuth {
@@ -21,8 +20,9 @@ export class DigestAuth {
     }
     this.realm = realm
     this.ha1Base = new MD5()
-      .update(`${username}:${realm}:${password}`)
-      .digest('hex')
+      .appendStr(`${username}:${realm}:${password}`)
+      .end()
+      .toString()
 
     const nonce = params.get('nonce')
     if (nonce === undefined) {
@@ -73,16 +73,19 @@ export class DigestAuth {
   ha1 = (cnonce: string): string => {
     let ha1 = this.ha1Base
     if (this.algorithm === 'md5-sess') {
-      ha1 = new MD5().update(`${ha1}:${this.nonce}:${cnonce}`).digest('hex')
+      ha1 = new MD5()
+        .appendStr(`${ha1}:${this.nonce}:${cnonce}`)
+        .end()
+        .toString()
     }
     return ha1
   }
 
   ha2 = (method: string, uri: string, body = ''): string => {
-    let ha2 = new MD5().update(`${method}:${uri}`).digest('hex')
+    let ha2 = new MD5().appendStr(`${method}:${uri}`).end().toString()
     if (this.algorithm === 'md5-sess') {
-      const hbody = new MD5().update(body).digest('hex')
-      ha2 = new MD5().update(`${method}:${uri}:${hbody}`).digest('hex')
+      const hbody = new MD5().appendStr(body).end().toString()
+      ha2 = new MD5().appendStr(`${method}:${uri}:${hbody}`).end().toString()
     }
     return ha2
   }
@@ -97,10 +100,13 @@ export class DigestAuth {
 
     const response =
       this.qop === undefined
-        ? new MD5().update(`${ha1}:${this.nonce}:${ha2}`).digest('hex')
+        ? new MD5().appendStr(`${ha1}:${this.nonce}:${ha2}`).end().toString()
         : new MD5()
-            .update(`${ha1}:${this.nonce}:${nc}:${cnonce}:${this.qop}:${ha2}`)
-            .digest('hex')
+            .appendStr(
+              `${ha1}:${this.nonce}:${nc}:${cnonce}:${this.qop}:${ha2}`,
+            )
+            .end()
+            .toString()
 
     const authorizationParams: string[] = []
     authorizationParams.push(`username="${this.username}"`)
