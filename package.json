@@ -1,6 +1,6 @@
 {
   "name": "media-stream-library",
-  "version": "7.0.4",
+  "version": "8.0.3",
   "description": "Media stream library for Node & the Web.",
   "license": "MIT",
   "main": "dist/cjs/index.node.js",
@@ -10,6 +10,14 @@
   "bin": {
     "live": "examples/node/player.js"
   },
+  "files": [
+    "dist/**/*",
+    "examples/**/*",
+    "rtsp-ws-server/*",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
   "scripts": {
     "lint": "yarn eslint && yarn prettier:check",
     "test": "jest --coverage",
@@ -24,9 +32,8 @@
     "prettier:fix": "prettier --write '{lib,examples}/**/*.{ts,js}' --fix --loglevel silent",
     "rtsp": "rtsp-ws-server/start.sh",
     "examples": "http-server examples/browser",
-    "dev": "yarn build && concurrently \"yarn webpack --mode development --watch\" \"yarn rtsp\" \"yarn examples\"",
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
-    "release": "yarn version --new-version `node node_modules/.bin/conventional-recommended-bump -p angular`"
+    "dev": "node sbin/dev.js",
+    "release": "sbin/release.sh"
   },
   "repository": {
     "type": "git",
@@ -39,42 +46,43 @@
     "rtsp"
   ],
   "dependencies": {
-    "debug": "4.1.1",
+    "buffer": "5.7.1",
+    "debug": "4.2.0",
     "md5.js": "1.3.5",
+    "process": "0.11.10",
+    "stream-browserify": "3.0.0",
     "ws": "7.3.1"
   },
   "devDependencies": {
-    "@babel/core": "7.11.1",
+    "@babel/core": "7.12.0",
     "@babel/plugin-proposal-class-properties": "7.10.4",
     "@babel/plugin-proposal-object-rest-spread": "7.11.0",
-    "@babel/preset-env": "7.11.0",
-    "@babel/preset-typescript": "7.10.4",
+    "@babel/preset-env": "7.12.0",
+    "@babel/preset-typescript": "7.12.0",
     "@types/debug": "4.1.5",
-    "@types/jest": "26.0.9",
-    "@types/node": "13.13.15",
-    "@types/ws": "7.2.6",
-    "@typescript-eslint/eslint-plugin": "3.8.0",
-    "@typescript-eslint/parser": "3.8.0",
+    "@types/jest": "26.0.15",
+    "@types/node": "14.14.6",
+    "@types/ws": "7.2.9",
+    "@typescript-eslint/eslint-plugin": "4.3.0",
+    "@typescript-eslint/parser": "4.3.0",
     "babel-loader": "8.1.0",
-    "concurrently": "5.3.0",
-    "conventional-changelog-cli": "2.0.34",
-    "conventional-recommended-bump": "6.0.9",
     "core-js": "3.6.5",
-    "cypress": "4.12.1",
-    "eslint": "7.6.0",
-    "eslint-config-prettier": "6.11.0",
-    "eslint-plugin-import": "2.22.0",
+    "cypress": "5.5.0",
+    "eslint": "7.12.1",
+    "eslint-config-prettier": "6.15.0",
+    "eslint-plugin-import": "2.22.1",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-promise": "4.2.1",
     "http-server": "0.12.3",
-    "jest": "26.3.0",
+    "jest": "26.4.2",
     "mock-socket": "9.0.3",
-    "prettier": "2.0.5",
-    "ts-jest": "26.1.4",
-    "typescript": "3.9.7",
-    "webpack": "4.44.1",
-    "webpack-cli": "3.3.12",
-    "yargs": "15.4.1"
+    "prettier": "2.1.2",
+    "semver": "7.3.2",
+    "ts-jest": "26.4.3",
+    "typescript": "4.0.5",
+    "webpack": "5.4.0",
+    "webpack-cli": "4.2.0",
+    "yargs": "16.1.0"
   },
   "jest": {
     "testRegex": "(/__tests__/.*|(\\.|/)test)\\.ts$",

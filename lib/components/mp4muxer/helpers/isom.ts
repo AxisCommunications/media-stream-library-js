@@ -5,7 +5,11 @@
 // - store(buffer, offset) -> write the value to a buffer
 // - load(buffer, offset) -> read data and store in value
 
+import { MediaTrack } from '../../../utils/protocols/isom'
+
 type BufferMutation = (buffer: Buffer, offset: number) => void
+
+const CONTAINER_TYPES = new Set(['moov'])
 
 // Constants
 const UINT32_RANGE = Math.pow(2, 32)
@@ -267,6 +271,7 @@ interface BoxSpec {
   mandatory?: boolean
   quantity?: string
   box: 'Box' | 'FullBox' | 'None'
+  is_container: boolean
   body?: Array<[string, any, any?]>
   config?: any
 }
@@ -291,6 +296,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'Box',
+    is_container: true,
     body: [
       ['major_brand', CharArray, 'isom'],
       ['minor_version', UInt32BE, 0],
@@ -305,6 +311,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'Box',
+    is_container: true,
   },
   // Movie Data Box
   mdat: {
@@ -312,6 +319,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: false,
     quantity: 'any',
     box: 'Box',
+    is_container: false,
     body: [],
   },
   // Movie Header Box
@@ -320,6 +328,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['creation_time', UInt32BE, 0],
       ['modification_time', UInt32BE, 0],
@@ -344,6 +353,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one+',
     box: 'Box',
+    is_container: true,
   },
   // Track Header Box
   tkhd: {
@@ -351,6 +361,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     // Flag values for the track header:
     // 0x000001 Track_enabled: track enabled (otherwise ignored)
     // 0x000002 Track_in_movie: track used in presentation
@@ -384,6 +395,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: false,
     quantity: 'one-',
     box: 'Box',
+    is_container: false,
   },
   // Media Container
   mdia: {
@@ -391,6 +403,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: false,
     quantity: 'one',
     box: 'Box',
+    is_container: true,
   },
   // Media Header Box
   mdhd: {
@@ -398,6 +411,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: false,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['creation_time', UInt32BE, 0],
       ['modification_time', UInt32BE, 0],
@@ -413,6 +427,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['predefined', UInt32BE, 0],
       ['handler_type', CharArray, 'vide'], // 'vide', 'soun', or 'hint'
@@ -426,6 +441,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'Box',
+    is_container: true,
   },
   // Video Media Header Box
   vmhd: {
@@ -433,6 +449,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     config: {
       flags: 0x000001,
     },
@@ -447,6 +464,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     body: [
       // Place mono track in stereo space:
       //  8.8 fixed point, 0 = center, -1.0 = left, 1.0 = right
@@ -460,6 +478,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'Box',
+    is_container: true,
   },
   // Data Reference Box
   dref: {
@@ -468,6 +487,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: true,
     body: [
       ['entry_count', UInt32BE, 0], // Number of entries.
     ],
@@ -477,6 +497,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one+',
     box: 'FullBox',
+    is_container: false,
     // Flag values:
     // 0x000001 Local reference, which means empty URL
     config: {
@@ -492,6 +513,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'Box',
+    is_container: true,
   },
   // Decoding Time to Sample Box
   stts: {
@@ -499,6 +521,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['entry_count', UInt32BE, 0],
       // For each entry these two elements:
@@ -511,6 +534,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: true,
     body: [
       ['entry_count', UInt32BE, 1],
       // For each entry, one of these three boxes depending on the handler:
@@ -550,6 +574,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: false,
     quantity: 'one',
     box: 'Box',
+    is_container: true,
     body: [
       ['reserved', Empty, 6],
       ['data_reference_index', UInt16BE, 1],
@@ -597,6 +622,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: false,
     quantity: 'one',
     box: 'Box',
+    is_container: false,
     body: [
       ['configurationVersion', UInt8, 1],
       ['AVCProfileIndication', UInt8, 0x4d],
@@ -644,6 +670,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
     mandatory: false,
     quantity: 'one',
     box: 'Box',
+    is_container: true,
     body: [
       ['reserved', Empty, 6],
       ['data_reference_index', UInt16BE, 1],
@@ -743,6 +770,7 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: false,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['ES_DescrTag', UInt8, 3],
       // length of the remainder of this descriptor in byte,
@@ -773,6 +801,7 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['sample_size', UInt32BE, 0],
       ['sample_count', UInt32BE, 0],
@@ -786,6 +815,7 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['entry_count', UInt32BE, 0],
       // For each entry up to entry_count, append these elements:
@@ -800,6 +830,7 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['entry_count', UInt32BE, 0],
       // For each entry up to entry_count, append an element:
@@ -812,6 +843,7 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: false,
     quantity: 'one-',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['entry_count', UInt32BE, 0],
       // For each entry up to entry_count, append an element:
@@ -824,6 +856,7 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: false,
     quantity: 'one-',
     box: 'Box',
+    is_container: true,
   },
   // Edit List Box
   elst: {
@@ -831,6 +864,7 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: false,
     quantity: 'one-',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['entry_count', UInt32BE, 1],
       ['segment_duration', UInt32BE, 0],
@@ -844,12 +878,14 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: false,
     quantity: 'one-',
     box: 'Box',
+    is_container: true,
   },
   mehd: {
     container: 'mvex',
     mandatory: false,
     quantity: 'one-',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['fragment_duration', UInt32BE, 0], // Total duration of movie
     ],
@@ -859,6 +895,7 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: true,
     quantity: 'one+',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['track_ID', UInt32BE, 1], // The track to which this data is applicable
       ['default_sample_description_index', UInt32BE, 1],
@@ -872,12 +909,14 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: false,
     quantity: 'zero+',
     box: 'Box',
+    is_container: false,
   },
   mfhd: {
     container: 'moof',
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     body: [
       ['sequence_number', UInt32BE, 0], // A number associated with this fragment
     ],
@@ -887,12 +926,14 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: false,
     quantity: 'zero+',
     box: 'Box',
+    is_container: true,
   },
   tfhd: {
     container: 'traf',
     mandatory: true,
     quantity: 'one',
     box: 'FullBox',
+    is_container: false,
     // Flag values for the track fragment header:
     // 0x000001 base-data-offset-present
     // 0x000002 sample-description-index-present
@@ -918,6 +959,7 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: false,
     quantity: 'one-',
     box: 'FullBox',
+    is_container: false,
     config: {
       version: 1, // Version 1 uses 64-bit value for baseMediaDecodeTime
     },
@@ -928,6 +970,7 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
     mandatory: false,
     quantity: 'zero+',
     box: 'FullBox',
+    is_container: false,
     // Flag values for the track fragment header:
     // 0x000001 data-offset-present
     // 0x000004 first-sample-flags-present
@@ -951,11 +994,13 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
   // Unknown Box, used for parsing
   '....': {
     box: 'Box',
+    is_container: false,
     body: [],
   },
   // File Box, special box without any headers
   file: {
     box: 'None',
+    is_container: true,
     mandatory: true,
     quantity: 'one',
   },
@@ -1225,23 +1270,60 @@ export class Container extends Box {
   /**
    * Parse a container box by looking for boxes that it contains, and
    * recursively proceed when it is another container.
+   *
+   * FIXME: this cannot properly handle different versions of the FullBox,
+   * currenlty the loader is hardcoded to the version used in this file.
+   * Also, appearance of an esds box is assumed to be AAC audio information,
+   * while the avcC box signals H.264 video information.
+   *
    * @param  {Buffer} data The data to parse.
    * @return {undefined}
    */
   parse(data: Buffer) {
+    const tracks: MediaTrack[] = []
     while (data.byteLength > 0) {
       const type = new CharArray('....')
       type.load(data, 4)
-      const spec = BOXSPEC[type.value]
+      const boxType = type.value
+      const spec = BOXSPEC[boxType]
       let box
       if (spec !== undefined) {
-        if (spec.body !== undefined) {
-          box = new Box(type.value)
+        if (spec.is_container) {
+          box = new Container(boxType)
           box.load(data)
+          const boxTracks = box.parse(
+            data.slice(box.byteLength, box.get('size')),
+          )
+          tracks.push(...boxTracks)
         } else {
-          box = new Container(type.value)
+          box = new Box(boxType)
           box.load(data)
-          box.parse(data.slice(box.byteLength, box.get('size')))
+          // Handle 2 kinds of tracks with streaming MP4: video or audio
+          if (boxType === 'avcC') {
+            const profile = box
+              .element('AVCProfileIndication')
+              .value.toString(16)
+              .padStart(2, 0)
+            const compat = box
+              .element('profile_compatibility')
+              .value.toString(16)
+              .padStart(2, 0)
+            const level = box
+              .element('AVCLevelIndication')
+              .value.toString(16)
+              .padStart(2, 0)
+            tracks.push({
+              type: 'video',
+              mime: `avc1.${profile}${compat}${level}`,
+            })
+          } else if (boxType === 'esds') {
+            const audioConfigBytes = box.element('audioConfigBytes').value
+            const objectTypeIndication = (audioConfigBytes >>> 11) & 0x001f
+            tracks.push({
+              type: 'audio',
+              mime: `mp4a.40.${objectTypeIndication}`,
+            })
+          }
         }
       } else {
         box = new Box('....')
@@ -1251,5 +1333,6 @@ export class Container extends Box {
       this.append(box)
       data = data.slice(box.get('size'))
     }
+    return tracks
   }
 }

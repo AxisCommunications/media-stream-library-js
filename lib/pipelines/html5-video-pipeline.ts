@@ -1,9 +1,10 @@
 import { RtspMp4Pipeline } from './rtsp-mp4-pipeline'
 import { RtspConfig } from '../components/rtsp-session'
 import { WSConfig } from '../components/ws-source/openwebsocket'
-import { MseSink, MediaTrack } from '../components/mse'
+import { MseSink } from '../components/mse'
 import { WSSource } from '../components/ws-source'
 import { AuthConfig, Auth } from '../components/auth'
+import { MediaTrack } from '../utils/protocols/isom'
 
 export interface Html5VideoConfig {
   ws?: WSConfig
@@ -23,6 +24,7 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
   public onSourceOpen?: (mse: MediaSource, tracks: MediaTrack[]) => void
   public onServerClose?: () => void
   public ready: Promise<void>
+  public tracks?: MediaTrack[]
 
   private _src?: WSSource
   private _sink: MseSink
@@ -49,6 +51,7 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
 
     const mseSink = new MseSink(mediaElement)
     mseSink.onSourceOpen = (mse, tracks) => {
+      this.tracks = tracks
       this.onSourceOpen && this.onSourceOpen(mse, tracks)
     }
     this.append(mseSink)

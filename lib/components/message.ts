@@ -1,3 +1,4 @@
+import { MediaTrack } from '../utils/protocols/isom'
 import { Sdp } from '../utils/protocols/sdp'
 
 export interface GenericMessage {
@@ -63,6 +64,7 @@ export interface H264Message extends GenericMessage {
 export interface IsomMessage extends GenericMessage {
   readonly type: MessageType.ISOM
   readonly checkpointTime?: number // presentation time of last I-frame (s)
+  readonly tracks?: MediaTrack[]
 }
 
 export interface XmlMessage extends GenericMessage {

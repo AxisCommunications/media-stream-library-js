@@ -49,11 +49,38 @@ you can run locally via this library.
 Run `yarn dev` to build the library, run a local RTSP test server, and serve
 the examples. You'll see a link to a port on `localhost` (usually 8080).
 
+## Creating PRs
+
+Whenever you want to apply your changes to the upstream repository,
+you can create a pull request (PR). You can find general information
+on making pull requests on GitHub.
+
+When you are ready to push your changes,
+make sure you include a proper version strategy in your commit by running:
+
+```
+yarn version <strategy> --deferred
+```
+
+where you should select a `<strategy>` based on if your changes introduce
+(possible) breaking changes (`major`), new feature additions (`minor`),
+or just fixes a bug (`patch`).
+
+The command will generate a file in `.yarn/versions` that should be committed
+together with your changes.
+
 ## Continuous integration
 
+### Verification
+
 Automated tests are run on the master branch and pull requests with GitHub Actions,
-for which the configuration can be found in the `.github/workflows/ci.yml` file.
-When tags are pushed, an automated deploy will release to both Github and NPM.
+for which the configuration can be found in the `.github/workflows/verify.yml` file.
+These tests always need to pass before a PR can be merged.
+
+### Releases
+
+When tags are pushed, an automated deploy will release to both Github and NPM, which
+can be found in `.github/workflows/publish.yml`.
 Any tags that are prereleases will be tagged `next` for NPM, otherwise `latest` is used.
 
 To release, make sure you are on the master branch and run:
