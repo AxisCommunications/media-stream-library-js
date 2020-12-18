@@ -4027,15 +4027,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-prettier@npm:^3.1.4":
-  version: 3.1.4
-  resolution: "eslint-plugin-prettier@npm:3.1.4"
+"eslint-plugin-prettier@npm:3.3.0":
+  version: 3.3.0
+  resolution: "eslint-plugin-prettier@npm:3.3.0"
   dependencies:
     prettier-linter-helpers: ^1.0.0
   peerDependencies:
     eslint: ">=5.0.0"
     prettier: ">=1.13.0"
-  checksum: 4e4df155790a20a7ceef9008bbc22a677a8f7e790e9ef613a049a78dfe0b5dc3726afcd4bfd2a8ce41abc88c9a11db029819a722f70b940da32a03629e7f7832
+  peerDependenciesMeta:
+    eslint-plugin-prettier:
+      optional: true
+  checksum: d79ea6ed414f861d0b84818b9a3f7ac40f67998918d3a0c27e9d82f097768aeae8211f382cc5f9b059f4bdb417d098c8250ea8a552e6e18c904a961eb2b21681
   languageName: node
   linkType: hard
 
@@ -6519,7 +6522,7 @@ fsevents@^2.1.2:
     eslint-config-prettier: 6.15.0
     eslint-plugin-import: 2.22.1
     eslint-plugin-node: 11.1.0
-    eslint-plugin-prettier: ^3.1.4
+    eslint-plugin-prettier: 3.3.0
     eslint-plugin-promise: 4.2.1
     http-server: 0.12.3
     jest: 26.4.2
