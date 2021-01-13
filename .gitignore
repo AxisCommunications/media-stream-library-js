@@ -6,6 +6,7 @@ coverage/
 
 # Bundles
 dist/
+examples/browser/media-stream-library.min.js
 
 # Cypress
 cypress/videos/
