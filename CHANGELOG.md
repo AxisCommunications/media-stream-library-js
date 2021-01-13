@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v8.0.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v8.0.3...v8.0.4) (2021-01-13 16:50:43 +0100)
+
+### Maintenance
+
+  - add yarn interactive tools plugin ([098e785](https://github.com/AxisCommunications/media-stream-library-js/commit/098e78545149a8464601deee17c20784751adfaa))
+  - **deps**: upgrade minor versions ([31568b3](https://github.com/AxisCommunications/media-stream-library-js/commit/31568b3b1eb3b22d5e3bb9024fc380c6b34264c5))
+
+### Bug fixes
+
+  - explicitely type promise ([a57fc16](https://github.com/AxisCommunications/media-stream-library-js/commit/a57fc167db77d273baedfa74361f05d5f8c30f11))
+  - improve changelog generation ([1384380](https://github.com/AxisCommunications/media-stream-library-js/commit/1384380e62d7edb86027ada34cfb1d6613050069))
+
 ## [v8.0.3](https://github.com/AxisCommunications/media-stream-library-js/compare/v8.0.2...v8.0.3) (2020-11-08 16:51:03 +0100)
 
 ### Bug fixes
