@@ -1,16 +1,21 @@
 #!/usr/bin/env bash
 
-if [[ ! -d .yarn/versions ]]; then
-  # Update pach number if no versions to be applied
-  yarn version patch --deferred
+LEVEL=$1
+if [[ -z "$LEVEL" ]]; then
+  LEVEL="prerelease"
 fi
 
-# Apply all deferred version upgrades
+CURRENT_VERSION=$(jq -r .version package.json)
+NEXT_VERSION=$(yarn semver ${CURRENT_VERSION} --increment ${LEVEL} --preid alpha)
+
+# Generate new commit
+yarn version --deferred "${NEXT_VERSION}"
 yarn version apply --all
 
-# Update changelog and commit new version
-NEW_VERSION="v$(jq -r .version package.json)"
-bash sbin/changelog.sh -u ${NEW_VERSION}
+echo "<<< Update changelog >>>"
+sbin/changelog.sh -u "v${NEXT_VERSION}"
+
+echo "<<< Commit all changes and tag the new version >>>"
 git add -u
-git commit -m ${NEW_VERSION}
-git tag -a -m ${NEW_VERSION} ${NEW_VERSION}
+git commit -m "v$NEXT_VERSION"
+git tag -a "v$NEXT_VERSION" -m "v$NEXT_VERSION"
