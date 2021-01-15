@@ -3,10 +3,9 @@
   "version": "8.0.4",
   "description": "Media stream library for Node & the Web.",
   "license": "MIT",
-  "main": "dist/cjs/index.node.js",
-  "browser": "dist/esm/index.browser.js",
+  "main": "dist/media-stream-library.min.js",
+  "types": "dist/esm/index.browser.d.ts",
   "browserslist": "last 2 versions, not dead",
-  "module": "dist/esm/index.node.js",
   "bin": {
     "live": "examples/node/player.js"
   },
