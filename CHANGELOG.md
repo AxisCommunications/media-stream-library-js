@@ -2,7 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v8.0.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v8.0.3...v8.0.4) (2021-01-13 16:50:43 +0100)
+## [v9.0.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v8.0.4...v9.0.0) (2021-01-15 15:34:59 +0100)
+
+### Maintenance
+
+  - **deps**: upgrade major versions ([76e49bb](https://github.com/AxisCommunications/media-stream-library-js/commit/76e49bb31a73a9d08c8e1a3b630f044da8fa8a45))
+
+### Features
+
+  - copy minified file to example ([2ff3a61](https://github.com/AxisCommunications/media-stream-library-js/commit/2ff3a611726351cf32d144c1938b46c490184ebb))
+  - **BREAKING** expose browser by default ([3a0909a](https://github.com/AxisCommunications/media-stream-library-js/commit/3a0909a8c833e581bc05d4e745ce8c6f30b60317))
+
+### Bug fixes
+
+  - improve release script ([817a4a9](https://github.com/AxisCommunications/media-stream-library-js/commit/817a4a9dfc1c605196572e3e07c947c19111e617))
+
+## [v8.0.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v8.0.3...v8.0.4) (2021-01-13 16:51:15 +0100)
 
 ### Maintenance
 
