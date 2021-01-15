@@ -3,21 +3,22 @@
  * <script src="media-stream-player.min.js" />
  */
 module.exports = {
+  target: 'web',
   entry: './lib/index',
   mode: 'production',
   output: {
     library: 'mediaStreamPlayer',
+    libraryTarget: 'umd',
     path: __dirname,
     filename: 'dist/media-stream-player.min.js',
   },
   resolve: {
-    modules: ['node_modules', 'lib', 'example'],
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },
   module: {
     rules: [
       {
-        test: /\.(js|ts)x?$/,
+        test: /\.tsx?$/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -29,12 +30,9 @@ module.exports = {
               [
                 '@babel/env',
                 {
-                  debug: false,
+                  targets: { browsers: ['last 2 versions, not dead'] },
                   useBuiltIns: 'usage',
-                  corejs: {
-                    version: 3,
-                    proposals: true,
-                  },
+                  corejs: { version: '3.8', proposals: true },
                 },
               ],
             ],
@@ -44,11 +42,6 @@ module.exports = {
             ],
           },
         },
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.(png|jpg|gif)$/,
-        use: 'file-loader',
       },
     ],
   },

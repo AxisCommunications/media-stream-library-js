@@ -1,18 +1,30 @@
 import React, { Ref } from 'react'
-import { Sdp, pipelines } from 'media-stream-library/dist/esm/index.browser'
+import { Sdp, pipelines } from 'media-stream-library'
 import debug from 'debug'
 
 import { WsRtspVideo } from './WsRtspVideo'
 import { WsRtspCanvas } from './WsRtspCanvas'
 import { StillImage } from './StillImage'
 import { MetadataHandler } from './metadata'
-import { PlayerNativeElement } from './utils/common'
+
+export type PlayerNativeElement =
+  | HTMLVideoElement
+  | HTMLCanvasElement
+  | HTMLImageElement
 
 const debugLog = debug('msp:api')
 
 export const AXIS_IMAGE_CGI = 'jpg'
-const AXIS_VIDEO_CGI = 'mjpg'
+export const AXIS_VIDEO_CGI = 'mjpg'
 export const AXIS_MEDIA_AMP = 'media'
+
+export type Format = 'H264' | 'MJPEG' | 'JPEG'
+
+export const FORMAT_API = {
+  H264: AXIS_MEDIA_AMP,
+  MJPEG: AXIS_MEDIA_AMP,
+  JPEG: AXIS_IMAGE_CGI,
+}
 
 export interface VapixParameters {
   readonly [key: string]: string

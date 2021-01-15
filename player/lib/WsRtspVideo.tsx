@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import debug from 'debug'
-import { Sdp } from 'media-stream-library/dist/esm/utils/protocols'
-import { pipelines, utils } from 'media-stream-library/dist/esm/index.browser'
+import { Sdp, pipelines, utils } from 'media-stream-library'
 
 import { useEventState } from './hooks/useEventState'
 import { VideoProperties } from './PlaybackArea'

@@ -15,12 +15,13 @@ import {
   AXIS_IMAGE_CGI,
   VapixParameters,
   VideoProperties,
+  Format,
+  PlayerNativeElement,
 } from './PlaybackArea'
 import { ControlArea, ControlBar } from './Controls'
 import { Button } from './components/Button'
 import { Pause, Play } from './img'
 import { useUserActive } from './hooks/useUserActive'
-import { Format, PlayerNativeElement } from './utils'
 import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
 import { Limiter } from './components/Limiter'
 

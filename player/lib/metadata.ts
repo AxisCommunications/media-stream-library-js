@@ -1,13 +1,10 @@
 import {
   MessageType,
   XmlMessage,
-} from 'media-stream-library/dist/esm/components/message'
-
-import {
   pipelines,
   utils,
   components,
-} from 'media-stream-library/dist/esm/index.browser'
+} from 'media-stream-library'
 
 /**
  * Metadata handlers

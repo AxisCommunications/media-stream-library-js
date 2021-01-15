@@ -7,9 +7,13 @@ import React, {
 } from 'react'
 import styled from 'styled-components'
 
-import { AXIS_IMAGE_CGI, AXIS_MEDIA_AMP, VapixParameters } from './PlaybackArea'
+import {
+  AXIS_IMAGE_CGI,
+  AXIS_MEDIA_AMP,
+  VapixParameters,
+  Format,
+} from './PlaybackArea'
 import { Switch } from './components/Switch'
-import { Format } from './utils'
 
 const SettingsMenu = styled.div`
   font-family: sans-serif;

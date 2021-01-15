@@ -24,7 +24,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
-        run: yarn --frozen-lockfile
+        run: yarn --immutable --immutable-cache
       - name: Linting & Unit testing
         run: |
           yarn lint

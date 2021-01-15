@@ -13,12 +13,3 @@ We use [conventional commits](https://www.conventionalcommits.org) to write comm
 If your changes cause problems with how the library was used before,
 don't forget to write `BREAKING CHANGE:` inside the commit message body,
 followed by a description of what has changed and how to adapt for it.
-
-## Development
-
-### Media Stream Library Imports
-
-Media Stream Library has exports for both NodeJS and the browser. Typescript
-seems to automatically pick the NodeJS version of the typings when importing
-from `media-stream-library`. That's why you need to import directly from
-`media-stream-library/dist/esm/index.browser` instead.

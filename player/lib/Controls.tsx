@@ -6,8 +6,7 @@ import { useUserActive } from './hooks/useUserActive'
 import { Button } from './components/Button'
 import { Play, Pause, Stop, Refresh, CogWheel, Screenshot } from './img'
 import { Settings } from './Settings'
-import { VapixParameters } from './PlaybackArea'
-import { Format } from './utils'
+import { VapixParameters, Format } from './PlaybackArea'
 
 export const ControlArea = styled.div<{ readonly visible: boolean }>`
   width: 100%;

@@ -65,7 +65,6 @@ export const SingleStream = () => {
   }, [state.authorized, state.hostname])
 
   return (
-    <>
       <AppContainer>
         <h1>single stream media-stream-player</h1>
         <HostnameContainer>
@@ -91,6 +90,5 @@ export const SingleStream = () => {
           <div>Not authorized</div>
         )}
       </AppContainer>
-    </>
   )
 }

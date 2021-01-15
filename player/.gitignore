@@ -8,13 +8,19 @@ coverage/
 dist/
 examples/web-component/media-stream-player.min.js
 
-# Dependencies
-node_modules/
-
 # Cypress
 cypress/videos/
 cypress/screenshots/
 
-# Editors
-.vscode/
-.idea/
+# Yarn
+.yarn/*
+!.yarn/cache
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+node_modules/
+
+# ESLint
+.eslintcache
+

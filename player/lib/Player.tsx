@@ -7,7 +7,7 @@ import React, {
   useLayoutEffect,
   useRef,
 } from 'react'
-import { Sdp } from 'media-stream-library/dist/esm/utils/protocols'
+import { Sdp } from 'media-stream-library'
 
 import { Container, Layer } from './Container'
 import {
@@ -16,12 +16,14 @@ import {
   AXIS_IMAGE_CGI,
   VapixParameters,
   VideoProperties,
+  Format,
+  PlayerNativeElement,
 } from './PlaybackArea'
 import { Controls } from './Controls'
 import { Feedback } from './Feedback'
 import { Stats } from './Stats'
 import { useSwitch } from './hooks/useSwitch'
-import { getImageURL, Format, PlayerNativeElement } from './utils'
+import { getImageURL } from './utils'
 import { MetadataHandler } from './metadata'
 import { Limiter } from './components/Limiter'
 import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'

@@ -33,6 +33,8 @@ page and include it in your html file as a script:
 <script src="media-stream-player.min.js"></script>
 ```
 
+The bundle is built to support the browserslist "latest 2 versions, not dead",
+which should work on most modern browsers (which excludes IE6 or IE10).
 Then, you can use the `<media-stream-player/>` tag, similar to how you would use
 `<video/>` to include a video element, and provide the camera IP as hostname:
 

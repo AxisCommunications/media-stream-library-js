@@ -11,14 +11,14 @@ module.exports = {
   mode: 'development',
   resolve: {
     alias: {
-      'media-stream-player$': path.resolve(__dirname, 'dist/esm'),
+      'media-stream-player$': path.resolve(__dirname, 'dist/esm/index.js'),
     },
-    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['.js', '.jsx'],
   },
   module: {
     rules: [
       {
-        test: /\.(js|ts)x?$/,
+        test: /\.jsx?$/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -28,11 +28,10 @@ module.exports = {
               [
                 '@babel/env',
                 {
-                  debug: false,
-                  useBuiltIns: 'usage',
-                  corejs: {
-                    version: 3,
-                    proposals: true,
+                  targets: {
+                    browsers: [
+                      'last 2 chrome versions, last 2 firefox versions',
+                    ],
                   },
                 },
               ],
@@ -43,11 +42,6 @@ module.exports = {
             ],
           },
         },
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.(png|jpg|gif)$/,
-        use: 'file-loader',
       },
     ],
   },
