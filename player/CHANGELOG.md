@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v3.1.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v3.0.0...v3.1.0) (2021-01-18 10:06:57 +0100)
+
+### Maintenance
+
+  - **deps**: update dependency file-loader to v6.1.1 ([f578bc6](https://github.com/AxisCommunications/media-stream-player-js/commit/f578bc64640acb0f081d9aad79e82a2979d3db5c))
+  - **deps**: upgrade all dependencies, yarn berry ([d8700e8](https://github.com/AxisCommunications/media-stream-player-js/commit/d8700e8625e6d8bb26c9dc2d7b618fb0c4b0a483))
+
+### Features
+
+  - BasicPlayer ([2ebfb12](https://github.com/AxisCommunications/media-stream-player-js/commit/2ebfb122b5ea2804ead2a5502b49e675c60093a5))
+  - copy minified file to example ([1dddd67](https://github.com/AxisCommunications/media-stream-player-js/commit/1dddd676ff0531d743d3be9edd5c25e00c986b48))
+  - volume control ([b82e579](https://github.com/AxisCommunications/media-stream-player-js/commit/b82e5797842796ed3d1c1b3835ad0c851e9b58b5))
+
 ## [v3.0.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v2.6.1...v3.0.0) (2020-11-20 10:16:37 +0100)
 
 ### Maintenance
