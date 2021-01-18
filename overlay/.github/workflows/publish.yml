@@ -20,7 +20,7 @@ jobs:
           node-version: '14'
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
-        run: yarn install --immutable
+        run: yarn install --immutable --immutable-cache
       - name: Build
         run: yarn build
       - name: Release
