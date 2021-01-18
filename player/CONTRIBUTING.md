@@ -2,7 +2,7 @@
 
 Please use the github issue tracker for any bugs or feature requests,
 email sent to the maintainer(s) will probably be ignored.
-If you would like to backport a feature from master to a release
+If you would like to backport a feature from `main` to a release
 branch, also put a ticket for enhancement.
 
 If you would like to contribute bug fixes or new components,
