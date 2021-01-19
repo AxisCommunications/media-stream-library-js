@@ -66,7 +66,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["file-loader", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:6.2.0"],
             ["html-webpack-plugin", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:4.5.1"],
             ["jest", "npm:26.6.3"],
-            ["media-stream-library", "npm:9.0.0"],
+            ["media-stream-library", "npm:9.0.1"],
             ["prettier", "npm:2.2.1"],
             ["react", "npm:17.0.1"],
             ["react-dom", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:17.0.1"],
@@ -10611,16 +10611,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["media-stream-library", [
-        ["npm:9.0.0", {
-          "packageLocation": "./.yarn/cache/media-stream-library-npm-9.0.0-531d70a19f-6c1f0df1be.zip/node_modules/media-stream-library/",
+        ["npm:9.0.1", {
+          "packageLocation": "./.yarn/cache/media-stream-library-npm-9.0.1-2bebd83251-e18c41bf05.zip/node_modules/media-stream-library/",
           "packageDependencies": [
-            ["media-stream-library", "npm:9.0.0"],
+            ["media-stream-library", "npm:9.0.1"],
             ["buffer", "npm:6.0.3"],
             ["debug", "virtual:5c0cffa186f5d96fe304c48a45a1035ab7b24bd166ac2f9ff56265239d4a9f5abf821225d29de7ca4d17335c4b049c76ed9556fbf869061a3bf745d042abb67e#npm:4.3.2"],
             ["md5.js", "npm:1.3.5"],
             ["process", "npm:0.11.10"],
             ["stream-browserify", "npm:3.0.0"],
-            ["ws", "virtual:531d70a19f410169587c3df5b24e36329d65c55b63e3c5f3bc5c253993cbca152fb02f4aef6196605ba4c3e947d05444510c1971b2395c7a925d1a411de7dc4a#npm:7.4.2"]
+            ["ws", "virtual:2bebd83251c65912375e6208e04a1fc50f1bca2ec42f8723c103310e11ada9dbfe489952ad63d03f0a94f014cf2550b37e19c3070a2fe7e4cac052f35ffe7a1e#npm:7.4.2"]
           ],
           "linkType": "HARD",
         }]
@@ -10659,7 +10659,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["file-loader", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:6.2.0"],
             ["html-webpack-plugin", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:4.5.1"],
             ["jest", "npm:26.6.3"],
-            ["media-stream-library", "npm:9.0.0"],
+            ["media-stream-library", "npm:9.0.1"],
             ["prettier", "npm:2.2.1"],
             ["react", "npm:17.0.1"],
             ["react-dom", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:17.0.1"],
@@ -15616,10 +15616,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:531d70a19f410169587c3df5b24e36329d65c55b63e3c5f3bc5c253993cbca152fb02f4aef6196605ba4c3e947d05444510c1971b2395c7a925d1a411de7dc4a#npm:7.4.2", {
-          "packageLocation": "./.yarn/$$virtual/ws-virtual-6f449b662c/0/cache/ws-npm-7.4.2-4485e6ad6c-832efdf144.zip/node_modules/ws/",
+        ["virtual:2bebd83251c65912375e6208e04a1fc50f1bca2ec42f8723c103310e11ada9dbfe489952ad63d03f0a94f014cf2550b37e19c3070a2fe7e4cac052f35ffe7a1e#npm:7.4.2", {
+          "packageLocation": "./.yarn/$$virtual/ws-virtual-0b45816e47/0/cache/ws-npm-7.4.2-4485e6ad6c-832efdf144.zip/node_modules/ws/",
           "packageDependencies": [
-            ["ws", "virtual:531d70a19f410169587c3df5b24e36329d65c55b63e3c5f3bc5c253993cbca152fb02f4aef6196605ba4c3e947d05444510c1971b2395c7a925d1a411de7dc4a#npm:7.4.2"],
+            ["ws", "virtual:2bebd83251c65912375e6208e04a1fc50f1bca2ec42f8723c103310e11ada9dbfe489952ad63d03f0a94f014cf2550b37e19c3070a2fe7e4cac052f35ffe7a1e#npm:7.4.2"],
             ["@types/bufferutil", null],
             ["@types/utf-8-validate", null],
             ["bufferutil", null],
