@@ -388,7 +388,7 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
         <Player
           hostname={hostname}
           autoPlay={autoplay}
-          format={format as Format}
+          initialFormat={format as Format}
           vapixParams={vapixParameters}
           secure={secure}
         />

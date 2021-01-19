@@ -11,8 +11,6 @@ import React, {
 import { Container, Layer } from './Container'
 import {
   PlaybackArea,
-  AXIS_MEDIA_AMP,
-  AXIS_IMAGE_CGI,
   VapixParameters,
   VideoProperties,
   Format,
@@ -25,7 +23,7 @@ import { useUserActive } from './hooks/useUserActive'
 import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
 import { Limiter } from './components/Limiter'
 
-const DEFAULT_API_TYPE = AXIS_IMAGE_CGI
+const DEFAULT_FORMAT = Format.JPEG
 
 interface BasicPlayerProps {
   readonly hostname: string
@@ -42,18 +40,18 @@ interface BasicPlayerProps {
 
 export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
   (
-    { hostname, vapixParams = {}, format, autoPlay = false, secure, className },
+    {
+      hostname,
+      vapixParams = {},
+      format = DEFAULT_FORMAT,
+      autoPlay = false,
+      secure,
+      className,
+    },
     ref,
   ) => {
     const [play, setPlay] = useState(autoPlay)
-    const [refresh, setRefresh] = useState(0)
     const [host, setHost] = useState(hostname)
-    const [api, setApi] = useState<string>(DEFAULT_API_TYPE)
-
-    /**
-     * VAPIX parameters
-     */
-    const [parameters, setParameters] = useState(vapixParams)
 
     /**
      * Controls
@@ -75,28 +73,6 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
         setPlay(true)
       }
     }, [play, hostname])
-
-    const onFormat = useCallback((newFormat: Format | undefined) => {
-      switch (newFormat) {
-        case 'H264':
-          setApi(AXIS_MEDIA_AMP)
-          setParameters((prevParams) => ({ ...prevParams, videocodec: 'h264' }))
-          break
-        case 'MJPEG':
-          setApi(AXIS_MEDIA_AMP)
-          setParameters((prevParams) => ({ ...prevParams, videocodec: 'jpeg' }))
-          break
-        case 'JPEG':
-        default:
-          setApi(AXIS_IMAGE_CGI)
-          break
-      }
-      setRefresh((value) => value + 1)
-    }, [])
-
-    useEffect(() => {
-      onFormat(format)
-    }, [format, onFormat])
 
     useEffect(() => {
       const cb = () => {
@@ -172,11 +148,11 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
             <Layer>
               <PlaybackArea
                 forwardedRef={ref}
-                refresh={refresh}
+                refresh={0}
                 play={play}
                 host={host}
-                api={api}
-                parameters={parameters}
+                format={format}
+                parameters={vapixParams}
                 onPlaying={onPlaying}
                 secure={secure}
               />

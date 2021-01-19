@@ -52,12 +52,12 @@ Supported properties right now are:
 | `hostname`            | The ip address to your device                                                      |
 | `autoplay`            | If the property exists, we try and autoplay your video                             |
 | `secure`              | If the property exists, we will connect with https instead of http                 |
-| `format`              | Accepted values are `JPEG`, `MJPEG` or `H264`                                      |
+| `format`              | Accepted values are `JPEG`, `RTP_JPEG`, `RTP_H264`, or `MP4_H264`                  |
 | `compression`         | Accepted values are `0..100`, with 10 between each step                            |
 | `resolution`          | Written as WidthXHeight, eg `1920x1080`                                            |
 | `rotation`            | Accepted values are `0`, `90`, `180` and `270`                                     |
 | `camera`              | Accepted values are `0...n` or `quad` depending on your device                     |
-|                       | **H264 / MJPEG specific properties**                                               |
+|                       | **RTP_H264 / RTP_JPEG / MP4_H264 specific properties**                             |
 | `fps`                 | Accepted values are `0...n`                                                        |
 | `audio`               | Accepted values are `0` (off) and `1` (on)                                         |
 | `clock`               | Accepted values are `0` (hide) and `1` (show)                                      |
@@ -71,10 +71,10 @@ Supported properties right now are:
 Example:
 
 ```html
-<media-stream-player hostname="192.168.0.90" format="H264" autoplay />
+<media-stream-player hostname="192.168.0.90" format="RTP_H264" autoplay />
 ```
 
-You may need to start a localhost server to get H264 and MJPEG video to run properly.
+You may need to start a localhost server to get H.264 or Motion JPEG video to run properly.
 It doesn't work with the `file:///` protocol. The easiest way to do that is Pythons simpleHttpServer.
 
 First run
@@ -91,6 +91,11 @@ python -m SimpleHTTPServer 8080
 ```
 
 Then you can open up http://localhost:8080 to see the result.
+
+Note that using anything other than the actual hostname you're hosting from
+will result in CORS errors for some video formats. You'll need to proxy the
+camera or load a page from the camera (in which case you can set
+`window.location.host` as the hostname).
 
 ### As part of your React application
 
@@ -110,7 +115,22 @@ or if you are using yarn:
 yarn add media-stream-player
 ```
 
-You can find an example of this under `examples/react-app`
+You can find an example of this under `examples/react-app`.
+To run our example react app, you can start a webpack dev server with:
+
+```shell
+MSP_CAMERA=<YOUR_CAMERA_IP> yarn dev
+```
+
+for example
+
+```shell
+MSP_CAMERA=192.168.0.90 yarn dev
+```
+
+where you specify the IP of the camera you want to proxy as the `MSP_CAMERA`
+environment variable (default is `192.168.0.90`). The webpack dev server will
+proxy requests to the camera, so that you'll have no CORS issues for any format.
 
 ## FAQ
 

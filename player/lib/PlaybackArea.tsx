@@ -6,6 +6,7 @@ import { WsRtspVideo } from './WsRtspVideo'
 import { WsRtspCanvas } from './WsRtspCanvas'
 import { StillImage } from './StillImage'
 import { MetadataHandler } from './metadata'
+import { HttpMp4Video } from './HttpMp4Video'
 
 export type PlayerNativeElement =
   | HTMLVideoElement
@@ -14,16 +15,24 @@ export type PlayerNativeElement =
 
 const debugLog = debug('msp:api')
 
-export const AXIS_IMAGE_CGI = 'jpg'
-export const AXIS_VIDEO_CGI = 'mjpg'
-export const AXIS_MEDIA_AMP = 'media'
+export enum AxisApi {
+  'AXIS_IMAGE_CGI' = 'AXIS_IMAGE_CGI',
+  'AXIS_MEDIA_AMP' = 'AXIS_MEDIA_AMP',
+  'AXIS_MEDIA_CGI' = 'AXIS_MEDIA_CGI',
+}
 
-export type Format = 'H264' | 'MJPEG' | 'JPEG'
+export enum Format {
+  'RTP_H264' = 'RTP_H264',
+  'RTP_JPEG' = 'RTP_JPEG',
+  'JPEG' = 'JPEG',
+  'MP4_H264' = 'MP4_H264',
+}
 
-export const FORMAT_API = {
-  H264: AXIS_MEDIA_AMP,
-  MJPEG: AXIS_MEDIA_AMP,
-  JPEG: AXIS_IMAGE_CGI,
+export const FORMAT_API: Record<Format, AxisApi> = {
+  RTP_H264: AxisApi.AXIS_MEDIA_AMP,
+  RTP_JPEG: AxisApi.AXIS_MEDIA_AMP,
+  MP4_H264: AxisApi.AXIS_MEDIA_CGI,
+  JPEG: AxisApi.AXIS_IMAGE_CGI,
 }
 
 export interface VapixParameters {
@@ -45,7 +54,7 @@ export interface VideoProperties {
 interface PlaybackAreaProps {
   readonly forwardedRef?: Ref<PlayerNativeElement>
   readonly host: string
-  readonly api: string
+  readonly format: Format
   readonly parameters?: VapixParameters
   readonly play?: boolean
   readonly refresh: number
@@ -55,56 +64,44 @@ interface PlaybackAreaProps {
   readonly secure?: boolean
 }
 
-const API_TYPES = new Set([AXIS_IMAGE_CGI, AXIS_VIDEO_CGI, AXIS_MEDIA_AMP])
-
-const SUPPORTED_API_TYPES = new Set([AXIS_IMAGE_CGI, AXIS_MEDIA_AMP])
-
-const AXIS_API = {
-  [AXIS_IMAGE_CGI]: 'axis-cgi/jpg/image.cgi',
-  [AXIS_VIDEO_CGI]: 'axis-cgi/mjpg/video.cgi',
-  [AXIS_MEDIA_AMP]: 'axis-media/media.amp',
-}
-
-const DEFAULT_VIDEO_CODEC = 'h264'
-
-const wsUri = (host: string, secure = false) => {
-  if (host.length === 0) {
-    return ''
-  }
-
-  const uri = new URL(`ws://${host}/rtsp-over-websocket`)
-
-  if (secure) {
-    uri.protocol = 'wss'
-  }
-
-  return uri.href
+const wsUri = (protocol: 'ws:' | 'wss:', host: string) => {
+  return host.length !== 0 ? `${protocol}//${host}/rtsp-over-websocket` : ''
 }
 
 const rtspUri = (host: string, searchParams: string) => {
-  return host
-    ? `rtsp://${host}/${AXIS_API[AXIS_MEDIA_AMP]}?${searchParams}`
+  return host.length !== 0
+    ? `rtsp://${host}/axis-media/media.amp?${searchParams}`
     : ''
 }
 
-const imgUri = (host: string, searchParams: string, secure = false) => {
-  if (host.length === 0) {
-    return ''
-  }
-
-  const uri = new URL(
-    `http://${host}/${AXIS_API[AXIS_IMAGE_CGI]}?${searchParams}`,
-  )
-
-  if (secure) {
-    uri.protocol = 'https'
-  }
-
-  return uri.href
+const mediaUri = (
+  protocol: 'http:' | 'https:',
+  host: string,
+  searchParams: string,
+) => {
+  return host.length !== 0
+    ? `${protocol}//${host}/axis-cgi/media.cgi?${searchParams}`
+    : ''
 }
 
-const PARAMETERS = {
-  [`${AXIS_IMAGE_CGI}`]: [
+const imgUri = (
+  protocol: 'http:' | 'https:',
+  host: string,
+  searchParams: string,
+) => {
+  return host.length !== 0
+    ? `${protocol}//${host}/axis-cgi/jpg/image.cgi?${searchParams}`
+    : ''
+}
+
+/**
+ * User-specified URI parameters.
+ *
+ * Note that parameters such as `videocodec` or `container` are automatically
+ * set based on the chosen format (since they effect which component to use).
+ */
+const PARAMETERS: Record<AxisApi, ReadonlyArray<string>> = {
+  [AxisApi.AXIS_IMAGE_CGI]: [
     'resolution',
     'camera',
     'compression',
@@ -113,16 +110,7 @@ const PARAMETERS = {
     'squarepixel',
     'timestamp',
   ],
-  [`${AXIS_VIDEO_CGI}`]: [
-    'resolution',
-    'camera',
-    'compression',
-    'rotation',
-    'palette',
-    'squarepixel',
-  ],
-  [`${AXIS_MEDIA_AMP}`]: [
-    'videocodec',
+  [AxisApi.AXIS_MEDIA_AMP]: [
     'camera',
     'resolution',
     'h264profile',
@@ -149,13 +137,50 @@ const PARAMETERS = {
     'pull',
     'event',
     'timestamp',
+    'videocodec',
+  ],
+  [AxisApi.AXIS_MEDIA_CGI]: [
+    'container',
+    'camera',
+    'resolution',
+    'h264profile',
+    'streamprofile',
+    'recordingid',
+    'audio',
+    'compression',
+    'colorlevel',
+    'color',
+    'palette',
+    'clock',
+    'date',
+    'text',
+    'textstring',
+    'textcolor',
+    'textbackgroundcolor',
+    'rotation',
+    'textpos',
+    'overlayimage',
+    'overlaypos',
+    'duration',
+    'nbrofframes',
+    'fps',
+    'pull',
+    'event',
+    'timestamp',
+    'videocodec',
   ],
 }
 
-const search = (api: string, parameters: VapixParameters = {}) => {
-  if (!API_TYPES.has(api)) {
-    throw new Error(`unknown API type ${api}`)
-  }
+/**
+ * searchParams
+ *
+ * Produce a (URI-encoded) search parameter string for use in a URL
+ * from a list of key,value pairs. The keys are checked against the
+ * known keys for a particular API.
+ *
+ * @param searchParamList a list of [key, value] pairs
+ */
+const searchParams = (api: AxisApi, parameters: VapixParameters = {}) => {
   const parameterList = PARAMETERS[api]
   return Object.entries(parameters)
     .map(([key, value]) => {
@@ -170,7 +195,7 @@ const search = (api: string, parameters: VapixParameters = {}) => {
 export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   forwardedRef,
   host,
-  api,
+  format,
   parameters = {},
   play,
   refresh,
@@ -179,62 +204,102 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   metadataHandler,
   secure = window.location.protocol === 'https',
 }) => {
-  const searchParams = search(api, {
-    ...parameters,
-    timestamp: refresh.toString(),
-  })
+  const timestamp = refresh.toString()
 
-  switch (api) {
-    case AXIS_MEDIA_AMP: {
-      const ws = wsUri(host, secure)
-      const rtsp = rtspUri(host, searchParams)
-      const videocodec = parameters.videocodec || DEFAULT_VIDEO_CODEC
+  if (format === Format.RTP_H264) {
+    const ws = wsUri(secure ? 'wss:' : 'ws:', host)
+    const rtsp = rtspUri(
+      host,
+      searchParams(FORMAT_API[format], {
+        ...parameters,
+        timestamp,
+        videocodec: 'h264',
+      }),
+    )
 
-      switch (videocodec) {
-        case 'h264':
-          return (
-            <WsRtspVideo
-              key={refresh}
-              forwardedRef={forwardedRef as Ref<HTMLVideoElement>}
-              {...{
-                ws,
-                rtsp,
-                play,
-                onPlaying,
-                onSdp,
-                metadataHandler,
-              }}
-            />
-          )
-        case 'jpeg':
-          return (
-            <WsRtspCanvas
-              key={refresh}
-              forwardedRef={forwardedRef as Ref<HTMLCanvasElement>}
-              {...{ ws, rtsp, play, onPlaying }}
-            />
-          )
-        default:
-          return null
-      }
-    }
-    case AXIS_IMAGE_CGI: {
-      const src = imgUri(host, searchParams, secure)
-      return (
-        <StillImage
-          key={refresh}
-          forwardedRef={forwardedRef as Ref<HTMLImageElement>}
-          {...{ src, play, onPlaying }}
-        />
-      )
-    }
-    case AXIS_VIDEO_CGI:
-      console.warn(`if you want to use motion JPEG, use type '${AXIS_MEDIA_AMP}'
-with videocodec=jpeg instead of type '${AXIS_VIDEO_CGI}'`)
-    // fallthrough
-    default:
-      console.warn(`not implemented: API type ${api},
-please use one of ${[...SUPPORTED_API_TYPES.values()]}`)
-      return null
+    return (
+      <WsRtspVideo
+        key={refresh}
+        forwardedRef={forwardedRef as Ref<HTMLVideoElement>}
+        {...{
+          ws,
+          rtsp,
+          play,
+          onPlaying,
+          onSdp,
+          metadataHandler,
+        }}
+      />
+    )
   }
+
+  if (format === Format.RTP_JPEG) {
+    const ws = wsUri(secure ? 'wss:' : 'ws:', host)
+    const rtsp = rtspUri(
+      host,
+      searchParams(FORMAT_API[format], {
+        ...parameters,
+        timestamp,
+        videocodec: 'jpeg',
+      }),
+    )
+
+    return (
+      <WsRtspCanvas
+        key={refresh}
+        forwardedRef={forwardedRef as Ref<HTMLCanvasElement>}
+        {...{ ws, rtsp, play, onPlaying }}
+      />
+    )
+  }
+
+  if (format === Format.JPEG) {
+    const src = imgUri(
+      secure ? 'https:' : 'http:',
+      host,
+      searchParams(FORMAT_API[format], {
+        ...parameters,
+        timestamp,
+      }),
+    )
+
+    return (
+      <StillImage
+        key={refresh}
+        forwardedRef={forwardedRef as Ref<HTMLImageElement>}
+        {...{ src, play, onPlaying }}
+      />
+    )
+  }
+
+  if (format === Format.MP4_H264) {
+    const src = mediaUri(
+      secure ? 'https:' : 'http:',
+      host,
+      searchParams(FORMAT_API[format], {
+        ...parameters,
+        timestamp,
+        videocodec: 'h264',
+        container: 'mp4',
+      }),
+    )
+
+    return (
+      <HttpMp4Video
+        key={refresh}
+        forwardedRef={forwardedRef as Ref<HTMLVideoElement>}
+        {...{ src, play, onPlaying }}
+      />
+    )
+  }
+
+  console.warn(`Error: unknown format: ${format},
+please use one of ${[
+    Format.RTP_H264,
+    Format.JPEG,
+    Format.MP4_H264,
+    Format.RTP_JPEG,
+  ].join(', ')}`)
+
+  return null
 }

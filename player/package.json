@@ -14,7 +14,7 @@
     "prettier:fix": "prettier --write 'lib/**/*.{js,ts,jsx,tsx}' --fix --loglevel silent",
     "test": "jest --coverage --passWithNoTests",
     "dev:esm": "yarn tsc --watch",
-    "dev:example": "webpack serve --config webpack.example.js --port 3554 --host localhost",
+    "dev:example": "webpack serve --config webpack.example.js --env camera=$MSP_CAMERA",
     "dev": "yarn build:esm && concurrently \"yarn dev:esm\" \"yarn dev:example\"",
     "build:esm": "yarn tsc",
     "build:bundle": "yarn webpack --config webpack.config.js && sbin/copyMinified.sh",
@@ -36,7 +36,7 @@
   "dependencies": {
     "@juggle/resize-observer": "3.2.0",
     "debug": "4.3.2",
-    "media-stream-library": "9.0.1",
+    "media-stream-library": "9.1.0",
     "react-hooks-shareable": "1.9.0"
   },
   "peerDependencies": {

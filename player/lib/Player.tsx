@@ -12,8 +12,6 @@ import { Sdp } from 'media-stream-library'
 import { Container, Layer } from './Container'
 import {
   PlaybackArea,
-  AXIS_MEDIA_AMP,
-  AXIS_IMAGE_CGI,
   VapixParameters,
   VideoProperties,
   Format,
@@ -28,12 +26,12 @@ import { MetadataHandler } from './metadata'
 import { Limiter } from './components/Limiter'
 import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
 
-const DEFAULT_API_TYPE = AXIS_IMAGE_CGI
+const DEFAULT_FORMAT = Format.JPEG
 
 interface PlayerProps {
   readonly hostname: string
   readonly vapixParams?: VapixParameters
-  readonly format?: Format
+  readonly initialFormat?: Format
   readonly autoPlay?: boolean
   readonly onSdp?: (msg: Sdp) => void
   readonly metadataHandler?: MetadataHandler
@@ -51,7 +49,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     {
       hostname,
       vapixParams = {},
-      format,
+      initialFormat = DEFAULT_FORMAT,
       autoPlay = false,
       onSdp,
       metadataHandler,
@@ -64,8 +62,8 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     const [refresh, setRefresh] = useState(0)
     const [host, setHost] = useState(hostname)
     const [waiting, setWaiting] = useState(autoPlay)
-    const [api, setApi] = useState<string>(DEFAULT_API_TYPE)
     const [volume, setVolume] = useState<number>()
+    const [format, setFormat] = useState<Format>(initialFormat)
 
     /**
      * VAPIX parameters
@@ -151,28 +149,6 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       setWaiting(false)
     }, [])
 
-    const onFormat = useCallback((newFormat: Format | undefined) => {
-      switch (newFormat) {
-        case 'H264':
-          setApi(AXIS_MEDIA_AMP)
-          setParameters((prevParams) => ({ ...prevParams, videocodec: 'h264' }))
-          break
-        case 'MJPEG':
-          setApi(AXIS_MEDIA_AMP)
-          setParameters((prevParams) => ({ ...prevParams, videocodec: 'jpeg' }))
-          break
-        case 'JPEG':
-        default:
-          setApi(AXIS_IMAGE_CGI)
-          break
-      }
-      setRefresh((value) => value + 1)
-    }, [])
-
-    useEffect(() => {
-      onFormat(format)
-    }, [format, onFormat])
-
     const onVapix = useCallback((key: string, value: string) => {
       setParameters((p: typeof vapixParams) => {
         const newParams = { ...p, [key]: value }
@@ -184,6 +160,10 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       setRefresh((refreshCount) => refreshCount + 1)
     }, [])
 
+    /**
+     * Refresh when changing visibility (e.g. when you leave a tab the
+     * video will halt, so when you return we need to play again).
+     */
     useEffect(() => {
       const cb = () => {
         if (document.visibilityState === 'visible') {
@@ -273,7 +253,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 refresh={refresh}
                 play={play}
                 host={host}
-                api={api}
+                format={format}
                 parameters={parameters}
                 onPlaying={onPlaying}
                 onSdp={onSdp}
@@ -293,7 +273,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 onStop={onStop}
                 onRefresh={onRefresh}
                 onScreenshot={onScreenshot}
-                onFormat={onFormat}
+                onFormat={setFormat}
                 onVapix={onVapix}
                 labels={{
                   play: 'Play',
@@ -306,15 +286,14 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 }}
                 showStatsOverlay={showStatsOverlay}
                 toggleStats={toggleStatsOverlay}
-                api={api}
+                format={format}
                 volume={volume}
                 setVolume={setVolume}
               />
             </Layer>
             {showStatsOverlay && videoProperties !== undefined ? (
               <Stats
-                api={api}
-                parameters={parameters}
+                format={format}
                 videoProperties={videoProperties}
                 refresh={refresh}
                 volume={volume}

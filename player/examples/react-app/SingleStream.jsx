@@ -1,36 +1,11 @@
-import React, { useState, useCallback } from 'react'
-import styled from 'styled-components'
+import React, { useState, useEffect } from 'react'
 
 import { Player } from 'media-stream-player'
 
-const AppContainer = styled.div`
-  width: 100vw;
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`
-
-const HostnameContainer = styled.div`
-  align-items: center;
-  display: inline-grid;
-  grid-gap: 10px;
-  grid-template-columns: auto 1fr auto;
-  padding: 10px 0;
-`
-
-const MediaPlayer = styled(Player)`
-  width: 100%;
-  height: 100%;
-`
-
-const DEFAULT_HOSTNAME = '192.168.0.90'
-
-// force auth
-const authorize = async (host) => {
-  // Force a login by fetching usergroup
+// Force a login by fetching usergroup
+const authorize = async () => {
   try {
-    await window.fetch(`http://${host}/axis-cgi/usergroup.cgi`, {
+    await window.fetch('/axis-cgi/usergroup.cgi', {
       credentials: 'include',
       mode: 'no-cors',
     })
@@ -44,10 +19,7 @@ const authorize = async (host) => {
  */
 
 export const SingleStream = () => {
-  const [state, setState] = useState({
-    authorized: false,
-    hostname: localStorage.getItem('hostname') || DEFAULT_HOSTNAME,
-  })
+  const [authorized, setAuthorized] = useState(false)
 
   let vapixParams = {}
   try {
@@ -56,39 +28,22 @@ export const SingleStream = () => {
     console.warn('no stored VAPIX parameters: ', err)
   }
 
-  const connect = useCallback(() => {
-    if (!state.authorized) {
-      authorize(state.hostname).then(() => {
-        setState({ ...state, authorized: true })
-      })
-    }
-  }, [state.authorized, state.hostname])
+  useEffect(() => {
+    authorize().then(() => {
+      setAuthorized(true)
+    })
+  }, [])
+
+  if (!authorized) {
+    return <div>authenticating...</div>
+  }
 
   return (
-      <AppContainer>
-        <h1>single stream media-stream-player</h1>
-        <HostnameContainer>
-          <label htmlFor="hostname">Hostname</label>
-          <input
-            id="hostname"
-            value={state.hostname}
-            onChange={({ target: { value } }) => {
-              setState({ authorized: false, hostname: value })
-              localStorage.setItem('hostname', value)
-            }}
-          />
-          <button onClick={connect}>connect</button>
-        </HostnameContainer>
-        {state.authorized ? (
-          <MediaPlayer
-            hostname={state.hostname}
-            format="H264"
-            autoPlay
-            vapixParams={vapixParams}
-          />
-        ) : (
-          <div>Not authorized</div>
-        )}
-      </AppContainer>
+    <Player
+      hostname={window.location.host}
+      initialFormat="RTP_H264"
+      autoPlay
+      vapixParams={vapixParams}
+    />
   )
 }
