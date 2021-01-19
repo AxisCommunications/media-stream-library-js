@@ -2,7 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v3.1.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v3.0.0...v3.1.0) (2021-01-18 10:06:57 +0100)
+## [v3.1.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v3.1.0...v3.1.1) (2021-01-19 14:46:30 +0100)
+
+### Maintenance
+
+  - **deps**: upgrade media-stream-player to 9.0.1 ([841e472](https://github.com/AxisCommunications/media-stream-player-js/commit/841e472329498601d4c24a3155f93c3661d6c56b))
+  - master renamed to main ([a825e46](https://github.com/AxisCommunications/media-stream-player-js/commit/a825e46374975712afea064cb23e1a2bc5bf9ca2))
+  - split CI workflow into publish/verify ([4061de6](https://github.com/AxisCommunications/media-stream-player-js/commit/4061de6350001b20e98f8dc74eb751576e9081fc))
+
+## [v3.1.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v3.0.0...v3.1.0) (2021-01-18 11:13:12 +0100)
 
 ### Maintenance
 
