@@ -17,11 +17,6 @@ jobs:
     strategy:
       matrix:
         node-version: ['14', '15']
-    services:
-      rtsp:
-        image: steabert/gst-rtsp-launch
-        ports:
-          - 8554:8554
     steps:
       - uses: actions/checkout@v1
       - name: Setup node
