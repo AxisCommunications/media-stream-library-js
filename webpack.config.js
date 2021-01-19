@@ -1,4 +1,4 @@
-const webpack = require('webpack');
+const webpack = require('webpack')
 
 module.exports = {
   target: 'web',
@@ -6,6 +6,7 @@ module.exports = {
   mode: 'production',
   output: {
     library: 'mediaStreamLibrary',
+    libraryTarget: 'umd',
     path: __dirname,
     filename: 'dist/media-stream-library.min.js',
   },
@@ -15,7 +16,7 @@ module.exports = {
     fallback: {
       buffer: require.resolve('buffer'),
       stream: require.resolve('stream-browserify'),
-      process:  require.resolve('process/browser')
+      process: require.resolve('process/browser'),
     },
   },
   plugins: [
@@ -24,7 +25,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
       process: 'process', // Needed internally by stream-browserify
-    })
+    }),
   ],
   module: {
     rules: [
