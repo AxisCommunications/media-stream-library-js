@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v9.0.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v8.0.4...v9.0.0) (2021-01-15 15:34:59 +0100)
+## [v9.0.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.0.0...v9.0.1) (2021-01-19 14:30:34 +0100)
+
+### Maintenance
+
+  - master renamed to main ([d6d75a4](https://github.com/AxisCommunications/media-stream-library-js/commit/d6d75a41fd43a2cd9c4119f021be10c4fa7b3933))
+
+### Bug fixes
+
+  - export bundle as UMD libraryTarget ([22d2673](https://github.com/AxisCommunications/media-stream-library-js/commit/22d26736d03a77fa4a590be6993f1aef630ec164))
+
+## [v9.0.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v8.0.4...v9.0.0) (2021-01-15 15:35:16 +0100)
 
 ### Maintenance
 
