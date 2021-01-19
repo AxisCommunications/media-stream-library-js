@@ -1,39 +1,32 @@
-name: CI
+# Publishes a GitHub release and NPM package for
+# any tag that is pushed to the repository.
+# Tags should be generated automatically by
+# manually running the "release" workflow.
+name: Publish
 
 on:
   push:
-    branches:
-      - main
     tags:
       - v*
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build-test-deploy:
+  publish:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: ['12', '13']
     steps:
       - uses: actions/checkout@v1
       - name: Setup node
         uses: actions/setup-node@v1
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '14'
           registry-url: 'https://registry.npmjs.org'
       - name: Install dependencies
-        run: yarn --immutable --immutable-cache
-      - name: Linting & Unit testing
-        run: |
-          yarn lint
-          yarn test
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+        run: yarn install --immutable --immutable-cache
       - name: Build
         run: yarn build
       - name: Release
         id: release
-        if: startsWith(github.ref, 'refs/tags/v') && matrix.node-version == '12'
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # provided by Actions
@@ -43,7 +36,6 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload dist
-        if: startsWith(github.ref, 'refs/tags/v') && matrix.node-version == '12'
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -53,7 +45,6 @@ jobs:
           asset_name: media-stream-player.min.js
           asset_content_type: application/javascript
       - name: Upload changelog
-        if: startsWith(github.ref, 'refs/tags/v') && matrix.node-version == '12'
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -63,12 +54,11 @@ jobs:
           asset_name: CHANGELOG.md
           asset_content_type: text/markdown
       - name: Deploy NPM package
-        if: startsWith(github.ref, 'refs/tags/v') && matrix.node-version == '12'
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
           if [[ $GITHUB_REF =~ alpha|beta ]]; then
-              npm publish --tag next
+              yarn npm publish --tag next
           else
-              npm publish --tag latest
+              yarn npm publish --tag latest
           fi
