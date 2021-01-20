@@ -73,11 +73,24 @@ You can directly include the `media-stream-library.min.js` file in your browser
 <script src="media-stream-library.min.js"></script>
 ```
 
-or import it into your javascript code if you bundle it yourself:
+in which case a global variable `mediaStreamLibrary` will exist that
+contains all the necessary functions.
+
+Alternatively, you can import it into your javascript code if you bundle it yourself:
 
 ```
 import {components, pipelines} from 'media-stream-library';
 ```
+
+Note that we expose our own bundle as the default entry point.
+This is to avoid issues where you would have to write fallback
+imports for browserify packages if using webpack 5.
+
+If you want the smallest possible bundle, you can import directly from
+`media-stream-library/dist/esm/index.browser.js` and then make sure
+to properly resolve everything in your own webpack config (you can
+check our own `webpack.config.js` as en example how to write fallbacks
+for the browserify packages).
 
 ### Components and pipelines
 
