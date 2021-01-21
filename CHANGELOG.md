@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v9.0.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.0.0...v9.0.1) (2021-01-19 14:30:34 +0100)
+## [v9.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.0.1...v9.1.0) (2021-01-21 11:07:06 +0100)
+
+### Bug fixes
+
+  - add `close` method to HTTP source ([2628cde](https://github.com/AxisCommunications/media-stream-library-js/commit/2628cdebaae22788659f21f589e87e4c3cfab4be))
+
+## [v9.0.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.0.0...v9.0.1) (2021-01-19 14:32:05 +0100)
 
 ### Maintenance
 
