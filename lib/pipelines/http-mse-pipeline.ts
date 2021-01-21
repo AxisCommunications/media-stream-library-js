@@ -11,6 +11,9 @@ export interface HttpMseConfig {
 export class HttpMsePipeline extends Pipeline {
   public http: HttpSource
 
+  private _src?: HttpSource
+  private _sink: MseSink
+
   constructor(config: HttpMseConfig) {
     const { http: httpConfig, mediaElement } = config
 
@@ -20,7 +23,26 @@ export class HttpMsePipeline extends Pipeline {
 
     super(httpSource, mp4Parser, mseSink)
 
+    this._src = httpSource
+    this._sink = mseSink
+
     // Expose session for external use
     this.http = httpSource
+  }
+
+  close() {
+    this._src && this._src.abort()
+  }
+
+  get currentTime() {
+    return this._sink.currentTime
+  }
+
+  play() {
+    return this._sink.play()
+  }
+
+  pause() {
+    return this._sink.pause()
   }
 }
