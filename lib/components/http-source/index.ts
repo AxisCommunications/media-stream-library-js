@@ -5,21 +5,19 @@ import { MessageType } from '../message'
 
 const debug = registerDebug('msl:http-source')
 
-interface Headers {
-  [key: string]: string
-}
-
 export interface HttpConfig {
   uri: string
-  headers?: Headers
+  options?: RequestInit
 }
 
 export class HttpSource extends Source {
   public uri: string
-  public headers?: Headers
+  public options?: RequestInit
   public length?: number
 
   private _reader?: ReadableStreamDefaultReader<Uint8Array>
+  private _abortController?: AbortController
+  private _allDone: boolean
 
   /**
    * Create an HTTP component.
@@ -27,8 +25,7 @@ export class HttpSource extends Source {
    * The constructor sets a single readable stream from a fetch.
    */
   constructor(config: HttpConfig) {
-    const { uri, headers } = config
-
+    const { uri, options } = config
     /**
      * Set up an incoming stream and attach it to the socket.
      */
@@ -56,7 +53,8 @@ export class HttpSource extends Source {
     }
 
     this.uri = uri
-    this.headers = headers
+    this.options = options
+    this._allDone = false
   }
 
   play(): void {
@@ -64,8 +62,14 @@ export class HttpSource extends Source {
       throw new Error('cannot start playing when there is no URI')
     }
 
+    this._abortController = new AbortController()
+
     this.length = 0
-    fetch(this.uri, { headers: this.headers })
+    fetch(this.uri, {
+      credentials: 'include',
+      signal: this._abortController.signal,
+      ...this.options,
+    })
       .then((rsp) => {
         if (rsp.body === null) {
           throw new Error('empty response body')
@@ -75,8 +79,16 @@ export class HttpSource extends Source {
         this._pull()
       })
       .catch((err) => {
-        throw new Error(err)
+        console.error('http-source: fetch failed: ', err)
       })
+  }
+
+  abort(): void {
+    this._reader &&
+      this._reader.cancel().catch((err) => {
+        console.log('http-source: cancel reader failed: ', err)
+      })
+    this._abortController && this._abortController.abort()
   }
 
   _pull(): void {
@@ -84,32 +96,40 @@ export class HttpSource extends Source {
       return
     }
 
-    this._reader.read().then(({ done, value }) => {
-      if (done) {
-        debug('fetch completed, total downloaded: ', this.length, ' bytes')
-        this.incoming.push(null)
-        return
-      }
-      if (value === undefined) {
-        throw new Error('expected value to be defined')
-      }
-      if (this.length === undefined) {
-        throw new Error('expected length to be defined')
-      }
-      this.length += value.length
-      const buffer = Buffer.from(value)
-      if (!this.incoming.push({ data: buffer, type: MessageType.RAW })) {
-        // Something happened down stream that it is no longer processing the
-        // incoming data, and the stream buffer got full.
-        // This could be because we are downloading too much data at once,
-        // or because the downstream is frozen. The latter is most likely
-        // when dealing with a live stream (as in that case we would expect
-        // downstream to be able to handle the data).
-        debug('downstream back pressure: pausing read')
-      } else {
-        // It's ok to read more data
-        this._pull()
-      }
-    })
+    this._reader
+      .read()
+      .then(({ done, value }) => {
+        if (done) {
+          if (!this._allDone) {
+            debug('fetch completed, total downloaded: ', this.length, ' bytes')
+            this.incoming.push(null)
+          }
+          this._allDone = true
+          return
+        }
+        if (value === undefined) {
+          throw new Error('expected value to be defined')
+        }
+        if (this.length === undefined) {
+          throw new Error('expected length to be defined')
+        }
+        this.length += value.length
+        const buffer = Buffer.from(value)
+        if (!this.incoming.push({ data: buffer, type: MessageType.RAW })) {
+          // Something happened down stream that it is no longer processing the
+          // incoming data, and the stream buffer got full.
+          // This could be because we are downloading too much data at once,
+          // or because the downstream is frozen. The latter is most likely
+          // when dealing with a live stream (as in that case we would expect
+          // downstream to be able to handle the data).
+          debug('downstream back pressure: pausing read')
+        } else {
+          // It's ok to read more data
+          this._pull()
+        }
+      })
+      .catch((err) => {
+        console.error('http-source: read failed: ', err)
+      })
   }
 }
