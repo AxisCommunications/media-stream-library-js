@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import debug from 'debug'
 
 import { pipelines } from 'media-stream-library'
-import { VideoProperties } from './PlaybackArea'
+import { VideoProperties, Range } from './PlaybackArea'
 
 const debugLog = debug('msp:ws-rtsp-video')
 
@@ -32,6 +32,10 @@ interface WsRtspCanvasProps {
    * Callback to signal video is playing.
    */
   readonly onPlaying: (props: VideoProperties) => void
+  /**
+   * Start playing from a specific offset (in seconds)
+   */
+  readonly offset?: number
 }
 
 /**
@@ -51,6 +55,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   ws = '',
   rtsp = '',
   onPlaying,
+  offset = 0,
 }) => {
   let canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -68,7 +73,13 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   ] = useState<null | pipelines.Html5CanvasPipeline>(null)
   const [fetching, setFetching] = useState(false)
 
+  // keep track of changes in starting time
+  // (offset in seconds to start playing from)
+  const __offsetRef = useRef(offset)
+  const __rangeRef = useRef<Range>([offset, undefined])
+
   useEffect(() => {
+    __offsetRef.current = offset
     const canvas = canvasRef.current
     if (ws && rtsp && canvas) {
       debugLog('create pipeline')
@@ -88,7 +99,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
         debugLog('canvas cleared')
       }
     }
-  }, [ws, rtsp])
+  }, [ws, rtsp, offset])
 
   // keep a stable reference to the external onPlaying callback
   const __onPlayingRef = useRef(onPlaying)
@@ -99,7 +110,15 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
       pipeline.ready
         .then(() => {
           debugLog('fetch')
-          pipeline.rtsp.play()
+          pipeline.rtsp.onPlay = (range) => {
+            if (range !== undefined) {
+              __rangeRef.current = [
+                parseFloat(range[0]) || 0,
+                parseFloat(range[1]) || undefined,
+              ]
+            }
+          }
+          pipeline.rtsp.play(__offsetRef.current)
           setFetching(true)
         })
         .catch(console.error)
@@ -118,6 +137,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
             el: canvasRef.current,
             width: canvasRef.current.width,
             height: canvasRef.current.height,
+            range: __rangeRef.current,
           })
         }
       }

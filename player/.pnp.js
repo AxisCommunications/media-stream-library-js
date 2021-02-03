@@ -47,6 +47,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@juggle/resize-observer", "npm:3.3.0"],
             ["@types/debug", "npm:4.1.5"],
             ["@types/jest", "npm:26.0.22"],
+            ["@types/luxon", "npm:1.25.1"],
             ["@types/react", "npm:17.0.3"],
             ["@types/react-dom", "npm:17.0.3"],
             ["@types/styled-components", "npm:5.1.9"],
@@ -66,6 +67,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["file-loader", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:6.2.0"],
             ["html-webpack-plugin", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:5.3.1"],
             ["jest", "npm:26.6.3"],
+            ["luxon", "npm:1.26.0"],
             ["media-stream-library", "npm:9.3.0"],
             ["prettier", "npm:2.2.1"],
             ["react", "npm:17.0.2"],
@@ -3950,6 +3952,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@types-json5-npm-0.0.29-f63a7916bd-66e9ac0143.zip/node_modules/@types/json5/",
           "packageDependencies": [
             ["@types/json5", "npm:0.0.29"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
+      ["@types/luxon", [
+        ["npm:1.25.1", {
+          "packageLocation": "./.yarn/cache/@types-luxon-npm-1.25.1-6ff94d71b7-5767c3d4b1.zip/node_modules/@types/luxon/",
+          "packageDependencies": [
+            ["@types/luxon", "npm:1.25.1"]
           ],
           "linkType": "HARD",
         }]
@@ -11444,6 +11455,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["luxon", [
+        ["npm:1.26.0", {
+          "packageLocation": "./.yarn/cache/luxon-npm-1.26.0-09624ad59c-e12bb8bfdd.zip/node_modules/luxon/",
+          "packageDependencies": [
+            ["luxon", "npm:1.26.0"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["make-dir", [
         ["npm:2.1.0", {
           "packageLocation": "./.yarn/cache/make-dir-npm-2.1.0-1ddaf205e7-94e2ab9dda.zip/node_modules/make-dir/",
@@ -11614,6 +11634,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@juggle/resize-observer", "npm:3.3.0"],
             ["@types/debug", "npm:4.1.5"],
             ["@types/jest", "npm:26.0.22"],
+            ["@types/luxon", "npm:1.25.1"],
             ["@types/react", "npm:17.0.3"],
             ["@types/react-dom", "npm:17.0.3"],
             ["@types/styled-components", "npm:5.1.9"],
@@ -11633,6 +11654,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["file-loader", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:6.2.0"],
             ["html-webpack-plugin", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:5.3.1"],
             ["jest", "npm:26.6.3"],
+            ["luxon", "npm:1.26.0"],
             ["media-stream-library", "npm:9.3.0"],
             ["prettier", "npm:2.2.1"],
             ["react", "npm:17.0.2"],

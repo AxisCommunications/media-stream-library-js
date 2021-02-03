@@ -4,7 +4,7 @@ import debug from 'debug'
 import { Sdp, pipelines, utils } from 'media-stream-library'
 
 import { useEventState } from './hooks/useEventState'
-import { VideoProperties } from './PlaybackArea'
+import { VideoProperties, Range } from './PlaybackArea'
 import {
   attachMetadataHandler,
   MetadataHandler,
@@ -51,6 +51,10 @@ interface WsRtspVideoProps {
   readonly onPlaying?: (videoProperties: VideoProperties) => void
   readonly onSdp?: (msg: Sdp) => void
   readonly metadataHandler?: MetadataHandler
+  /**
+   * Start playing from a specific offset (in seconds)
+   */
+  readonly offset?: number
 }
 
 export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
@@ -63,6 +67,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   onPlaying,
   onSdp,
   metadataHandler,
+  offset = 0,
 }) => {
   let videoRef = useRef<HTMLVideoElement>(null)
 
@@ -86,6 +91,11 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
     null,
   )
   const [fetching, setFetching] = useState(false)
+
+  // keep track of changes in starting time
+  // (offset in seconds to start playing from)
+  const __offsetRef = useRef(offset)
+  const __rangeRef = useRef<Range>([offset, undefined])
 
   // keep a stable reference to the external onPlaying callback
   const __onPlayingRef = useRef(onPlaying)
@@ -117,6 +127,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
           volume: pipeline?.tracks?.find((track) => track.type === 'audio')
             ? videoEl.volume
             : undefined,
+          range: __rangeRef.current,
         })
       }
     }
@@ -128,6 +139,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
 
   useEffect(() => {
     const videoEl = videoRef.current
+    __offsetRef.current = offset
 
     if (
       ws !== undefined &&
@@ -163,7 +175,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
         unsetPlaying()
       }
     }
-  }, [ws, rtsp, unsetCanplay, unsetPlaying])
+  }, [ws, rtsp, offset, unsetCanplay, unsetPlaying])
 
   // keep a stable reference to the external SDP handler
   const __onSdpRef = useRef(onSdp)
@@ -178,7 +190,15 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
               __onSdpRef.current(sdp)
             }
           }
-          pipeline.rtsp.play()
+          pipeline.rtsp.onPlay = (range) => {
+            if (range !== undefined) {
+              __rangeRef.current = [
+                parseFloat(range[0]) || 0,
+                parseFloat(range[1]) || undefined,
+              ]
+            }
+          }
+          pipeline.rtsp.play(__offsetRef.current)
         })
         .catch((err) => {
           console.error(err)

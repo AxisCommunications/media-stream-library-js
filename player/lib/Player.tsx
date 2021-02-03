@@ -42,6 +42,18 @@ interface PlayerProps {
   readonly secure?: boolean
   readonly aspectRatio?: number
   readonly className?: string
+  /**
+   * When playing a recording, the time the video started
+   * (used for labeling with an absolute time) formatted
+   * as an ISO time, e.g.: 2021-02-03T12:21:57.465715Z
+   */
+  readonly startTime?: string
+  /**
+   * When playing a recording, the total duration of the video
+   * if known by the user (and not reported from backend) in
+   * seconds.
+   */
+  readonly duration?: number
 }
 
 export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
@@ -55,10 +67,13 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       metadataHandler,
       secure,
       className,
+      startTime,
+      duration,
     },
     ref,
   ) => {
     const [play, setPlay] = useState(autoPlay)
+    const [offset, setOffset] = useState(0)
     const [refresh, setRefresh] = useState(0)
     const [host, setHost] = useState(hostname)
     const [waiting, setWaiting] = useState(autoPlay)
@@ -252,6 +267,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 forwardedRef={ref}
                 refresh={refresh}
                 play={play}
+                offset={offset}
                 host={host}
                 format={format}
                 parameters={parameters}
@@ -267,6 +283,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
             <Layer>
               <Controls
                 play={play}
+                videoProperties={videoProperties}
                 src={host}
                 parameters={parameters}
                 onPlay={onPlayPause}
@@ -275,6 +292,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 onScreenshot={onScreenshot}
                 onFormat={setFormat}
                 onVapix={onVapix}
+                onSeek={setOffset}
                 labels={{
                   play: 'Play',
                   pause: 'Pause',
@@ -289,6 +307,8 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 format={format}
                 volume={volume}
                 setVolume={setVolume}
+                startTime={startTime}
+                duration={duration}
               />
             </Layer>
             {showStatsOverlay && videoProperties !== undefined ? (
