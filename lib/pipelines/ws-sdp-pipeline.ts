@@ -3,6 +3,7 @@ import { WSConfig } from '../components/ws-source/openwebsocket'
 import { WSSource } from '../components/ws-source'
 import { AuthConfig, Auth } from '../components/auth'
 import { RtspPipeline } from './rtsp-pipeline'
+import { Sdp } from '../utils/protocols'
 
 export interface TransformConfig {
   ws?: WSConfig
@@ -53,7 +54,7 @@ export class WsSdpPipeline extends RtspPipeline {
 
   get sdp() {
     return this.ready.then(() => {
-      const sdpPromise = new Promise((resolve) => {
+      const sdpPromise = new Promise<Sdp>((resolve) => {
         this.rtsp.onSdp = resolve
       })
       this.rtsp.send({ method: RTSP_METHOD.DESCRIBE })
