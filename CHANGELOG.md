@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v9.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.0.1...v9.1.0) (2021-01-21 11:07:06 +0100)
+## [v9.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.1.0...v9.1.1) (2021-02-16 09:52:01 +0100)
+
+### Maintenance
+
+  - **deps**: disable dependabot ([e778bc3](https://github.com/AxisCommunications/media-stream-library-js/commit/e778bc3c56f0eae17f4332ebe0a66ce376be5c2b))
+  - **deps**: upgrade all dependencies ([22c2d4e](https://github.com/AxisCommunications/media-stream-library-js/commit/22c2d4e30bcb71feca191407cc80c8bb27bb5c9e))
+
+### Bug fixes
+
+  - add type to promise for wsSdpPipeline getter ([75fc16c](https://github.com/AxisCommunications/media-stream-library-js/commit/75fc16ca4bbcc66d1f049cf1d2546e2b879a63b1))
+
+## [v9.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.0.1...v9.1.0) (2021-01-21 11:08:08 +0100)
 
 ### Bug fixes
 
