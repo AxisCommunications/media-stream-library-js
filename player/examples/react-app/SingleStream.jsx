@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-import { Player } from 'media-stream-player'
+import { fetchTransformationMatrix, Player } from 'media-stream-player'
 
 // Force a login by fetching usergroup
 const authorize = async () => {
@@ -30,6 +30,11 @@ export const SingleStream = () => {
 
   useEffect(() => {
     authorize().then(() => {
+      fetchTransformationMatrix('metadata').then((t) => {
+        console.log('metadata transform = ', t)
+      }).catch((err) => {
+        console.error('Failed to fetch metadata transform: ', err.message)
+      })
       setAuthorized(true)
     })
   }, [])
