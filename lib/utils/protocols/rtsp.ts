@@ -91,15 +91,16 @@ export const sessionTimeout = (buffer: Buffer) => {
   if (val === null) {
     return null
   }
+  const defaultTimeout = 60
   const timeoutToken = 'timeout='
   const timeoutPosition = val.toLowerCase().indexOf(timeoutToken)
   if (timeoutPosition !== -1) {
     let timeoutVal = val.substring(timeoutPosition + timeoutToken.length)
     timeoutVal = timeoutVal.split(';')[0]
     const parsedTimeout = parseInt(timeoutVal)
-    return isNaN(parsedTimeout) ? null : parsedTimeout
+    return isNaN(parsedTimeout) ? defaultTimeout : parsedTimeout
   }
-  return null
+  return defaultTimeout
 }
 
 export const statusCode = (buffer: Buffer) => {

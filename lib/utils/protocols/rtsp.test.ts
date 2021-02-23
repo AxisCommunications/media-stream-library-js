@@ -44,10 +44,10 @@ describe('Rtsp', () => {
       expect(sessionTimeout(Buffer.from(sdpResponse))).toBeNull()
     })
     it('should be extracted correctly when in a SETUP response', () => {
-      expect(sessionTimeout(Buffer.from(setupResponse))).toEqual(60)
+      expect(sessionTimeout(Buffer.from(setupResponse))).toEqual(120)
     })
-    it('should be null when not specified in a SETUP response', () => {
-      expect(sessionTimeout(Buffer.from(setupResponseNoTimeout))).toBeNull()
+    it('should be 60 when not specified in a SETUP response', () => {
+      expect(sessionTimeout(Buffer.from(setupResponseNoTimeout))).toEqual(60)
     })
   })
 
