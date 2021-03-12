@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v9.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.1.0...v9.1.1) (2021-02-16 09:52:01 +0100)
+## [v9.2.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.1.1...v9.2.0) (2021-03-12 16:33:22 +0100)
+
+### Features
+
+  - add x-sensor-transform attribute ([0a7a9b3](https://github.com/AxisCommunications/media-stream-library-js/commit/0a7a9b37227dab4ca8d4c511c88f1be945b182d0))
+
+## [v9.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.1.0...v9.1.1) (2021-02-16 09:53:54 +0100)
 
 ### Maintenance
 
