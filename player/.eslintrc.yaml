@@ -16,6 +16,10 @@ settings:
   react:
     version: detect
 
+rules:
+  ### eslint-plugin-import
+  'import/no-cycle': off
+
 overrides:
   ###
   # Test file overrides
