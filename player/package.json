@@ -1,6 +1,6 @@
 {
   "name": "media-stream-player",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "description": "Player built on top of media-stream-library",
   "license": "MIT",
   "main": "dist/media-stream-player.min.js",
