@@ -28,6 +28,13 @@ export enum Format {
   'MP4_H264' = 'MP4_H264',
 }
 
+export enum Protocol {
+  'HTTP' = 'http:',
+  'HTTPS' = 'https:',
+  'WS' = 'ws:',
+  'WSS' = 'wss:',
+}
+
 export const FORMAT_API: Record<Format, AxisApi> = {
   RTP_H264: AxisApi.AXIS_MEDIA_AMP,
   RTP_JPEG: AxisApi.AXIS_MEDIA_AMP,
@@ -64,7 +71,7 @@ interface PlaybackAreaProps {
   readonly secure?: boolean
 }
 
-const wsUri = (protocol: 'ws:' | 'wss:', host: string) => {
+const wsUri = (protocol: Protocol.WS | Protocol.WSS, host: string) => {
   return host.length !== 0 ? `${protocol}//${host}/rtsp-over-websocket` : ''
 }
 
@@ -75,7 +82,7 @@ const rtspUri = (host: string, searchParams: string) => {
 }
 
 const mediaUri = (
-  protocol: 'http:' | 'https:',
+  protocol: Protocol.HTTP | Protocol.HTTPS,
   host: string,
   searchParams: string,
 ) => {
@@ -85,7 +92,7 @@ const mediaUri = (
 }
 
 const imgUri = (
-  protocol: 'http:' | 'https:',
+  protocol: Protocol.HTTP | Protocol.HTTPS,
   host: string,
   searchParams: string,
 ) => {
@@ -202,12 +209,12 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   onPlaying,
   onSdp,
   metadataHandler,
-  secure = window.location.protocol === 'https',
+  secure = window.location.protocol === Protocol.HTTPS,
 }) => {
   const timestamp = refresh.toString()
 
   if (format === Format.RTP_H264) {
-    const ws = wsUri(secure ? 'wss:' : 'ws:', host)
+    const ws = wsUri(secure ? Protocol.WSS : Protocol.WS, host)
     const rtsp = rtspUri(
       host,
       searchParams(FORMAT_API[format], {
@@ -234,7 +241,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   }
 
   if (format === Format.RTP_JPEG) {
-    const ws = wsUri(secure ? 'wss:' : 'ws:', host)
+    const ws = wsUri(secure ? Protocol.WSS : Protocol.WS, host)
     const rtsp = rtspUri(
       host,
       searchParams(FORMAT_API[format], {
@@ -255,7 +262,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
 
   if (format === Format.JPEG) {
     const src = imgUri(
-      secure ? 'https:' : 'http:',
+      secure ? Protocol.HTTPS : Protocol.HTTP,
       host,
       searchParams(FORMAT_API[format], {
         ...parameters,
@@ -274,7 +281,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
 
   if (format === Format.MP4_H264) {
     const src = mediaUri(
-      secure ? 'https:' : 'http:',
+      secure ? Protocol.HTTPS : Protocol.HTTP,
       host,
       searchParams(FORMAT_API[format], {
         ...parameters,
