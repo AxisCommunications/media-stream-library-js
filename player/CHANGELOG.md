@@ -2,7 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v4.0.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v3.1.2...v4.0.0) (2021-01-28 11:39:47 +0100)
+## [v4.1.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v4.0.0...v4.1.0) (2021-03-15 15:36:42 +0100)
+
+### Maintenance
+
+  - commit changes to .pnp.js ([dfdaa8c](https://github.com/AxisCommunications/media-stream-player-js/commit/dfdaa8c77f972a92f4fdb95c13844b977c882e78))
+  - **deps**: update babel monorepo ([7fbf5c7](https://github.com/AxisCommunications/media-stream-player-js/commit/7fbf5c74d3397478a558b4c246c3ea9eee42c63d))
+  - **deps**: update babel monorepo to v7.13.10 ([17c3904](https://github.com/AxisCommunications/media-stream-player-js/commit/17c3904861f6d54eba0b161efedbe5adac91d950))
+  - **deps**: update babel monorepo to v7.13.8 ([b1ff788](https://github.com/AxisCommunications/media-stream-player-js/commit/b1ff78877164a11c277ace74a7672137e0334bb3))
+  - **deps**: update dependency @babel/preset-env to v7.13.9 ([5b1a799](https://github.com/AxisCommunications/media-stream-player-js/commit/5b1a7991bda4159ebc1ac76efc6525c4377a09da))
+  - **deps**: update typescript-eslint monorepo to v4.15.2 ([53bc778](https://github.com/AxisCommunications/media-stream-player-js/commit/53bc778c0247462af8ee22bff17ef93bec369925))
+  - **deps**: update typescript-eslint monorepo to v4.16.1 ([81b6ce2](https://github.com/AxisCommunications/media-stream-player-js/commit/81b6ce21882172719627ed85912ac3f339dae2ee))
+  - **deps**: update typescript-eslint monorepo to v4.17.0 ([29e4181](https://github.com/AxisCommunications/media-stream-player-js/commit/29e418113807c2b92ba9536b566d3a0316cae3c1))
+  - **deps**: upgrade all dependencies to latest ([11ff41f](https://github.com/AxisCommunications/media-stream-player-js/commit/11ff41f9f2073363ebbc17132a8da4cc306c370b))
+  - disable renovate automerge ([9aedfb6](https://github.com/AxisCommunications/media-stream-player-js/commit/9aedfb6aafb05c5ce5e6b410b2070702a996aa1e))
+
+### Bug fixes
+
+  - Invalid protocol string prop check ([294fb9f](https://github.com/AxisCommunications/media-stream-player-js/commit/294fb9f0704071a61a28684b6b810cbb680e1ea7))
+
+## [v4.0.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v3.1.2...v4.0.0) (2021-01-29 09:38:05 +0100)
 
 ### Features
 
