@@ -3,7 +3,7 @@
   "version": "4.1.0",
   "description": "Player built on top of media-stream-library",
   "license": "MIT",
-  "main": "dist/esm/index.js",
+  "main": "dist/media-stream-player.min.js",
   "types": "dist/esm/index.d.ts",
   "scripts": {
     "lint": "yarn lint:ts && yarn prettier:check",
