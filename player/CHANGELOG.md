@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v4.2.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v4.1.0...v4.2.0) (2021-03-15 16:20:08 +0100)
+## [v4.3.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v4.2.0...v4.3.0) (2021-03-16 09:17:48 +0100)
+
+### Bug fixes
+
+  - transpile to 2017 for esm entries ([9fefe6c](https://github.com/AxisCommunications/media-stream-player-js/commit/9fefe6cb9edaf898184128029309ef7db23b8c35))
+
+## [v4.2.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v4.1.0...v4.2.0) (2021-03-15 16:20:59 +0100)
 
 ## [v4.1.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v4.0.0...v4.1.0) (2021-03-15 15:39:46 +0100)
 
