@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "target": "esnext",
+    "target": "es2017",
     "module": "esnext",
     "outDir": "./dist/esm",
     "skipLibCheck": true,
