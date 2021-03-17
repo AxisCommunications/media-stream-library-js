@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v9.2.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.1.1...v9.2.0) (2021-03-12 16:33:22 +0100)
+## [v9.2.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.2.0...v9.2.1) (2021-03-17 15:56:37 +0100)
+
+### Maintenance
+
+  - use debug print to report appendBuffer problems ([b1afa6e](https://github.com/AxisCommunications/media-stream-library-js/commit/b1afa6e1b05b4bf65f6495ce97a726b8db7e0c2e))
+
+## [v9.2.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.1.1...v9.2.0) (2021-03-12 16:36:07 +0100)
 
 ### Features
 
