@@ -1,17 +1,21 @@
 #!/usr/bin/env bash
 
-# Generate new commit
-if [[ ! -d .yarn/version ]]; then
-  yarn version patch
+LEVEL=$1
+if [[ -z "$LEVEL" ]]; then
+  LEVEL="prerelease"
 fi
-yarn version apply --all
-VERSION=$(jq -r .version package.json)
-git add -u
-git commit -m "v$VERSION"
-git tag "v$VERSION"
 
-# Update changelog (requires tag)
-bash sbin/changelog.sh > CHANGELOG.md && git add CHANGELOG.md
-git tag -d "v$VERSION"
-git commit --amend --no-edit
-git tag -a -m "v$VERSION" "v$VERSION"
+CURRENT_VERSION=$(jq -r .version package.json)
+NEXT_VERSION=$(yarn semver ${CURRENT_VERSION} --increment ${LEVEL} --preid alpha)
+
+# Generate new commit
+yarn version --deferred "${NEXT_VERSION}"
+yarn version apply --all
+
+echo "<<< Update changelog >>>"
+sbin/changelog.sh -u "v${NEXT_VERSION}"
+
+echo "<<< Commit all changes and tag the new version >>>"
+git add -u
+git commit -m "v$NEXT_VERSION"
+git tag -a "v$NEXT_VERSION" -m "v$NEXT_VERSION"
