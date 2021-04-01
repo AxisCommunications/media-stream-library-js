@@ -160,6 +160,7 @@ export interface VideoMedia extends MediaDescription {
   readonly framerate?: number
   // Transformation matrix
   readonly transform?: number[][]
+  readonly 'x-sensor-transform'?: number[][]
   // JPEG
   readonly framesize?: [number, number]
 }
@@ -283,6 +284,9 @@ const attributeParsers: any = {
     }
   },
   transform: (value: string) => {
+    return value.split(';').map((row) => row.split(',').map(Number))
+  },
+  'x-sensor-transform': (value: string) => {
     return value.split(';').map((row) => row.split(',').map(Number))
   },
   framesize: (value: string) => {

@@ -1,8 +1,7 @@
 {
   "extends": [
     "plugin:@typescript-eslint/recommended",
-    "prettier",
-    "prettier/@typescript-eslint"
+    "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -14,6 +13,7 @@
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/array-type": ["error", { "default": "array-simple" }]
+    "@typescript-eslint/array-type": ["error", { "default": "array-simple" }],
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }

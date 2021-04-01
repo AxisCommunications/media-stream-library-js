@@ -76,7 +76,7 @@ export class MseSink extends Sink {
               try {
                 sourceBuffer.appendBuffer(msg.data)
               } catch (err) {
-                console.error('failed to append to SourceBuffer: ', err, msg)
+                debug('failed to append to SourceBuffer: ', err, msg)
               }
             }
             mse.addEventListener('sourceopen', handler)
@@ -90,7 +90,7 @@ export class MseSink extends Sink {
             try {
               sourceBuffer.appendBuffer(msg.data)
             } catch (e) {
-              console.error('failed to append to SourceBuffer: ', e, msg)
+              debug('failed to append to SourceBuffer: ', e, msg)
             }
           }
         } else if (msg.type === MessageType.RTCP) {
