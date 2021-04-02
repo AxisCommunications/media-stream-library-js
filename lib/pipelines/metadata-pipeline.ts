@@ -17,9 +17,17 @@ export interface WsRtspMetadataConfig {
   metadataHandler: (msg: XmlMessage) => void
 }
 
-/**
- * Pipeline that can receive XML metadata over RTP
- * over WebSocket and pass it to a handler.
+/*
+ * MetadataPipeline
+ *
+ * A pipeline that connects to an RTSP server over a WebSocket connection and
+ * can process XML RTP data and calls a handler to process the XML messages.
+ *
+ * Handlers that can be set on the pipeline:
+ * - all handlers inherited from the RtspPipeline
+ * - `onServerClose`: called when the WebSocket server closes the connection
+ *   (only then, not when the connection is closed in a different way)
+ *
  */
 export class MetadataPipeline extends RtspPipeline {
   public onServerClose?: () => void

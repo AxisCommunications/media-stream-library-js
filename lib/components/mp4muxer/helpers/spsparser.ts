@@ -1,11 +1,5 @@
 import { BufferReader } from './bufferreader'
 
-/**
- * Defines functions for writing to a binary buffer.
- * @class BufferWriter
- * @constructor
- * @param {Number} size The size of the buffer.
- */
 export class SPSParser {
   public reader: BufferReader
 

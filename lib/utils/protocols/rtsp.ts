@@ -156,8 +156,8 @@ export const range = (buffer: Buffer) => {
 /**
  * Determine the offset of the RTSP body, where the header ends.
  * If there is no header ending, -1 is returned
- * @param {Buffer} chunk A piece of data
- * @return {Number}      The body offset, or -1 if no header end found
+ * @param  chunk - A piece of data
+ * @return The body offset, or -1 if no header end found
  */
 export const bodyOffset = (chunk: Buffer) => {
   /**

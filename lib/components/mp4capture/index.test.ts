@@ -42,8 +42,8 @@ const copySpies = (type: MessageType, messages: GenericMessage[]) => {
 
 /**
  * Set up a pipeline: source - capture - sink.
- * @param  {Array} fragments Messages to send from source.
- * @return {Object} Components and function to start flow.
+ * @param  fragments - Messages to send from source.
+ * @return Components and function to start flow.
  */
 const pipelineFactory = (...fragments: GenericMessage[][]) => {
   const sourceMessages = ([] as GenericMessage[]).concat(...fragments)

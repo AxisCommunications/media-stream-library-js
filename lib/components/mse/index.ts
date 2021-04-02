@@ -22,7 +22,7 @@ export class MseSink extends Sink {
    *
    * The constructor sets up two streams and connects them to the MediaSource.
    *
-   * @param {MediaSource} mse - A media source.
+   * @param el - A video element to connect the media source to
    */
   constructor(el: HTMLVideoElement) {
     if (el === undefined) {
@@ -147,9 +147,9 @@ export class MseSink extends Sink {
 
   /**
    * Add a new sourceBuffer to the mediaSource and remove old ones.
-   * @param {HTMLMediaElement} el  The media element holding the media source.
-   * @param {MediaSource} mse  The media source the buffer should be attached to.
-   * @param {String} [mimeType='video/mp4; codecs="avc1.4D0029, mp4a.40.2"'] [description]
+   * @param el - The media element holding the media source.
+   * @param mse - The media source the buffer should be attached to.
+   * @param mimeType - MIME type and codecs, e.g.: 'video/mp4; codecs="avc1.4D0029, mp4a.40.2"'
    */
   addSourceBuffer(
     el: HTMLVideoElement,

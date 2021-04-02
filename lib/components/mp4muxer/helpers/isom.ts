@@ -9,8 +9,6 @@ import { MediaTrack } from '../../../utils/protocols/isom'
 
 type BufferMutation = (buffer: Buffer, offset: number) => void
 
-const CONTAINER_TYPES = new Set(['moov'])
-
 // Constants
 const UINT32_RANGE = Math.pow(2, 32)
 
@@ -221,16 +219,15 @@ class UInt64BE extends BoxElement {
  * Class factory for a parameter set element. A parameter set groups a size,
  * and an array of parameter sets consisting each of a size and a byte array.
  * These elements are used by the avcC box.
- * @param  {Number} [sizeMask=0x00]  A bit mask to use for the size.
- * @return {Class}  An element type that groups parameter sets.
+ * @param  [sizeMask=0x00]  A bit mask to use for the size.
+ * @return An element type that groups parameter sets.
  */
 const createParameterSetArrayClass = function (sizeMask = 0x00) {
   return class ParameterSetArray extends BoxElement {
     public value: any[]
     /**
      * Takes an array of byte-arrays
-     * @param  {array} array The array of byte arrays
-     * @return {[type]}       [description]
+     * @param  array The array of byte arrays
      */
     constructor(array: number[][]) {
       super(0)
@@ -263,8 +260,6 @@ const createParameterSetArrayClass = function (sizeMask = 0x00) {
     }
   }
 }
-
-type BoxType = 'ftyp'
 
 interface BoxSpec {
   container?: string
@@ -1059,8 +1054,8 @@ export class Box extends BoxElement {
   >
   /**
    * Create a new Box.
-   * @param  {String} type   4-character ASCII string
-   * @param  {Object} config Configuration holding (key: value) fields
+   * @param  type   4-character ASCII string
+   * @param  config Configuration holding (key: value) fields
    */
   constructor(type: string, config?: { [key: string]: any }) {
     super(0)
@@ -1099,8 +1094,8 @@ export class Box extends BoxElement {
 
   /**
    * Get access to an element based on it's name.
-   * @param  {String} key The element's name
-   * @return {Element}    Object with 'byteLength' property and 'copy' method
+   * @param  key The element's name
+   * @return Object with 'byteLength' property and 'copy' method
    */
   element(key: string) {
     const value = this.struct.get(key)
@@ -1112,9 +1107,8 @@ export class Box extends BoxElement {
 
   /**
    * Set an element's value.
-   * @param  {String} key The element's name
-   * @param  {Number|Array} value The element's (new) value
-   * @return {undefined}
+   * @param  key The element's name
+   * @param  value The element's (new) value
    */
   set(key: string, value: any) {
     this.element(key).value = value
@@ -1122,8 +1116,8 @@ export class Box extends BoxElement {
 
   /**
    * Get an element's value.
-   * @param  {String} key The element's name
-   * @return {Number|Array}  The element's value
+   * @param  key The element's name
+   * @return The element's value
    */
   get(key: string) {
     return this.element(key).value
@@ -1131,8 +1125,8 @@ export class Box extends BoxElement {
 
   /**
    * Get an element's offset.
-   * @param  {String} key The element's name
-   * @return {Number}  The element's offset
+   * @param  key The element's name
+   * @return The element's offset
    */
   offset(key: string) {
     const value = this.struct.get(key)
@@ -1144,8 +1138,8 @@ export class Box extends BoxElement {
 
   /**
    * Check if a certain element exists
-   * @param  {String}  key The element's name
-   * @return {Boolean}     true if the element is known, false if not
+   * @param  key The element's name
+   * @return true if the element is known, false if not
    */
   has(key: string) {
     return this.struct.has(key)
@@ -1153,9 +1147,9 @@ export class Box extends BoxElement {
 
   /**
    * Add a new element to the box.
-   * @param {String} key     A _new_ non-existing element name.
-   * @param {Object} element Something with a 'byteLength' property and 'copy' method.
-   * @return {Box} this box, so that 'add' can be used in a chain
+   * @param key     A _new_ non-existing element name.
+   * @param element Something with a 'byteLength' property and 'copy' method.
+   * @return this box, so that 'add' can be used in a chain
    */
   add(key: string, element: BoxElement | Buffer) {
     if (this.has(key)) {
@@ -1168,7 +1162,7 @@ export class Box extends BoxElement {
 
   /**
    * Create a buffer and copy all element values to it.
-   * @return {Buffer} Data representing the box.
+   * @return Data representing the box.
    */
   buffer() {
     const buffer = Buffer.allocUnsafe(this.byteLength)
@@ -1178,9 +1172,8 @@ export class Box extends BoxElement {
 
   /**
    * Copy all values of the box into an existing buffer.
-   * @param  {Buffer} buffer     The target buffer to accept the box data
-   * @param  {Number} [offset=0] The number of bytes into the target to start at.
-   * @return {undefined}
+   * @param  buffer     The target buffer to accept the box data
+   * @param  [offset=0] The number of bytes into the target to start at.
    */
   copy(buffer: Buffer, offset = 0) {
     // Before writing, make sure the size property is set correctly.
@@ -1192,9 +1185,8 @@ export class Box extends BoxElement {
 
   /**
    * Read element values from a box's data representation.
-   * @param  {buffer} buffer     The source buffer with box data
-   * @param  {Number} [offset=0] The number of bytes into the source to start at.
-   * @return {undefined}
+   * @param  buffer     The source buffer with box data
+   * @param  [offset=0] The number of bytes into the source to start at.
    */
   load(buffer: Buffer, offset = 0) {
     for (const entry of this.struct.values()) {
@@ -1206,8 +1198,7 @@ export class Box extends BoxElement {
 
   /**
    * Pretty-format an entire box as an element/box hierarchy.
-   * @param  {Number} [indent=0] How large an indentation to use for the hierarchy
-   * @return {undefined}
+   * @param  [indent=0] How large an indentation to use for the hierarchy
    */
   format(indent = 0) {
     const lines = [' '.repeat(indent) + `[${this.type}] (${this.byteLength})`]
@@ -1227,8 +1218,7 @@ export class Box extends BoxElement {
 
   /**
    * Pretty-print an entire box as an element/box hierarchy.
-   * @param  {Number} [indent=0] How large an indentation to use for the hierarchy
-   * @return {undefined}
+   * @param  [indent=0] How large an indentation to use for the hierarchy
    */
   print(indent: number) {
     console.warn(this.format(indent))
@@ -1245,9 +1235,9 @@ export class Container extends Box {
   public boxSize: number
   /**
    * Create a new container box
-   * @param  {String} type   4-character ASCII string
-   * @param  {Object} config Configuration holding (key: value) fields
-   * @param  {Box} boxes  One or more boxes to append.
+   * @param  type   4-character ASCII string
+   * @param  config Configuration holding (key: value) fields
+   * @param  boxes  One or more boxes to append.
    */
   constructor(type: string, config?: { [key: string]: any }, ...boxes: Box[]) {
     super(type, config)
@@ -1257,8 +1247,8 @@ export class Container extends Box {
 
   /**
    * Add one or more boxes to the container.
-   * @param {Box} boxes The box(es) to append
-   * @return {Box} this container, so that add can be used in a chain
+   * @param boxes The box(es) to append
+   * @return this container, so that add can be used in a chain
    */
   append(...boxes: Box[]) {
     for (const box of boxes) {
@@ -1276,8 +1266,7 @@ export class Container extends Box {
    * Also, appearance of an esds box is assumed to be AAC audio information,
    * while the avcC box signals H.264 video information.
    *
-   * @param  {Buffer} data The data to parse.
-   * @return {undefined}
+   * @param  data The data to parse.
    */
   parse(data: Buffer) {
     const tracks: MediaTrack[] = []
