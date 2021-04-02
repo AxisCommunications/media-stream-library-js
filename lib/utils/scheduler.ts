@@ -30,8 +30,6 @@ const DEFAULT_TOLERANCE = 10
  * a message in the queue has a timestamp that matches the
  * current presentation time of the video, your callback will
  * fire.
- *
- * @class Scheduler
  */
 
 export class Scheduler<T extends { readonly ntpTimestamp?: number }> {
@@ -46,10 +44,9 @@ export class Scheduler<T extends { readonly ntpTimestamp?: number }> {
 
   /**
    * Creates an instance of Scheduler.
-   * @param {any} clock The clock to use (so we can control playback)
-   * @param {any} handler The callback to invoke when a message is in sync
-   * @param {number} [tolerance=DEFAULT_TOLERANCE] The milliseconds defining "in sync"
-   * @memberof Scheduler
+   * @param clock - The clock to use (so we can control playback)
+   * @param handler - The callback to invoke when a message is in sync
+   * @param tolerance - The milliseconds defining "in sync" (default = 10)
    */
   constructor(
     clock: Clock,
@@ -68,7 +65,6 @@ export class Scheduler<T extends { readonly ntpTimestamp?: number }> {
 
   /**
    * Bring the scheduler back to it's initial state.
-   * @memberof Scheduler
    */
   public reset() {
     clearTimeout(this._nextRun)
@@ -81,8 +77,7 @@ export class Scheduler<T extends { readonly ntpTimestamp?: number }> {
   /**
    * Initialize the scheduler.
    *
-   * @param {any} ntpPresentationTime The offset representing the start of the presentation
-   * @memberof Scheduler
+   * @param ntpPresentationTime - The offset representing the start of the presentation
    */
   public init(ntpPresentationTime: number) {
     this._ntpPresentationTime = ntpPresentationTime
@@ -95,8 +90,6 @@ export class Scheduler<T extends { readonly ntpTimestamp?: number }> {
    * Note that this doesn't mean the clock will be in a particular state
    * (could be started or stopped), just that the scheduler will no longer
    * control it.
-   *
-   * @memberof Scheduler
    */
   public suspend() {
     clearTimeout(this._nextPlay)
@@ -109,8 +102,6 @@ export class Scheduler<T extends { readonly ntpTimestamp?: number }> {
    * This gives back control of the clock and the ability
    * to schedule messages. The scheduler will immediately
    * try to do that on resume.
-   *
-   * @memberof Scheduler
    */
   public resume() {
     this._suspended = false
@@ -120,8 +111,7 @@ export class Scheduler<T extends { readonly ntpTimestamp?: number }> {
   /**
    * Run the scheduler.
    *
-   * @param {any} [msg] New message to schedule.
-   * @memberof Scheduler
+   * @param newMessage - New message to schedule.
    */
   public run(newMessage?: T) {
     clearTimeout(this._nextRun)

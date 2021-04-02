@@ -71,8 +71,7 @@ export class Mp4Capture extends Tube {
    * termination, the callback you passed will be called with the captured
    * data as argument.
    * @public
-   * @param  {Function} callback Will be called when data is captured.
-   * @return {undefined}
+   * @param  callback Will be called when data is captured.
    */
   start(callback: (buffer: Buffer) => void) {
     if (!this._active) {

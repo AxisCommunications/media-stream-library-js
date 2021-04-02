@@ -8,6 +8,12 @@ export interface HttpMseConfig {
   mediaElement: HTMLVideoElement
 }
 
+/*
+ * HttpMsePipeline
+ *
+ * A pipeline that connects to an HTTP server and can process an MP4 data stream
+ * that is then sent to a HTML video element
+ */
 export class HttpMsePipeline extends Pipeline {
   public http: HttpSource
 

@@ -29,14 +29,13 @@ const defaultConfig = (
 
 /**
  * Open a new WebSocket, fallback to token-auth on failure and retry.
- * @param  {Object} [config={}]  WebSocket configuration.
- * @param  {String} [config.host]  Specify different host
- * @param  {String} [config.sheme]  Specify different scheme.
- * @param  {String} [config.uri]  Full uri for websocket connection
- * @param  {String} [config.tokenUri]  Full uri for token API
- * @param  {String} [config.protocol] Websocket protocol
- * @param  {Number} [config.timeout] Websocket connection timeout
- * @return {Promise}  Resolves with WebSocket, rejects with error.
+ * @param  [config]  WebSocket configuration.
+ * @param  [config.host]  Specify different host
+ * @param  [config.sheme]  Specify different scheme.
+ * @param  [config.uri]  Full uri for websocket connection
+ * @param  [config.tokenUri]  Full uri for token API
+ * @param  [config.protocol] Websocket protocol
+ * @param  [config.timeout] Websocket connection timeout
  */
 export const openWebSocket = (config: WSConfig = {}): Promise<WebSocket> => {
   const { uri, tokenUri, protocol, timeout } = merge(

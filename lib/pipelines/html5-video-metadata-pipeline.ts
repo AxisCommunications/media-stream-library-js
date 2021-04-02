@@ -7,11 +7,17 @@ export interface Html5VideoMetadataConfig extends Html5VideoConfig {
   metadataHandler: (msg: XmlMessage) => void
 }
 
-/**
- * Pipeline that can receive H264/AAC video over RTP
- * over WebSocket and pass it to a video element.
- * Additionally, this pipeline passes XML metadata sent
- * in the same stream to a handler.
+/*
+ * Html5VideoPipeline
+ *
+ * A pipeline that connects to an RTSP server over a WebSocket connection and
+ * can process H.264/AAC RTP data to produce an MP4 data stream that is sent to
+ * a HTML video element.  Additionally, this pipeline passes XML metadata sent
+ * in the same stream to a separate handler.
+ *
+ * Handlers that can be set on the pipeline:
+ * - all handlers inherited from the Html5VideoPipeline
+ *
  */
 export class Html5VideoMetadataPipeline extends Html5VideoPipeline {
   constructor(config: Html5VideoMetadataConfig) {

@@ -12,8 +12,7 @@ import { join } from 'path'
 export class Recorder extends Tube {
   /**
    * Create a new recorder component that will record to a writable stream.
-   * @param {Stream} fileStream The stream to save the messages to.
-   * @return {undefined}
+   * @param fileStream - The stream to save the messages to.
    */
   constructor(fileStream: NodeJS.WritableStream) {
     const incoming = StreamFactory.recorder('incoming', fileStream)
@@ -57,8 +56,7 @@ export class Recorder extends Tube {
 
   /**
    * Create a new recorder component that will record to a file.
-   * @param {String} filename The name of the file (relative to cwd)
-   * @return {RecorderComponent}
+   * @param filename - The name of the file (relative to cwd)
    */
   static toFile(filename = 'data.json') {
     const cwd = process.cwd()

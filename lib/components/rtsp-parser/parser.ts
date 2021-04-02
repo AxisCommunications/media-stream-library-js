@@ -29,8 +29,8 @@ interface RtpPacketInfo {
 /**
  * Extract packet information from the interleaved header
  * (4-byte section before the RTP packet).
- * @param  {Array} chunks Buffers constituting the data.
- * @return {Object}       Packet information (channel, begin, end).
+ * @param  chunks - Buffers constituting the data.
+ * @return Packet information (channel, begin, end).
  */
 const rtpPacketInfo = (chunks: Buffer[]): RtpPacketInfo => {
   const header = Buffer.alloc(INTERLEAVED_HEADER_BYTES)
@@ -195,7 +195,6 @@ export class Parser {
 
   /**
    * Set the internal state based on the type of the first chunk
-   * @param {[type]} chunk [description]
    */
   _setState() {
     // Remove leading 0-sized chunks.
@@ -220,8 +219,8 @@ export class Parser {
    * Add the next chunk of data to the parser and extract messages.
    * If no message can be extracted, an empty array is returned, otherwise
    * an array of messages is returned.
-   * @param  {Buffer} chunk The next piece of data.
-   * @return {Array}        An array of messages, possibly empty.
+   * @param  chunk - The next piece of data.
+   * @return An array of messages, possibly empty.
    */
   parse(
     chunk: Buffer,

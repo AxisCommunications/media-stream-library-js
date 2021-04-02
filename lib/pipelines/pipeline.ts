@@ -1,17 +1,21 @@
 import { Component, Tube, Sink, Source } from '../components/component'
 
+/**
+ * Pipeline
+ *
+ * A pipeline is a linked list of components with some convenience methods to
+ * handle inserting or removing components from the linked list.
+ *
+ * A internal set keeps track of which components the pipeline contains, while
+ * any order is completely determined by the component's connectedness.
+ */
 export class Pipeline {
   public firstComponent: Component
   public lastComponent: Component
 
   private _set: Set<Component>
   /**
-   * Create a pipeline which is a linked list of components.
-   * Works naturally with only a single component.
-   * A set keeps track of which components the pipeline contains,
-   * while any order is completely determined by the component's
-   * connectedness.
-   * @param {Array} components The components of the pipeline in order.
+   * @param components - The components of the pipeline in order.
    */
   constructor(...components: Component[]) {
     const [car, ...cdr] = components
@@ -24,6 +28,9 @@ export class Pipeline {
     }, car)
   }
 
+  /**
+   * @param components - The components of the pipeline in order.
+   */
   init(...components: Component[]) {
     const [car, ...cdr] = components
 
@@ -35,6 +42,12 @@ export class Pipeline {
     }, car)
   }
 
+  /**
+   * Inserts a component into the pipeline.
+   *
+   * @param component - Tube or Source behind which to insert a new component.
+   * @param component - Tube or Sink to insert.
+   */
   insertAfter(component: Source | Tube, newComponent: Tube | Sink) {
     if (!this._set.has(component)) {
       throw new Error('insertion point not part of pipeline')
@@ -56,6 +69,12 @@ export class Pipeline {
     return this
   }
 
+  /**
+   * Inserts a component into the pipeline.
+   *
+   * @param component - Tube or Sink in front of which to insert a new component.
+   * @param component - Tube or Source to insert.
+   */
   insertBefore(component: Tube | Sink, newComponent: Source | Tube) {
     if (!this._set.has(component)) {
       throw new Error('insertion point not part of pipeline')
@@ -77,6 +96,11 @@ export class Pipeline {
     return this
   }
 
+  /**
+   * Removes a component from the pipeline.
+   *
+   * @param component - Component to remove.
+   */
   remove(component: Component) {
     if (!this._set.has(component)) {
       throw new Error('component not part of pipeline')
@@ -102,6 +126,11 @@ export class Pipeline {
     return this
   }
 
+  /**
+   * Inserts a component at the end of the pipeline.
+   *
+   * @param component - Tube or Sink to insert.
+   */
   append(...components: Array<Tube | Sink>) {
     components.forEach((component) => {
       this.insertAfter(this.lastComponent as Source | Tube, component)
@@ -110,6 +139,11 @@ export class Pipeline {
     return this
   }
 
+  /**
+   * Inserts a component at the beginning of the pipeline.
+   *
+   * @param component - Tube or Source to insert.
+   */
   prepend(...components: Array<Source | Tube>) {
     components.forEach((component) => {
       this.insertBefore(this.firstComponent as Tube | Sink, component)
