@@ -49,7 +49,7 @@ describe('Parsing of interleaved data', () => {
     let buffer1: Buffer
     beforeAll(() => {
       buffer1 = Buffer.alloc(frames.onePointZero.length)
-      frames.onePointZero.map((byte, index) => {
+      frames.onePointZero.forEach((byte, index) => {
         buffer1[index] = byte
       })
     })
@@ -75,7 +75,7 @@ describe('Parsing of interleaved data', () => {
     let buffer15: Buffer
     beforeAll(() => {
       buffer15 = Buffer.alloc(frames.onePointFive.length)
-      frames.onePointFive.map((byte, index) => {
+      frames.onePointFive.forEach((byte, index) => {
         buffer15[index] = byte
       })
     })
@@ -109,11 +109,11 @@ describe('Parsing of interleaved data', () => {
     let buffer05: Buffer
     beforeAll(() => {
       buffer15 = Buffer.alloc(frames.onePointFive.length)
-      frames.onePointFive.map((byte, index) => {
+      frames.onePointFive.forEach((byte, index) => {
         buffer15[index] = byte
       })
       buffer05 = Buffer.alloc(frames.zeroPointFive.length)
-      frames.zeroPointFive.map((byte, index) => {
+      frames.zeroPointFive.forEach((byte, index) => {
         buffer05[index] = byte
       })
     })
@@ -137,7 +137,7 @@ describe('Parsing of interleaved data', () => {
     let RtspBuffer: Buffer
     beforeAll(() => {
       RtspBuffer = Buffer.alloc(setupResponse.length)
-      setupResponse.split('').map((character, index) => {
+      setupResponse.split('').forEach((character, index) => {
         RtspBuffer[index] = character.charCodeAt(0)
       })
     })

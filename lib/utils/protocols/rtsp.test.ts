@@ -85,10 +85,10 @@ describe('Rtsp', () => {
     it('should return the lowest index of all possible line breaks', () => {
       const bodyWithLinebreaks = '\r\r<svg>\r\n\r\n</svg>\n\n'
       const buf = Buffer.alloc(setupResponse.length + bodyWithLinebreaks.length)
-      setupResponse.split('').map((character, index) => {
+      setupResponse.split('').forEach((character, index) => {
         buf[index] = character.charCodeAt(0)
       })
-      bodyWithLinebreaks.split('').map((character, index) => {
+      bodyWithLinebreaks.split('').forEach((character, index) => {
         buf[index + setupResponse.length] = character.charCodeAt(0)
       })
       expect(bodyOffset(buf)).toEqual(setupResponse.length)
