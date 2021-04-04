@@ -10,7 +10,6 @@ rules:
   'array-callback-return': 'off'
   'no-multi-str': 'off'
   'no-useless-escape': 'off'
-  'node/no-deprecated-api': 'off'
   '@typescript-eslint/explicit-function-return-type': 'off'
   '@typescript-eslint/no-misused-promises': 'off'
   '@typescript-eslint/no-extraneous-class': 'off'
