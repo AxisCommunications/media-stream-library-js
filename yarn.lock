@@ -2324,7 +2324,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:4.20.0":
+"@typescript-eslint/parser@npm:4.20.0, @typescript-eslint/parser@npm:^4.0.0":
   version: 4.20.0
   resolution: "@typescript-eslint/parser@npm:4.20.0"
   dependencies:
@@ -4285,7 +4285,36 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-resolver-node@npm:^0.3.4":
+"eslint-config-standard-with-typescript@npm:20.0.0":
+  version: 20.0.0
+  resolution: "eslint-config-standard-with-typescript@npm:20.0.0"
+  dependencies:
+    "@typescript-eslint/parser": ^4.0.0
+    eslint-config-standard: ^16.0.0
+  peerDependencies:
+    "@typescript-eslint/eslint-plugin": ">=4.0.1"
+    eslint: ">=7.12.1"
+    eslint-plugin-import: ">=2.22.1"
+    eslint-plugin-node: ">=11.1.0"
+    eslint-plugin-promise: ">=4.2.1"
+    typescript: ">=3.9"
+  checksum: d5f85efbb74f6ab09bd66ede24d6eea0bf3e54ec37dd3c8608fa66f78018faba1a16baa8e32c846ccd42de3282065c66384893c22e85948a415c0a226e3475fc
+  languageName: node
+  linkType: hard
+
+"eslint-config-standard@npm:^16.0.0":
+  version: 16.0.2
+  resolution: "eslint-config-standard@npm:16.0.2"
+  peerDependencies:
+    eslint: ^7.12.1
+    eslint-plugin-import: ^2.22.1
+    eslint-plugin-node: ^11.1.0
+    eslint-plugin-promise: ^4.2.1
+  checksum: 9db750eab1fb190deed50cd1b52df94f517142b6bc73edc38d22dc1ccb28ee628d969028017536d65301fbd15daf1487d7b7420f7c2689477f73bb213f6a25fc
+  languageName: node
+  linkType: hard
+
+"eslint-import-resolver-node@npm:*, eslint-import-resolver-node@npm:^0.3.4":
   version: 0.3.4
   resolution: "eslint-import-resolver-node@npm:0.3.4"
   dependencies:
@@ -4406,7 +4435,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:7.23.0":
+"eslint@npm:*, eslint@npm:7.23.0":
   version: 7.23.0
   resolution: "eslint@npm:7.23.0"
   dependencies:
@@ -6869,6 +6898,7 @@ fsevents@^2.1.2:
     debug: 4.3.1
     eslint: 7.23.0
     eslint-config-prettier: 8.1.0
+    eslint-config-standard-with-typescript: 20.0.0
     eslint-plugin-import: 2.22.1
     eslint-plugin-node: 11.1.0
     eslint-plugin-promise: 4.3.1
