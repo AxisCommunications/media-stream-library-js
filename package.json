@@ -5,7 +5,6 @@
   "license": "MIT",
   "main": "dist/media-stream-library.min.js",
   "types": "dist/esm/index.browser.d.ts",
-  "browserslist": "last 2 versions, not dead",
   "bin": {
     "live": "examples/node/player.js"
   },
@@ -21,11 +20,12 @@
     "lint": "yarn lint:ts && yarn prettier:check",
     "test": "jest --coverage",
     "verify": "yarn lint && yarn test",
-    "build": "yarn build:esm && yarn build:cjs && yarn build:es5 && yarn build:bundle",
+    "build": "yarn build:esm && yarn build:cjs && yarn build:es5 && yarn build:bundle && yarn build:bundle-legacy",
     "build:esm": "tsc -p tsconfig.json",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:es5": "tsc -p tsconfig.es5.json",
     "build:bundle": "webpack && sbin/copyMinified.sh",
+    "build:bundle-legacy": "webpack --config webpack.legacy.config.js",
     "lint:ts": "eslint --ext '.ts' lib/",
     "prettier:check": "prettier --check '{lib,examples}/**/*.{ts,js}'",
     "prettier:fix": "prettier --write '{lib,examples}/**/*.{ts,js}' --fix --loglevel silent",
@@ -77,6 +77,7 @@
     "jest": "26.6.3",
     "mock-socket": "9.0.3",
     "prettier": "2.2.1",
+    "regenerator-runtime": "0.13.7",
     "semver": "7.3.5",
     "ts-jest": "26.5.4",
     "typescript": "4.2.3",
@@ -87,13 +88,11 @@
   "jest": {
     "testRegex": "(/__tests__/.*|(\\.|/)test)\\.ts$",
     "transform": {
-      "^.+\\.tsx?$": "ts-jest"
+      "^.+\\.ts$": "ts-jest"
     },
     "moduleFileExtensions": [
       "ts",
-      "tsx",
       "js",
-      "jsx",
       "json",
       "node"
     ]

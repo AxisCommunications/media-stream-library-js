@@ -19,17 +19,15 @@ RTP streams, or to the browser. It is suited to handle streams of messages of
 any kind, and makes it easier to stitch together transformations from one message
 type to another. Contributions of new components/pipelines are always welcome.
 
-_Note for IE11 users_: if you want to build the library yourself for IE11 instead
-of using the provided bundle, you need import from `dist/es5` with the following fix in webpack:
-
-```
-alias: {
-  debug: 'debug/dist/debug.js',
-},
-```
-
-You can look at the `webpack.config.js` to see how it's used for building the bundle.
-Since IE11 is not supported or tested at all, you might run into different issues as well.
+_Note for IE11 users_: although we don't support or test IE11, it should work
+provided that you use the legacy bundle `media-stream-library.legacy.min.js`.
+You can also bundle it yourself, in which case you need import from `dist/es5`
+and be aware that certain dependencies (e.g. `debug`) have to be transpiled as
+they no longer ship es5 code.  You can look at the `webpack.legacy.config.js` to
+see how we build the legacy bundle.  Since IE11 is not supported or tested at
+all, you might run into different issues as well. We welcome contributions
+keeping the legacy bundle working, as long as it's limited to the webpack
+configuration.
 
 ## Installation
 
@@ -89,8 +87,9 @@ using webpack 5.
 If you want the smallest possible bundle, you can import directly from
 `media-stream-library/dist/esm/index.browser.js` and then make sure to properly
 resolve everything in your own webpack config (you can check our own
-`webpack.config.js` as en example how to write fallbacks for the browserify
-packages).
+`webpack.config.js` as an example how to write fallbacks for the browserify
+packages). The browserify dependencies are included as package dependencies,
+so you should already have them installed.
 
 ### Components and pipelines
 
