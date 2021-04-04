@@ -12,10 +12,10 @@ export interface TransformConfig {
 }
 
 /**
- * Pipeline that can receive the SDP object for an RTS stream.
+ * WsSdpPipeline
  *
- * @class WsSdpPipeline
- * @extends {RtspPipeline}
+ * Pipeline requesting an SDP object from an RTSP server and then
+ * immediately tears down the RTSP session.
  */
 export class WsSdpPipeline extends RtspPipeline {
   public onServerClose?: () => void
@@ -23,11 +23,6 @@ export class WsSdpPipeline extends RtspPipeline {
 
   private _src?: WSSource
 
-  /**
-   * Creates an instance of Html5VideoPipeline.
-   * @param {any} [config={}] Component options
-   * @memberof Html5VideoPipeline
-   */
   constructor(config: TransformConfig) {
     const { ws: wsConfig, rtsp: rtspConfig, auth: authConfig } = config
 

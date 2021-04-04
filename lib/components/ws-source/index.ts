@@ -17,7 +17,7 @@ export class WSSource extends Source {
    * The constructor sets up two streams and connects them to the socket as
    * soon as the socket is available (and open).
    *
-   * @param {Object} socket - an open WebSocket.
+   * @param socket - an open WebSocket.
    */
   constructor(socket: WebSocket) {
     if (socket === undefined) {
@@ -86,11 +86,10 @@ export class WSSource extends Source {
 
     /**
      * Handler for when WebSocket is CLOSED
-     * @param  {CloseEvent} e The event associated with a close
-     * @param  {Number} e.code The status code sent by the server
+     * @param  e - The event associated with a close
+     * @param  e.code The status code sent by the server
      *   Possible codes are documented here:
      *   https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
-     * @return {undefined}
      */
     socket.onclose = (e) => {
       debug('msl:websocket:close')(`${e.code}`)

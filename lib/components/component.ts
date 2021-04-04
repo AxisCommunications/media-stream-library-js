@@ -6,43 +6,76 @@ export type Component = Source | Tube | Sink
 
 type ErrorEventHandler = (err: Error) => void
 
+/**
+ * Component
+ *
+ * A component is a set of bi-directional streams consisting of an 'incoming'
+ * and 'outgoing' stream.
+ *
+ * They contain references to other components so they can form a linked list of
+ * components, i.e. a pipeline. When linking components, the incoming and
+ * outgoing streams are piped, so that data flowing through the incoming stream
+ * is transfered to the next component, and data in the outgoing stream flows
+ * to the previous component.
+ *
+ * Components at the end of such a pipeline typically connect the incoming and
+ * outgoing streams to a data source or data sink.
+ *
+ * Typically, for a component that is connected to two other components, both
+ * incoming and outgoing will be Transform streams. For a source, 'incoming'
+ * will be a Readable stream and 'outgoing' a Writable stream, while for a sink
+ * it is reversed. Both source and sink could also use a single Duplex stream,
+ * with incoming === outgoing.
+ *
+ * server end-point                          client end-point
+ *  /-------------      -----------------      -------------\
+ *  |  Writable  |  <-  |   Transform   |  <-  |  Readable  |
+ *  |   source   |      |      tube     |      |    sink    |
+ *  |  Readable  |  ->  |   Transform   |  ->  |  Writable  |
+ *  \-------------      -----------------      -------------/
+ */
 abstract class AbstractComponent {
+  /**
+   * The stream going towards the client end-point
+   */
   public abstract incoming: Stream
+  /**
+   * The stream going back to the server end-point
+   */
   public abstract outgoing: Stream
+  /**
+   * The next component (downstream, towards the client)
+   */
   public abstract next: Tube | Sink | null
+  /**
+   * The previous component (upstream, towards the server)
+   */
   public abstract prev: Tube | Source | null
   protected _incomingErrorHandler?: ErrorEventHandler
   protected _outgoingErrorHandler?: ErrorEventHandler
-  public abstract connect(next: Tube | Sink | null): Component
-  public abstract disconnect(): Component
-
   /**
-   * Create a component, i.e. a set of bi-directional streams consisting of
-   * an 'incoming' and 'outgoing' stream to handle two-way communication with
-   * other components.
-   * @param {Stream} incoming - The stream going towards the client end-point.
-   * @param {Stream} outgoing - The stream going back to the server end-point.
-   *
-   * Typically, for a component that is connected to two other components, both
-   * incoming and outgoing will be Transform streams. For a source, 'incoming'
-   * will be a Readable stream and 'outgoing' a Writable stream, while for a sink
-   * it is reversed. Both source and sink could also use a single Duplex stream,
-   * with incoming === outgoing.
-   *
-   * server end-point                          client end-point
-   *  /-------------      -----------------      -------------\
-   *  |  Writable  |  <-  |   Transform   |  <-  |  Readable  |
-   *  |   source   |      |      tube     |      |    sink    |
-   *  |  Readable  |  ->  |   Transform   |  ->  |  Writable  |
-   *  \-------------      -----------------      -------------/
+   * Connect a downstream component (towards the client)
    */
+  public abstract connect(next: Tube | Sink | null): Component
+  /**
+   * Disconnect a downstream component downstream (towards the client)
+   */
+  public abstract disconnect(): Component
 }
 
+/**
+ * Source component
+ *
+ * A component that can only have a next component connected (no previous) and
+ * where the incoming and outgoing streams are connected to an external data
+ * source.
+ */
 export class Source extends AbstractComponent {
   /**
-   * Set up a component that emits incoming messages.
-   * @param {Array} messages List of objects (with data property) to emit.
-   * @return {Component}
+   * Set up a source component that has a message list as data source.
+   *
+   * @param messages - List of objects (with data property) to emit on the
+   * incoming stream
    */
   public static fromMessages(messages: GenericMessage[]) {
     const component = new Source(
@@ -74,8 +107,8 @@ export class Source extends AbstractComponent {
    * next component 'down' stream and the 'up' stream of the other component
    * flows into the 'up' stream of this component. This is what establishes the
    * meaning of 'up' and 'down'.
-   * @param {Component} next - The component to connect.
-   * @return {Component} - A reference to the connected component.
+   * @param  next - The component to connect.
+   * @return A reference to the connected component.
    *
    *      -------------- pipe --------------
    *  <-  |  outgoing  |  <-  |  outgoing  | <-
@@ -163,7 +196,20 @@ export class Source extends AbstractComponent {
   }
 }
 
+/**
+ * Tube component
+ *
+ * A component where both incoming and outgoing streams are Duplex streams, and
+ * can be connected to a previous and next component, typically in the middle of
+ * a pipeline.
+ */
 export class Tube extends Source {
+  /**
+   * Create a component that calls a handler function for each message passing
+   * through, but otherwise just passes data through.
+   *
+   * Can be used to log messages passing through a pipeline.
+   */
   public static fromHandlers(
     fnIncoming: MessageHandler | undefined,
     fnOutgoing: MessageHandler | undefined,
@@ -191,12 +237,19 @@ export class Tube extends Source {
   }
 }
 
+/**
+ * Sink component
+ *
+ * A component that can only have a previous component connected (no next) and
+ * where the incoming and outgoing streams are connected to an external data
+ * source.
+ */
 export class Sink extends AbstractComponent {
   /**
-   * Set up a component that swallows incoming data (calling fn on it).
-   * To print data, you would use fn = console.log.
-   * @param {Function} fn The callback to use for the incoming data.
-   * @return {Component}
+   * Create a component that swallows incoming data (calling fn on it).  To
+   * print data, you would use fn = console.log.
+   *
+   * @param fn - The callback to use for the incoming data.
    */
   public static fromHandler(fn: MessageHandler) {
     const component = new Sink(

@@ -4,7 +4,7 @@ export default class StreamFactory {
   /**
    * Creates a writable stream that sends all messages written to the stream
    * to a callback function and then considers it written.
-   * @param {Function} fn  The callback to be invoked on the message
+   * @param fn  The callback to be invoked on the message
    */
   public static consumer(
     fn: (msg: any) => void = () => {
@@ -13,7 +13,7 @@ export default class StreamFactory {
   ) {
     return new Writable({
       objectMode: true,
-      write(msg, encoding, callback) {
+      write(msg, _encoding, callback) {
         fn(msg)
         callback()
       },
@@ -26,7 +26,7 @@ export default class StreamFactory {
     }
     return new Transform({
       objectMode: true,
-      transform(msg, encoding, callback) {
+      transform(msg, _encoding, callback) {
         fn(msg)
         callback(undefined, msg)
       },
@@ -35,7 +35,7 @@ export default class StreamFactory {
 
   /**
    * Creates a readable stream that sends a message for each element of an array.
-   * @param {Array} arr  The array with elements to be turned into a stream.
+   * @param arr  The array with elements to be turned into a stream.
    */
   public static producer(messages?: any[]) {
     let counter = 0

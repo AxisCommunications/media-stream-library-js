@@ -10,12 +10,13 @@ interface RtspAuthConfig {
   auth?: AuthConfig
 }
 
+/**
+ * CliMp4Pipeline
+ *
+ * A pipeline which connects to an RTSP server over TCP and process H.264/AAC
+ * over RTP to produce a stream of MP4 data.
+ */
 export class CliMp4Pipeline extends RtspMp4Pipeline {
-  /**
-   * Create a pipeline which is a linked list of components.
-   * Works naturally with only a single component.
-   * @param {Array} components The ordered components of the pipeline
-   */
   constructor(config: RtspAuthConfig) {
     const { rtsp: rtspConfig, auth: authConfig } = config
 
