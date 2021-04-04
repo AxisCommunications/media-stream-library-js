@@ -111,7 +111,7 @@ export class WSSource extends Source {
    * Expose websocket opener as a class method that returns a promise which
    * resolves with a new WebSocketComponent.
    */
-  static open(config?: WSConfig) {
-    return openWebSocket(config).then((socket) => new WSSource(socket))
+  static async open(config?: WSConfig) {
+    return await openWebSocket(config).then((socket) => new WSSource(socket))
   }
 }

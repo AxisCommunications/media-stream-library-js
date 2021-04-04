@@ -33,9 +33,9 @@ const DEFAULT_TOLERANCE = 10
  */
 
 export class Scheduler<T extends { readonly ntpTimestamp?: number }> {
-  private _clock: Clock
-  private _handler: (msg: T) => void
-  private _tolerance: number
+  private readonly _clock: Clock
+  private readonly _handler: (msg: T) => void
+  private readonly _tolerance: number
   private _nextRun: number
   private _nextPlay: number
   private _fifo: T[]

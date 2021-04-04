@@ -15,7 +15,7 @@ export class Mp4Capture extends Tube {
   private _capture: boolean
   private _captureCallback: (buffer: Buffer) => void
   private _bufferOffset: number
-  private _bufferSize: number
+  private readonly _bufferSize: number
   private _buffer: Buffer
   /**
    * Create a new mp4muxer component.

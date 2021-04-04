@@ -18,7 +18,7 @@ import { Mp4Muxer } from '../components/mp4muxer'
 export class RtspMp4Pipeline extends RtspPipeline {
   public onSync?: (ntpPresentationTime: number) => void
 
-  private _mp4Muxer: Mp4Muxer
+  private readonly _mp4Muxer: Mp4Muxer
 
   constructor(rtspConfig?: RtspConfig) {
     super(rtspConfig)

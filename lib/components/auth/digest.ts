@@ -4,14 +4,14 @@ import MD5 from 'md5.js'
 import { ChallengeParams } from './www-authenticate'
 
 export class DigestAuth {
-  private realm: string
-  private nonce: string
-  private opaque?: string
-  private algorithm?: 'md5' | 'md5-sess'
-  private qop?: 'auth' | 'auth-int'
-  private username: string
+  private readonly realm: string
+  private readonly nonce: string
+  private readonly opaque?: string
+  private readonly algorithm?: 'md5' | 'md5-sess'
+  private readonly qop?: 'auth' | 'auth-int'
+  private readonly username: string
 
-  private ha1Base: string
+  private readonly ha1Base: string
   private count: number
 
   constructor(params: ChallengeParams, username: string, password: string) {

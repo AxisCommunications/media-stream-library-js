@@ -74,9 +74,9 @@ const generateUpdateInfo = (clockrate: number) => {
 export class CanvasSink extends Sink {
   public onCanplay?: () => void
   public onSync?: (ntpPresentationTime: number) => void
-  private _clock: Clock
-  private _scheduler: Scheduler<BlobMessage>
-  private _info: RateInfo
+  private readonly _clock: Clock
+  private readonly _scheduler: Scheduler<BlobMessage>
+  private readonly _info: RateInfo
   /**
    * @param  el - The <canvas> element to draw incoming JPEG messages on.
    */
