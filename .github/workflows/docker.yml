@@ -18,5 +18,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: gst-rtsp-launch
-          tags: ${{ github.repository }}/gst-rtsp-launch:${{ github.ref }}
+          tags: ghcr.io/axiscommunications/media-stream-library-js/gst-rtsp-launch:latest
           push: true
