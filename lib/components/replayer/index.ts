@@ -56,7 +56,7 @@ export class Replayer extends Source {
       finished = true
     })
 
-    outgoing.on('pipe', () => start())
+    outgoing.on('pipe', async () => await start())
 
     super(incoming, outgoing)
   }

@@ -48,7 +48,7 @@ export class WsSdpPipeline extends RtspPipeline {
   }
 
   get sdp() {
-    return this.ready.then(() => {
+    return this.ready.then(async () => {
       const sdpPromise = new Promise<Sdp>((resolve) => {
         this.rtsp.onSdp = resolve
       })

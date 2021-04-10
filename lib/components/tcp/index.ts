@@ -1,7 +1,6 @@
 import { Source } from '../component'
 import { Readable, Writable } from 'stream'
 import { connect, Socket } from 'net'
-import { parse } from 'url'
 import { MessageType } from '../message'
 
 export class TcpSource extends Source {
@@ -13,7 +12,6 @@ export class TcpSource extends Source {
     let socket: Socket
     /**
      * Set up an incoming stream and attach it to the socket.
-     * @type {Readable}
      */
     const incoming = new Readable({
       objectMode: true,
@@ -24,7 +22,6 @@ export class TcpSource extends Source {
 
     /**
      * Set up outgoing stream and attach it to the socket.
-     * @type {Writable}
      */
     const outgoing = new Writable({
       objectMode: true,
@@ -42,7 +39,7 @@ export class TcpSource extends Source {
           const firstSpace = b.indexOf(' ')
           const secondSpace = b.indexOf(' ', firstSpace + 1)
           const url = b.slice(firstSpace, secondSpace).toString('ascii')
-          const { hostname, port } = parse(url)
+          const { hostname, port } = new URL(url)
           socket = connect(
             Number(port) || 554,
             hostname === null ? undefined : hostname,

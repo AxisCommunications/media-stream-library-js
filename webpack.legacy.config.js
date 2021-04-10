@@ -8,7 +8,7 @@ module.exports = {
     library: 'mediaStreamLibrary',
     libraryTarget: 'umd',
     path: __dirname,
-    filename: 'dist/media-stream-library.min.js',
+    filename: 'dist/media-stream-library.legacy.min.js',
   },
   resolve: {
     extensions: ['.ts', '.js'],
@@ -31,7 +31,10 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        exclude: /node_modules/,
+        // We need to transpile certain node_modules packages, as they
+        // don't supply any ES5 compatible code. This will become more
+        // of an issue as libraries move over to delivering ES6 only.
+        exclude: /node_modules\/(?!(debug)\/).*/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -42,8 +45,7 @@ module.exports = {
                 {
                   useBuiltIns: 'usage',
                   corejs: 3,
-                  // ignoreBrowserslistConfig: true,
-                  browserslistEnv: 'modern',
+                  browserslistEnv: 'legacy',
                 },
               ],
               '@babel/typescript',

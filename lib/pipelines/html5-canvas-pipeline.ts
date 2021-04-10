@@ -33,7 +33,7 @@ export class Html5CanvasPipeline extends RtspMjpegPipeline {
   public ready: Promise<void>
 
   private _src?: WSSource
-  private _sink: CanvasSink
+  private readonly _sink: CanvasSink
 
   constructor(config: Html5CanvasConfig) {
     const {

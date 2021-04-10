@@ -1052,6 +1052,7 @@ export class Box extends BoxElement {
       }
     }
   >
+
   /**
    * Create a new Box.
    * @param  type   4-character ASCII string

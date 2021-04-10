@@ -75,7 +75,7 @@ export class Mp4Muxer extends Tube {
               }
             }
 
-            let checkpointTime: number | undefined = undefined
+            let checkpointTime: number | undefined
             const idrPicture =
               msg.type === MessageType.H264
                 ? msg.nalType === NAL_TYPES.IDR_PICTURE

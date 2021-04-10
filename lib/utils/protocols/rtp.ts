@@ -66,7 +66,7 @@ export const cSrc = (buffer: Buffer, rank = 0) => {
 }
 
 export const extHeaderLength = (buffer: Buffer) => {
-  return extension(buffer) === false
+  return !extension(buffer)
     ? 0
     : buffer.readUInt16BE(12 + cSrcCount(buffer) * 4 + 2)
 }
@@ -81,7 +81,7 @@ export const extHeader = (buffer: Buffer) => {
 }
 
 export const payload = (buffer: Buffer) => {
-  return extension(buffer) === false
+  return !extension(buffer)
     ? buffer.slice(12 + cSrcCount(buffer) * 4)
     : buffer.slice(12 + cSrcCount(buffer) * 4 + 4 + extHeaderLength(buffer) * 4)
 }

@@ -37,7 +37,9 @@ const defaultConfig = (
  * @param  [config.protocol] Websocket protocol
  * @param  [config.timeout] Websocket connection timeout
  */
-export const openWebSocket = (config: WSConfig = {}): Promise<WebSocket> => {
+export const openWebSocket = async (
+  config: WSConfig = {},
+): Promise<WebSocket> => {
   const { uri, tokenUri, protocol, timeout } = merge(
     defaultConfig(config.host, config.scheme),
     config,
@@ -47,7 +49,7 @@ export const openWebSocket = (config: WSConfig = {}): Promise<WebSocket> => {
     throw new Error('ws: internal error')
   }
 
-  return new Promise((resolve, reject) => {
+  return await new Promise((resolve, reject) => {
     try {
       const ws = new WebSocket(uri, protocol)
       const countdown = setTimeout(() => {

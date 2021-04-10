@@ -33,7 +33,7 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
   public tracks?: MediaTrack[]
 
   private _src?: WSSource
-  private _sink: MseSink
+  private readonly _sink: MseSink
 
   constructor(config: Html5VideoConfig) {
     const {
@@ -76,8 +76,8 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
     return this._sink.currentTime
   }
 
-  play() {
-    return this._sink.play()
+  async play() {
+    return await this._sink.play()
   }
 
   pause() {

@@ -17,8 +17,8 @@ export interface HttpMseConfig {
 export class HttpMsePipeline extends Pipeline {
   public http: HttpSource
 
-  private _src?: HttpSource
-  private _sink: MseSink
+  private readonly _src?: HttpSource
+  private readonly _sink: MseSink
 
   constructor(config: HttpMseConfig) {
     const { http: httpConfig, mediaElement } = config
@@ -44,8 +44,8 @@ export class HttpMsePipeline extends Pipeline {
     return this._sink.currentTime
   }
 
-  play() {
-    return this._sink.play()
+  async play() {
+    return await this._sink.play()
   }
 
   pause() {

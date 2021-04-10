@@ -3,8 +3,8 @@
  * @param  ms Waiting time in milliseconds
  * @return Resolves after waiting time
  */
-export const sleep = (ms: number) => {
-  return new Promise((resolve) => {
+export const sleep = async (ms: number) => {
+  return await new Promise((resolve) => {
     setTimeout(resolve, ms)
   })
 }

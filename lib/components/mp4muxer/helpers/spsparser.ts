@@ -18,7 +18,7 @@ export class SPSParser {
     // seqParameterSetId
     this.reader.readUnsignedExpGolomb()
 
-    if ([100, 110, 122, 244, 44, 83, 86, 118].indexOf(profile) >= 0) {
+    if ([100, 110, 122, 244, 44, 83, 86, 118].includes(profile)) {
       const chromaFormat = this.reader.readUnsignedExpGolomb()
       if (chromaFormat === 3) {
         // Separate color plane flag

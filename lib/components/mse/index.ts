@@ -11,7 +11,7 @@ const TRIGGER_THRESHOLD = 100
 const debug = registerDebug('msl:mse')
 
 export class MseSink extends Sink {
-  private _videoEl: HTMLVideoElement
+  private readonly _videoEl: HTMLVideoElement
   private _done?: () => void
   private _lastCheckpointTime: number
 
@@ -190,8 +190,8 @@ export class MseSink extends Sink {
     return this._videoEl.currentTime
   }
 
-  play(): Promise<void> {
-    return this._videoEl.play()
+  async play(): Promise<void> {
+    return await this._videoEl.play()
   }
 
   pause(): void {
