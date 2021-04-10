@@ -31,10 +31,13 @@ unit tests with sufficient coverage.
 
 ### Code formatting
 
-We use [prettier](https://prettier.io/) to automatically format code, and this is verified
-during testing (part of linting).
-To make sure tests don't fail on format problems, it's recommended to use a prettier plugin
-for you editor, or to run `yarn prettier:fix` before committing any changes.
+We use [prettier](https://prettier.io/) to automatically format code, and this
+is verified during testing (part of linting).
+To make sure tests don't fail on format problems, it's recommended to use a
+prettier plugin for you editor, or to run `yarn prettier:fix` before committing
+any changes.
+Prettier will pick up relevant indentation and line ending settings from the
+.editorconfig file, so if your editor respects that too, you should be fine.
 
 ## Getting started
 

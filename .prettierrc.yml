@@ -1,5 +1,6 @@
-# .prettierrc or .prettierrc.yaml
+# prettier should pick up relevant
+# settings from .editorconfig, others
+# can be added here.
 trailingComma: 'all'
-tabWidth: 2
 semi: false
 singleQuote: true
