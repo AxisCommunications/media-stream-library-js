@@ -21,7 +21,7 @@
 
 h264_pipeline="videotestsrc ! video/x-raw,width=1920,height=1080 ! timeoverlay text='H.264' valignment=top halignment=left ! x264enc ! rtph264pay name=pay0 pt=96"
 h264_port="8554"
-mjpeg_pipeline="videotestsrc pattern=ball ! video/x-raw,width=1280,height=720 ! timeoverlay text='MJPEG' valignment=top halignment=left ! jpegenc ! rtpjpegpay name=pay0 pt=96"
+mjpeg_pipeline="videotestsrc pattern=ball ! video/x-raw,width=1280,height=720,format=YUY2 ! timeoverlay text='MJPEG' valignment=top halignment=left ! jpegenc ! rtpjpegpay name=pay0 pt=96"
 mjpeg_port="8555"
 
 if [ -z "$1" ]; then
