@@ -11,7 +11,6 @@
   "files": [
     "dist/**/*",
     "examples/**/*",
-    "rtsp-ws-server/*",
     "README.md",
     "LICENSE",
     "CHANGELOG.md"
@@ -29,7 +28,7 @@
     "lint:ts": "eslint --ext '.ts' lib/",
     "prettier:check": "prettier --check '{lib,examples}/**/*.{ts,js}'",
     "prettier:fix": "prettier --write '{lib,examples}/**/*.{ts,js}' --fix --loglevel silent",
-    "rtsp": "rtsp-ws-server/start.sh",
+    "rtsp": "sbin/rtsp-ws-server.sh",
     "examples": "yarn build && http-server examples/browser",
     "dev": "node sbin/dev.js",
     "release": "sbin/release.sh"

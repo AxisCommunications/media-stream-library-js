@@ -48,7 +48,7 @@ trap "docker kill ${container} >& /dev/null" EXIT
 #
 # launch the WebSocket proxy server
 #
-node $(dirname $0)/tcp-ws-proxy.js >& tcp-ws-proxy.log &
+yarn node $(dirname $0)/tcp-ws-proxy.js >& tcp-ws-proxy.log &
 
 #
 # print some usage information
