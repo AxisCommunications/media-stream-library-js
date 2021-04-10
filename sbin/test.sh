@@ -4,7 +4,7 @@ set -e
 #trap "kill 0" EXIT
 
 echo -n "Starting RTSP WebSocket proxy..."
-yarn node rtsp-ws-server/tcp-ws-proxy.js >& tcp-ws-proxy.log &
+yarn node sbin/tcp-ws-proxy.js >& tcp-ws-proxy.log &
 echo "done."
 
 echo -n "Starting HTTP server with examples..."
