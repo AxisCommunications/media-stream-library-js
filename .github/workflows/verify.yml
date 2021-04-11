@@ -12,16 +12,11 @@ on:
       - main
 
 jobs:
-  verify:
+  node:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: ['14', '15']
-    services:
-      rtsp:
-        image: steabert/gst-rtsp-launch
-        ports:
-          - 8554:8554
     steps:
       - uses: actions/checkout@v1
       - name: Setup node
@@ -36,5 +31,72 @@ jobs:
           yarn test
       - name: Build
         run: yarn build
+
+  chrome:
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node14.16.0-chrome89-ff86
+    services:
+      gstreamer:
+        image: steabert/gst-rtsp-launch
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: yarn install --immutable --immutable-cache
+      - name: Linting & Unit testing
+        run: |
+          yarn lint
+          yarn test
+      - name: Build
+        run: yarn build
       - name: Test basic video functionality
-        run: sbin/test.sh
+        run: sbin/test.sh chrome
+
+  firefox:
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node14.16.0-chrome89-ff86
+    services:
+      gstreamer:
+        image: steabert/gst-rtsp-launch
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: yarn install --immutable --immutable-cache
+      - name: Linting & Unit testing
+        run: |
+          yarn lint
+          yarn test
+      - name: Build
+        run: yarn build
+      - name: Test basic video functionality
+        run: sbin/test.sh firefox
+
+  edge:
+    runs-on: ubuntu-latest
+    container: cypress/browsers:node14.10.1-edge88
+    services:
+      gstreamer:
+        image: steabert/gst-rtsp-launch
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: yarn install --immutable --immutable-cache
+      - name: Linting & Unit testing
+        run: |
+          yarn lint
+          yarn test
+      - name: Build
+        run: yarn build
+      - name: Test basic video functionality
+        run: sbin/test.sh edge

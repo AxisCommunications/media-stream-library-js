@@ -13,6 +13,11 @@ const play = (host) => {
   pipeline.ready.then(() => {
     pipeline.rtsp.play()
   })
+  pipeline.onSourceOpen = (mse) => {
+    // Setting a duration of zero seems to force lower latency
+    // on Firefox, and doesn't seem to affect Chromium.
+    mse.duration = 0
+  }
 }
 
 play(window.location.hostname)
