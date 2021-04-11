@@ -7,8 +7,9 @@ export class TcpSource extends Source {
   /**
    * Create a TCP component.
    * A TCP socket will be created from parsing the URL of the first outgoing message.
+   * @param host  Force RTSP host (overrides OPTIONS URL)
    */
-  constructor() {
+  constructor(host?: string) {
     let socket: Socket
     /**
      * Set up an incoming stream and attach it to the socket.
@@ -36,9 +37,14 @@ export class TcpSource extends Source {
           Date: Wed, 03 Jun 2015 14:26:16 GMT
           `
           */
-          const firstSpace = b.indexOf(' ')
-          const secondSpace = b.indexOf(' ', firstSpace + 1)
-          const url = b.slice(firstSpace, secondSpace).toString('ascii')
+          let url: string
+          if (host === undefined) {
+            const firstSpace = b.indexOf(' ')
+            const secondSpace = b.indexOf(' ', firstSpace + 1)
+            url = b.slice(firstSpace, secondSpace).toString('ascii')
+          } else {
+            url = `rtsp://${host}`
+          }
           const { hostname, port } = new URL(url)
           socket = connect(
             Number(port) || 554,

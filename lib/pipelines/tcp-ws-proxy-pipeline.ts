@@ -1,7 +1,12 @@
 import { Pipeline } from './pipeline'
-import { Server } from 'ws'
+import { Server, ServerOptions } from 'ws'
 import { WSSink } from '../components/ws-sink'
 import { TcpSource } from '../components/tcp'
+
+interface TcpWsConfig {
+  wsOptions?: ServerOptions
+  rtspHost?: string
+}
 
 /**
  * TcpWsProxyPipeline
@@ -13,11 +18,12 @@ import { TcpSource } from '../components/tcp'
 export class TcpWsProxyPipeline extends Pipeline {
   public wss: Server
 
-  constructor(config = {}) {
-    const wss = new Server(config)
+  constructor(config: TcpWsConfig = {}) {
+    const { wsOptions, rtspHost } = config
+    const wss = new Server(wsOptions)
     wss.on('connection', (socket) => {
       const wsSink = new WSSink(socket)
-      const tcpSource = new TcpSource()
+      const tcpSource = new TcpSource(rtspHost)
 
       this.init(tcpSource, wsSink)
     })
