@@ -114,6 +114,13 @@ export const contentBase = (buffer: Buffer) => {
   return extractHeaderValue(buffer, 'Content-Base')
 }
 
+export const contentLocation = (buffer: Buffer) => {
+  /**
+   * Content-Location   =  "Content-Location" HCOLON RTSP-REQ-Ref
+   */
+  return extractHeaderValue(buffer, 'Content-Location')
+}
+
 export const connectionEnded = (buffer: Buffer) => {
   /**
    * Connection         =  "Connection" HCOLON connection-token
