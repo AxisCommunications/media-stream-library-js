@@ -121,8 +121,8 @@ export class Parser {
    * Add the next chunk of data to the parser and extract messages.
    * If no message can be extracted, an empty array is returned, otherwise
    * an array of messages is returned.
-   * @param  {Buffer} chunk The next piece of data.
-   * @return {Array}        An array of messages, possibly empty.
+   * @param  chunk - The next piece of data.
+   * @return An array of messages, possibly empty.
    */
   parse(chunk: Buffer): IsomMessage[] {
     this._push(chunk)

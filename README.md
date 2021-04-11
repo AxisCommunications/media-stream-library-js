@@ -3,7 +3,7 @@
 [![CI][ci-image]][ci-url]
 [![NPM][npm-image]][npm-url]
 
-[ci-image]: https://github.com/AxisCommunications/media-stream-library-js/workflows/CI/badge.svg
+[ci-image]: https://github.com/AxisCommunications/media-stream-library-js/actions/workflows/verify.yml/badge.svg?branch=main
 [ci-url]: https://github.com/AxisCommunications/media-stream-library-js/actions
 [npm-image]: https://img.shields.io/npm/v/media-stream-library.svg
 [npm-url]: https://www.npmjs.com/package/media-stream-library
@@ -19,17 +19,15 @@ RTP streams, or to the browser. It is suited to handle streams of messages of
 any kind, and makes it easier to stitch together transformations from one message
 type to another. Contributions of new components/pipelines are always welcome.
 
-_Note for IE11 users_: if you want to build the library yourself for IE11 instead
-of using the provided bundle, you need import from `dist/es5` with the following fix in webpack:
-
-```
-alias: {
-  debug: 'debug/dist/debug.js',
-},
-```
-
-You can look at the `webpack.config.js` to see how it's used for building the bundle.
-Since IE11 is not supported or tested at all, you might run into different issues as well.
+_Note for IE11 users_: although we don't support or test IE11, it should work
+provided that you use the legacy bundle `media-stream-library.legacy.min.js`.
+You can also bundle it yourself, in which case you need import from `dist/es5`
+and be aware that certain dependencies (e.g. `debug`) have to be transpiled as
+they no longer ship es5 code.  You can look at the `webpack.legacy.config.js` to
+see how we build the legacy bundle.  Since IE11 is not supported or tested at
+all, you might run into different issues as well. We welcome contributions
+keeping the legacy bundle working, as long as it's limited to the webpack
+configuration.
 
 ## Installation
 
@@ -73,19 +71,33 @@ You can directly include the `media-stream-library.min.js` file in your browser
 <script src="media-stream-library.min.js"></script>
 ```
 
-or import it into your javascript code if you bundle it yourself:
+in which case a global variable `mediaStreamLibrary` will exist that
+contains all the necessary functions.
+
+Alternatively, you can import it into your javascript code if you bundle it yourself:
 
 ```
 import {components, pipelines} from 'media-stream-library';
 ```
 
+Note that we expose our own bundle as the default entry point.  This is to avoid
+issues where you would have to write fallback imports for browserify packages if
+using webpack 5.
+
+If you want the smallest possible bundle, you can import directly from
+`media-stream-library/dist/esm/index.browser.js` and then make sure to properly
+resolve everything in your own webpack config (you can check our own
+`webpack.config.js` as an example how to write fallbacks for the browserify
+packages). The browserify dependencies are included as package dependencies,
+so you should already have them installed.
+
 ### Components and pipelines
 
-The library contains a collection of components that can be connected
-together to form media pipelines.
-The components are a low-level abstraction on top of Node streams to allow two-way
-communication, while media pipelines are sets of connected components with methods
-that allow you to control the pipeline, and easily add/remove components.
+The library contains a collection of components that can be connected together
+to form media pipelines.  The components are a low-level abstraction on top of
+Node streams to allow two-way communication, while media pipelines are sets of
+connected components with methods that allow you to control the pipeline, and
+easily add/remove components.
 
 Components can be categorized as:
 
@@ -93,18 +105,20 @@ Components can be categorized as:
 - transforms (parsers, depay, muxers, ...)
 - sinks (HTML5 element, file, ...)
 
-To build a pipeline, you can connect the required components.
-A number common pipelines are exported directly for convenience.
+To build a pipeline, you can connect the required components.  A number of common
+pipelines are exported directly for convenience.
 
-Check the `examples` section to see how these can be used in your own code.
-To run the examples yourself, you'll need to clone this repository loccally
-and follow the developer instructions.
+Check the `examples` section to see how these can be used in your own code.  To
+run the examples yourself, you'll need to clone this repository loccally and
+follow the developer instructions.
 
 ## Debugging
 
 In the browser, you can set `localStorage.debug = 'msl:*'` to log everything
-related to just this library (make sure to reload the page after setting the value).
+related to just this library (make sure to reload the page after setting the
+value).
 
 ## Contributing
 
-Please read our [contributing guidelines](CONTRIBUTING.md) before making pull requests.
+Please read our [contributing guidelines](CONTRIBUTING.md) before making pull
+requests.

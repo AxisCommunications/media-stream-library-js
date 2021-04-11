@@ -1,9 +1,8 @@
 /**
  * Tests for validating generic component properties.
  * These should be run for each derived Component.
- * @param  {Component} component The component instance to test.
- * @param  {String} [name=''] A name for the component.
- * @return {undefined}
+ * @param  component - The component instance to test.
+ * @param  name - A name for the component.
  */
 export const runComponentTests = (component: any, name = '') => {
   test(`${name} should have incoming/outgoing stream`, () => {

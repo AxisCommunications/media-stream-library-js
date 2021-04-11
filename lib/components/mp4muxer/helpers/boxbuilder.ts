@@ -129,9 +129,9 @@ export class BoxBuilder {
   /**
    * Creates a Moov box from the provided options.
    * @method moov
-   * @param  {Object} mvhdSettings settings for the movie header box
-   * @param  {Object[]} tracks track specific settings
-   * @return {Moov} Moov object
+   * @param  sdp - The session description protocol
+   * @param  date - The creation/modification time of the movie
+   * @return Moov object
    */
   moov(sdp: Sdp, date: any) {
     const moov = new Container('moov')
@@ -205,8 +205,8 @@ export class BoxBuilder {
   /**
    * Creates a moof box from the provided fragment metadata.
    * @method moof
-   * @param  {Object} options options containing, sequencenumber, base time, trun settings, samples
-   * @return {Moof} Moof object
+   * @param  metadata - Track ID, timestamp, bytelength
+   * @return moof Container
    */
   moof(metadata: MoofMetadata) {
     const { trackId, timestamp, byteLength } = metadata
@@ -254,8 +254,8 @@ export class BoxBuilder {
 
   /**
    * Creates an mdat box containing the elementary stream data.
-   * @param  {[type]} data [description]
-   * @return [type]        [description]
+   * @param  data - Elementary stream data
+   * @return mdat Box
    */
   mdat(data: Buffer) {
     const box = new Box('mdat')

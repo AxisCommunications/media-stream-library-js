@@ -1,19 +1,18 @@
 import { Source } from '../component'
 import { Readable, Writable } from 'stream'
 import { connect, Socket } from 'net'
-import { parse } from 'url'
 import { MessageType } from '../message'
 
 export class TcpSource extends Source {
   /**
    * Create a TCP component.
    * A TCP socket will be created from parsing the URL of the first outgoing message.
+   * @param host  Force RTSP host (overrides OPTIONS URL)
    */
-  constructor() {
+  constructor(host?: string) {
     let socket: Socket
     /**
      * Set up an incoming stream and attach it to the socket.
-     * @type {Readable}
      */
     const incoming = new Readable({
       objectMode: true,
@@ -24,7 +23,6 @@ export class TcpSource extends Source {
 
     /**
      * Set up outgoing stream and attach it to the socket.
-     * @type {Writable}
      */
     const outgoing = new Writable({
       objectMode: true,
@@ -39,10 +37,15 @@ export class TcpSource extends Source {
           Date: Wed, 03 Jun 2015 14:26:16 GMT
           `
           */
-          const firstSpace = b.indexOf(' ')
-          const secondSpace = b.indexOf(' ', firstSpace + 1)
-          const url = b.slice(firstSpace, secondSpace).toString('ascii')
-          const { hostname, port } = parse(url)
+          let url: string
+          if (host === undefined) {
+            const firstSpace = b.indexOf(' ')
+            const secondSpace = b.indexOf(' ', firstSpace + 1)
+            url = b.slice(firstSpace, secondSpace).toString('ascii')
+          } else {
+            url = `rtsp://${host}`
+          }
+          const { hostname, port } = new URL(url)
           socket = connect(
             Number(port) || 554,
             hostname === null ? undefined : hostname,

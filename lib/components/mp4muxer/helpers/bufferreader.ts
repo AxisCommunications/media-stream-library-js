@@ -3,11 +3,11 @@
  * DataView object, but uses bitshifts instead for performance.
  * @class BufferReader
  * @constructor
- * @param {ArrayBuffer} buffer An ArrayBuffer to be read from.
+ * @param buffer - An ArrayBuffer to be read from.
  */
 export class BufferReader {
-  private _buffer: Buffer
-  private _dataView: DataView
+  private readonly _buffer: Buffer
+  private readonly _dataView: DataView
   private _offset: number
   private _bitpos: number
   private _byte: number
@@ -23,8 +23,8 @@ export class BufferReader {
   /**
    * Reads 8-bit of data from the buffer.
    * @method readUint8
-   * @param  {Number} offset Index in the buffer.
-   * @return {Number} An unsigned 8-bit integer.
+   * @param  offset - Index in the buffer.
+   * @return An unsigned 8-bit integer.
    */
   readUint8(offset: number) {
     return this._dataView.getUint8(offset)
@@ -33,8 +33,8 @@ export class BufferReader {
   /**
    * Reads 16-bit of data from the buffer.
    * @method readUint16
-   * @param  {Number} offset Index in the buffer.
-   * @return {Number} An unsigned 16-bit integer.
+   * @param  offset - Index in the buffer.
+   * @return An unsigned 16-bit integer.
    */
   readUint16(offset: number) {
     return this._dataView.getUint16(offset)
@@ -43,8 +43,8 @@ export class BufferReader {
   /**
    * Reads 32-bit of data from the buffer.
    * @method readUint32
-   * @param  {Number} offset Index in the buffer.
-   * @return {Number} An unsigned 32-bit integer.
+   * @param  offset - Index in the buffer.
+   * @return An unsigned 32-bit integer.
    */
   readUint32(offset: number) {
     return this._dataView.getUint32(offset)

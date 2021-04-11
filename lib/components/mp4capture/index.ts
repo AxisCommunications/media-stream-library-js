@@ -15,7 +15,7 @@ export class Mp4Capture extends Tube {
   private _capture: boolean
   private _captureCallback: (buffer: Buffer) => void
   private _bufferOffset: number
-  private _bufferSize: number
+  private readonly _bufferSize: number
   private _buffer: Buffer
   /**
    * Create a new mp4muxer component.
@@ -71,8 +71,7 @@ export class Mp4Capture extends Tube {
    * termination, the callback you passed will be called with the captured
    * data as argument.
    * @public
-   * @param  {Function} callback Will be called when data is captured.
-   * @return {undefined}
+   * @param  callback Will be called when data is captured.
    */
   start(callback: (buffer: Buffer) => void) {
     if (!this._active) {

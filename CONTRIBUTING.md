@@ -2,7 +2,7 @@
 
 Please use the github issue tracker for any bugs or feature requests,
 email sent to the maintainer(s) will probably be ignored.
-If you would like to backport a feature from master to a release
+If you would like to backport a feature from `main` to a release
 branch, also put a ticket for enhancement.
 
 If you would like to contribute bug fixes or new components,
@@ -31,10 +31,13 @@ unit tests with sufficient coverage.
 
 ### Code formatting
 
-We use [prettier](https://prettier.io/) to automatically format code, and this is verified
-during testing (part of linting).
-To make sure tests don't fail on format problems, it's recommended to use a prettier plugin
-for you editor, or to run `yarn prettier:fix` before committing any changes.
+We use [prettier](https://prettier.io/) to automatically format code, and this
+is verified during testing (part of linting).
+To make sure tests don't fail on format problems, it's recommended to use a
+prettier plugin for you editor, or to run `yarn prettier:fix` before committing
+any changes.
+Prettier will pick up relevant indentation and line ending settings from the
+.editorconfig file, so if your editor respects that too, you should be fine.
 
 ## Getting started
 
@@ -73,7 +76,7 @@ together with your changes.
 
 ### Verification
 
-Automated tests are run on the master branch and pull requests with GitHub Actions,
+Automated tests are run on the `main` branch and pull requests with GitHub Actions,
 for which the configuration can be found in the `.github/workflows/verify.yml` file.
 These tests always need to pass before a PR can be merged.
 
@@ -83,7 +86,7 @@ When tags are pushed, an automated deploy will release to both Github and NPM, w
 can be found in `.github/workflows/publish.yml`.
 Any tags that are prereleases will be tagged `next` for NPM, otherwise `latest` is used.
 
-To release, make sure you are on the master branch and run:
+To release, make sure you are on the `main` branch and run:
 
 ```
 yarn release

@@ -91,15 +91,16 @@ export const sessionTimeout = (buffer: Buffer) => {
   if (val === null) {
     return null
   }
+  const defaultTimeout = 60
   const timeoutToken = 'timeout='
   const timeoutPosition = val.toLowerCase().indexOf(timeoutToken)
   if (timeoutPosition !== -1) {
     let timeoutVal = val.substring(timeoutPosition + timeoutToken.length)
     timeoutVal = timeoutVal.split(';')[0]
     const parsedTimeout = parseInt(timeoutVal)
-    return isNaN(parsedTimeout) ? null : parsedTimeout
+    return isNaN(parsedTimeout) ? defaultTimeout : parsedTimeout
   }
-  return null
+  return defaultTimeout
 }
 
 export const statusCode = (buffer: Buffer) => {
@@ -111,6 +112,13 @@ export const contentBase = (buffer: Buffer) => {
    * Content-Base       =  "Content-Base" HCOLON RTSP-URI
    */
   return extractHeaderValue(buffer, 'Content-Base')
+}
+
+export const contentLocation = (buffer: Buffer) => {
+  /**
+   * Content-Location   =  "Content-Location" HCOLON RTSP-REQ-Ref
+   */
+  return extractHeaderValue(buffer, 'Content-Location')
 }
 
 export const connectionEnded = (buffer: Buffer) => {
@@ -156,8 +164,8 @@ export const range = (buffer: Buffer) => {
 /**
  * Determine the offset of the RTSP body, where the header ends.
  * If there is no header ending, -1 is returned
- * @param {Buffer} chunk A piece of data
- * @return {Number}      The body offset, or -1 if no header end found
+ * @param  chunk - A piece of data
+ * @return The body offset, or -1 if no header end found
  */
 export const bodyOffset = (chunk: Buffer) => {
   /**

@@ -3,6 +3,7 @@ import { WSConfig } from '../components/ws-source/openwebsocket'
 import { WSSource } from '../components/ws-source'
 import { AuthConfig, Auth } from '../components/auth'
 import { RtspPipeline } from './rtsp-pipeline'
+import { Sdp } from '../utils/protocols'
 
 export interface TransformConfig {
   ws?: WSConfig
@@ -11,10 +12,10 @@ export interface TransformConfig {
 }
 
 /**
- * Pipeline that can receive the SDP object for an RTS stream.
+ * WsSdpPipeline
  *
- * @class WsSdpPipeline
- * @extends {RtspPipeline}
+ * Pipeline requesting an SDP object from an RTSP server and then
+ * immediately tears down the RTSP session.
  */
 export class WsSdpPipeline extends RtspPipeline {
   public onServerClose?: () => void
@@ -22,11 +23,6 @@ export class WsSdpPipeline extends RtspPipeline {
 
   private _src?: WSSource
 
-  /**
-   * Creates an instance of Html5VideoPipeline.
-   * @param {any} [config={}] Component options
-   * @memberof Html5VideoPipeline
-   */
   constructor(config: TransformConfig) {
     const { ws: wsConfig, rtsp: rtspConfig, auth: authConfig } = config
 
@@ -52,8 +48,8 @@ export class WsSdpPipeline extends RtspPipeline {
   }
 
   get sdp() {
-    return this.ready.then(() => {
-      const sdpPromise = new Promise((resolve) => {
+    return this.ready.then(async () => {
+      const sdpPromise = new Promise<Sdp>((resolve) => {
         this.rtsp.onSdp = resolve
       })
       this.rtsp.send({ method: RTSP_METHOD.DESCRIBE })

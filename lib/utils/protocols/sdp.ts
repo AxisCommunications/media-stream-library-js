@@ -160,6 +160,7 @@ export interface VideoMedia extends MediaDescription {
   readonly framerate?: number
   // Transformation matrix
   readonly transform?: number[][]
+  readonly 'x-sensor-transform'?: number[][]
   // JPEG
   readonly framesize?: [number, number]
 }
@@ -226,8 +227,7 @@ const extractLineVals = (buffer: Buffer, lineStart: string, start = 0) => {
 
 /**
  * Identify the start of a session-level or media-level section.
- * @param  {String} line The line to parse
- * @return {Object}      Object with a type + name
+ * @param  line - The line to parse
  */
 const newMediaLevel = (line: string) => {
   return line.match(/^m=/)
@@ -283,6 +283,9 @@ const attributeParsers: any = {
     }
   },
   transform: (value: string) => {
+    return value.split(';').map((row) => row.split(',').map(Number))
+  },
+  'x-sensor-transform': (value: string) => {
     return value.split(';').map((row) => row.split(',').map(Number))
   },
   framesize: (value: string) => {
@@ -395,9 +398,10 @@ export const extractURIs = (buffer: Buffer) => {
 }
 
 /**
- * Create an array of sprop-parameter-sets elements
- * @param  {Buffer} buffer The buffer containing the sdp data
- * @return {Array}         The differen parameter strings
+ * Parse an SDP text into a data structure with session and media objects.
+ *
+ * @param  buffer - The buffer containing the SDP plain text
+ * @return Structured SDP data
  */
 export const parse = (buffer: Buffer): Sdp => {
   const sdp = buffer

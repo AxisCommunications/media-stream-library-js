@@ -13,19 +13,18 @@ export interface Html5CanvasConfig {
 }
 
 /**
- * Pipeline that can receive Motion JPEG over RTP over WebSocket
- * and display it on a canvas.
+ * Html5CanvasPipeline
+ *
+ * A pipeline that connects to an RTSP server over a WebSocket connection and
+ * can process JPEG RTP data to produce an motion JPEG data stream that is sent
+ * to a HTML canvas element.
  *
  * Handlers that can be set on the pipeline:
- * - onCanplay: called when the first frame is ready, at this point
- *   you can call the play method to start playback.
- *   Note: the default is to autoplay, so call .pause() inside
- *   your onCanplay function if you want to prevent this.
- * - onSync: called when UNIX time (milliseconds) is available
- *   for the start of the presentation.
- *
- * @class Html5CanvasPipeline
- * @extends {RtspMjpegPipeline}
+ * - all handlers inherited from the RtspMjpegPipeline
+ * - `onSync`: called when the NTP time of the first frame is known, with the
+ *   timestamp as argument (the timestamp is UNIX milliseconds)
+ * - `onServerClose`: called when the WebSocket server closes the connection
+ *   (only then, not when the connection is closed in a different way)
  */
 export class Html5CanvasPipeline extends RtspMjpegPipeline {
   public onCanplay?: () => void
@@ -34,13 +33,8 @@ export class Html5CanvasPipeline extends RtspMjpegPipeline {
   public ready: Promise<void>
 
   private _src?: WSSource
-  private _sink: CanvasSink
+  private readonly _sink: CanvasSink
 
-  /**
-   * Creates an instance of Html5CanvasPipeline.
-   * @param {any} [config={}] Component options
-   * @memberof Html5CanvasPipeline
-   */
   constructor(config: Html5CanvasConfig) {
     const {
       ws: wsConfig,

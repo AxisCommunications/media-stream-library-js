@@ -70,19 +70,15 @@ const generateUpdateInfo = (clockrate: number) => {
  *  - onSync: will be called when the presentation time offset is
  *            known, with the latter as argument (in UNIX milliseconds)
  *
- * @class CanvasComponent
- * @extends {Component}
  */
 export class CanvasSink extends Sink {
   public onCanplay?: () => void
   public onSync?: (ntpPresentationTime: number) => void
-  private _clock: Clock
-  private _scheduler: Scheduler<BlobMessage>
-  private _info: RateInfo
+  private readonly _clock: Clock
+  private readonly _scheduler: Scheduler<BlobMessage>
+  private readonly _info: RateInfo
   /**
-   * Creates an instance of CanvasComponent.
-   * @param { HTMLCanvasElement } el - An HTML < canvas > element
-   * @memberof CanvasComponent
+   * @param  el - The <canvas> element to draw incoming JPEG messages on.
    */
   constructor(el: HTMLCanvasElement) {
     if (el === undefined) {
@@ -271,9 +267,6 @@ export class CanvasSink extends Sink {
 
   /**
    * Retrieve the current presentation time (seconds)
-   *
-   * @readonly
-   * @memberof CanvasComponent
    */
   get currentTime() {
     return this._clock.currentTime
@@ -281,8 +274,6 @@ export class CanvasSink extends Sink {
 
   /**
    * Pause the presentation.
-   *
-   * @memberof CanvasComponent
    */
   pause() {
     this._scheduler.suspend()
@@ -291,8 +282,6 @@ export class CanvasSink extends Sink {
 
   /**
    * Start the presentation.
-   *
-   * @memberof CanvasComponent
    */
   play() {
     this._clock.play()

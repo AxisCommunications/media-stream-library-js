@@ -14,8 +14,7 @@ export class Replayer extends Source {
    *   delay: Number,
    *   msg: Object (original message)
    * }
-   * @param {String} data The JSON data to replay.
-   * @return {undefined}
+   * @param packetStream - The JSON data to replay.
    */
   constructor(packetStream: Readable) {
     let finished = false
@@ -29,8 +28,6 @@ export class Replayer extends Source {
 
     /**
      * Emit incoming items in the queue until an outgoing item is found.
-     * @param  {Function} callback Call to signal completion.
-     * @return {Promise}           undefined
      */
     const start = async () => {
       let packet = packetStream.read()
@@ -59,15 +56,14 @@ export class Replayer extends Source {
       finished = true
     })
 
-    outgoing.on('pipe', () => start())
+    outgoing.on('pipe', async () => await start())
 
     super(incoming, outgoing)
   }
 
   /**
    * Create a new replay component that will play from a file.
-   * @param {String} filename The name of the file (relative to cwd)
-   * @return {ReplayComponent}
+   * @param filename - The name of the file (relative to cwd)
    */
   static fromFile(filename = 'data.json') {
     const cwd = process.cwd()

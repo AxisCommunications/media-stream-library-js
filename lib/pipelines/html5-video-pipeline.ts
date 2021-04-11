@@ -13,12 +13,18 @@ export interface Html5VideoConfig {
   auth?: AuthConfig
 }
 
-/**
- * Pipeline that can receive H264/AAC video over RTP
- * over WebSocket and pass it to a video element.
+/*
+ * Html5VideoPipeline
  *
- * @class Html5VideoPipeline
- * @extends {RtspMp4Pipeline}
+ * A pipeline that connects to an RTSP server over a WebSocket connection and
+ * can process H.264/AAC RTP data to produce an MP4 data stream that is sent to
+ * a HTML video element.
+ *
+ * Handlers that can be set on the pipeline:
+ * - all handlers inherited from the RtspMp4Pipeline
+ * - `onServerClose`: called when the WebSocket server closes the connection
+ *   (only then, not when the connection is closed in a different way)
+ *
  */
 export class Html5VideoPipeline extends RtspMp4Pipeline {
   public onSourceOpen?: (mse: MediaSource, tracks: MediaTrack[]) => void
@@ -27,13 +33,8 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
   public tracks?: MediaTrack[]
 
   private _src?: WSSource
-  private _sink: MseSink
+  private readonly _sink: MseSink
 
-  /**
-   * Creates an instance of Html5VideoPipeline.
-   * @param {any} [config={}] Component options
-   * @memberof Html5VideoPipeline
-   */
   constructor(config: Html5VideoConfig) {
     const {
       ws: wsConfig,
@@ -75,8 +76,8 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
     return this._sink.currentTime
   }
 
-  play() {
-    return this._sink.play()
+  async play() {
+    return await this._sink.play()
   }
 
   pause() {

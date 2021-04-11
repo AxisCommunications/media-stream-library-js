@@ -19,6 +19,7 @@ import {
   contentBase,
   range,
   sessionTimeout,
+  contentLocation,
 } from '../../utils/protocols/rtsp'
 import { packetType, SR } from '../../utils/protocols/rtcp'
 import { getTime } from '../../utils/protocols/ntp'
@@ -116,18 +117,19 @@ export class RtspSession extends Tube {
   private _state?: STATE
   private _waiting?: boolean
   private _contentBase?: string | null
+  private _contentLocation?: string | null
   private _sessionId?: string | null
+  private _sessionControlURL: string
   private _renewSessionInterval?: number | null
 
   /**
    * Create a new RTSP session controller component.
-   * @param  {Object} [config={}] Details about the session.
-   * @param  {String} [config.hostname] The RTSP server hostname
-   * @param  {String[]} [config.parameters] The RTSP URI parameters
-   * @param  {String} [config.uri] The full RTSP URI (overrides any hostname/parameters)
-   * @param  {Object} [config.defaultHeaders] Default headers to use (for all methods).
-   * @param  {Object} [config.headers] Headers to use (mapped to each method).
-   * @return {undefined}
+   * @param  [config] Details about the session.
+   * @param  [config.hostname] The RTSP server hostname
+   * @param  [config.parameters] The RTSP URI parameters
+   * @param  [config.uri] The full RTSP URI (overrides any hostname/parameters)
+   * @param  [config.defaultHeaders] Default headers to use (for all methods).
+   * @param  [config.headers] Headers to use (mapped to each method).
    */
   constructor(config: RtspConfig = {}) {
     const { uri, headers, defaultHeaders } = merge(
@@ -137,7 +139,7 @@ export class RtspSession extends Tube {
 
     const incoming = new Transform({
       objectMode: true,
-      transform: (msg: Message, encoding, callback) => {
+      transform: (msg: Message, _, callback) => {
         if (msg.type === MessageType.RTSP) {
           this._onRtsp(msg)
           callback() // Consumes the RTSP packages
@@ -171,14 +173,15 @@ export class RtspSession extends Tube {
 
     this._reset()
     this.update(uri, headers, defaultHeaders)
+
+    this._sessionControlURL = this._controlURL()
   }
 
   /**
    * Update the cached RTSP uri and headers.
-   * @param  {String} uri                 The RTSP URI.
-   * @param  {Object} headers             Maps commands to headers.
-   * @param  {Object} [defaultHeaders={}] Default headers.
-   * @return {[type]}                     [description]
+   * @param  uri - The RTSP URI.
+   * @param  headers - Maps commands to headers.
+   * @param  defaultHeaders - Default headers.
    */
   update(
     uri: string | undefined,
@@ -228,10 +231,27 @@ export class RtspSession extends Tube {
     this.clockrates = undefined
   }
 
+  _controlURL(attribute?: string) {
+    if (attribute !== undefined && isAbsolute(attribute)) {
+      return attribute
+    }
+
+    // Not defined or not absolute, we need a base URI
+    const baseURL = this._contentBase ?? this._contentLocation ?? this.uri
+    if (baseURL === null || baseURL === undefined) {
+      throw new Error(
+        'relative or missing control attribute but no base URL available',
+      )
+    }
+    if (attribute === undefined || attribute === '*') {
+      return baseURL
+    }
+    return new URL(attribute, baseURL).href
+  }
+
   /**
    * Handles incoming RTSP messages and send the next command in the queue.
-   * @param  {Object} msg An incoming RTSP message.
-   * @return {undefined}
+   * @param  msg - An incoming RTSP message.
    */
   _onRtsp(msg: RtspMessage) {
     this._waiting = false
@@ -267,6 +287,9 @@ export class RtspSession extends Tube {
 
     if (!this._contentBase) {
       this._contentBase = contentBase(msg.data)
+    }
+    if (!this._contentLocation) {
+      this._contentLocation = contentLocation(msg.data)
     }
     if (status >= 400) {
       // TODO: Retry in certain cases?
@@ -323,15 +346,16 @@ export class RtspSession extends Tube {
 
   /**
    * Handles incoming SDP messages, reply with SETUP and optionally PLAY.
-   * @param  {Object} msg An incoming SDP message.
-   * @return {undefined}
+   * @param  msg - An incoming SDP message.
    */
   _onSdp(msg: SdpMessage) {
     this.n0 = {}
     this.t0 = {}
     this.clockrates = {}
+
+    this._sessionControlURL = this._controlURL(msg.sdp.session.control)
+
     msg.sdp.media.forEach((media, index) => {
-      let uri = media.control
       // We should actually be able to handle
       // non-dynamic payload types, but ignored for now.
       if (media.rtpmap === undefined) {
@@ -342,13 +366,10 @@ export class RtspSession extends Tube {
       const rtp = index * 2
       const rtcp = rtp + 1
 
-      // TODO: investigate if we can make sure this is defined
-      if (uri === undefined) {
-        return
-      }
-      if (!isAbsolute(uri)) {
-        uri = this._contentBase + uri
-      }
+      const uri =
+        media.control === undefined
+          ? this._sessionControlURL
+          : this._controlURL(media.control)
 
       this._enqueue({
         method: RTSP_METHOD.SETUP,
@@ -370,6 +391,7 @@ export class RtspSession extends Tube {
         headers: {
           Range: `npt=${this.startTime || 0}-`,
         },
+        uri: this._sessionControlURL,
       })
     }
     this._dequeue()
@@ -379,8 +401,7 @@ export class RtspSession extends Tube {
    * Set up command queue in order to start playing, i.e. PLAY optionally
    * preceeded by OPTIONS/DESCRIBE commands. If not waiting, immediately
    * start sending.
-   * @param  {Number} startTime Time (seconds) at which to start playing
-   * @return {undefined}
+   * @param  startTime - Time (seconds) at which to start playing
    */
   play(startTime = 0) {
     if (this._state === STATE.IDLE) {
@@ -396,6 +417,7 @@ export class RtspSession extends Tube {
         headers: {
           Session: this._sessionId,
         },
+        uri: this._sessionControlURL,
       })
     }
     this._state = STATE.PLAYING
@@ -433,8 +455,7 @@ export class RtspSession extends Tube {
 
   /**
    * Pushes an RTSP request onto the outgoing stream.
-   * @param  {Object} options The details about the command to send.
-   * @return {undefined}
+   * @param  cmd - The details about the command to send.
    */
   send(cmd: Command) {
     const { method, headers, uri } = cmd
@@ -454,7 +475,7 @@ export class RtspSession extends Tube {
     const message = Object.assign(
       {
         type: MessageType.RTSP,
-        uri: uri || this.uri,
+        uri: uri || this._sessionControlURL,
         data: Buffer.alloc(0), // data is a mandatory field. Not used by session -> parser messages.
       },
       { method, headers },
@@ -478,9 +499,8 @@ export class RtspSession extends Tube {
   }
 
   /**
-   * Push one or more commands onto the call stack.
-   * @param  {...Object} commands One or more commands.
-   * @return {undefined}
+   * Push a command onto the call stack.
+   * @param  cmd - The command to queue
    */
   _enqueue(cmd: Command) {
     if (this._callStack === undefined) {
@@ -491,7 +511,6 @@ export class RtspSession extends Tube {
 
   /**
    * If possible, send the next command on the call stack.
-   * @return {undefined}
    */
   _dequeue() {
     if (this._callStack === undefined) {

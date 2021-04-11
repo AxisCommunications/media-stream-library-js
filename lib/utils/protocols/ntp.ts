@@ -9,8 +9,8 @@ export type NtpMilliSeconds = number
 
 /**
  * Convert NTP time to milliseconds since January 1, 1970, 00:00:00 UTC (Unix Epoch)
- * @param {Number} ntpMost Seconds since 01.01.1900
- * @param {Number} ntpLeast Fractions since 01.01.1900
+ * @param ntpMost - Seconds since 01.01.1900
+ * @param ntpLeast - Fractions since 01.01.1900
  */
 export function getTime(ntpMost: number, ntpLeast: number): NtpMilliSeconds {
   const ntpMilliSeconds = (ntpMost + ntpLeast / 0x100000000) * 1000

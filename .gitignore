@@ -6,6 +6,7 @@ coverage/
 
 # Bundles
 dist/
+examples/browser/media-stream-library.min.js
 
 # Cypress
 cypress/videos/
@@ -14,6 +15,7 @@ cypress/screenshots/
 # IDE
 .idea/
 .vscode/
+.vim/
 
 # Yarn
 .yarn/*
@@ -23,3 +25,6 @@ cypress/screenshots/
 !.yarn/sdks
 !.yarn/versions
 node_modules/
+
+# Linting
+.eslintcache
