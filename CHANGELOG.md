@@ -2,7 +2,44 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v9.3.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.2.1...v9.3.0) (2021-03-20 20:27:33 +0100)
+## [v10.0.0-alpha.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.3.0...v10.0.0-alpha.0) (2021-04-11 10:07:48 +0200)
+
+### Maintenance
+
+  - **ci**: browser-specific cypress test ([69adfe6](https://github.com/AxisCommunications/media-stream-library-js/commit/69adfe6aaab8adb31b17f5429bd4d676d0af568b))
+  - **ci**: include gst-rtsp-launch ([c4c5141](https://github.com/AxisCommunications/media-stream-library-js/commit/c4c5141f2aa58397af20a4945b6a7b722deb62b9))
+  - **ci**: try ghcr instead of docker.pkg ([6a4cfcb](https://github.com/AxisCommunications/media-stream-library-js/commit/6a4cfcb17651d4b671df5a983b33b3dca4ee482c))
+  - **deps**: upgrade dependencies ([6422bd6](https://github.com/AxisCommunications/media-stream-library-js/commit/6422bd6575162e9df6c7a128679b3f76f7a842b1))
+  - reorganize rtsp-ws-server ([2c8428e](https://github.com/AxisCommunications/media-stream-library-js/commit/2c8428e5cec0ee8a87d6b619f0496bfa95094665))
+  - set tab with to 8 in editor config ([d901286](https://github.com/AxisCommunications/media-stream-library-js/commit/d90128649024ea06c53dc5db1e40e327417c74ff))
+  - update gitignore ([b088720](https://github.com/AxisCommunications/media-stream-library-js/commit/b088720cdc004f00e3ffe40261c86156628ddfe3))
+
+### Features
+
+  - add vim support ([2fbd687](https://github.com/AxisCommunications/media-stream-library-js/commit/2fbd68755c5b3b16dd22de4b4c2f192ca24015b8))
+  - **BREAKING** default support for modern browsers ([3895497](https://github.com/AxisCommunications/media-stream-library-js/commit/38954977f579f708b57b615d0b7aad2b8cc1cab5))
+  - **BREAKING** optional RTSP host for TcpWsProxyPipeline ([3dd99b3](https://github.com/AxisCommunications/media-stream-library-js/commit/3dd99b37514be2dcf631878a263ac4ccfb46193f))
+  - pass explicit host to TCP component ([7875d59](https://github.com/AxisCommunications/media-stream-library-js/commit/7875d59ad8327caaeaa9f1e61863124091d27d8a))
+  - use editorconfig ([4a034bb](https://github.com/AxisCommunications/media-stream-library-js/commit/4a034bb82bbb8ce672261d74b38af8c7ca3acc7b))
+  - use standard-ts for linting ([b98c1d8](https://github.com/AxisCommunications/media-stream-library-js/commit/b98c1d880b89b10787b8de0fd3e6c5fc4839c56c))
+
+### Bug fixes
+
+  - add explicit checkout action ([0f4c149](https://github.com/AxisCommunications/media-stream-library-js/commit/0f4c1499be7fcd2985aed2fd8889695f08e0ac29))
+  - auto-fix linting issues ([4fb3b11](https://github.com/AxisCommunications/media-stream-library-js/commit/4fb3b11933d0946990fedd09389f1ca9b5094beb))
+  - enable array-callback-return ([be477fd](https://github.com/AxisCommunications/media-stream-library-js/commit/be477fda19ce38911d1a04d63fcaaf6be6363b17))
+  - enable node/no-deprecated-api ([9b16a65](https://github.com/AxisCommunications/media-stream-library-js/commit/9b16a655908586cddc6ee5cf21a8e16d1ce32ddc))
+  - enable no-multi-str ([416d067](https://github.com/AxisCommunications/media-stream-library-js/commit/416d067dbc0c14b3aa279a6e7cd8fb23aa31b8a7))
+  - enable no-useless-escape ([ab6ebbe](https://github.com/AxisCommunications/media-stream-library-js/commit/ab6ebbed1f2eb685f23d804b5a95a57c60db2e33))
+  - launch firefox with user 1001 ([2905774](https://github.com/AxisCommunications/media-stream-library-js/commit/2905774b7004e93259a852819a9c11cdf1b32d04))
+  - link to correct workflow badge ([2c74f57](https://github.com/AxisCommunications/media-stream-library-js/commit/2c74f5783582dda59f803df594bf3fffc6e895d9))
+  - lint warnings ([7f5524a](https://github.com/AxisCommunications/media-stream-library-js/commit/7f5524a32b6d41e7867bdf3d35be0a0c47d5f41d))
+  - stop release script on any error ([12ab1dc](https://github.com/AxisCommunications/media-stream-library-js/commit/12ab1dc77c6d78cd9c4d15bb15f634c0ac645492))
+  - use default session timeout of 60s ([c518066](https://github.com/AxisCommunications/media-stream-library-js/commit/c518066dd6859645488c13c577472e4aadb15d46))
+  - use explicit video format for MJPEG ([1910ef6](https://github.com/AxisCommunications/media-stream-library-js/commit/1910ef6b7503ce3f4c23505f89f69cf2a4961013))
+  - use lower-case organization name ([4eae828](https://github.com/AxisCommunications/media-stream-library-js/commit/4eae828a70874263212dffb562714c0080cd51de))
+
+## [v9.3.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.2.1...v9.3.0) (2021-03-20 20:33:10 +0100)
 
 ### Maintenance
 
