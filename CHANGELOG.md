@@ -2,7 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v10.0.0-alpha.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.3.0...v10.0.0-alpha.0) (2021-04-11 10:07:48 +0200)
+## [v10.0.0-alpha.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.0-alpha.0...v10.0.0-alpha.1) (2021-04-14 13:28:27 +0200)
+
+### Maintenance
+
+  - **deps**: update lock files ([772e768](https://github.com/AxisCommunications/media-stream-library-js/commit/772e768f1fcb077f7cb14bb6571895e411c8ec81))
+  - **deps**: upgrade all dependencies ([7146de3](https://github.com/AxisCommunications/media-stream-library-js/commit/7146de3461566677010cc71305dffa6cf7b7dc2a))
+  - upload legacy bundle on release ([5939531](https://github.com/AxisCommunications/media-stream-library-js/commit/5939531f8240f6187aeb77fee8cef939148d9f5d))
+
+### Features
+
+  - replaced depedency md5.js with ts-md5 ([db23b1d](https://github.com/AxisCommunications/media-stream-library-js/commit/db23b1dfb6a24c8a9ca0d9bac95edab13e73d51e))
+
+### Bug fixes
+
+  - improve control URL construction ([83135fd](https://github.com/AxisCommunications/media-stream-library-js/commit/83135fd041cdd7471380435752edbce4614139b5))
+
+## [v10.0.0-alpha.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.3.0...v10.0.0-alpha.0) (2021-04-11 10:08:26 +0200)
 
 ### Maintenance
 
