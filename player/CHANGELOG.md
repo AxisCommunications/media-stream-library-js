@@ -2,7 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v4.3.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v4.2.0...v4.3.0) (2021-03-16 09:17:48 +0100)
+## [v4.4.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v4.3.0...v4.4.0) (2021-04-14 11:54:28 +0200)
+
+### Maintenance
+
+  - **deps**: update babel monorepo ([28bb63e](https://github.com/AxisCommunications/media-stream-player-js/commit/28bb63e0a719141d362412be9593c983b0432585))
+  - **deps**: upgrade all ([10409ee](https://github.com/AxisCommunications/media-stream-player-js/commit/10409ee129f063ac34260c0315e387cfb64d4b74))
+  - **deps**: upgrade dependencies ([9f5c1dc](https://github.com/AxisCommunications/media-stream-player-js/commit/9f5c1dc2cd9e892ac9a2c6bd8bcba7da3aec3d1a))
+
+### Features
+
+  - progress bar ([491096c](https://github.com/AxisCommunications/media-stream-player-js/commit/491096c208ba8f05148888cbd224fa47c1368e35))
+
+## [v4.3.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v4.2.0...v4.3.0) (2021-03-16 09:19:46 +0100)
 
 ### Bug fixes
 
