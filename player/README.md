@@ -8,16 +8,17 @@
 [npm-image]: https://img.shields.io/npm/v/media-stream-player.svg
 [npm-url]: https://www.npmjs.com/package/media-stream-player
 
-Media-stream-player is a video player built around [media-stream-library-js](https://github.com/AxisCommunications/media-stream-library-js) based
-on React. The main idea is to define the video state entirely within specialized
-React components for each format (currently RTP H.264 and JPEG, and still images
-). The main video player will only handle the intended video state (attached to
-handlers) and format.
+Media-stream-player is a video player built around
+[media-stream-library-js](https://github.com/AxisCommunications/media-stream-library-js)
+based on React. The main idea is to define the video state entirely within
+specialized React components for each format (currently RTP H.264 and JPEG, and
+still images). The main video player will only handle the intended video state
+(attached to handlers) and format.
 
-You can either import the `Player` or `BasicPlayer` and use them directly (see the example
-applications). If you want to build your own customized player, you can look at
-the latter component and build your own player, using the `Container`, `Layer`,
-and `PlaybackArea` components.
+You can either import the `Player` or `BasicPlayer` and use them directly (see
+the example applications). If you want to build your own customized player, you
+can look at the latter component and build your own player, using the
+`Container`, `Layer`, and `PlaybackArea` components.
 
 ## Structure
 
@@ -26,7 +27,8 @@ and `PlaybackArea` components.
 ### As a stand-alone element
 
 If you don't use the player as part of you React app, the easiest way to use it
-is to download the `media-stream-player.min.js` file from the [releases](https://github.com/AxisCommunications/media-stream-player-js/releases/latest)
+is to download the `media-stream-player.min.js` file from the
+[releases](https://github.com/AxisCommunications/media-stream-player-js/releases/latest)
 page and include it in your html file as a script:
 
 ```html
@@ -34,7 +36,10 @@ page and include it in your html file as a script:
 ```
 
 The bundle is built to support the browserslist "latest 2 versions, not dead",
-which should work on most modern browsers (which excludes IE6 or IE10).
+which should work on most modern browsers. If you need support for older browsers, you can use
+the (larger) legacy bundle `media-stream-player.legacy.min.js` instead, but note
+that this isn't tested, so you might run into some issues.
+
 Then, you can use the `<media-stream-player/>` tag, similar to how you would use
 `<video/>` to include a video element, and provide the camera IP as hostname:
 
@@ -74,8 +79,9 @@ Example:
 <media-stream-player hostname="192.168.0.90" format="RTP_H264" autoplay />
 ```
 
-You may need to start a localhost server to get H.264 or Motion JPEG video to run properly.
-It doesn't work with the `file:///` protocol. The easiest way to do that is Pythons simpleHttpServer.
+You may need to start a localhost server to get H.264 or Motion JPEG video to
+run properly.  It doesn't work with the `file:///` protocol. The easiest way to
+do that is Pythons simpleHttpServer.
 
 First run
 
@@ -83,8 +89,8 @@ First run
 yarn build
 ```
 
-to get a local copy of the minified file. Then go to the web-component example folder and type the following
-in you terminal:
+to get a local copy of the minified file. Then go to the web-component example
+folder and type the following in you terminal:
 
 ```bash
 python -m SimpleHTTPServer 8080

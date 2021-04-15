@@ -17,7 +17,8 @@
     "dev:example": "webpack serve --config webpack.example.js --env camera=$MSP_CAMERA",
     "dev": "yarn build:esm && concurrently \"yarn dev:esm\" \"yarn dev:example\"",
     "build:esm": "yarn tsc",
-    "build:bundle": "yarn webpack --config webpack.config.js && sbin/copyMinified.sh",
+    "build:bundle": "webpack --config webpack.config.js && sbin/copyMinified.sh",
+    "build:bundle-legacy": "webpack --config webpack.legacy.config.js",
     "build": "yarn build:esm && yarn build:bundle",
     "release": "sbin/release.sh"
   },
@@ -25,14 +26,7 @@
     "type": "git",
     "url": "https://github.com/AxisCommunications/media-stream-player-js"
   },
-  "keywords": [
-    "video",
-    "live",
-    "streaming",
-    "rtsp",
-    "ip",
-    "camera"
-  ],
+  "keywords": ["video", "live", "streaming", "rtsp", "ip", "camera"],
   "dependencies": {
     "@juggle/resize-observer": "3.3.0",
     "debug": "4.3.2",
@@ -94,13 +88,6 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
+    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
   }
 }

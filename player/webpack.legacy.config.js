@@ -1,6 +1,6 @@
 /**
  * Build the entire library as a single bundle to use with e.g.:
- * <script src="media-stream-player.min.js" />
+ * <script src="media-stream-player.legacy.min.js" />
  */
 module.exports = {
   target: 'web',
@@ -10,10 +10,14 @@ module.exports = {
     library: 'mediaStreamPlayer',
     libraryTarget: 'umd',
     path: __dirname,
-    filename: 'dist/media-stream-player.min.js',
+    filename: 'dist/media-stream-player.legacy.min.js',
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    alias: {
+      'media-stream-library$':
+        'media-stream-library/dist/media-stream-library.legacy.min.js',
+    },
   },
   module: {
     rules: [
@@ -32,7 +36,7 @@ module.exports = {
                 {
                   useBuiltIns: 'usage',
                   corejs: { version: '3.8', proposals: true },
-                  browserslistEnv: 'modern',
+                  browserslistEnv: 'legacy',
                 },
               ],
             ],
