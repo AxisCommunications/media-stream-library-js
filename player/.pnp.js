@@ -68,7 +68,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["html-webpack-plugin", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:5.3.1"],
             ["jest", "npm:26.6.3"],
             ["luxon", "npm:1.26.0"],
-            ["media-stream-library", "npm:9.3.0"],
+            ["media-stream-library", "npm:10.0.0-alpha.2"],
             ["prettier", "npm:2.2.1"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:17.0.2"],
@@ -6679,6 +6679,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "SOFT",
         }],
+        ["npm:4.3.1", {
+          "packageLocation": "./.yarn/cache/debug-npm-4.3.1-22e08d605e-0d41ba5177.zip/node_modules/debug/",
+          "packageDependencies": [
+            ["debug", "npm:4.3.1"]
+          ],
+          "linkType": "SOFT",
+        }],
         ["npm:4.3.2", {
           "packageLocation": "./.yarn/cache/debug-npm-4.3.2-f0148b6afe-5543570879.zip/node_modules/debug/",
           "packageDependencies": [
@@ -6714,6 +6721,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/$$virtual/debug-virtual-ca4e99fe9f/0/cache/debug-npm-4.3.2-f0148b6afe-5543570879.zip/node_modules/debug/",
           "packageDependencies": [
             ["debug", "virtual:3f3749539279c074b5c46025c7106f142ac3421801436da1dfcdc2a7c0533d936c3001da9bfb16db52fc8f5b34b173856d9c0fc8167923f9013879814d0a3784#npm:4.3.2"],
+            ["ms", "npm:2.1.2"],
+            ["supports-color", null]
+          ],
+          "packagePeers": [
+            "supports-color"
+          ],
+          "linkType": "HARD",
+        }],
+        ["virtual:670ae5e05c5098ef1535d22fdc46ba668e16f230c67f7d377d3a3950cb64605e0679dc28855f1742693f697c99dc2a5e2cb9e6dc0f5f43822824ca044edfef2c#npm:4.3.1", {
+          "packageLocation": "./.yarn/$$virtual/debug-virtual-c48784f3c9/0/cache/debug-npm-4.3.1-22e08d605e-0d41ba5177.zip/node_modules/debug/",
+          "packageDependencies": [
+            ["debug", "virtual:670ae5e05c5098ef1535d22fdc46ba668e16f230c67f7d377d3a3950cb64605e0679dc28855f1742693f697c99dc2a5e2cb9e6dc0f5f43822824ca044edfef2c#npm:4.3.1"],
             ["ms", "npm:2.1.2"],
             ["supports-color", null]
           ],
@@ -11272,16 +11291,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]
       ]],
       ["media-stream-library", [
-        ["npm:9.3.0", {
-          "packageLocation": "./.yarn/cache/media-stream-library-npm-9.3.0-edb572a3c5-67d37fc6c9.zip/node_modules/media-stream-library/",
+        ["npm:10.0.0-alpha.2", {
+          "packageLocation": "./.yarn/cache/media-stream-library-npm-10.0.0-alpha.2-670ae5e05c-b6de7c438c.zip/node_modules/media-stream-library/",
           "packageDependencies": [
-            ["media-stream-library", "npm:9.3.0"],
+            ["media-stream-library", "npm:10.0.0-alpha.2"],
             ["buffer", "npm:6.0.3"],
-            ["debug", "virtual:3f3749539279c074b5c46025c7106f142ac3421801436da1dfcdc2a7c0533d936c3001da9bfb16db52fc8f5b34b173856d9c0fc8167923f9013879814d0a3784#npm:4.3.2"],
+            ["debug", "virtual:670ae5e05c5098ef1535d22fdc46ba668e16f230c67f7d377d3a3950cb64605e0679dc28855f1742693f697c99dc2a5e2cb9e6dc0f5f43822824ca044edfef2c#npm:4.3.1"],
             ["md5.js", "npm:1.3.5"],
             ["process", "npm:0.11.10"],
             ["stream-browserify", "npm:3.0.0"],
-            ["ws", "virtual:edb572a3c5fc3223147bdd56a75acd1d0dd96209ce6dae9320924f114d29b69418a282596467175be83c7e2aa05f9e778880593912a110276fd1d97c3e21419f#npm:7.4.4"]
+            ["ts-md5", "npm:1.2.7"],
+            ["ws", "virtual:670ae5e05c5098ef1535d22fdc46ba668e16f230c67f7d377d3a3950cb64605e0679dc28855f1742693f697c99dc2a5e2cb9e6dc0f5f43822824ca044edfef2c#npm:7.4.4"]
           ],
           "linkType": "HARD",
         }]
@@ -11322,7 +11342,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["html-webpack-plugin", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:5.3.1"],
             ["jest", "npm:26.6.3"],
             ["luxon", "npm:1.26.0"],
-            ["media-stream-library", "npm:9.3.0"],
+            ["media-stream-library", "npm:10.0.0-alpha.2"],
             ["prettier", "npm:2.2.1"],
             ["react", "npm:17.0.2"],
             ["react-dom", "virtual:5ea1ecd5c7e999cf26fef7a6845227c1f8fb96713d65e0975cb7a10044a02438c423a5d45c634d3272b0181d45f043f775883ce7ac37acd403bbfde748f5f341#npm:17.0.2"],
@@ -15350,6 +15370,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
+      ["ts-md5", [
+        ["npm:1.2.7", {
+          "packageLocation": "./.yarn/cache/ts-md5-npm-1.2.7-42ac527940-9aa5f788de.zip/node_modules/ts-md5/",
+          "packageDependencies": [
+            ["ts-md5", "npm:1.2.7"]
+          ],
+          "linkType": "HARD",
+        }]
+      ]],
       ["tsconfig-paths", [
         ["npm:3.9.0", {
           "packageLocation": "./.yarn/cache/tsconfig-paths-npm-3.9.0-92dcbdee37-5383ba626b.zip/node_modules/tsconfig-paths/",
@@ -16370,10 +16399,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:edb572a3c5fc3223147bdd56a75acd1d0dd96209ce6dae9320924f114d29b69418a282596467175be83c7e2aa05f9e778880593912a110276fd1d97c3e21419f#npm:7.4.4", {
-          "packageLocation": "./.yarn/$$virtual/ws-virtual-145b06b7ba/0/cache/ws-npm-7.4.4-745c19daca-ad08761ed7.zip/node_modules/ws/",
+        ["virtual:670ae5e05c5098ef1535d22fdc46ba668e16f230c67f7d377d3a3950cb64605e0679dc28855f1742693f697c99dc2a5e2cb9e6dc0f5f43822824ca044edfef2c#npm:7.4.4", {
+          "packageLocation": "./.yarn/$$virtual/ws-virtual-20710a37a9/0/cache/ws-npm-7.4.4-745c19daca-ad08761ed7.zip/node_modules/ws/",
           "packageDependencies": [
-            ["ws", "virtual:edb572a3c5fc3223147bdd56a75acd1d0dd96209ce6dae9320924f114d29b69418a282596467175be83c7e2aa05f9e778880593912a110276fd1d97c3e21419f#npm:7.4.4"],
+            ["ws", "virtual:670ae5e05c5098ef1535d22fdc46ba668e16f230c67f7d377d3a3950cb64605e0679dc28855f1742693f697c99dc2a5e2cb9e6dc0f5f43822824ca044edfef2c#npm:7.4.4"],
             ["@types/bufferutil", null],
             ["@types/utf-8-validate", null],
             ["bufferutil", null],

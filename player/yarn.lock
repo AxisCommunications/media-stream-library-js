@@ -4912,6 +4912,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"debug@npm:4.3.1":
+  version: 4.3.1
+  resolution: "debug@npm:4.3.1"
+  dependencies:
+    ms: 2.1.2
+  peerDependenciesMeta:
+    supports-color:
+      optional: true
+  checksum: 0d41ba5177510e8b388dfd7df143ab0f9312e4abdaba312595461511dac88e9ef8101939d33b4e6d37e10341af6a5301082e4d7d6f3deb4d57bc05fc7d296fad
+  languageName: node
+  linkType: hard
+
 "debug@npm:4.3.2, debug@npm:^4.0.0, debug@npm:^4.3.1":
   version: 4.3.2
   resolution: "debug@npm:4.3.2"
@@ -9035,19 +9047,20 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"media-stream-library@npm:9.3.0":
-  version: 9.3.0
-  resolution: "media-stream-library@npm:9.3.0"
+"media-stream-library@npm:10.0.0-alpha.2":
+  version: 10.0.0-alpha.2
+  resolution: "media-stream-library@npm:10.0.0-alpha.2"
   dependencies:
     buffer: 6.0.3
-    debug: 4.3.2
+    debug: 4.3.1
     md5.js: 1.3.5
     process: 0.11.10
     stream-browserify: 3.0.0
+    ts-md5: 1.2.7
     ws: 7.4.4
   bin:
     live: examples/node/player.js
-  checksum: 67d37fc6c9a68b4d9b93406ccddb5b182e2d03497ef97edea12f0c0fc8282dd82ecf65fd2405b1f063b63f20cf4a7a0faf424b0dedb5c4a42eca157c9ed645a5
+  checksum: b6de7c438c46eac21c06790539a3f9a98ff2e6a644a9c4f6be42b6d09bdcde11903b87ef204cfe2891a24a3480e1ce6ded86f5723dde03583fba6d5e4e9daae5
   languageName: node
   linkType: hard
 
@@ -9086,7 +9099,7 @@ fsevents@~2.3.1:
     html-webpack-plugin: 5.3.1
     jest: 26.6.3
     luxon: 1.26.0
-    media-stream-library: 9.3.0
+    media-stream-library: 10.0.0-alpha.2
     prettier: 2.2.1
     react: 17.0.2
     react-dom: 17.0.2
@@ -12727,6 +12740,13 @@ resolve@^2.0.0-next.3:
   bin:
     ts-jest: cli.js
   checksum: 8e5856b7cb990ff4cbc9577e4ec2a1135da9747e41dbf128e03ffa631dd0fdce402780a87318d28114174faa80ccdd0875b2c312b86c07a4537531c517f79101
+  languageName: node
+  linkType: hard
+
+"ts-md5@npm:1.2.7":
+  version: 1.2.7
+  resolution: "ts-md5@npm:1.2.7"
+  checksum: 9aa5f788de8937883ff1c2072936e7cea7f229e38a3852c7cd647243c3403f7886d597e07ec5211c69a68bc9f6e7dfb79d5d196222e37558b700bf5e9cc2ad27
   languageName: node
   linkType: hard
 

@@ -36,7 +36,7 @@
   "dependencies": {
     "@juggle/resize-observer": "3.3.0",
     "debug": "4.3.2",
-    "media-stream-library": "9.3.0",
+    "media-stream-library": "10.0.0-alpha.2",
     "react-hooks-shareable": "1.24.0"
   },
   "peerDependencies": {
