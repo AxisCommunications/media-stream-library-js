@@ -26,10 +26,17 @@
     "type": "git",
     "url": "https://github.com/AxisCommunications/media-stream-player-js"
   },
-  "keywords": ["video", "live", "streaming", "rtsp", "ip", "camera"],
+  "keywords": [
+    "video",
+    "live",
+    "streaming",
+    "rtsp",
+    "ip",
+    "camera"
+  ],
   "dependencies": {
     "@juggle/resize-observer": "3.3.0",
-    "debug": "4.3.2",
+    "debug": "4.3.1",
     "media-stream-library": "10.0.0-alpha.2",
     "react-hooks-shareable": "1.24.0"
   },
@@ -40,8 +47,8 @@
     "styled-components": "5.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.13.14",
-    "@babel/core": "7.13.15",
+    "@babel/cli": "7.13.16",
+    "@babel/core": "7.13.16",
     "@babel/plugin-proposal-class-properties": "7.13.0",
     "@babel/plugin-proposal-object-rest-spread": "7.13.8",
     "@babel/preset-env": "7.13.15",
@@ -49,7 +56,7 @@
     "@babel/preset-typescript": "7.13.0",
     "@types/debug": "4.1.5",
     "@types/jest": "26.0.22",
-    "@types/luxon": "1.26.3",
+    "@types/luxon": "1.26.4",
     "@types/react": "17.0.3",
     "@types/react-dom": "17.0.3",
     "@types/styled-components": "5.1.9",
@@ -57,7 +64,7 @@
     "@typescript-eslint/parser": "4.22.0",
     "babel-loader": "8.2.2",
     "concurrently": "6.0.2",
-    "core-js": "3.10.1",
+    "core-js": "3.11.0",
     "eslint": "7.24.0",
     "eslint-config-typescript-shareable": "0.40.0",
     "eslint-plugin-functional": "3.2.1",
@@ -77,9 +84,9 @@
     "style-loader": "2.0.0",
     "styled-components": "5.2.3",
     "stylelint": "13.12.0",
-    "ts-jest": "26.5.4",
+    "ts-jest": "26.5.5",
     "typescript": "4.2.4",
-    "webpack": "5.33.2",
+    "webpack": "5.35.0",
     "webpack-cli": "4.6.0",
     "webpack-dev-server": "3.11.2"
   },
@@ -88,6 +95,13 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
   }
 }
