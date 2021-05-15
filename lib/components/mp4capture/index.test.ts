@@ -29,7 +29,7 @@ const MOCK_MOVIE_ENDING = [
 
 const MOCK_NOT_MOVIE = ['', ''].map((type) => {
   return {
-    type: (type as unknown) as MessageType, // Intentionally bad type for testing
+    type: type as unknown as MessageType, // Intentionally bad type for testing
     data: Buffer.allocUnsafe(1).fill(0),
   }
 })
