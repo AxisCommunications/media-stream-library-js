@@ -231,9 +231,8 @@ export class Parser {
       this._setState()
     }
 
-    let messages: Array<
-      SdpMessage | RtspMessage | RtpMessage | RtcpMessage
-    > = []
+    let messages: Array<SdpMessage | RtspMessage | RtpMessage | RtcpMessage> =
+      []
     let done = false
 
     while (!done) {

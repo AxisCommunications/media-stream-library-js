@@ -9,9 +9,10 @@ export class JPEGDepay extends Tube {
   constructor() {
     let jpegPayloadType: number
     let packets: Buffer[] = []
-    let jpegDepay: (
-      packets: Buffer[],
-    ) => { size: { width: number; height: number }; data: Buffer }
+    let jpegDepay: (packets: Buffer[]) => {
+      size: { width: number; height: number }
+      data: Buffer
+    }
 
     const incoming = new Transform({
       objectMode: true,

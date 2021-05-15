@@ -100,10 +100,8 @@ export class CanvasSink extends Sink {
     // Note: drawImage can also be used instead of transferFromImageBitmap, but it caused
     // very large memory use in Chrome (goes up to ~2-3GB, then drops again).
     // Do do not call el.getContext twice, safari returns null for second call
-    let ctx:
-      | ImageBitmapRenderingContext
-      | CanvasRenderingContext2D
-      | null = null
+    let ctx: ImageBitmapRenderingContext | CanvasRenderingContext2D | null =
+      null
     if (window.createImageBitmap !== undefined) {
       ctx = el.getContext('bitmaprenderer')
     }

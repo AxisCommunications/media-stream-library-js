@@ -262,11 +262,9 @@ const attributeParsers: any = {
   framerate: Number,
   rtpmap: (value: string) => {
     const [payloadType, encoding] = splitOnFirst(' ', value)
-    const [
-      encodingName,
-      clockrate,
-      encodingParameters,
-    ] = encoding.toUpperCase().split('/')
+    const [encodingName, clockrate, encodingParameters] = encoding
+      .toUpperCase()
+      .split('/')
     if (encodingParameters === undefined) {
       return {
         payloadType: Number(payloadType),
@@ -343,11 +341,8 @@ const extractField = (line: string) => {
       return { phone: body }
     // c=<nettype> <addrtype> <connection-address>
     case 'c':
-      const [
-        connectionNetType,
-        connectionAddrType,
-        connectionAddress,
-      ] = body.split(' ')
+      const [connectionNetType, connectionAddrType, connectionAddress] =
+        body.split(' ')
       return {
         connectionData: {
           addrType: connectionAddrType,
