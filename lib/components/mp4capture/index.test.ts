@@ -8,14 +8,19 @@ const MOCK_BUFFER_SIZE = 10 // Jest has problems with large buffers
 const MOCK_MOVIE_DATA = 0xff
 const MOCK_MOVIE_ENDING_DATA = 0xfe
 
-// A movie consists of ISOM packets, starting with an SDP packet.
-// We want to simulate the beginning and end of a movie, as well
-// as non-movie packets.
-const MOCK_MOVIE = [MessageType.SDP, MessageType.ISOM, MessageType.ISOM].map(
-  (type) => {
-    return { type, data: Buffer.allocUnsafe(1).fill(MOCK_MOVIE_DATA) }
-  },
-)
+// A movie consists of ISOM packets, starting with an ISOM message that has a
+// tracks property.  We want to simulate the beginning and end of a movie, as
+// well as non-movie packets.
+const MOCK_MOVIE = [MessageType.ISOM, MessageType.ISOM].map((type, idx) => {
+  if (idx === 0) {
+    return {
+      type,
+      tracks: [],
+      data: Buffer.allocUnsafe(1).fill(MOCK_MOVIE_DATA),
+    }
+  }
+  return { type, data: Buffer.allocUnsafe(1).fill(MOCK_MOVIE_DATA) }
+})
 const MOCK_MOVIE_BUFFER = Buffer.alloc(2).fill(MOCK_MOVIE_DATA)
 
 const MOCK_MOVIE_ENDING = [
