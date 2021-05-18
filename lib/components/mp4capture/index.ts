@@ -1,14 +1,12 @@
 import debug from 'debug'
 import { Tube } from '../component'
 import { Transform } from 'stream'
-import { MessageType } from '../message'
+import { Message, MessageType } from '../message'
 
 const MAX_CAPTURE_BYTES = 225000000 // 5 min at a rate of 6 Mbit/s
 
 /**
  * Component that records MP4 data.
- *
- * @extends Component
  */
 export class Mp4Capture extends Tube {
   private _active: boolean
@@ -17,21 +15,22 @@ export class Mp4Capture extends Tube {
   private _bufferOffset: number
   private readonly _bufferSize: number
   private _buffer: Buffer
-  /**
-   * Create a new mp4muxer component.
-   * @return {undefined}
-   */
+
   constructor(maxSize = MAX_CAPTURE_BYTES) {
     const incoming = new Transform({
       objectMode: true,
-      transform: (msg, encoding, callback) => {
-        if (msg.type === MessageType.SDP) {
-          // Arrival of SDP indicates new movie, start recording if active.
-          if (this._active) {
-            this._capture = true
-          }
-        } else if (this._capture && msg.type === MessageType.ISOM) {
-          // MP4 box has arrived, record if appropriate
+      transform: (msg: Message, _encoding, callback) => {
+        // Arrival of ISOM with tracks indicates new movie, start recording if active.
+        if (
+          this._active &&
+          msg.type === MessageType.ISOM &&
+          msg.tracks !== undefined
+        ) {
+          this._capture = true
+        }
+
+        // If capture enabled, record all ISOM (MP4) boxes
+        if (this._capture && msg.type === MessageType.ISOM) {
           if (
             this._bufferOffset <
             this._buffer.byteLength - msg.data.byteLength
@@ -70,8 +69,7 @@ export class Mp4Capture extends Tube {
    * and will terminate when the movie ends or when the buffer is full. On
    * termination, the callback you passed will be called with the captured
    * data as argument.
-   * @public
-   * @param  callback Will be called when data is captured.
+   * @param callback  Will be called when data is captured.
    */
   start(callback: (buffer: Buffer) => void) {
     if (!this._active) {
@@ -89,8 +87,6 @@ export class Mp4Capture extends Tube {
   /**
    * Deactivate video capture. This ends an ongoing capture and prevents
    * any further capturing.
-   * @public
-   * @return {undefined}
    */
   stop() {
     if (this._active) {
