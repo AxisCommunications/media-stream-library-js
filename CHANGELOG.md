@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v9.3.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.2.1...v9.3.0) (2021-03-20 20:27:33 +0100)
+## [v9.3.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.3.0...v9.3.1) (2021-05-18 09:26:46 +0200)
+
+### Maintenance
+
+  - run tests on stable branches ([da0391f](https://github.com/AxisCommunications/media-stream-library-js/commit/da0391f8d14350880c33ff83f1f08fa1d1ce6224))
+
+### Bug fixes
+
+  - use ISOM tracks instead of SDP as start of movie ([12e0ebb](https://github.com/AxisCommunications/media-stream-library-js/commit/12e0ebba672e04a98e717509edaa8692737ec82f))
+
+## [v9.3.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v9.2.1...v9.3.0) (2021-03-20 20:33:10 +0100)
 
 ### Maintenance
 
