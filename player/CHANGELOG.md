@@ -2,7 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v4.4.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v4.3.0...v4.4.0) (2021-04-14 11:54:28 +0200)
+## [v5.0.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v4.4.0...v5.0.0) (2021-05-18 14:31:32 +0200)
+
+### Maintenance
+
+  - **deps**: upgrade all dependencies ([67e2b24](https://github.com/AxisCommunications/media-stream-player-js/commit/67e2b24e2b13897a07d40966abc998b76aa7e74c))
+  - **deps**: upgrade all dependencies ([d9e7243](https://github.com/AxisCommunications/media-stream-player-js/commit/d9e72434ab63a3fcdc248b266ba77ce136b214de))
+  - **deps**: upgrade all dependencies ([fb277de](https://github.com/AxisCommunications/media-stream-player-js/commit/fb277de99e4de2d420b95436842ce2291d417ca1))
+  - **deps**: upgrade media-stream-library to v10 ([7a5e436](https://github.com/AxisCommunications/media-stream-player-js/commit/7a5e43686ca73c284b1d59a3a8020b7616f14b91))
+
+### Features
+
+  - provide legacy support for older browsers ([8c515e7](https://github.com/AxisCommunications/media-stream-player-js/commit/8c515e7538cdcb400c68e0b7351c68a1262941df))
+  - **BREAKING** utility to fetch transformation matrix ([4de73e5](https://github.com/AxisCommunications/media-stream-player-js/commit/4de73e553f3baf083053503d68cdf686ffc3feba))
+
+## [v4.4.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v4.3.0...v4.4.0) (2021-04-14 13:12:38 +0200)
 
 ### Maintenance
 
