@@ -83,6 +83,16 @@ const defaultConfig = (
   return { uri }
 }
 
+export class RTSPResponseError extends Error {
+  public code: number
+
+  constructor(message: string, code: number) {
+    super(message)
+    this.name = 'RTSPResponseError'
+    this.code = code
+  }
+}
+
 /**
  * A component that sets up a command queue in order to interact with the RTSP
  * server. Allows control over the RTSP session by listening to incoming messages
@@ -106,12 +116,13 @@ export class RtspSession extends Tube {
   public startTime?: number
 
   public onSdp?: (sdp: Sdp) => void
-  public onError?: (err: Error) => void
+  public onError?: (err: RTSPResponseError) => void
   public onPlay?: (range?: string[]) => void
+
+  public retry?: () => void
 
   private _outgoingClosed: boolean
   private _sequence?: number
-  private _retry?: () => void
   private _callStack?: Command[]
   private _callHistory?: any[]
   private _state?: STATE
@@ -213,7 +224,7 @@ export class RtspSession extends Tube {
    */
   _reset() {
     this._sequence = 1
-    this._retry = () => console.error("No request sent, can't retry")
+    this.retry = () => console.error("No request sent, can't retry")
     this._callStack = []
     this._callHistory = []
     this._state = STATE.IDLE
@@ -293,7 +304,8 @@ export class RtspSession extends Tube {
     }
     if (status >= 400) {
       // TODO: Retry in certain cases?
-      this.onError && this.onError(new Error(msg.data.toString('ascii')))
+      this.onError &&
+        this.onError(new RTSPResponseError(msg.data.toString('ascii'), status))
     }
 
     if (method === RTSP_METHOD.PLAY) {
@@ -463,7 +475,7 @@ export class RtspSession extends Tube {
       throw new Error('missing method when send request')
     }
     this._waiting = true
-    this._retry = this.send.bind(this, cmd)
+    this.retry = this.send.bind(this, cmd)
 
     if (
       this._sequence === undefined ||
