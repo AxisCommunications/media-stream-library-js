@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import debug from 'debug'
 
-import { pipelines } from 'media-stream-library'
+import { pipelines, utils } from 'media-stream-library'
 import { VideoProperties, Range } from './PlaybackArea'
 
 const debugLog = debug('msp:ws-rtsp-video')
@@ -36,6 +36,11 @@ interface WsRtspCanvasProps {
    * Start playing from a specific offset (in seconds)
    */
   readonly offset?: number
+
+  /**
+   * Activate automatic retries on RTSP errors.
+   */
+  readonly autoRetry?: boolean
 }
 
 /**
@@ -56,6 +61,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   rtsp = '',
   onPlaying,
   offset = 0,
+  autoRetry = false,
 }) => {
   let canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -88,6 +94,9 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
         rtsp: { uri: rtsp },
         mediaElement: canvas,
       })
+      if (autoRetry) {
+        utils.addRTSPRetry(newPipeline.rtsp)
+      }
       setPipeline(newPipeline)
 
       return () => {
@@ -99,7 +108,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
         debugLog('canvas cleared')
       }
     }
-  }, [ws, rtsp, offset])
+  }, [ws, rtsp, offset, autoRetry])
 
   // keep a stable reference to the external onPlaying callback
   const __onPlayingRef = useRef(onPlaying)

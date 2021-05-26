@@ -36,6 +36,10 @@ interface BasicPlayerProps {
    */
   readonly secure?: boolean
   readonly className?: string
+  /**
+   * Activate automatic retries on RTSP errors.
+   */
+  readonly autoRetry?: boolean
 }
 
 export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
@@ -47,6 +51,7 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
       autoPlay = false,
       secure,
       className,
+      autoRetry,
     },
     ref,
   ) => {
@@ -155,6 +160,7 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
                 parameters={vapixParams}
                 onPlaying={onPlaying}
                 secure={secure}
+                autoRetry={autoRetry}
               />
             </Layer>
             <Layer>

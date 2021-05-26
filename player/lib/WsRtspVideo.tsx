@@ -55,6 +55,11 @@ interface WsRtspVideoProps {
    * Start playing from a specific offset (in seconds)
    */
   readonly offset?: number
+
+  /**
+   * Activate automatic retries on RTSP errors.
+   */
+  readonly autoRetry?: boolean
 }
 
 export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
@@ -68,6 +73,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   onSdp,
   metadataHandler,
   offset = 0,
+  autoRetry = false,
 }) => {
   let videoRef = useRef<HTMLVideoElement>(null)
 
@@ -154,6 +160,9 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
         rtsp: { uri: rtsp },
         mediaElement: videoEl,
       })
+      if (autoRetry) {
+        utils.addRTSPRetry(newPipeline.rtsp)
+      }
       setPipeline(newPipeline)
 
       let scheduler: utils.Scheduler<ScheduledMessage> | undefined
@@ -175,7 +184,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
         unsetPlaying()
       }
     }
-  }, [ws, rtsp, offset, unsetCanplay, unsetPlaying])
+  }, [ws, rtsp, offset, unsetCanplay, unsetPlaying, autoRetry])
 
   // keep a stable reference to the external SDP handler
   const __onSdpRef = useRef(onSdp)

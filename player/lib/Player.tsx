@@ -54,6 +54,11 @@ interface PlayerProps {
    * seconds.
    */
   readonly duration?: number
+
+  /**
+   * Activate automatic retries on RTSP errors.
+   */
+  readonly autoRetry?: boolean
 }
 
 export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
@@ -69,6 +74,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       className,
       startTime,
       duration,
+      autoRetry,
     },
     ref,
   ) => {
@@ -275,6 +281,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 onSdp={onSdp}
                 metadataHandler={metadataHandler}
                 secure={secure}
+                autoRetry={autoRetry}
               />
             </Layer>
             <Layer>

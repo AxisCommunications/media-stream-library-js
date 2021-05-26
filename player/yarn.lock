@@ -9257,9 +9257,9 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"media-stream-library@npm:10.0.0-alpha.2":
-  version: 10.0.0-alpha.2
-  resolution: "media-stream-library@npm:10.0.0-alpha.2"
+"media-stream-library@npm:10.0.0-alpha.3":
+  version: 10.0.0-alpha.3
+  resolution: "media-stream-library@npm:10.0.0-alpha.3"
   dependencies:
     buffer: 6.0.3
     debug: 4.3.1
@@ -9267,10 +9267,10 @@ fsevents@~2.3.1:
     process: 0.11.10
     stream-browserify: 3.0.0
     ts-md5: 1.2.7
-    ws: 7.4.4
+    ws: 7.4.5
   bin:
     live: examples/node/player.js
-  checksum: b6de7c438c46eac21c06790539a3f9a98ff2e6a644a9c4f6be42b6d09bdcde11903b87ef204cfe2891a24a3480e1ce6ded86f5723dde03583fba6d5e4e9daae5
+  checksum: 42efd2958ea7066d3d2dcb42bdc655d777611bf0e799abb154ea94ad41d4eaf8fc8db0fe03163216cd6385be2499ab91ed247021197af02bc25d09822a598a31
   languageName: node
   linkType: hard
 
@@ -9309,7 +9309,7 @@ fsevents@~2.3.1:
     html-webpack-plugin: 5.3.1
     jest: 26.6.3
     luxon: 1.26.0
-    media-stream-library: 10.0.0-alpha.2
+    media-stream-library: 10.0.0-alpha.3
     prettier: 2.2.1
     react: 17.0.2
     react-dom: 17.0.2
@@ -13825,9 +13825,9 @@ typescript@4.2.4:
   languageName: node
   linkType: hard
 
-"ws@npm:7.4.4":
-  version: 7.4.4
-  resolution: "ws@npm:7.4.4"
+"ws@npm:7.4.5":
+  version: 7.4.5
+  resolution: "ws@npm:7.4.5"
   peerDependencies:
     bufferutil: ^4.0.1
     utf-8-validate: ^5.0.2
@@ -13836,7 +13836,7 @@ typescript@4.2.4:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: ad08761ed753cdd3f7172e9a9efc7d74e7e196623cace2380e5f74ff0abd16196e03223bd4148a34278dcbc653ee3841994635419281cbf303b3f22c589e2ec4
+  checksum: 20731aa1075336b94677f6741b674469c3c7fce9b70115bb535827c7c108a9d714f0b38ce39289b63c652870f9801afaf096f8aab32da96be62d919e80e4ed32
   languageName: node
   linkType: hard
 

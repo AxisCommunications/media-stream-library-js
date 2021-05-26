@@ -83,6 +83,10 @@ interface PlaybackAreaProps {
   readonly onSdp?: (msg: Sdp) => void
   readonly metadataHandler?: MetadataHandler
   readonly secure?: boolean
+  /**
+   * Activate automatic retries on RTSP errors.
+   */
+  readonly autoRetry?: boolean
 }
 
 const wsUri = (protocol: Protocol.WS | Protocol.WSS, host: string) => {
@@ -225,6 +229,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   onSdp,
   metadataHandler,
   secure = window.location.protocol === Protocol.HTTPS,
+  autoRetry = false,
 }) => {
   const timestamp = refresh.toString()
 
@@ -251,6 +256,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
           onPlaying,
           onSdp,
           metadataHandler,
+          autoRetry,
         }}
       />
     )
