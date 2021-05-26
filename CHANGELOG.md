@@ -2,7 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v10.0.0-alpha.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.0-alpha.1...v10.0.0-alpha.2) (2021-04-15 14:17:46 +0200)
+## [v10.0.0-alpha.3](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.0-alpha.2...v10.0.0-alpha.3) (2021-05-26 09:32:53 +0200)
+
+### Maintenance
+
+  - **deps**: upgrade all dependencies ([4b390b8](https://github.com/AxisCommunications/media-stream-library-js/commit/4b390b866365d71fa06cf40056cd426529a940c7))
+  - **deps**: upgrade all dependencies ([9aa75be](https://github.com/AxisCommunications/media-stream-library-js/commit/9aa75be229f477486e3d19885b805737eeb4a7e9))
+  - **deps**: upgrade all dependencies ([9d3ef81](https://github.com/AxisCommunications/media-stream-library-js/commit/9d3ef81edc29b68438769c8369fb48db21e8d260))
+  - **deps**: upgrade all dependencies ([a9ecb07](https://github.com/AxisCommunications/media-stream-library-js/commit/a9ecb076e2073587d6274c9ef76c806d244240af))
+
+### Features
+
+  - **rtsp**: add retry helper ([2dcf97b](https://github.com/AxisCommunications/media-stream-library-js/commit/2dcf97bc3a36047ef0c541778861382e075204be))
+
+### Bug fixes
+
+  - apply new prettier formatting ([d4f6e46](https://github.com/AxisCommunications/media-stream-library-js/commit/d4f6e464971679a724a7aec2b7b7ad0b50c1a7de))
+  - use ISOM tracks instead of SDP as start of movie ([c6809d9](https://github.com/AxisCommunications/media-stream-library-js/commit/c6809d9264facb110e6ca10626feddf1859136c9))
+
+## [v10.0.0-alpha.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.0-alpha.1...v10.0.0-alpha.2) (2021-04-15 14:18:27 +0200)
 
 ### Maintenance
 
