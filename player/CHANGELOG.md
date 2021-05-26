@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v5.0.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v5.0.0...v5.0.1) (2021-05-18 14:51:52 +0200)
+## [v5.1.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v5.0.1...v5.1.0) (2021-05-26 13:17:11 +0200)
+
+### Features
+
+  - add RTSP retry support ([c054c49](https://github.com/AxisCommunications/media-stream-player-js/commit/c054c4946ce3b5abaf940c1ca155ad39aaf16676))
+
+## [v5.0.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v5.0.0...v5.0.1) (2021-05-18 14:52:30 +0200)
 
 ### Bug fixes
 
