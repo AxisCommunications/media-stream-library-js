@@ -49,6 +49,9 @@ interface WsRtspVideoProps {
    * Callback to signal video is playing.
    */
   readonly onPlaying?: (videoProperties: VideoProperties) => void
+  /**
+   * Callback when SDP data is received.
+   */
   readonly onSdp?: (msg: Sdp) => void
   readonly metadataHandler?: MetadataHandler
   /**

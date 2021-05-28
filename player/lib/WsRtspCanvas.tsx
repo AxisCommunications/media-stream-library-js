@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 import debug from 'debug'
 
-import { pipelines, utils } from 'media-stream-library'
+import { Sdp, pipelines, utils } from 'media-stream-library'
 import { VideoProperties, Range } from './PlaybackArea'
 
 const debugLog = debug('msp:ws-rtsp-video')
@@ -33,6 +33,10 @@ interface WsRtspCanvasProps {
    */
   readonly onPlaying: (props: VideoProperties) => void
   /**
+   * Callback when SDP data is received.
+   */
+  readonly onSdp?: (msg: Sdp) => void
+  /**
    * Start playing from a specific offset (in seconds)
    */
   readonly offset?: number
@@ -60,6 +64,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   ws = '',
   rtsp = '',
   onPlaying,
+  onSdp,
   offset = 0,
   autoRetry = false,
 }) => {
@@ -114,11 +119,20 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   const __onPlayingRef = useRef(onPlaying)
   __onPlayingRef.current = onPlaying
 
+  // keep a stable reference to the external SDP handler
+  const __onSdpRef = useRef(onSdp)
+  __onSdpRef.current = onSdp
+
   useEffect(() => {
     if (play && pipeline && !fetching) {
       pipeline.ready
         .then(() => {
           debugLog('fetch')
+          pipeline.onSdp = (sdp) => {
+            if (__onSdpRef.current !== undefined) {
+              __onSdpRef.current(sdp)
+            }
+          }
           pipeline.rtsp.onPlay = (range) => {
             if (range !== undefined) {
               __rangeRef.current = [

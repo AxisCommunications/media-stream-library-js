@@ -277,7 +277,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
       <WsRtspCanvas
         key={refresh}
         forwardedRef={forwardedRef as Ref<HTMLCanvasElement>}
-        {...{ ws, rtsp, play, offset, onPlaying }}
+        {...{ ws, rtsp, play, offset, onPlaying, onSdp }}
       />
     )
   }
