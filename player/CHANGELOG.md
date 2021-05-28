@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v5.1.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v5.1.0...v5.1.1) (2021-05-27 08:35:17 +0200)
+## [v5.2.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v5.1.1...v5.2.0) (2021-05-28 17:43:24 +0200)
+
+### Features
+
+  - add SDP support for WsRtspCanvas ([e035586](https://github.com/AxisCommunications/media-stream-player-js/commit/e0355866a8a8fb162acdf241b43d2cac00894a97))
+
+## [v5.1.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v5.1.0...v5.1.1) (2021-05-27 10:10:53 +0200)
 
 ### Maintenance
 
