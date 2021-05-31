@@ -75,6 +75,7 @@
     "eslint-plugin-promise": "5.1.0",
     "http-server": "0.12.3",
     "jest": "27.0.3",
+    "jest-environment-jsdom": "27.0.3",
     "mock-socket": "9.0.3",
     "prettier": "2.3.0",
     "regenerator-runtime": "0.13.8",
@@ -86,6 +87,7 @@
     "yargs": "17.0.1"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "testRegex": "(/__tests__/.*|(\\.|/)test)\\.ts$",
     "transform": {
       "^.+\\.ts$": "ts-jest"

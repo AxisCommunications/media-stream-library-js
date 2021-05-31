@@ -103,12 +103,12 @@ describe('session', () => {
       expect((s as any)._outgoingClosed).toEqual(false)
       // close the incoming stream
       s.incoming.push(null)
-      // Use setImmediate to ensure the 'on end' callback has fired before
+      // Use setTimeout to ensure the 'on end' callback has fired before
       // we do the test
-      setImmediate(() => {
+      setTimeout(() => {
         expect((s as any)._outgoingClosed).toEqual(true)
         done()
-      })
+      }, 0)
     })
   })
 
