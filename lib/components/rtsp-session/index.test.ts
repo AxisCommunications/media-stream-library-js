@@ -72,7 +72,6 @@ describe('session', () => {
       const uri = 'rtsp://whatever/path'
       const s = new RtspSession({ uri })
       s.outgoing.once('data', (req) => {
-        console.log('DATA', req)
         expect(req.uri).toEqual(uri)
         done()
       })
