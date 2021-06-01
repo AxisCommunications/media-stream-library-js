@@ -155,12 +155,18 @@ export interface MediaDescription extends RtspExtensions {
   codec?: any
 }
 
+export type TransformationMatrix = readonly [
+  readonly [number, number, number],
+  readonly [number, number, number],
+  readonly [number, number, number],
+]
+
 export interface VideoMedia extends MediaDescription {
   readonly type: 'video'
   readonly framerate?: number
   // Transformation matrix
-  readonly transform?: number[][]
-  readonly 'x-sensor-transform'?: number[][]
+  readonly transform?: TransformationMatrix
+  readonly 'x-sensor-transform'?: TransformationMatrix
   // JPEG
   readonly framesize?: [number, number]
 }
