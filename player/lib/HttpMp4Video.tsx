@@ -6,6 +6,7 @@ import { Sdp, pipelines } from 'media-stream-library'
 import { useEventState } from './hooks/useEventState'
 import { VideoProperties } from './PlaybackArea'
 import { MetadataHandler } from './metadata'
+import { fetchTransformationMatrix } from './utils'
 
 const debugLog = debug('msp:ws-rtsp-video')
 
@@ -99,13 +100,25 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
       unsetPlaying()
     } else if (play && playing === true) {
       if (__onPlayingRef.current !== undefined) {
-        __onPlayingRef.current({
+        const onPlayingCallback = __onPlayingRef.current
+        const baseVideoProperties = {
           el: videoEl,
           width: videoEl.videoWidth,
           height: videoEl.videoHeight,
           // TODO: no volume, need to expose tracks?
           // TODO: no pipeline, can we even get stats?
-        })
+        }
+        fetchTransformationMatrix('sensor')
+          .then((sensorTm) => {
+            onPlayingCallback({
+              ...baseVideoProperties,
+              sensorTm,
+            })
+          })
+          .catch((err) => {
+            console.error('failed to fetch transformation matrix: ', err)
+            onPlayingCallback(baseVideoProperties)
+          })
       }
     }
   }, [play, canplay, playing, unsetPlaying, pipeline])

@@ -3,7 +3,13 @@ import styled from 'styled-components'
 
 import debug from 'debug'
 
-import { Sdp, pipelines, utils } from 'media-stream-library'
+import {
+  Sdp,
+  pipelines,
+  utils,
+  VideoMedia,
+  TransformationMatrix,
+} from 'media-stream-library'
 import { VideoProperties, Range } from './PlaybackArea'
 
 const debugLog = debug('msp:ws-rtsp-video')
@@ -121,16 +127,26 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   const __onSdpRef = useRef(onSdp)
   __onSdpRef.current = onSdp
 
+  const __sensorTmRef = useRef<TransformationMatrix>()
+
   useEffect(() => {
     if (play && pipeline && !fetching) {
       pipeline.ready
         .then(() => {
           debugLog('fetch')
           pipeline.onSdp = (sdp) => {
+            const videoMedia = sdp.media.find((m): m is VideoMedia => {
+              return m.type === 'video'
+            })
+            if (videoMedia !== undefined) {
+              __sensorTmRef.current =
+                videoMedia['x-sensor-transform'] ?? videoMedia['transform']
+            }
             if (__onSdpRef.current !== undefined) {
               __onSdpRef.current(sdp)
             }
           }
+
           pipeline.rtsp.onPlay = (range) => {
             if (range !== undefined) {
               __rangeRef.current = [
@@ -159,6 +175,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
             width: canvasRef.current.width,
             height: canvasRef.current.height,
             range: __rangeRef.current,
+            sensorTm: __sensorTmRef.current,
           })
         }
       }
