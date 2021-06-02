@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v10.0.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.0...v10.0.1) (2021-06-01 08:23:48 +0200)
+## [v10.0.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.1...v10.0.2) (2021-06-02 12:00:06 +0200)
+
+### Bug fixes
+
+  - created transformation matrix type ([75ee34e](https://github.com/AxisCommunications/media-stream-library-js/commit/75ee34e00777f42b5013cc30c86f7bd7598c02a4))
+
+## [v10.0.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.0...v10.0.1) (2021-06-01 19:40:01 +0200)
 
 ### Maintenance
 
