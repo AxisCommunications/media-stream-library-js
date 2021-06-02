@@ -78,10 +78,8 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   }
 
   // State tied to resources
-  const [
-    pipeline,
-    setPipeline,
-  ] = useState<null | pipelines.Html5CanvasPipeline>(null)
+  const [pipeline, setPipeline] =
+    useState<null | pipelines.Html5CanvasPipeline>(null)
   const [fetching, setFetching] = useState(false)
 
   // keep track of changes in starting time
