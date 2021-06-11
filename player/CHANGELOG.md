@@ -2,7 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v5.2.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v5.2.0...v5.2.1) (2021-06-02 09:57:41 +0200)
+## [v5.3.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v5.2.1...v5.3.0) (2021-06-11 17:56:02 +0200)
+
+### Maintenance
+
+  - **deps**: upgrade yarn ([a2178b3](https://github.com/AxisCommunications/media-stream-player-js/commit/a2178b385cc74b08ef83bcbf17517026b48080b3))
+  - use range for `peerDependencies` ([f16a831](https://github.com/AxisCommunications/media-stream-player-js/commit/f16a831266e31df57a3f1522b7efba1eefe483ba))
+
+### Features
+
+  - provide transformation matrix in onPlaying callback ([0e31c74](https://github.com/AxisCommunications/media-stream-player-js/commit/0e31c74d08ba312d8bad561cbd4f83a8908d6956))
+
+### Bug fixes
+
+  - adjust typescript ([d89c0b5](https://github.com/AxisCommunications/media-stream-player-js/commit/d89c0b54ec02d9e55a0aadea75832b3d6017216c))
+
+## [v5.2.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v5.2.0...v5.2.1) (2021-06-02 09:58:22 +0200)
 
 ### Maintenance
 
