@@ -2,6 +2,7 @@ const { pipelines } = window.mediaStreamLibrary
 
 // force auth
 const authorize = async (host) => {
+  
   // Force a login by fetching usergroup
   const fetchOptions = {
     credentials: 'include',
