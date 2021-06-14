@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v10.0.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.1...v10.0.2) (2021-06-02 12:00:06 +0200)
+## [v10.0.3](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.2...v10.0.3) (2021-06-11 15:25:24 +0200)
+
+### Maintenance
+
+  - **deps**: upgrade all dependencies ([fdb2ab1](https://github.com/AxisCommunications/media-stream-library-js/commit/fdb2ab14705d812225f52990389239dcfbb14f44))
+
+### Bug fixes
+
+  - collect H.264 NAL units belonging to same frame ([d1ad029](https://github.com/AxisCommunications/media-stream-library-js/commit/d1ad029e98c1a3e2c8298d32d1ba08d2f38ad4b1))
+
+## [v10.0.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.1...v10.0.2) (2021-06-02 13:37:54 +0200)
 
 ### Bug fixes
 
