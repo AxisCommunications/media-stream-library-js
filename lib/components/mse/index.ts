@@ -53,6 +53,9 @@ export class MseSink extends Sink {
             mse = new MediaSource()
             el.src = window.URL.createObjectURL(mse)
             const handler = () => {
+              // revoke the object URL to avoid a memory leak
+              window.URL.revokeObjectURL(el.src)
+
               mse.removeEventListener('sourceopen', handler)
               this.onSourceOpen && this.onSourceOpen(mse, tracks)
 
