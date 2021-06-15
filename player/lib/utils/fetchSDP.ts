@@ -1,4 +1,8 @@
-import { WsSdpPipeline, VideoMedia } from 'media-stream-library'
+import {
+  WsSdpPipeline,
+  VideoMedia,
+  TransformationMatrix,
+} from 'media-stream-library'
 
 export const fetchSDP = (wsURI?: string, rtspURI?: string) => {
   const pipeline = new WsSdpPipeline({
@@ -11,13 +15,11 @@ export const fetchSDP = (wsURI?: string, rtspURI?: string) => {
   })
 }
 
-type Transform = ReadonlyArray<ReadonlyArray<number>>
-
 export const fetchTransformationMatrix = (
   basis: 'sensor' | 'metadata',
   wsURI?: string,
   rtspURI?: string,
-): Promise<Transform | undefined> => {
+): Promise<TransformationMatrix | undefined> => {
   return fetchSDP(wsURI, rtspURI).then((sdp) => {
     const videoMedia = sdp.media.find((media): media is VideoMedia => {
       return media.type === 'video'
@@ -27,8 +29,8 @@ export const fetchTransformationMatrix = (
       return Promise.reject('Media seems to have no video track')
     }
 
-    const transform: Transform | undefined = videoMedia.transform
-    const sensorTransform: Transform | undefined =
+    const transform: TransformationMatrix | undefined = videoMedia.transform
+    const sensorTransform: TransformationMatrix | undefined =
       videoMedia['x-sensor-transform']
 
     if (basis === 'sensor') {

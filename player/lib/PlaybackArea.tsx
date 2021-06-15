@@ -4,6 +4,7 @@ import {
   Html5VideoPipeline,
   Html5CanvasPipeline,
   HttpMsePipeline,
+  TransformationMatrix,
 } from 'media-stream-library'
 import debug from 'debug'
 
@@ -69,6 +70,7 @@ export interface VideoProperties {
   }>
   readonly volume?: number
   readonly range?: Range
+  readonly sensorTm?: TransformationMatrix
 }
 
 interface PlaybackAreaProps {

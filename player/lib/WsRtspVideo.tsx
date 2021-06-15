@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import debug from 'debug'
-import { Sdp, pipelines, utils } from 'media-stream-library'
+import {
+  Sdp,
+  pipelines,
+  utils,
+  VideoMedia,
+  TransformationMatrix,
+} from 'media-stream-library'
 
 import { useEventState } from './hooks/useEventState'
 import { VideoProperties, Range } from './PlaybackArea'
@@ -96,9 +102,8 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   const [playing, unsetPlaying] = useEventState(videoRef, 'playing')
 
   // State tied to resources
-  const [pipeline, setPipeline] = useState<null | pipelines.Html5VideoPipeline>(
-    null,
-  )
+  const [pipeline, setPipeline] =
+    useState<null | pipelines.Html5VideoPipeline>(null)
   const [fetching, setFetching] = useState(false)
 
   // keep track of changes in starting time
@@ -109,6 +114,8 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   // keep a stable reference to the external onPlaying callback
   const __onPlayingRef = useRef(onPlaying)
   __onPlayingRef.current = onPlaying
+
+  const __sensorTmRef = useRef<TransformationMatrix>()
 
   useEffect(() => {
     const videoEl = videoRef.current
@@ -137,6 +144,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
             ? videoEl.volume
             : undefined,
           range: __rangeRef.current,
+          sensorTm: __sensorTmRef.current,
         })
       }
     }
@@ -198,6 +206,13 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
       pipeline.ready
         .then(() => {
           pipeline.onSdp = (sdp) => {
+            const videoMedia = sdp.media.find((m): m is VideoMedia => {
+              return m.type === 'video'
+            })
+            if (videoMedia !== undefined) {
+              __sensorTmRef.current =
+                videoMedia['x-sensor-transform'] ?? videoMedia['transform']
+            }
             if (__onSdpRef.current !== undefined) {
               __onSdpRef.current(sdp)
             }
