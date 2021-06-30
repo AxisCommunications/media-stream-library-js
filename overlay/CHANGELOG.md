@@ -2,21 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v4.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.1.0...v4.1.1) (2021-04-24 19:05:07 +0200)
+## [v4.1.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.1.0...v4.1.2) (2021-06-30 10:11:46 +0200)
 
 ### Maintenance
 
+  - **deps**: upgrade all dependencies ([a261a86](https://github.com/AxisCommunications/media-stream-library-js/commit/a261a86e2e950f3ca1bba51fe94dd678bf0f5914))
   - **deps**: upgrade all dependencies ([bc696a2](https://github.com/AxisCommunications/media-stream-library-js/commit/bc696a2475589a645281dacd7b759754f4cd87bf))
   - **deps**: upgrade dependencies ([2ac95b1](https://github.com/AxisCommunications/media-stream-library-js/commit/2ac95b18944357361dcfc5a87122866f6dd5404d))
+  - update peerDependencies versions ([603d338](https://github.com/AxisCommunications/media-stream-library-js/commit/603d338ec90bd6f40764c197090d54abdb605727))
 
-## [v4.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.0.4...v4.1.0) (2021-03-20 20:08:38 +0100)
+## [v4.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.0.5...v4.1.0) (2021-03-20 20:08:38 +0100)
 
 ### Maintenance
 
-  - **deps**: pin dependencies ([76bbe6a](https://github.com/AxisCommunications/media-stream-library-js/commit/76bbe6a88626a24de893c8cd4809baf0d5df2198))
-  - **deps**: update all ([12ab307](https://github.com/AxisCommunications/media-stream-library-js/commit/12ab307be1d46d9772475d550d303b0e13e7e310))
-  - **deps**: update babel monorepo to v7.11.6 ([55eccad](https://github.com/AxisCommunications/media-stream-library-js/commit/55eccad4b76e41d5e2434f02d2fb3206d90a7255))
-  - **deps**: update dependency eslint-plugin-react-hooks to v4.1.2 ([d787535](https://github.com/AxisCommunications/media-stream-library-js/commit/d78753578580b00ecca351cb9867a4c395621bdd))
   - **deps**: upgrade all ([0e84d4e](https://github.com/AxisCommunications/media-stream-library-js/commit/0e84d4e28ae75c8272c5a7896b4a3b151499f0f3))
   - **deps**: upgrade all dependencies ([84e2d54](https://github.com/AxisCommunications/media-stream-library-js/commit/84e2d54f6669fc943319db5b731727c0271fe6ed))
   - **deps**: upgrade all versions ([b5cc62f](https://github.com/AxisCommunications/media-stream-library-js/commit/b5cc62fe72b8b47308e1e7318ff486f12e37e81d))
@@ -26,6 +24,15 @@ All notable changes to this project will be documented in this file.
 ### Bug fixes
 
   - export TransformData interface ([b326d4b](https://github.com/AxisCommunications/media-stream-library-js/commit/b326d4b7c19b4d3317777de002da80f2825f407d))
+
+## [v4.0.5](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.0.4...v4.0.5) (2020-10-02 16:37:21 +0200)
+
+### Maintenance
+
+  - **deps**: pin dependencies ([76bbe6a](https://github.com/AxisCommunications/media-stream-library-js/commit/76bbe6a88626a24de893c8cd4809baf0d5df2198))
+  - **deps**: update all ([12ab307](https://github.com/AxisCommunications/media-stream-library-js/commit/12ab307be1d46d9772475d550d303b0e13e7e310))
+  - **deps**: update babel monorepo to v7.11.6 ([55eccad](https://github.com/AxisCommunications/media-stream-library-js/commit/55eccad4b76e41d5e2434f02d2fb3206d90a7255))
+  - **deps**: update dependency eslint-plugin-react-hooks to v4.1.2 ([d787535](https://github.com/AxisCommunications/media-stream-library-js/commit/d78753578580b00ecca351cb9867a4c395621bdd))
 
 ## [v4.0.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.0.3...v4.0.4) (2020-09-16 11:07:28 +0200)
 
