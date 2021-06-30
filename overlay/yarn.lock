@@ -7003,8 +7003,8 @@ fsevents@~2.3.1:
     webpack-dev-server: 3.11.2
   peerDependencies:
     pepjs: ">= 0.4.3 < 1"
-    react: ">= 16.8.2 < 17"
-    react-dom: ">= 16.8.2 < 17"
+    react: ^17.0.1
+    react-dom: ^17.0.1
   languageName: unknown
   linkType: soft
 
