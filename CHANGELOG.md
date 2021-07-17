@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v10.0.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.3...v10.0.4) (2021-07-17 09:58:28 +0200)
+## [v10.0.5](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.4...v10.0.5) (2021-07-17 15:18:40 +0200)
+
+### Bug fixes
+
+  - revoke object URL to avoid a memory leak (#623) ([78aece0](https://github.com/AxisCommunications/media-stream-library-js/commit/78aece09ccfa2fba2cc0ef01b06b0fd35756573b))
+
+## [v10.0.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.3...v10.0.4) (2021-07-17 10:00:09 +0200)
 
 ### Maintenance
 
