@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v10.0.3](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.2...v10.0.3) (2021-06-11 15:25:24 +0200)
+## [v10.0.4](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.3...v10.0.4) (2021-07-17 09:58:28 +0200)
+
+### Maintenance
+
+  - **deps**: upgrade all dependencies ([75caa3d](https://github.com/AxisCommunications/media-stream-library-js/commit/75caa3d67a0009437d2eeff64af239a1c0c0c26b))
+
+## [v10.0.3](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.2...v10.0.3) (2021-06-11 15:26:09 +0200)
 
 ### Maintenance
 
