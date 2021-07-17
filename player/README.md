@@ -20,6 +20,16 @@ the example applications). If you want to build your own customized player, you
 can look at the latter component and build your own player, using the
 `Container`, `Layer`, and `PlaybackArea` components.
 
+## Basic requirements
+
+This library specifically targets [AXIS IP cameras](https://www.axis.com/products/network-cameras) because
+we make underlying API-calls to AXIS specfic APIs to get the video streams.
+
+**Firmware requirements**
+
+- For H.264 to work you need at least firmware 6.50 (LTS)
+- For MP4 to work you need at least firmware 9.80 (LTS)
+
 ## Structure
 
 ## Installation
