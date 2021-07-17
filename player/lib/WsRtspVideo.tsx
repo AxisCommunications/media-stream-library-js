@@ -102,8 +102,9 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   const [playing, unsetPlaying] = useEventState(videoRef, 'playing')
 
   // State tied to resources
-  const [pipeline, setPipeline] =
-    useState<null | pipelines.Html5VideoPipeline>(null)
+  const [pipeline, setPipeline] = useState<null | pipelines.Html5VideoPipeline>(
+    null,
+  )
   const [fetching, setFetching] = useState(false)
 
   // keep track of changes in starting time

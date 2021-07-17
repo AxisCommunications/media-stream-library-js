@@ -121,6 +121,9 @@ or if you are using yarn:
 yarn add media-stream-player
 ```
 
+You also need to install any peer dependencies yourself, such as `luxon`,
+`react`/`react-dom`, `styled-components`, and `media-stream-library`.
+
 You can find an example of this under `examples/react-app`.
 To run our example react app, you can start a webpack dev server with:
 
