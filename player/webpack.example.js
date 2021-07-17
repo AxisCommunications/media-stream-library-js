@@ -12,7 +12,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
  */
 module.exports = (env) => {
   return {
-    entry: './examples/react-app/index',
+    target: 'browserslist:modern',
+    entry: './examples/react-app/index.jsx',
     mode: 'development',
 
     resolve: {
@@ -32,20 +33,7 @@ module.exports = (env) => {
               babelrc: false,
               presets: [
                 '@babel/preset-react',
-                [
-                  '@babel/env',
-                  {
-                    targets: {
-                      browsers: [
-                        'last 2 chrome versions, last 2 firefox versions',
-                      ],
-                    },
-                  },
-                ],
-              ],
-              plugins: [
-                '@babel/plugin-proposal-class-properties',
-                '@babel/plugin-proposal-object-rest-spread',
+                ['@babel/env', { browserslistEnv: 'modern' }],
               ],
             },
           },

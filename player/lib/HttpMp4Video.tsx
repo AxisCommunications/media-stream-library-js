@@ -74,8 +74,9 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
   const [playing, unsetPlaying] = useEventState(videoRef, 'playing')
 
   // State tied to resources
-  const [pipeline, setPipeline] =
-    useState<null | pipelines.HttpMsePipeline>(null)
+  const [pipeline, setPipeline] = useState<null | pipelines.HttpMsePipeline>(
+    null,
+  )
   const [fetching, setFetching] = useState(false)
 
   // keep a stable reference to the external onPlaying callback

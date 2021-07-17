@@ -121,10 +121,11 @@ or if you are using yarn:
 yarn add media-stream-player
 ```
 
-You will also need to install the peer dependency [Luxon](https://github.com/moment/luxon), which we use for
-date and time purposes.
+You will also need to install a number of peer dependencies
+such as [luxon](https://github.com/moment/luxon), which we use for date and time purposes,
+`react`/`react-dom`, `styled-components`, and `media-stream-library`.
+You can find an example of this under `examples/react-app`.
 
-You can find a react example under `examples/react-app`.
 To run our example react app, you can start a webpack dev server with:
 
 ```shell
