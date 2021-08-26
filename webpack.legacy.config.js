@@ -1,8 +1,10 @@
 const webpack = require('webpack')
 
 module.exports = {
-  target: 'web',
-  entry: './lib/index.browser.ts',
+  target: ['web', 'es5'],
+  entry: {
+    app: ['core-js/stable', './lib/index.browser.ts']
+  },
   mode: 'production',
   output: {
     library: 'mediaStreamLibrary',
@@ -30,7 +32,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /\.(ts|js)$/,
         // We need to transpile certain node_modules packages, as they
         // don't supply any ES5 compatible code. This will become more
         // of an issue as libraries move over to delivering ES6 only.
@@ -38,21 +40,22 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            sourceType: 'unambiguous',
             presets: [
               [
                 '@babel/env',
                 {
-                  useBuiltIns: 'usage',
-                  corejs: 3,
                   browserslistEnv: 'legacy',
                 },
               ],
               '@babel/typescript',
             ],
+            sourceType: "unambiguous",
             plugins: [
               '@babel/proposal-class-properties',
               '@babel/proposal-object-rest-spread',
+              '@babel/transform-arrow-functions',
+              '@babel/plugin-transform-exponentiation-operator',
+              '@babel/transform-runtime'
             ],
             babelrc: false,
           },
