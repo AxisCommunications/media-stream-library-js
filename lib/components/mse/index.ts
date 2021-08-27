@@ -42,8 +42,21 @@ export class MseSink extends Sink {
           // ISO BMFF Byte Stream data to be added to the source buffer
           this._done = callback
 
-          if (msg.tracks !== undefined) {
-            const tracks = msg.tracks
+          if (msg.tracks !== undefined || msg.mime !== undefined) {
+            const tracks = msg.tracks ?? []
+            // MIME codecs: https://tools.ietf.org/html/rfc6381
+            const mimeCodecs = tracks
+              .map((track) => track.mime)
+              .filter((mime) => mime)
+            const codecs =
+              mimeCodecs.length !== 0
+                ? mimeCodecs.join(', ')
+                : 'avc1.640029, mp4a.40.2'
+
+            // Take MIME type directly from the message, or constructed
+            // from the tracks (with a default fallback to basic H.264).
+            const mimeType = msg.mime ?? `video/mp4; codecs="${codecs}"`
+
             // Start a new movie (new SDP info available)
             this._lastCheckpointTime = 0
 
@@ -59,19 +72,7 @@ export class MseSink extends Sink {
               mse.removeEventListener('sourceopen', handler)
               this.onSourceOpen && this.onSourceOpen(mse, tracks)
 
-              // MIME codecs: https://tools.ietf.org/html/rfc6381
-              const mimeCodecs = tracks
-                .map((track) => track.mime)
-                .filter((mime) => mime)
-              const codecs =
-                mimeCodecs.length !== 0
-                  ? mimeCodecs.join(', ')
-                  : 'avc1.640029, mp4a.40.2'
-              sourceBuffer = this.addSourceBuffer(
-                el,
-                mse,
-                `video/mp4; codecs="${codecs}"`,
-              )
+              sourceBuffer = this.addSourceBuffer(el, mse, mimeType)
               sourceBuffer.onerror = (e) => {
                 console.error('error on SourceBuffer: ', e)
                 incoming.emit('error')
