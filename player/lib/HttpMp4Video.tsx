@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import debug from 'debug'
-import { Sdp, pipelines } from 'media-stream-library'
+import { pipelines, TransformationMatrix } from 'media-stream-library'
 
 import { useEventState } from './hooks/useEventState'
 import { VideoProperties } from './PlaybackArea'
@@ -42,7 +42,6 @@ interface HttpMp4VideoProps {
    * Callback to signal video is playing.
    */
   readonly onPlaying?: (videoProperties: VideoProperties) => void
-  readonly onSdp?: (msg: Sdp) => void
   readonly metadataHandler?: MetadataHandler
 }
 
@@ -53,7 +52,6 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
   autoPlay = true,
   muted = true,
   onPlaying,
-  onSdp,
   metadataHandler,
 }) => {
   let videoRef = useRef<HTMLVideoElement>(null)
@@ -83,6 +81,8 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
   const __onPlayingRef = useRef(onPlaying)
   __onPlayingRef.current = onPlaying
 
+  const __sensorTmRef = useRef<TransformationMatrix>()
+
   useEffect(() => {
     const videoEl = videoRef.current
 
@@ -101,6 +101,22 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
       unsetPlaying()
     } else if (play && playing === true) {
       if (__onPlayingRef.current !== undefined) {
+        // FIXME: remove this check and only use this when headers
+        // are implemented, then we don't need the
+        // fetchTransformationMatrix function block
+        if (__sensorTmRef.current !== undefined) {
+          __onPlayingRef.current({
+            el: videoEl,
+            width: videoEl.videoWidth,
+            height: videoEl.videoHeight,
+            sensorTm: __sensorTmRef.current,
+            // TODO: no volume, need to expose tracks?
+            // TODO: no pipeline, can we even get stats?
+          })
+          return
+        }
+        // FIXME: this can be removed when __sensorTmRef
+        // is always defined.
         const onPlayingCallback = __onPlayingRef.current
         const baseVideoProperties = {
           el: videoEl,
@@ -151,13 +167,13 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
     }
   }, [src, unsetCanplay, unsetPlaying])
 
-  // keep a stable reference to the external SDP handler
-  const __onSdpRef = useRef(onSdp)
-  __onSdpRef.current = onSdp
-
   useEffect(() => {
     if (play && pipeline && !fetching) {
-      // TODO: how to get hold of the transformation matrix?
+      pipeline.onHeaders = (headers) => {
+        __sensorTmRef.current = parseTransformHeader(
+          headers.get('x-sensor-transform') ?? headers.get('x-transform'),
+        )
+      }
       pipeline.http.play()
       debugLog('initiated data fetching')
       setFetching(true)
@@ -165,4 +181,15 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
   }, [play, pipeline, fetching])
 
   return <VideoNative autoPlay={autoPlay} muted={muted} ref={videoRef} />
+}
+
+const parseTransformHeader = (
+  value: string | null | undefined,
+): TransformationMatrix | undefined => {
+  if (value === undefined || value === null) {
+    return undefined
+  }
+  return value
+    .split(';')
+    .map((row) => row.split(',').map(Number)) as unknown as TransformationMatrix
 }

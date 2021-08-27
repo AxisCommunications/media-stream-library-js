@@ -9399,9 +9399,9 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"media-stream-library@npm:10.0.6":
-  version: 10.0.6
-  resolution: "media-stream-library@npm:10.0.6"
+"media-stream-library@npm:10.1.0":
+  version: 10.1.0
+  resolution: "media-stream-library@npm:10.1.0"
   dependencies:
     buffer: 6.0.3
     debug: 4.3.2
@@ -9409,10 +9409,10 @@ fsevents@~2.3.1:
     process: 0.11.10
     stream-browserify: 3.0.0
     ts-md5: 1.2.9
-    ws: 7.5.3
+    ws: 8.2.0
   bin:
     live: examples/node/player.js
-  checksum: f29d352f22c366ed1f717f0d2b77980acc44b55a0f591b0b828a8a0da02356b6800cfff8d9a505424fc38af44388d77904889bee2004d2c01726844b7238614b
+  checksum: e66f030ea9a7172c9f36f98a0d8c3540cd5754e265a34307fa92c77cedf7eb5c0536be068d9d1d611cf4150f8241db038c51ada22d41bbaa5f2c455ae9327f28
   languageName: node
   linkType: hard
 
@@ -9451,7 +9451,7 @@ fsevents@~2.3.1:
     html-webpack-plugin: 5.3.2
     jest: 27.0.6
     luxon: 2.0.2
-    media-stream-library: 10.0.6
+    media-stream-library: 10.1.0
     prettier: 2.3.2
     react: 17.0.2
     react-dom: 17.0.2
@@ -9468,7 +9468,7 @@ fsevents@~2.3.1:
     webpack-dev-server: 4.0.0
   peerDependencies:
     luxon: ^1.25.0
-    media-stream-library: ^10.0.2
+    media-stream-library: ^10.1.0
     react: ^17.0.1
     react-dom: ^17.0.1
     styled-components: ^5.2.0
@@ -13700,9 +13700,9 @@ typescript@4.3.5:
   languageName: node
   linkType: hard
 
-"ws@npm:7.5.3":
-  version: 7.5.3
-  resolution: "ws@npm:7.5.3"
+"ws@npm:8.2.0, ws@npm:^8.1.0":
+  version: 8.2.0
+  resolution: "ws@npm:8.2.0"
   peerDependencies:
     bufferutil: ^4.0.1
     utf-8-validate: ^5.0.2
@@ -13711,7 +13711,7 @@ typescript@4.3.5:
       optional: true
     utf-8-validate:
       optional: true
-  checksum: 423dc0d859fa74020f5555140905b862470a60ea1567bb9ad55a087263d7718b9c94f69678be1cee9868925c570f1e6fc79d09f90c39057bc63fa2edbb2c547b
+  checksum: 7cd544312a48dafcb8158c9b4e5f20986cce980d516e0ef0602665911b0e95c5e0dea2846a4bb3153a1e2c839aa3d92fb7e69dd864fe432e881eee9d4e8cf70b
   languageName: node
   linkType: hard
 
@@ -13727,21 +13727,6 @@ typescript@4.3.5:
     utf-8-validate:
       optional: true
   checksum: 3a990b32ed08c72070d5e8913e14dfcd831919205be52a3ff0b4cdd998c8d554f167c9df3841605cde8b11d607768cacab3e823c58c96a5c08c987e093eb767a
-  languageName: node
-  linkType: hard
-
-"ws@npm:^8.1.0":
-  version: 8.2.0
-  resolution: "ws@npm:8.2.0"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ^5.0.2
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 7cd544312a48dafcb8158c9b4e5f20986cce980d516e0ef0602665911b0e95c5e0dea2846a4bb3153a1e2c839aa3d92fb7e69dd864fe432e881eee9d4e8cf70b
   languageName: node
   linkType: hard
 
