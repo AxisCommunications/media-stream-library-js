@@ -1,7 +1,6 @@
 import { Pipeline } from './pipeline'
-import { HttpSource, HttpConfig } from '../components/http-source'
+import { HttpMp4Source, HttpConfig } from '../components/http-mp4'
 import { MseSink } from '../components/mse'
-import { Mp4Parser } from '../components/mp4-parser'
 
 export interface HttpMseConfig {
   http: HttpConfig
@@ -15,19 +14,23 @@ export interface HttpMseConfig {
  * that is then sent to a HTML video element
  */
 export class HttpMsePipeline extends Pipeline {
-  public http: HttpSource
+  public onHeaders?: (headers: Headers) => void
+  public http: HttpMp4Source
 
-  private readonly _src?: HttpSource
+  private readonly _src?: HttpMp4Source
   private readonly _sink: MseSink
 
   constructor(config: HttpMseConfig) {
     const { http: httpConfig, mediaElement } = config
 
-    const httpSource = new HttpSource(httpConfig)
-    const mp4Parser = new Mp4Parser()
+    const httpSource = new HttpMp4Source(httpConfig)
     const mseSink = new MseSink(mediaElement)
 
-    super(httpSource, mp4Parser, mseSink)
+    httpSource.onHeaders = (headers) => {
+      this.onHeaders && this.onHeaders(headers)
+    }
+
+    super(httpSource, mseSink)
 
     this._src = httpSource
     this._sink = mseSink

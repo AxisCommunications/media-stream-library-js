@@ -65,6 +65,7 @@ export interface IsomMessage extends GenericMessage {
   readonly type: MessageType.ISOM
   readonly checkpointTime?: number // presentation time of last I-frame (s)
   readonly tracks?: MediaTrack[]
+  readonly mime?: string
 }
 
 export interface XmlMessage extends GenericMessage {
