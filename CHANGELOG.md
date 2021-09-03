@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v10.0.6](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.5...v10.0.6) (2021-08-20 15:31:48 +0200)
+## [v10.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.6...v10.1.0) (2021-09-03 16:26:41 +0200)
+
+### Maintenance
+
+  - **deps**: upgrade SDKs (#634) ([078d331](https://github.com/AxisCommunications/media-stream-library-js/commit/078d331a85b9c0bf0872a432cd182b6c549030d9))
+  - upgrade all dependencies (#631) ([457ee99](https://github.com/AxisCommunications/media-stream-library-js/commit/457ee99390ca10a9837112daab8f4a734d101769))
+
+### Features
+
+  - use HTTP headers from streaming MP4 ([69b7bc5](https://github.com/AxisCommunications/media-stream-library-js/commit/69b7bc5f1c715d9fb39fb2f189330d00d73ebd19))
+
+## [v10.0.6](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.0.5...v10.0.6) (2021-08-20 15:34:19 +0200)
 
 ### Maintenance
 
