@@ -1,6 +1,6 @@
 {
   "name": "media-stream-library",
-  "version": "10.1.0",
+  "version": "10.1.1",
   "description": "Media stream library for Node & the Web.",
   "license": "MIT",
   "main": "dist/media-stream-library.min.js",
@@ -38,7 +38,12 @@
     "type": "git",
     "url": "https://github.com/AxisCommunications/media-stream-library-js"
   },
-  "keywords": ["video", "live", "streaming", "rtsp"],
+  "keywords": [
+    "video",
+    "live",
+    "streaming",
+    "rtsp"
+  ],
   "dependencies": {
     "buffer": "6.0.3",
     "debug": "4.3.2",
@@ -88,6 +93,11 @@
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
-    "moduleFileExtensions": ["ts", "js", "json", "node"]
+    "moduleFileExtensions": [
+      "ts",
+      "js",
+      "json",
+      "node"
+    ]
   }
 }
