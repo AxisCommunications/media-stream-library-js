@@ -57,6 +57,11 @@ export class MseSink extends Sink {
             // from the tracks (with a default fallback to basic H.264).
             const mimeType = msg.mime ?? `video/mp4; codecs="${codecs}"`
 
+            if (!MediaSource.isTypeSupported(mimeType)) {
+              incoming.emit('error', `unsupported media type: ${mimeType}`)
+              return
+            }
+
             // Start a new movie (new SDP info available)
             this._lastCheckpointTime = 0
 

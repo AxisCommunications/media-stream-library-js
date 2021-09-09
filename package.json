@@ -31,18 +31,14 @@
     "rtsp": "sbin/rtsp-ws-server.sh",
     "examples": "yarn build && http-server examples/browser",
     "dev": "node sbin/dev.js",
-    "release": "sbin/release.sh"
+    "release": "sbin/release.py",
+    "commitlint": "sbin/commitlint.py"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/AxisCommunications/media-stream-library-js"
   },
-  "keywords": [
-    "video",
-    "live",
-    "streaming",
-    "rtsp"
-  ],
+  "keywords": ["video", "live", "streaming", "rtsp"],
   "dependencies": {
     "buffer": "6.0.3",
     "debug": "4.3.2",
@@ -92,11 +88,6 @@
     "transform": {
       "^.+\\.ts$": "ts-jest"
     },
-    "moduleFileExtensions": [
-      "ts",
-      "js",
-      "json",
-      "node"
-    ]
+    "moduleFileExtensions": ["ts", "js", "json", "node"]
   }
 }
