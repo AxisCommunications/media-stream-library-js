@@ -24,3 +24,8 @@ node_modules/
 # ESLint
 .eslintcache
 
+# Mac
+.DS_Store
+
+# Python
+__pycache__/

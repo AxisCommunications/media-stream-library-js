@@ -25,6 +25,9 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache
+      - name: Check commit message
+        if: ${{ github.event_name == 'pull_request' }}
+        run: yarn commitlint ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
       - name: Linting & Unit testing
         run: |
           yarn lint

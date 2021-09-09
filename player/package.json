@@ -20,7 +20,8 @@
     "build:bundle": "webpack --config webpack.config.js && sbin/copyMinified.sh",
     "build:bundle-legacy": "webpack --config webpack.legacy.config.js",
     "build": "yarn build:esm && yarn build:bundle && yarn build:bundle-legacy",
-    "release": "sbin/release.sh"
+    "release": "sbin/release.py",
+    "commitlint": "sbin/commitlint.py"
   },
   "repository": {
     "type": "git",
