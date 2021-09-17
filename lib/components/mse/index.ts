@@ -29,8 +29,8 @@ export class MseSink extends Sink {
       throw new Error('video element argument missing')
     }
 
-    let mse: MediaSource
-    let sourceBuffer: SourceBuffer
+    let mse: MediaSource | undefined
+    let sourceBuffer: SourceBuffer | undefined
 
     /**
      * Set up an incoming stream and attach it to the sourceBuffer.
@@ -71,6 +71,10 @@ export class MseSink extends Sink {
             mse = new MediaSource()
             el.src = window.URL.createObjectURL(mse)
             const handler = () => {
+              if (mse === undefined) {
+                incoming.emit('error', 'no MediaSource instance')
+                return
+              }
               // revoke the object URL to avoid a memory leak
               window.URL.revokeObjectURL(el.src)
 
@@ -97,14 +101,14 @@ export class MseSink extends Sink {
                 : this._lastCheckpointTime
 
             try {
-              sourceBuffer.appendBuffer(msg.data)
+              sourceBuffer?.appendBuffer(msg.data)
             } catch (e) {
               debug('failed to append to SourceBuffer: ', e, msg)
             }
           }
         } else if (msg.type === MessageType.RTCP) {
           if (packetType(msg.data) === BYE.packetType) {
-            mse.readyState === 'open' && mse.endOfStream()
+            mse?.readyState === 'open' && mse.endOfStream()
           }
           callback()
         } else {
@@ -119,14 +123,14 @@ export class MseSink extends Sink {
     })
 
     // When an error is sent on the incoming stream, close it.
-    incoming.on('error', () => {
-      console.error('error on incoming stream: end stream')
-      if (sourceBuffer.updating) {
+    incoming.on('error', (msg: string) => {
+      console.error('error on incoming stream: ', msg)
+      if (sourceBuffer && sourceBuffer.updating) {
         sourceBuffer.addEventListener('updateend', () => {
-          mse.readyState === 'open' && mse.endOfStream()
+          mse?.readyState === 'open' && mse.endOfStream()
         })
       } else {
-        mse.readyState === 'open' && mse.endOfStream()
+        mse?.readyState === 'open' && mse.endOfStream()
       }
     })
 
