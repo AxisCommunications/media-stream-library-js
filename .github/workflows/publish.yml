@@ -29,6 +29,9 @@ jobs:
       - name: Build
         run: yarn build
 
+      - name: Release changelog
+        run: ./sbin/changelog.py --skip-header single > release-CHANGELOG.md
+
       - name: Release
         id: release
         uses: actions/create-release@v1
@@ -37,6 +40,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: Release ${{ github.ref }}
+          body_path: release-CHANGELOG.md
           draft: false
           prerelease: false
 

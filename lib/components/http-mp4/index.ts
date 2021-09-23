@@ -3,14 +3,20 @@ import { Source } from '../component'
 import { Readable } from 'stream'
 import { MessageType } from '../message'
 
-const debug = registerDebug('msl:http-source')
+const debug = registerDebug('msl:http-mp4')
 
 export interface HttpConfig {
   uri: string
   options?: RequestInit
 }
 
-export class HttpSource extends Source {
+/**
+ * HttpMp4
+ *
+ * Stream MP4 data over HTTP/S, and use Axis-specific
+ * headers to determine MIME type and stream transformation.
+ */
+export class HttpMp4Source extends Source {
   public uri: string
   public options?: RequestInit
   public length?: number
@@ -76,6 +82,13 @@ export class HttpSource extends Source {
           throw new Error('empty response body')
         }
 
+        const contentType = rsp.headers.get('Content-Type')
+        this.incoming.push({
+          data: Buffer.alloc(0),
+          type: MessageType.ISOM,
+          mime: contentType,
+        })
+
         this.onHeaders && this.onHeaders(rsp.headers)
 
         this._reader = rsp.body.getReader()
@@ -118,7 +131,7 @@ export class HttpSource extends Source {
         }
         this.length += value.length
         const buffer = Buffer.from(value)
-        if (!this.incoming.push({ data: buffer, type: MessageType.RAW })) {
+        if (!this.incoming.push({ data: buffer, type: MessageType.ISOM })) {
           // Something happened down stream that it is no longer processing the
           // incoming data, and the stream buffer got full.
           // This could be because we are downloading too much data at once,
