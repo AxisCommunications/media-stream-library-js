@@ -29,6 +29,7 @@ export interface Html5VideoConfig {
 export class Html5VideoPipeline extends RtspMp4Pipeline {
   public onSourceOpen?: (mse: MediaSource, tracks: MediaTrack[]) => void
   public onServerClose?: () => void
+  public onWsError?: () => void
   public ready: Promise<void>
   public tracks?: MediaTrack[]
 
@@ -60,6 +61,9 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
 
     const waitForWs = WSSource.open(wsConfig)
     this.ready = waitForWs.then((wsSource) => {
+      wsSource.incoming.on('error', () => {
+        this.onWsError && this.onWsError();
+      })
       wsSource.onServerClose = () => {
         this.onServerClose && this.onServerClose()
       }
