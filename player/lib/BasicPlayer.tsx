@@ -13,7 +13,6 @@ import {
   PlaybackArea,
   VapixParameters,
   VideoProperties,
-  Format,
   PlayerNativeElement,
 } from './PlaybackArea'
 import { ControlArea, ControlBar } from './Controls'
@@ -22,6 +21,7 @@ import { Pause, Play } from './img'
 import { useUserActive } from './hooks/useUserActive'
 import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
 import { Limiter } from './components/Limiter'
+import { Format } from './types'
 
 const DEFAULT_FORMAT = Format.JPEG
 

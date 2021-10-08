@@ -13,6 +13,7 @@ import { WsRtspCanvas } from './WsRtspCanvas'
 import { StillImage } from './StillImage'
 import { MetadataHandler } from './metadata'
 import { HttpMp4Video } from './HttpMp4Video'
+import { Format } from './types'
 
 export type PlayerNativeElement =
   | HTMLVideoElement
@@ -30,13 +31,6 @@ export enum AxisApi {
   'AXIS_IMAGE_CGI' = 'AXIS_IMAGE_CGI',
   'AXIS_MEDIA_AMP' = 'AXIS_MEDIA_AMP',
   'AXIS_MEDIA_CGI' = 'AXIS_MEDIA_CGI',
-}
-
-export enum Format {
-  'RTP_H264' = 'RTP_H264',
-  'RTP_JPEG' = 'RTP_JPEG',
-  'JPEG' = 'JPEG',
-  'MP4_H264' = 'MP4_H264',
 }
 
 export enum Protocol {
@@ -63,6 +57,7 @@ export interface VideoProperties {
   readonly el: PlayerNativeElement
   readonly width: number
   readonly height: number
+  readonly formatSupportsAudio: boolean
   readonly pipeline?: PlayerPipeline
   readonly media?: ReadonlyArray<{
     readonly type: 'video' | 'audio' | 'data'

@@ -7,7 +7,8 @@ import { useUserActive } from './hooks/useUserActive'
 import { Button } from './components/Button'
 import { Play, Pause, Stop, Refresh, CogWheel, Screenshot } from './img'
 import { Settings } from './Settings'
-import { VapixParameters, Format, VideoProperties } from './PlaybackArea'
+import { VapixParameters, VideoProperties } from './PlaybackArea'
+import { Format } from './types'
 
 function isHTMLMediaElement(el: HTMLElement): el is HTMLMediaElement {
   return (el as HTMLMediaElement).buffered !== undefined

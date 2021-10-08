@@ -11,6 +11,8 @@ import {
   TransformationMatrix,
 } from 'media-stream-library'
 import { VideoProperties, Range } from './PlaybackArea'
+import { FORMAT_SUPPORTS_AUDIO } from './constants'
+import { Format } from './types'
 
 const debugLog = debug('msp:ws-rtsp-video')
 
@@ -174,6 +176,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
             el: canvasRef.current,
             width: canvasRef.current.width,
             height: canvasRef.current.height,
+            formatSupportsAudio: FORMAT_SUPPORTS_AUDIO[Format.RTP_JPEG],
             range: __rangeRef.current,
             sensorTm: __sensorTmRef.current,
           })

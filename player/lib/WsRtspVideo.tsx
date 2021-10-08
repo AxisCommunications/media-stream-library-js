@@ -16,6 +16,8 @@ import {
   MetadataHandler,
   ScheduledMessage,
 } from './metadata'
+import { FORMAT_SUPPORTS_AUDIO } from './constants'
+import { Format } from './types'
 
 const debugLog = debug('msp:ws-rtsp-video')
 
@@ -141,6 +143,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
           pipeline: pipeline ?? undefined,
           width: videoEl.videoWidth,
           height: videoEl.videoHeight,
+          formatSupportsAudio: FORMAT_SUPPORTS_AUDIO[Format.RTP_H264],
           volume: pipeline?.tracks?.find((track) => track.type === 'audio')
             ? videoEl.volume
             : undefined,

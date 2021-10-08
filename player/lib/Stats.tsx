@@ -2,9 +2,10 @@ import React, { useCallback, useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { useInterval } from 'react-hooks-shareable'
 
-import { Format, PlayerPipeline, VideoProperties } from './PlaybackArea'
+import { PlayerPipeline, VideoProperties } from './PlaybackArea'
 import { StreamStats } from './img'
 import { Html5VideoPipeline } from 'media-stream-library'
+import { Format } from './types'
 
 const isHtml5VideoPipeline = (
   pipeline: PlayerPipeline | null | undefined,

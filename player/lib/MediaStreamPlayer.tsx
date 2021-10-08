@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import ReactDOM from 'react-dom'
 import { BasicPlayer } from './BasicPlayer'
-import { VapixParameters, Format } from './PlaybackArea'
+import { VapixParameters } from './PlaybackArea'
 import { Player } from './Player'
+import { Format } from './types'
 
 enum PlayerVariants {
   BASIC = 'basic',

@@ -7,6 +7,8 @@ import { useEventState } from './hooks/useEventState'
 import { VideoProperties } from './PlaybackArea'
 import { MetadataHandler } from './metadata'
 import { fetchTransformationMatrix } from './utils'
+import { FORMAT_SUPPORTS_AUDIO } from './constants'
+import { Format } from './types'
 
 const debugLog = debug('msp:ws-rtsp-video')
 
@@ -110,6 +112,7 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
             width: videoEl.videoWidth,
             height: videoEl.videoHeight,
             sensorTm: __sensorTmRef.current,
+            formatSupportsAudio: FORMAT_SUPPORTS_AUDIO[Format.MP4_H264],
             // TODO: no volume, need to expose tracks?
             // TODO: no pipeline, can we even get stats?
           })
@@ -122,6 +125,7 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
           el: videoEl,
           width: videoEl.videoWidth,
           height: videoEl.videoHeight,
+          formatSupportsAudio: FORMAT_SUPPORTS_AUDIO[Format.MP4_H264],
           // TODO: no volume, need to expose tracks?
           // TODO: no pipeline, can we even get stats?
         }

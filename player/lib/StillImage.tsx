@@ -5,6 +5,8 @@ import debug from 'debug'
 
 import { useEventState } from './hooks/useEventState'
 import { VideoProperties } from './PlaybackArea'
+import { FORMAT_SUPPORTS_AUDIO } from './constants'
+import { Format } from './types'
 
 const debugLog = debug('msp:still-image')
 
@@ -76,6 +78,7 @@ export const StillImage: React.FC<StillImageProps> = ({
         el,
         width: el.naturalWidth,
         height: el.naturalHeight,
+        formatSupportsAudio: FORMAT_SUPPORTS_AUDIO[Format.JPEG],
       })
     }
   }, [loaded])

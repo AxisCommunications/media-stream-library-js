@@ -14,7 +14,6 @@ import {
   PlaybackArea,
   VapixParameters,
   VideoProperties,
-  Format,
   PlayerNativeElement,
 } from './PlaybackArea'
 import { Controls } from './Controls'
@@ -25,6 +24,7 @@ import { getImageURL } from './utils'
 import { MetadataHandler } from './metadata'
 import { Limiter } from './components/Limiter'
 import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
+import { Format } from './types'
 
 const DEFAULT_FORMAT = Format.JPEG
 
