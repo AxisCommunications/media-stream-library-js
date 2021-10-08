@@ -3,7 +3,9 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v6.1.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v6.1.0...v6.1.1) (2021-09-09 11:49:16 +0200)
+## [v6.1.2](https://github.com/AxisCommunications/media-stream-player-js/compare/v6.1.1...v6.1.2) (2021-10-08 13:02:17 +0200)
+
+## [v6.1.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v6.1.0...v6.1.1) (2021-09-09 11:57:15 +0200)
 
 ### 🚦 Continous integration
 

@@ -1,6 +1,6 @@
 {
   "name": "media-stream-player",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "Player built on top of media-stream-library",
   "license": "MIT",
   "main": "dist/esm/index.js",
