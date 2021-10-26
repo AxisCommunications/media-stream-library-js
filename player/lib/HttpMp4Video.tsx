@@ -175,7 +175,8 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
     if (play && pipeline && !fetching) {
       pipeline.onHeaders = (headers) => {
         __sensorTmRef.current = parseTransformHeader(
-          headers.get('x-sensor-transform') ?? headers.get('x-transform'),
+          headers.get('video-sensor-transform') ??
+            headers.get('video-metadata-transform'),
         )
       }
       pipeline.http.play()
