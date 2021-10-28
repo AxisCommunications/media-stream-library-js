@@ -4,6 +4,7 @@ import {
   makeScanHeader,
   makeQuantHeader,
   makeFrameHeader,
+  makeDRIHeader,
 } from './headers'
 import { payload } from '../../utils/protocols/rtp'
 import { makeQtable } from './make-qtable'
@@ -115,9 +116,8 @@ export function jpegDepayFactory(defaultWidth = 0, defaultHeight = 0) {
 
     const quantHeader = makeQuantHeader(precision, qTable)
 
-    if (metadata.DRI !== 0) {
-      throw new Error('not implemented: DRI')
-    }
+    const driHeader =
+      metadata.DRI === 0 ? Buffer.alloc(0) : makeDRIHeader(metadata.DRI)
 
     const frameHeader = makeFrameHeader(width, height, type)
 
@@ -126,6 +126,7 @@ export function jpegDepayFactory(defaultWidth = 0, defaultHeight = 0) {
       data: Buffer.concat([
         IMAGE_HEADER,
         quantHeader,
+        driHeader,
         frameHeader,
         HUFFMAN_HEADER,
         SCAN_HEADER,

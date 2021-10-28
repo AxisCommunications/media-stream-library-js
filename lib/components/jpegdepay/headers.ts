@@ -199,3 +199,7 @@ export function makeScanHeader() {
     0,
   ])
 }
+
+export function makeDRIHeader(dri: number) {
+  return Buffer.from([0xff, 0xdd, 0x00, 4, dri >> 8, dri & 0xff])
+}
