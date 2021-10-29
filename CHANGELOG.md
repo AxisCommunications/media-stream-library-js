@@ -3,7 +3,17 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v10.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.1.0...v10.1.1) (2021-09-09 13:41:41 +0200)
+## [v10.2.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.1.1...v10.2.0) (2021-10-29 08:10:31 +0200)
+
+### ✨ Features
+
+  -  support DRI in JPEG depay ([877dbaf](https://github.com/AxisCommunications/media-stream-library-js/commit/877dbafd06d6d8bc0b21054c83a1ee380fcdf2a1))
+
+### 🐞 Bug fixes
+
+  -  prevent accessing source buffer after error ([067a574](https://github.com/AxisCommunications/media-stream-library-js/commit/067a5740b2b3bc330a8d76813a0cb796c765eaf8))
+
+## [v10.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.1.0...v10.1.1) (2021-09-09 13:42:45 +0200)
 
 ### ⚙️ Maintenance
 
