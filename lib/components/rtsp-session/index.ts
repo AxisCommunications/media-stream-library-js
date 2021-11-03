@@ -21,7 +21,7 @@ import {
   sessionTimeout,
   contentLocation,
 } from '../../utils/protocols/rtsp'
-import { packetType, SR } from '../../utils/protocols/rtcp'
+import { isRtcpSR, Rtcp } from '../../utils/protocols/rtcp'
 import { getTime } from '../../utils/protocols/ntp'
 import { timestamp } from '../../utils/protocols/rtp'
 
@@ -115,6 +115,7 @@ export class RtspSession extends Tube {
   public clockrates?: { [key: number]: number }
   public startTime?: number
 
+  public onRtcp?: (rtcp: Rtcp) => void
   public onSdp?: (sdp: Sdp) => void
   public onError?: (err: RTSPResponseError) => void
   public onPlay?: (range?: string[]) => void
@@ -156,6 +157,9 @@ export class RtspSession extends Tube {
           callback() // Consumes the RTSP packages
         } else if (msg.type === MessageType.RTCP) {
           this._onRtcp(msg)
+          // Execute externally registered SDP handler
+          this.onRtcp && this.onRtcp(msg.rtcp)
+          // Pass SDP forward
           callback(undefined, msg)
         } else if (msg.type === MessageType.RTP) {
           this._onRtp(msg)
@@ -327,10 +331,10 @@ export class RtspSession extends Tube {
     if (this.t0 === undefined || this.n0 === undefined) {
       throw new Error('rtsp: internal error')
     }
-    if (packetType(msg.data) === SR.packetType) {
+    if (isRtcpSR(msg.rtcp)) {
       const rtpChannel = msg.channel - 1
-      this.t0[rtpChannel] = SR.rtpTimestamp(msg.data)
-      this.n0[rtpChannel] = getTime(SR.ntpMost(msg.data), SR.ntpLeast(msg.data))
+      this.t0[rtpChannel] = msg.rtcp.rtpTimestamp
+      this.n0[rtpChannel] = getTime(msg.rtcp.ntpMost, msg.rtcp.ntpLeast)
     }
   }
 

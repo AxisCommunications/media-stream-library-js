@@ -7,6 +7,7 @@ import {
 } from '../message'
 import { messageFromBuffer } from '../../utils/protocols/sdp'
 import { bodyOffset, extractHeaderValue } from '../../utils/protocols/rtsp'
+import { rtcpMessageFromBuffer } from '../../utils/protocols/rtcp'
 
 /**
  * The different possible internal parser states.
@@ -181,11 +182,9 @@ export class Parser {
       do {
         // RTCP packets can be packed together, unbundle them:
         const rtcpByteSize = rtcpPackets.readUInt16BE(2) * 4 + 4
-        messages.push({
-          type: MessageType.RTCP,
-          data: rtcpPackets.slice(0, rtcpByteSize),
-          channel,
-        })
+        messages.push(
+          rtcpMessageFromBuffer(channel, rtcpPackets.slice(0, rtcpByteSize)),
+        )
         rtcpPackets = rtcpPackets.slice(rtcpByteSize)
       } while (rtcpPackets.length > 0)
     }

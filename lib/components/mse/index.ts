@@ -3,7 +3,7 @@ import registerDebug from 'debug'
 import { Sink } from '../component'
 import { Writable, Readable } from 'stream'
 import { MessageType, Message } from '../message'
-import { packetType, BYE } from '../../utils/protocols/rtcp'
+import { isRtcpBye } from '../../utils/protocols/rtcp'
 import { MediaTrack } from '../../utils/protocols/isom'
 
 const TRIGGER_THRESHOLD = 100
@@ -107,7 +107,7 @@ export class MseSink extends Sink {
             }
           }
         } else if (msg.type === MessageType.RTCP) {
-          if (packetType(msg.data) === BYE.packetType) {
+          if (isRtcpBye(msg.rtcp)) {
             mse?.readyState === 'open' && mse.endOfStream()
           }
           callback()

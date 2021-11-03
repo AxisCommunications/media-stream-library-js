@@ -1,5 +1,6 @@
 import { MediaTrack } from '../utils/protocols/isom'
 import { Sdp } from '../utils/protocols/sdp'
+import { Rtcp } from '../utils/protocols/rtcp'
 
 export interface GenericMessage {
   readonly type: MessageType
@@ -33,6 +34,7 @@ export interface RtpMessage extends GenericMessage {
 export interface RtcpMessage extends GenericMessage {
   readonly type: MessageType.RTCP
   readonly channel: number
+  readonly rtcp: Rtcp
 }
 
 export interface RtspMessage extends GenericMessage {

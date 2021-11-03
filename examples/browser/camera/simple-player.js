@@ -1,4 +1,4 @@
-const { pipelines } = window.mediaStreamLibrary
+const { pipelines, isRtcpBye } = window.mediaStreamLibrary
 
 // force auth
 const authorize = async (host) => {
@@ -44,6 +44,14 @@ const play = (host, encoding = 'h264') => {
     rtsp: { uri: `rtsp://${host}/axis-media/media.amp?videocodec=${encoding}` },
     mediaElement,
   })
+
+  // Restart stream on RTCP BYE (stream ended)
+  pipeline.rtsp.onRtcp = (rtcp) => {
+    if (isRtcpBye(rtcp)) {
+      setTimeout(() => play(host, encoding), 0)
+    }
+  }
+
   pipeline.ready.then(() => {
     pipeline.rtsp.play()
   })
