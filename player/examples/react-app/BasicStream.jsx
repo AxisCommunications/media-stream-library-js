@@ -37,6 +37,7 @@ export const BasicStream = () => {
       hostname={window.location.host}
       format="RTP_H264"
       autoPlay
+      autoRetry
       vapixParams={{ resolution: '800x600' }}
     />
   )

@@ -13,6 +13,7 @@ interface InitialAttributes {
   readonly variant: string
   readonly hostname: string
   readonly autoplay: boolean
+  readonly autoretry: boolean
   readonly format: string
   readonly compression: string
   readonly resolution: string
@@ -49,6 +50,7 @@ export class MediaStreamPlayer extends HTMLElement {
       'variant',
       'hostname',
       'autoplay',
+      'autoretry',
       'format',
       'compression',
       'resolution',
@@ -72,6 +74,7 @@ export class MediaStreamPlayer extends HTMLElement {
       variant,
       hostname,
       autoplay,
+      autoretry,
       format,
       compression,
       resolution,
@@ -93,6 +96,7 @@ export class MediaStreamPlayer extends HTMLElement {
       variant,
       hostname,
       autoplay,
+      autoretry,
       format,
       compression,
       resolution,
@@ -136,6 +140,18 @@ export class MediaStreamPlayer extends HTMLElement {
       this.setAttribute('autoplay', '')
     } else {
       this.removeAttribute('autoplay')
+    }
+  }
+
+  public get autoretry() {
+    return this.hasAttribute('autoretry')
+  }
+
+  public set autoretry(value) {
+    if (value !== undefined) {
+      this.setAttribute('autoretry', '')
+    } else {
+      this.removeAttribute('autoretry')
     }
   }
 
@@ -328,6 +344,7 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
     variant,
     hostname,
     autoplay,
+    autoretry,
     format,
     compression,
     resolution,
@@ -389,6 +406,7 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
         <Player
           hostname={hostname}
           autoPlay={autoplay}
+          autoRetry={autoretry}
           initialFormat={format as Format}
           vapixParams={vapixParameters}
           secure={secure}
@@ -399,6 +417,7 @@ const PlayerComponent: React.FC<PlayerComponentProps> = ({
         <BasicPlayer
           hostname={hostname}
           autoPlay={autoplay}
+          autoRetry={autoretry}
           format={format as Format}
           vapixParams={vapixParameters}
           secure={secure}

@@ -48,6 +48,7 @@ export const SingleStream = () => {
       hostname={window.location.host}
       initialFormat="RTP_H264"
       autoPlay
+      autoRetry
       vapixParams={vapixParams}
     />
   )

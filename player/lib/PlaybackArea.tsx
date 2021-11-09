@@ -5,6 +5,7 @@ import {
   Html5CanvasPipeline,
   HttpMsePipeline,
   TransformationMatrix,
+  Rtcp,
 } from 'media-stream-library'
 import debug from 'debug'
 
@@ -78,6 +79,7 @@ interface PlaybackAreaProps {
   readonly refresh: number
   readonly onPlaying: (properties: VideoProperties) => void
   readonly onSdp?: (msg: Sdp) => void
+  readonly onRtcp?: (msg: Rtcp) => void
   readonly metadataHandler?: MetadataHandler
   readonly secure?: boolean
   /**
@@ -224,6 +226,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   refresh,
   onPlaying,
   onSdp,
+  onRtcp,
   metadataHandler,
   secure = window.location.protocol === Protocol.HTTPS,
   autoRetry = false,
@@ -252,6 +255,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
           offset,
           onPlaying,
           onSdp,
+          onRtcp,
           metadataHandler,
           autoRetry,
         }}
@@ -274,7 +278,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
       <WsRtspCanvas
         key={refresh}
         forwardedRef={forwardedRef as Ref<HTMLCanvasElement>}
-        {...{ ws, rtsp, play, offset, onPlaying, onSdp }}
+        {...{ ws, rtsp, play, offset, onPlaying, onSdp, onRtcp }}
       />
     )
   }

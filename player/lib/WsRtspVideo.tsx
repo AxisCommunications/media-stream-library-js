@@ -7,6 +7,7 @@ import {
   utils,
   VideoMedia,
   TransformationMatrix,
+  Rtcp,
 } from 'media-stream-library'
 
 import { useEventState } from './hooks/useEventState'
@@ -61,6 +62,10 @@ interface WsRtspVideoProps {
    * Callback when SDP data is received.
    */
   readonly onSdp?: (msg: Sdp) => void
+  /**
+   * Callback when RTCP data is received.
+   */
+  readonly onRtcp?: (msg: Rtcp) => void
   readonly metadataHandler?: MetadataHandler
   /**
    * Start playing from a specific offset (in seconds)
@@ -82,6 +87,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   muted = true,
   onPlaying,
   onSdp,
+  onRtcp,
   metadataHandler,
   offset = 0,
   autoRetry = false,
@@ -205,6 +211,10 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   const __onSdpRef = useRef(onSdp)
   __onSdpRef.current = onSdp
 
+  // keep a stable reference to the external RTCP handler
+  const __onRtcpRef = useRef(onRtcp)
+  __onRtcpRef.current = onRtcp
+
   useEffect(() => {
     if (play && pipeline && !fetching) {
       pipeline.ready
@@ -221,6 +231,10 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
               __onSdpRef.current(sdp)
             }
           }
+          pipeline.rtsp.onRtcp = (rtcp) => {
+            __onRtcpRef.current?.(rtcp)
+          }
+
           pipeline.rtsp.onPlay = (range) => {
             if (range !== undefined) {
               __rangeRef.current = [

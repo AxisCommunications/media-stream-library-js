@@ -7,7 +7,7 @@ import React, {
   useLayoutEffect,
   useRef,
 } from 'react'
-import { Sdp } from 'media-stream-library'
+import { isRtcpBye, Rtcp, Sdp } from 'media-stream-library'
 
 import { Container, Layer } from './Container'
 import {
@@ -74,7 +74,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
       className,
       startTime,
       duration,
-      autoRetry,
+      autoRetry = false,
     },
     ref,
   ) => {
@@ -254,6 +254,18 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     }, [videoProperties, volume])
 
     /**
+     * Refresh on RTCP bye
+     */
+    const onRtcp = useCallback(
+      (msg: Rtcp) => {
+        if (isRtcpBye(msg) && autoRetry) {
+          onRefresh()
+        }
+      },
+      [autoRetry, onRefresh],
+    )
+
+    /**
      * Render
      *
      * Each layer is positioned exactly on top of the visible image, since the
@@ -279,6 +291,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 parameters={parameters}
                 onPlaying={onPlaying}
                 onSdp={onSdp}
+                onRtcp={onRtcp}
                 metadataHandler={metadataHandler}
                 secure={secure}
                 autoRetry={autoRetry}

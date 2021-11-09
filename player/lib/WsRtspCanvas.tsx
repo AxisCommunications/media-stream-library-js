@@ -9,6 +9,7 @@ import {
   utils,
   VideoMedia,
   TransformationMatrix,
+  Rtcp,
 } from 'media-stream-library'
 import { VideoProperties, Range } from './PlaybackArea'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
@@ -45,6 +46,10 @@ interface WsRtspCanvasProps {
    */
   readonly onSdp?: (msg: Sdp) => void
   /**
+   * Callback when RTCP data is received.
+   */
+  readonly onRtcp?: (msg: Rtcp) => void
+  /**
    * Start playing from a specific offset (in seconds)
    */
   readonly offset?: number
@@ -73,6 +78,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   rtsp = '',
   onPlaying,
   onSdp,
+  onRtcp,
   offset = 0,
   autoRetry = false,
 }) => {
@@ -129,6 +135,10 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   const __onSdpRef = useRef(onSdp)
   __onSdpRef.current = onSdp
 
+  // keep a stable reference to the external RTCP handler
+  const __onRtcpRef = useRef(onRtcp)
+  __onRtcpRef.current = onRtcp
+
   const __sensorTmRef = useRef<TransformationMatrix>()
 
   useEffect(() => {
@@ -147,6 +157,10 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
             if (__onSdpRef.current !== undefined) {
               __onSdpRef.current(sdp)
             }
+          }
+
+          pipeline.rtsp.onRtcp = (rtcp) => {
+            __onRtcpRef.current?.(rtcp)
           }
 
           pipeline.rtsp.onPlay = (range) => {

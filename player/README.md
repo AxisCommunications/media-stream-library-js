@@ -66,6 +66,7 @@ Supported properties right now are:
 | `variant`             | Supported choices are `basic` or `advanced`. Refers to `BasicPlayer` and `Player`. |
 | `hostname`            | The ip address to your device                                                      |
 | `autoplay`            | If the property exists, we try and autoplay your video                             |
+| `autoretry`           | If the property exists, we try to auto retry your video on errors and if ended     |
 | `secure`              | If the property exists, we will connect with https instead of http                 |
 | `format`              | Accepted values are `JPEG`, `RTP_JPEG`, `RTP_H264`, or `MP4_H264`                  |
 | `compression`         | Accepted values are `0..100`, with 10 between each step                            |

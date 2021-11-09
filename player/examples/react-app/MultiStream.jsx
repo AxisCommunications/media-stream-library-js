@@ -78,6 +78,7 @@ export const MultiStream = () => {
                 hostname={device.hostname}
                 initialFormat="JPEG"
                 autoPlay
+                autoRetry
                 vapixParams={{ resolution: '800x600' }}
               />
             </MediaPlayerContainer>
