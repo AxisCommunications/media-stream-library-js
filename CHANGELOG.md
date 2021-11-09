@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v10.2.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.1.1...v10.2.0) (2021-10-29 08:10:31 +0200)
+## [v10.3.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.2.0...v10.3.0) (2021-11-09 08:20:20 +0100)
+
+### ✨ Features
+
+  - **rtp**:  RTCP parsing ([8f6c967](https://github.com/AxisCommunications/media-stream-library-js/commit/8f6c967ef04a1391f84642c5330acc459b98e1b1))
+
+## [v10.2.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.1.1...v10.2.0) (2021-10-29 08:12:46 +0200)
 
 ### ✨ Features
 
