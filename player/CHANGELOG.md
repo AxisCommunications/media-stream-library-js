@@ -3,7 +3,18 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v6.3.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v6.3.0...v6.3.1) (2021-10-29 11:42:44 +0200)
+## [v6.4.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v6.3.1...v6.4.0) (2021-11-10 15:46:16 +0100)
+
+### ✨ Features
+
+  -  add browser supported formats ([de09fe0](https://github.com/AxisCommunications/media-stream-player-js/commit/de09fe0301dd6d7b98713254fc0c1035869f91ea))
+  -  retry RTSP stream on RTCP BYE ([3eb08ae](https://github.com/AxisCommunications/media-stream-player-js/commit/3eb08aea84cfd22a3a71833bb9fbd0e2d2654e0f))
+
+### ⚙️ Maintenance
+
+  -  update yarn sdks and plugins ([cc6bb03](https://github.com/AxisCommunications/media-stream-player-js/commit/cc6bb03479b9cefc3bc4c7466d35e240a8a533ba))
+
+## [v6.3.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v6.3.0...v6.3.1) (2021-10-29 15:28:58 +0200)
 
 ### ⚙️ Maintenance
 
