@@ -21,6 +21,7 @@ export class HttpMp4Source extends Source {
   public options?: RequestInit
   public length?: number
   public onHeaders?: (headers: Headers) => void
+  public onServerClose?: () => void
 
   private _reader?: ReadableStreamDefaultReader<Uint8Array>
   private _abortController?: AbortController
@@ -107,6 +108,17 @@ export class HttpMp4Source extends Source {
     this._abortController && this._abortController.abort()
   }
 
+  _isClosed(): boolean {
+    return this._allDone
+  }
+
+  _close(): void {
+    this._reader = undefined
+    this._allDone = true
+    this.incoming.push(null)
+    this.onServerClose?.()
+  }
+
   _pull(): void {
     if (this._reader === undefined) {
       return
@@ -116,11 +128,10 @@ export class HttpMp4Source extends Source {
       .read()
       .then(({ done, value }) => {
         if (done) {
-          if (!this._allDone) {
+          if (!this._isClosed()) {
             debug('fetch completed, total downloaded: ', this.length, ' bytes')
-            this.incoming.push(null)
+            this._close()
           }
-          this._allDone = true
           return
         }
         if (value === undefined) {
@@ -145,7 +156,10 @@ export class HttpMp4Source extends Source {
         }
       })
       .catch((err) => {
-        console.error('http-source: read failed: ', err)
+        debug('http-source: read failed: ', err)
+        if (!this._isClosed()) {
+          this._close()
+        }
       })
   }
 }

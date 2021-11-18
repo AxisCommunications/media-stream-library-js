@@ -12,9 +12,13 @@ export interface HttpMseConfig {
  *
  * A pipeline that connects to an HTTP server and can process an MP4 data stream
  * that is then sent to a HTML video element
+ *
+ * Handlers that can be set on the pipeline:
+ * - `onServerClose`: called when the server closes the connection
  */
 export class HttpMsePipeline extends Pipeline {
   public onHeaders?: (headers: Headers) => void
+  public onServerClose?: () => void
   public http: HttpMp4Source
 
   private readonly _src?: HttpMp4Source
@@ -29,6 +33,8 @@ export class HttpMsePipeline extends Pipeline {
     httpSource.onHeaders = (headers) => {
       this.onHeaders && this.onHeaders(headers)
     }
+
+    httpSource.onServerClose = () => this.onServerClose?.()
 
     super(httpSource, mseSink)
 
