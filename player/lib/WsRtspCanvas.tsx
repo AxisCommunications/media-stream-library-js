@@ -10,6 +10,7 @@ import {
   VideoMedia,
   TransformationMatrix,
   Rtcp,
+  isRtcpBye,
 } from 'media-stream-library'
 import { VideoProperties, Range } from './PlaybackArea'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
@@ -41,6 +42,10 @@ interface WsRtspCanvasProps {
    * Callback to signal video is playing.
    */
   readonly onPlaying: (props: VideoProperties) => void
+  /**
+   * Callback to signal video ended.
+   */
+  readonly onEnded?: () => void
   /**
    * Callback when SDP data is received.
    */
@@ -77,6 +82,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   ws = '',
   rtsp = '',
   onPlaying,
+  onEnded,
   onSdp,
   onRtcp,
   offset = 0,
@@ -131,6 +137,10 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   const __onPlayingRef = useRef(onPlaying)
   __onPlayingRef.current = onPlaying
 
+  // keep a stable reference to the external onEnded callback
+  const __onEndedRef = useRef(onEnded)
+  __onEndedRef.current = onEnded
+
   // keep a stable reference to the external SDP handler
   const __onSdpRef = useRef(onSdp)
   __onSdpRef.current = onSdp
@@ -161,6 +171,10 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
 
           pipeline.rtsp.onRtcp = (rtcp) => {
             __onRtcpRef.current?.(rtcp)
+
+            if (isRtcpBye(rtcp)) {
+              __onEndedRef.current?.()
+            }
           }
 
           pipeline.rtsp.onPlay = (range) => {

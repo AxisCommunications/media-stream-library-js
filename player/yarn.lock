@@ -9296,9 +9296,9 @@ fsevents@~2.3.1:
   languageName: node
   linkType: hard
 
-"media-stream-library@npm:10.3.0":
-  version: 10.3.0
-  resolution: "media-stream-library@npm:10.3.0"
+"media-stream-library@npm:10.4.0":
+  version: 10.4.0
+  resolution: "media-stream-library@npm:10.4.0"
   dependencies:
     buffer: 6.0.3
     debug: 4.3.2
@@ -9309,7 +9309,7 @@ fsevents@~2.3.1:
     ws: 8.2.0
   bin:
     live: examples/node/player.js
-  checksum: 0a5afbb9fae0a533111eb52c33dbb7ec2912ebdbe5d82733130986ada7f8d4c086f7a0a0e11fc2f742d9d776ca1c24f5a19b26e5e040a17c3cd651f56e791ac2
+  checksum: ae16f35e93fc3148d4585c416877a73946096b1eaccab4f124188979ddc98c870e6184285d87a40c714b1e31a8d79498f54e887ebffc511adf78e85e2733e803
   languageName: node
   linkType: hard
 
@@ -9348,7 +9348,7 @@ fsevents@~2.3.1:
     html-webpack-plugin: 5.3.2
     jest: ^27.3.1
     luxon: 2.0.2
-    media-stream-library: 10.3.0
+    media-stream-library: 10.4.0
     prettier: 2.4.0
     react: 17.0.2
     react-dom: 17.0.2

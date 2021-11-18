@@ -6,11 +6,10 @@ import { pipelines, TransformationMatrix } from 'media-stream-library'
 import { useEventState } from './hooks/useEventState'
 import { VideoProperties } from './PlaybackArea'
 import { MetadataHandler } from './metadata'
-import { fetchTransformationMatrix } from './utils'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { Format } from './types'
 
-const debugLog = debug('msp:ws-rtsp-video')
+const debugLog = debug('msp:http-mp4-video')
 
 const VideoNative = styled.video`
   max-height: 100%;
@@ -44,6 +43,11 @@ interface HttpMp4VideoProps {
    * Callback to signal video is playing.
    */
   readonly onPlaying?: (videoProperties: VideoProperties) => void
+  /**
+   * Callback to signal video ended.
+   */
+  readonly onEnded?: () => void
+
   readonly metadataHandler?: MetadataHandler
 }
 
@@ -54,6 +58,7 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
   autoPlay = true,
   muted = true,
   onPlaying,
+  onEnded,
   metadataHandler,
 }) => {
   let videoRef = useRef<HTMLVideoElement>(null)
@@ -83,6 +88,10 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
   const __onPlayingRef = useRef(onPlaying)
   __onPlayingRef.current = onPlaying
 
+  // keep a stable reference to the external onEnded callback
+  const __onEndedRef = useRef(onEnded)
+  __onEndedRef.current = onEnded
+
   const __sensorTmRef = useRef<TransformationMatrix>()
 
   useEffect(() => {
@@ -103,43 +112,15 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
       unsetPlaying()
     } else if (play && playing === true) {
       if (__onPlayingRef.current !== undefined) {
-        // FIXME: remove this check and only use this when headers
-        // are implemented, then we don't need the
-        // fetchTransformationMatrix function block
-        if (__sensorTmRef.current !== undefined) {
-          __onPlayingRef.current({
-            el: videoEl,
-            width: videoEl.videoWidth,
-            height: videoEl.videoHeight,
-            sensorTm: __sensorTmRef.current,
-            formatSupportsAudio: FORMAT_SUPPORTS_AUDIO[Format.MP4_H264],
-            // TODO: no volume, need to expose tracks?
-            // TODO: no pipeline, can we even get stats?
-          })
-          return
-        }
-        // FIXME: this can be removed when __sensorTmRef
-        // is always defined.
-        const onPlayingCallback = __onPlayingRef.current
-        const baseVideoProperties = {
+        __onPlayingRef.current({
           el: videoEl,
           width: videoEl.videoWidth,
           height: videoEl.videoHeight,
+          sensorTm: __sensorTmRef.current,
           formatSupportsAudio: FORMAT_SUPPORTS_AUDIO[Format.MP4_H264],
           // TODO: no volume, need to expose tracks?
           // TODO: no pipeline, can we even get stats?
-        }
-        fetchTransformationMatrix('sensor')
-          .then((sensorTm) => {
-            onPlayingCallback({
-              ...baseVideoProperties,
-              sensorTm,
-            })
-          })
-          .catch((err) => {
-            console.error('failed to fetch transformation matrix: ', err)
-            onPlayingCallback(baseVideoProperties)
-          })
+        })
       }
     }
   }, [play, canplay, playing, unsetPlaying, pipeline])
@@ -152,12 +133,17 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
     const videoEl = videoRef.current
 
     if (src !== undefined && src.length > 0 && videoEl !== null) {
+      const endedCallback = () => {
+        __onEndedRef.current?.()
+      }
       debugLog('create pipeline', src)
       const newPipeline = new pipelines.HttpMsePipeline({
         http: { uri: src },
         mediaElement: videoEl,
       })
       setPipeline(newPipeline)
+
+      newPipeline.onServerClose = endedCallback
 
       return () => {
         debugLog('close pipeline and clear video')

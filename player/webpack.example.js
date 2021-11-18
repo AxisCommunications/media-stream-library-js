@@ -48,8 +48,9 @@ module.exports = (env) => {
     ],
 
     devServer: {
-      host: 'localhost',
+      host: '0.0.0.0',
       port: 3554,
+      allowedHosts: 'all',
       proxy: [
         {
           context: ['/axis-cgi', '/rtsp-over-websocket'],
@@ -57,6 +58,15 @@ module.exports = (env) => {
           changeOrigin: true,
           ws: true,
           logLevel: 'debug',
+          onProxyReqWs: (...[, , socket]) => {
+            socket.on('error', () => console.log('error'))
+          },
+          onProxyRes: (proxyRes, req, res) => {
+            proxyRes.addListener('error', (e) => {
+              console.log(e)
+              res.socket?.end()
+            })
+          },
         },
       ],
     },

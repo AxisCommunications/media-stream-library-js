@@ -7,7 +7,7 @@ import React, {
   useLayoutEffect,
   useRef,
 } from 'react'
-import { isRtcpBye, Rtcp, Sdp } from 'media-stream-library'
+import { Sdp } from 'media-stream-library'
 
 import { Container, Layer } from './Container'
 import {
@@ -254,16 +254,13 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
     }, [videoProperties, volume])
 
     /**
-     * Refresh on RTCP bye
+     * Refresh on stream end
      */
-    const onRtcp = useCallback(
-      (msg: Rtcp) => {
-        if (isRtcpBye(msg) && autoRetry) {
-          onRefresh()
-        }
-      },
-      [autoRetry, onRefresh],
-    )
+    const onEnded = useCallback(() => {
+      if (autoRetry) {
+        onRefresh()
+      }
+    }, [autoRetry, onRefresh])
 
     /**
      * Render
@@ -290,8 +287,8 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 format={format}
                 parameters={parameters}
                 onPlaying={onPlaying}
+                onEnded={onEnded}
                 onSdp={onSdp}
-                onRtcp={onRtcp}
                 metadataHandler={metadataHandler}
                 secure={secure}
                 autoRetry={autoRetry}

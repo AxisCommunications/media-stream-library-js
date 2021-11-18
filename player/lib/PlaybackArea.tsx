@@ -78,6 +78,7 @@ interface PlaybackAreaProps {
   readonly offset?: number
   readonly refresh: number
   readonly onPlaying: (properties: VideoProperties) => void
+  readonly onEnded?: () => void
   readonly onSdp?: (msg: Sdp) => void
   readonly onRtcp?: (msg: Rtcp) => void
   readonly metadataHandler?: MetadataHandler
@@ -225,6 +226,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   offset,
   refresh,
   onPlaying,
+  onEnded,
   onSdp,
   onRtcp,
   metadataHandler,
@@ -254,6 +256,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
           play,
           offset,
           onPlaying,
+          onEnded,
           onSdp,
           onRtcp,
           metadataHandler,
@@ -278,7 +281,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
       <WsRtspCanvas
         key={refresh}
         forwardedRef={forwardedRef as Ref<HTMLCanvasElement>}
-        {...{ ws, rtsp, play, offset, onPlaying, onSdp, onRtcp }}
+        {...{ ws, rtsp, play, offset, onPlaying, onEnded, onSdp, onRtcp }}
       />
     )
   }
@@ -318,7 +321,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
       <HttpMp4Video
         key={refresh}
         forwardedRef={forwardedRef as Ref<HTMLVideoElement>}
-        {...{ src, play, onPlaying }}
+        {...{ src, play, onPlaying, onEnded }}
       />
     )
   }

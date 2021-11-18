@@ -8,6 +8,7 @@ import {
   VideoMedia,
   TransformationMatrix,
   Rtcp,
+  isRtcpBye,
 } from 'media-stream-library'
 
 import { useEventState } from './hooks/useEventState'
@@ -59,6 +60,10 @@ interface WsRtspVideoProps {
    */
   readonly onPlaying?: (videoProperties: VideoProperties) => void
   /**
+   * Callback to signal video ended.
+   */
+  readonly onEnded?: () => void
+  /**
    * Callback when SDP data is received.
    */
   readonly onSdp?: (msg: Sdp) => void
@@ -86,6 +91,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   autoPlay = true,
   muted = true,
   onPlaying,
+  onEnded,
   onSdp,
   onRtcp,
   metadataHandler,
@@ -123,6 +129,10 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   // keep a stable reference to the external onPlaying callback
   const __onPlayingRef = useRef(onPlaying)
   __onPlayingRef.current = onPlaying
+
+  // keep a stable reference to the external onEnded callback
+  const __onEndedRef = useRef(onEnded)
+  __onEndedRef.current = onEnded
 
   const __sensorTmRef = useRef<TransformationMatrix>()
 
@@ -231,8 +241,13 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
               __onSdpRef.current(sdp)
             }
           }
+
           pipeline.rtsp.onRtcp = (rtcp) => {
             __onRtcpRef.current?.(rtcp)
+
+            if (isRtcpBye(rtcp)) {
+              __onEndedRef.current?.()
+            }
           }
 
           pipeline.rtsp.onPlay = (range) => {

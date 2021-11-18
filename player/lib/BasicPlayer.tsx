@@ -49,9 +49,9 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
       vapixParams = {},
       format = DEFAULT_FORMAT,
       autoPlay = false,
+      autoRetry = false,
       secure,
       className,
-      autoRetry,
     },
     ref,
   ) => {
