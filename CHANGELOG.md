@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v10.3.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.2.0...v10.3.0) (2021-11-09 08:20:20 +0100)
+## [v10.4.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.3.0...v10.4.0) (2021-11-18 15:25:16 +0100)
+
+### ✨ Features
+
+  -  add onServerClose callback to http sources ([57a7e09](https://github.com/AxisCommunications/media-stream-library-js/commit/57a7e092af624cba4e0bae715d8a681a1a1397a8))
+
+## [v10.3.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.2.0...v10.3.0) (2021-11-09 11:10:55 +0100)
 
 ### ✨ Features
 
