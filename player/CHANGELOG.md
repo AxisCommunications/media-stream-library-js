@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v6.4.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v6.3.1...v6.4.0) (2021-11-10 15:46:16 +0100)
+## [v7.0.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v6.4.0...v7.0.0) (2021-11-24 10:34:05 +0100)
+
+### ✨ Features
+
+  - **BREAKING** MP4 ended and general onEnded support ([fabe71c](https://github.com/AxisCommunications/media-stream-player-js/commit/fabe71c3d66b684929593d581cd012323edf86fb))
+
+## [v6.4.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v6.3.1...v6.4.0) (2021-11-10 15:53:55 +0100)
 
 ### ✨ Features
 
