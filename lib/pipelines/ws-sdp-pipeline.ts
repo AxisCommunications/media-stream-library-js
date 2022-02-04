@@ -54,7 +54,7 @@ export class WsSdpPipeline extends RtspPipeline {
       })
       this.rtsp.send({ method: RTSP_METHOD.DESCRIBE })
       this.rtsp.send({ method: RTSP_METHOD.TEARDOWN })
-      return sdpPromise
+      return await sdpPromise
     })
   }
 }
