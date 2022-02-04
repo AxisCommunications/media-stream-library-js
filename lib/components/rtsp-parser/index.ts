@@ -12,10 +12,6 @@ import { Parser } from './parser'
  * @extends {Component}
  */
 export class RtspParser extends Tube {
-  /**
-   * Create a new RTSP parser component.
-   * @return {undefined}
-   */
   constructor() {
     const parser = new Parser()
 
@@ -28,7 +24,8 @@ export class RtspParser extends Tube {
             parser.parse(msg.data).forEach((message) => incoming.push(message))
             callback()
           } catch (e) {
-            callback(e)
+            const err = e as Error
+            callback(err)
           }
         } else {
           // Not a message we should handle

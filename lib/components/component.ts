@@ -139,7 +139,7 @@ export class Source extends AbstractComponent {
       this.incoming.pipe(next.incoming)
       next.outgoing.pipe(this.outgoing)
     } catch (e) {
-      throw new Error(`connection failed: ${e.message}`)
+      throw new Error(`connection failed: ${(e as Error).message}`)
     }
 
     /**
