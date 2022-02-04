@@ -118,7 +118,11 @@ export class Pipeline {
       this.lastComponent = car
     } else if (car !== null && cdr !== null) {
       car.disconnect()
-      component.disconnect()
+      // FIXME: upgrade to Typescript 4.5.5
+      // infers component as "never" in this case.
+      // Try to revert this with newer TS versions.
+      const cmp = component as unknown as Component
+      cmp.disconnect()
       car.connect(cdr)
     }
     this._set.delete(component)
