@@ -218,9 +218,11 @@ export class BoxBuilder {
     // The RTP timestamps are unsigned 32 bit and will overflow
     // at some point. We can guard against the overflow by ORing with 0,
     // which will bring any difference back into signed 32-bit domain.
+    // If the duration would be negative, it's set to zero to prevent
+    // possible issues later when it's written as an unsigned int.
     const duration =
       trackData.lastTimestamp !== 0
-        ? (timestamp - trackData.lastTimestamp) | 0
+        ? Math.max(0, (timestamp - trackData.lastTimestamp) | 0)
         : trackData.defaultFrameDuration
 
     trackData.lastTimestamp = timestamp
