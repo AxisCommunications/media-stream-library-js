@@ -3,7 +3,23 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v10.4.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.3.0...v10.4.0) (2021-11-18 15:25:16 +0100)
+## [v10.4.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.4.0...v10.4.1) (2022-02-04 16:37:56 +0100)
+
+### 🐞 Bug fixes
+
+  -  TypeScript workaround ([03da4fe](https://github.com/AxisCommunications/media-stream-library-js/commit/03da4fec7b0705ab83c16bc514d430ad4a86879d))
+
+### ⚙️ Maintenance
+
+  -  re-add version plugin ([2915bbf](https://github.com/AxisCommunications/media-stream-library-js/commit/2915bbfe038d041f2843ea17e84344698f85cbec))
+  -  remove renovate ([491c579](https://github.com/AxisCommunications/media-stream-library-js/commit/491c579401037442289d3d3f3b6b56806caa7f4c))
+  - **deps**:  update eslint ([71f1a05](https://github.com/AxisCommunications/media-stream-library-js/commit/71f1a05140321a676c79b01484862880318e9711))
+  - **deps**:  upgrade all minor/patch ([8736f7c](https://github.com/AxisCommunications/media-stream-library-js/commit/8736f7c2372d859378ea2217f00ab755e8e665bf))
+  - **deps**:  update typescript ([7b9bb9b](https://github.com/AxisCommunications/media-stream-library-js/commit/7b9bb9bc6171203158dcef673e4bf7efcf722647))
+  -  update yarn and use node-modules ([5da6f7a](https://github.com/AxisCommunications/media-stream-library-js/commit/5da6f7af383c94559c5ef35a979e1b2ad302d13f))
+  -  update yarn sdks and plugins ([3eacc6e](https://github.com/AxisCommunications/media-stream-library-js/commit/3eacc6e6e7f1628ea060b4d3f681ca93ef1ff08f))
+
+## [v10.4.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.3.0...v10.4.0) (2021-11-18 15:35:28 +0100)
 
 ### ✨ Features
 
