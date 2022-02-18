@@ -18,16 +18,13 @@ jobs:
       matrix:
         node-version: ['16', '17']
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache
-      - name: Check commit message
-        if: ${{ github.event_name == 'pull_request' }}
-        run: yarn commitlint ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
       - name: Linting & Unit testing
         run: |
           yarn lint
@@ -42,9 +39,9 @@ jobs:
       gstreamer:
         image: steabert/gst-rtsp-launch
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '16'
       - name: Install dependencies
@@ -67,9 +64,9 @@ jobs:
       gstreamer:
         image: steabert/gst-rtsp-launch
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '16'
       - name: Install dependencies
@@ -90,9 +87,9 @@ jobs:
       gstreamer:
         image: steabert/gst-rtsp-launch
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - name: Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2
         with:
           node-version: '14'
       - name: Install dependencies
