@@ -31,8 +31,7 @@
     "rtsp": "sbin/rtsp-ws-server.sh",
     "examples": "yarn build && http-server examples/browser",
     "dev": "node sbin/dev.js",
-    "release": "sbin/release.py",
-    "commitlint": "sbin/commitlint.py"
+    "release": "sbin/release.py"
   },
   "repository": {
     "type": "git",
