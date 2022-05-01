@@ -19,8 +19,10 @@ RTP streams, or to the browser. It is suited to handle streams of messages of
 any kind, and makes it easier to stitch together transformations from one message
 type to another. Contributions of new components/pipelines are always welcome.
 
-_Note for IE11 users_: although we don't support or test IE11, it should work
-provided that you use the legacy bundle `media-stream-library.legacy.min.js`.
+_Note for IE11 users_: there is a legacy build available on the `ie11` branch,
+where the bundle `media-stream-library.legacy.min.js` can be found. Although we
+don't support or test IE11, it should work. Note that the `ie11` branch is
+maintenance only (dependencies will be kept up-to-date as much as possible).
 You can also bundle it yourself and be aware that certain dependencies (e.g.
 `debug`) have to be transpiled as they no longer ship es5 code. You can look at
 the `webpack.legacy.config.js` to see how we build the legacy bundle. Since
