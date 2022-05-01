@@ -1,6 +1,6 @@
 {
   "name": "media-stream-library",
-  "version": "10.4.1",
+  "version": "11.0.0",
   "description": "Media stream library for Node & the Web.",
   "license": "MIT",
   "main": "dist/node-cjs.js",

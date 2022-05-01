@@ -3,7 +3,17 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v10.4.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.4.0...v10.4.1) (2022-02-04 16:37:56 +0100)
+## [v11.0.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.4.1...v11.0.0) (2022-05-01 17:50:28 +0200)
+
+### ⚙️ Maintenance
+
+  - **build**: **BREAKING** use esbuild (#666) ([91d3640](https://github.com/AxisCommunications/media-stream-library-js/commit/91d364034406be0b7b5f5b4ba334c97ec547a8fe))
+  - **deps**:  update github actions versions (#657) ([2dacbbc](https://github.com/AxisCommunications/media-stream-library-js/commit/2dacbbc4f09c8ceafc56adcc3359197c32f56009))
+  - **deps**:  upgrade to cypress 9 (#656) ([328671e](https://github.com/AxisCommunications/media-stream-library-js/commit/328671e0be24459ccb6382dc4ce540b9572d0295))
+  - **deps**:  upgrade all deps (#655) ([e2aa5fe](https://github.com/AxisCommunications/media-stream-library-js/commit/e2aa5fe5337f8170ebb5e0084aafd189c2d5e2b3))
+  - **deps**:  upgrade jest (#654) ([c7cfd3e](https://github.com/AxisCommunications/media-stream-library-js/commit/c7cfd3e653f5d526df9269a1bdc92cb32781c881))
+
+## [v10.4.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.4.0...v10.4.1) (2022-02-04 16:38:55 +0100)
 
 ### 🐞 Bug fixes
 
