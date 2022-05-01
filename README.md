@@ -21,13 +21,12 @@ type to another. Contributions of new components/pipelines are always welcome.
 
 _Note for IE11 users_: although we don't support or test IE11, it should work
 provided that you use the legacy bundle `media-stream-library.legacy.min.js`.
-You can also bundle it yourself, in which case you need import from `dist/es5`
-and be aware that certain dependencies (e.g. `debug`) have to be transpiled as
-they no longer ship es5 code.  You can look at the `webpack.legacy.config.js` to
-see how we build the legacy bundle.  Since IE11 is not supported or tested at
-all, you might run into different issues as well. We welcome contributions
-keeping the legacy bundle working, as long as it's limited to the webpack
-configuration.
+You can also bundle it yourself and be aware that certain dependencies (e.g.
+`debug`) have to be transpiled as they no longer ship es5 code. You can look at
+the `webpack.legacy.config.js` to see how we build the legacy bundle. Since
+IE11 is not supported or tested at all, you might run into different issues as
+well. We welcome contributions keeping the legacy bundle working, as long as
+it's limited to the webpack configuration.
 
 ## Installation
 
@@ -64,8 +63,8 @@ another. Contributions of new components/pipelines are always welcome.
 
 ### Importing
 
-You can directly include the `media-stream-library.min.js` file in your browser
-(check the browser example):
+**script tag** You can directly include the `media-stream-library.min.js` file
+(located in the package `dist` folder) in your browser (check the browser example):
 
 ```
 <script src="media-stream-library.min.js"></script>
@@ -74,27 +73,25 @@ You can directly include the `media-stream-library.min.js` file in your browser
 in which case a global variable `mediaStreamLibrary` will exist that
 contains all the necessary functions.
 
-Alternatively, you can import it into your javascript code if you bundle it yourself:
+**bundler** Alternatively, you can import it into your javascript code if you
+are going to bundle it yourself:
 
 ```
 import {components, pipelines} from 'media-stream-library';
 ```
 
-Note that we expose our own bundle as the default entry point.  This is to avoid
-issues where you would have to write fallback imports for browserify packages if
-using webpack 5.
-
-If you want the smallest possible bundle, you can import directly from
-`media-stream-library/dist/esm/index.browser.js` and then make sure to properly
-resolve everything in your own webpack config (you can check our own
-`webpack.config.js` as an example how to write fallbacks for the browserify
-packages). The browserify dependencies are included as package dependencies,
-so you should already have them installed.
+Note that we expose entry points for both node and the browser. Any bundler
+should be able to pick up the correct entry point from `package.json`. If not,
+then you can try importing from `media-stream-library/dist/browser-esm`
+instead. Since we no longer pre-bundle external dependencies, your bundler will
+have to handle this. It might be that you need to replace references to
+`global` with `window` because `readable-streams` (imported via
+`stream-browserify`) still refers to `global`.
 
 ### Components and pipelines
 
 The library contains a collection of components that can be connected together
-to form media pipelines.  The components are a low-level abstraction on top of
+to form media pipelines. The components are a low-level abstraction on top of
 Node streams to allow two-way communication, while media pipelines are sets of
 connected components with methods that allow you to control the pipeline, and
 easily add/remove components.
@@ -105,10 +102,10 @@ Components can be categorized as:
 - transforms (parsers, depay, muxers, ...)
 - sinks (HTML5 element, file, ...)
 
-To build a pipeline, you can connect the required components.  A number of common
+To build a pipeline, you can connect the required components. A number of common
 pipelines are exported directly for convenience.
 
-Check the `examples` section to see how these can be used in your own code.  To
+Check the `examples` section to see how these can be used in your own code. To
 run the examples yourself, you'll need to clone this repository loccally and
 follow the developer instructions.
 

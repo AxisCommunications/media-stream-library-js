@@ -1,6 +1,6 @@
 const yargs = require('yargs')
 
-const { pipelines } = require('../dist/cjs/index.node.js')
+const { pipelines } = require('../dist/node-cjs')
 
 const argv = yargs.options({
   port: { type: 'string', describe: 'websocket port (8854)', default: '8854' },

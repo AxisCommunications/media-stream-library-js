@@ -2,11 +2,12 @@
   "compilerOptions": {
     /* Include Typescript declaration files */
     "declaration": true,
+    "emitDeclarationOnly": true,
 
     /* Basic Options */
     "target": "es2015",
     "module": "es2015",
-    "outDir": "./dist/esm",
+    "outDir": "./dist",
     "lib": ["dom", "es2017"],
     "skipLibCheck": true,
     "sourceMap": true,
