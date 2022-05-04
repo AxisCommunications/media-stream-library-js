@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import { useContext, useEffect, useRef, SVGProps, FC } from 'react'
 import styled from 'styled-components'
 
 import {
@@ -13,13 +13,13 @@ const SvgText = styled.text`
   user-select: none;
 `
 
-interface TextProps extends React.SVGProps<SVGTextElement> {
+interface TextProps extends SVGProps<SVGTextElement> {
   readonly x: number
   readonly y: number
   readonly onChangePos: (pos: Coord) => void
 }
 
-export const Text: React.FC<TextProps> = ({
+export const Text: FC<TextProps> = ({
   x: userX,
   y: userY,
   onChangePos,

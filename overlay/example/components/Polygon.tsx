@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect, FC } from 'react'
 import styled from 'styled-components'
 
 import {
@@ -40,7 +40,7 @@ interface PolygonProps {
   readonly onChangePos: (newPos: CoordArray) => void
 }
 
-export const Polygon: React.FC<PolygonProps> = ({ pos, onChangePos }) => {
+export const Polygon: FC<PolygonProps> = ({ pos, onChangePos }) => {
   const { toSvgBasis, toUserBasis } = useContext(FoundationContext)
   const { clampCoord, clampCoordArray } = useContext(LinerContext)
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, FC } from 'react'
 
 import {
   Foundation,
@@ -26,7 +26,7 @@ const MIDDLE_AREA: Area = [
   [0.5, -0.5], // bottom right coordinate
 ]
 
-const App: React.FC = () => {
+const App: FC = () => {
   const [textPos1, setTextPos1] = useState<Coord>([-1, 0.8])
   const [textPos2, setTextPos2] = useState<Coord>([-0.4, -0.5])
   const [polygonPos, setPolygonPos] = useState<CoordArray>([

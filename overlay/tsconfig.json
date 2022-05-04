@@ -20,7 +20,12 @@
     "esModuleInterop": true,
 
     // react
-    "jsx": "react"
+    "jsx": "react-jsx",
+
+    "incremental": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": ["./lib"]
 }

@@ -1,4 +1,12 @@
-import React, { useContext, useEffect, useState, useRef } from 'react'
+import {
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+  SVGProps,
+  FC,
+  forwardRef,
+} from 'react'
 import styled from 'styled-components'
 
 import {
@@ -8,6 +16,9 @@ import {
   DraggableHandler,
   LinerContext,
 } from 'media-overlay-library'
+
+type BaseElement = SVGCircleElement
+type BaseProps = Omit<SVGProps<BaseElement>, 'ref'>
 
 const SvgCircle = styled.circle`
   fill: rgb(0.5, 0.5, 0.5, 0.2);
@@ -25,20 +36,22 @@ const SvgCircle = styled.circle`
  * functions to convert from user to SVG coordinates (and back).
  */
 
-interface CircleProps extends React.SVGProps<SVGCircleElement> {
+interface CircleProps extends BaseProps {
   /**
    * A coordinate pair [x, y] that represents the middle of the circle.
    */
   readonly pos: Coord
 }
 
-export const Circle: React.FC<CircleProps> = ({ pos, ...circleProps }) => {
-  const { toSvgBasis } = useContext(FoundationContext)
+export const Circle: FC<CircleProps> = forwardRef<BaseElement, CircleProps>(
+  ({ pos, ...circleProps }, ref) => {
+    const { toSvgBasis } = useContext(FoundationContext)
 
-  const [cx, cy] = toSvgBasis(pos)
+    const [cx, cy] = toSvgBasis(pos)
 
-  return <SvgCircle cx={cx} cy={cy} {...circleProps} />
-}
+    return <SvgCircle cx={cx} cy={cy} ref={ref} {...circleProps} />
+  },
+)
 
 /*
  * DraggableCircle
@@ -54,7 +67,7 @@ export const Circle: React.FC<CircleProps> = ({ pos, ...circleProps }) => {
  * will result in an update of the `pos` property.
  */
 
-interface DraggableCircleProps extends React.SVGProps<SVGCircleElement> {
+interface DraggableCircleProps extends BaseProps {
   /**
    * A coordinate pair [x, y] that represents the middle of the circle.
    */
@@ -73,11 +86,10 @@ interface DraggableCircleProps extends React.SVGProps<SVGCircleElement> {
  * trigger a re-render through React's state change mechanism.
  */
 
-export const DraggableCircle: React.FC<DraggableCircleProps> = ({
-  pos,
-  onChangePos,
-  ...circleProps
-}) => {
+export const DraggableCircle: FC<DraggableCircleProps> = forwardRef<
+  BaseElement,
+  DraggableCircleProps
+>(({ pos, onChangePos, ...circleProps }, ref) => {
   const { toSvgBasis, toUserBasis } = useContext(FoundationContext)
   const { clampCoord } = useContext(LinerContext)
 
@@ -111,10 +123,11 @@ export const DraggableCircle: React.FC<DraggableCircleProps> = ({
       cx={cx}
       cy={cy}
       onPointerDown={drag}
+      ref={ref}
       {...circleProps}
     />
   )
-}
+})
 
 /*
  * Optimized variant of DraggableCircle
@@ -127,7 +140,7 @@ export const DraggableCircle: React.FC<DraggableCircleProps> = ({
  * state changes during dragging.
  */
 
-export const FastDraggableCircle: React.FC<DraggableCircleProps> = ({
+export const FastDraggableCircle: FC<DraggableCircleProps> = ({
   pos,
   onChangePos,
   ...circleProps

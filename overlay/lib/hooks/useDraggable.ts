@@ -1,4 +1,11 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  PointerEventHandler,
+  PointerEvent as PointerEventReact,
+} from 'react'
 import { Coord } from '../utils/geometry'
 
 export interface DraggableEvent {
@@ -18,7 +25,7 @@ export interface DraggableControls {
    * element(s), to identify the dragged element in the draggable
    * event.
    */
-  readonly start: React.PointerEventHandler<SVGElement>
+  readonly start: PointerEventHandler<SVGElement>
   /**
    * A function to register a draggable event listener. The
    * draggable event contains the name and translation vector
@@ -56,7 +63,7 @@ export function useDraggable(): DraggableControls {
     setOrigin(null)
   }, [])
 
-  const start = useCallback((e: React.PointerEvent<SVGElement>) => {
+  const start = useCallback((e: PointerEventReact<SVGElement>) => {
     e.stopPropagation()
     const name = e.currentTarget.getAttribute('name')
     if (name === null) {

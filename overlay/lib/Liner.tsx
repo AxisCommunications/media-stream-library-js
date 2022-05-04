@@ -1,4 +1,11 @@
-import React, { useContext, useCallback, useMemo } from 'react'
+import {
+  useContext,
+  useCallback,
+  useMemo,
+  createContext,
+  ReactNode,
+  FC,
+} from 'react'
 
 import { FoundationContext, Area, BBox } from './Foundation'
 import { bbox, Coord, CoordArray } from './utils/geometry'
@@ -14,7 +21,7 @@ export interface LinerContextProps {
   readonly clampBBox: (bbox: BBox) => BBox
 }
 
-export const LinerContext = React.createContext<LinerContextProps>({
+export const LinerContext = createContext<LinerContextProps>({
   areaBBox: {
     x: -Infinity,
     y: -Infinity,
@@ -30,9 +37,10 @@ export const LinerContext = React.createContext<LinerContextProps>({
 
 export interface LinerProps {
   readonly area?: Area
+  readonly children?: ReactNode
 }
 
-export const Liner: React.FC<LinerProps> = ({ area, children }) => {
+export const Liner: FC<LinerProps> = ({ area, children }) => {
   const { userBasis, toSvgBasis } = useContext(FoundationContext)
 
   const areaBBox = useMemo(() => {

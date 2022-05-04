@@ -1,14 +1,22 @@
-import React, {
+import {
   useMemo,
   useEffect,
   useLayoutEffect,
   useState,
   useRef,
   useCallback,
+  createContext,
+  HTMLAttributes,
+  forwardRef,
+  CSSProperties,
+  PropsWithChildren,
 } from 'react'
 
 import { multiply, inverse, apply, Matrix } from './utils/affine'
 import { Coord } from './utils/geometry'
+
+type BaseElement = HTMLDivElement
+type BaseProps = HTMLAttributes<BaseElement>
 
 // Prototype of an Svg implementation with basis transform capabilities.
 
@@ -117,7 +125,7 @@ export interface FoundationContextProps {
   readonly toUserBasis: CoordTransform
 }
 
-export const FoundationContext = React.createContext<FoundationContextProps>({
+export const FoundationContext = createContext<FoundationContextProps>({
   userBasis: DEFAULT_USER_BASIS,
   toSvgBasis: throwIfNoFoundationProvider,
   toUserBasis: throwIfNoFoundationProvider,
@@ -130,7 +138,7 @@ export interface TransformData {
   readonly height: number
 }
 
-export interface FoundationProps extends React.Props<HTMLDivElement> {
+export interface FoundationProps extends BaseProps {
   /**
    * Width of the visible area in pixels
    */
@@ -166,16 +174,16 @@ export interface FoundationProps extends React.Props<HTMLDivElement> {
   /**
    * Extra style overrides for the <svg> container
    */
-  readonly style?: React.CSSProperties
+  readonly style?: CSSProperties
   /**
    * Classname for the <svg> container
    */
   readonly className?: string
 }
 
-export const Foundation = React.forwardRef<
-  HTMLDivElement,
-  React.PropsWithChildren<FoundationProps>
+export const Foundation = forwardRef<
+  BaseElement,
+  PropsWithChildren<FoundationProps>
 >(
   (
     {
@@ -259,9 +267,9 @@ export const Foundation = React.forwardRef<
     /**
      * Keep track of the SVG element (both internally and externally forwarded).
      */
-    const internalRef = useRef<HTMLDivElement | null>(null)
+    const internalRef = useRef<BaseElement | null>(null)
     const callbackRef = useCallback(
-      (node: HTMLDivElement | null) => {
+      (node: BaseElement | null) => {
         // Set the external forwarded ref if present
         if (ref !== null) {
           if (typeof ref === 'function') {
