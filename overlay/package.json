@@ -7,7 +7,7 @@
     "type": "git",
     "url": "ssh://git@github.com/AxisCommunications/media-overlay-library-js.git"
   },
-  "version": "4.1.2",
+  "version": "4.2.0",
   "description": "React library for SVG drawing.",
   "license": "MIT",
   "main": "dist/esm/index.js",

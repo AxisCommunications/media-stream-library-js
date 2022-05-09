@@ -2,14 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v4.1.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.1.0...v4.1.2) (2021-06-30 10:11:46 +0200)
+## [v4.2.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.1.2...v4.2.0) (2022-05-04 11:57:18 +0200)
+
+### Maintenance
+
+  - update dependencies ([a9c2b6a](https://github.com/AxisCommunications/media-stream-library-js/commit/a9c2b6abbd8638b81f2adca18b0dc2a0710f64a6))
+
+## [v4.1.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.1.1...v4.1.2) (2021-06-30 10:13:15 +0200)
 
 ### Maintenance
 
   - **deps**: upgrade all dependencies ([a261a86](https://github.com/AxisCommunications/media-stream-library-js/commit/a261a86e2e950f3ca1bba51fe94dd678bf0f5914))
+  - update peerDependencies versions ([603d338](https://github.com/AxisCommunications/media-stream-library-js/commit/603d338ec90bd6f40764c197090d54abdb605727))
+
+## [v4.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.1.0...v4.1.1) (2021-04-25 08:15:31 +0200)
+
+### Maintenance
+
   - **deps**: upgrade all dependencies ([bc696a2](https://github.com/AxisCommunications/media-stream-library-js/commit/bc696a2475589a645281dacd7b759754f4cd87bf))
   - **deps**: upgrade dependencies ([2ac95b1](https://github.com/AxisCommunications/media-stream-library-js/commit/2ac95b18944357361dcfc5a87122866f6dd5404d))
-  - update peerDependencies versions ([603d338](https://github.com/AxisCommunications/media-stream-library-js/commit/603d338ec90bd6f40764c197090d54abdb605727))
 
 ## [v4.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.0.5...v4.1.0) (2021-03-20 20:08:38 +0100)
 
