@@ -3573,6 +3573,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"events@npm:3.3.0":
+  version: 3.3.0
+  resolution: "events@npm:3.3.0"
+  checksum: f6f487ad2198aa41d878fa31452f1a3c00958f46e9019286ff4787c84aac329332ab45c9cdc8c445928fc6d7ded294b9e005a7fce9426488518017831b272780
+  languageName: node
+  linkType: hard
+
 "execa@npm:4.1.0":
   version: 4.1.0
   resolution: "execa@npm:4.1.0"
@@ -5702,6 +5709,7 @@ fsevents@^2.3.2:
     eslint-plugin-import: 2.26.0
     eslint-plugin-node: 11.1.0
     eslint-plugin-promise: 6.0.0
+    events: 3.3.0
     http-server: 14.1.0
     jest: 27.5.1
     jest-environment-jsdom: 27.5.1
