@@ -8,12 +8,14 @@
 [npm-image]: https://img.shields.io/npm/v/media-stream-player.svg
 [npm-url]: https://www.npmjs.com/package/media-stream-player
 
-Media-stream-player is a video player built around
-[media-stream-library-js](https://github.com/AxisCommunications/media-stream-library-js)
-based on React. The main idea is to define the video state entirely within
-specialized React components for each format (currently RTP H.264 and JPEG, and
-still images). The main video player will only handle the intended video state
-(attached to handlers) and format.
+Media Stream Player is a video player for Axis cameras based on React. The main
+idea is to define the video state entirely within specialized React components
+for each of the different supported formats (currently MP4 over HTTP, RTP over
+WebSocket, and still images). The main video player will only handle the
+intended video state (attached to handlers) and format. The player is built on
+top of the
+[Media Stream Library](https://github.com/AxisCommunications/media-stream-library-js)
+which provides basic playing functionality for the different formats.
 
 You can either import the `Player` or `BasicPlayer` and use them directly (see
 the example applications). If you want to build your own customized player, you
@@ -137,20 +139,20 @@ such as [luxon](https://github.com/moment/luxon), which we use for date and time
 `react`/`react-dom`, `styled-components`, and `media-stream-library`.
 You can find an example of this under `examples/react-app`.
 
-To run our example react app, you can start a webpack dev server with:
+To run our example react app, you can start a vite dev server with:
 
 ```shell
-MSP_CAMERA=<YOUR_CAMERA_IP> yarn dev
+MSP_CAMERA=<YOUR_CAMERA_HOST> yarn dev
 ```
 
 for example
 
 ```shell
-MSP_CAMERA=192.168.0.90 yarn dev
+MSP_CAMERA=http://192.168.0.90 yarn dev
 ```
 
 where you specify the IP of the camera you want to proxy as the `MSP_CAMERA`
-environment variable (default is `192.168.0.90`). The webpack dev server will
+environment variable (default is `192.168.0.90`). The vite dev server will
 proxy requests to the camera, so that you'll have no CORS issues for any format.
 
 ## FAQ
