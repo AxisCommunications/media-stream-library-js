@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client'
 import { Player } from './Player'
 
-const appRoot = document.querySelector('#root')
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const appRoot = createRoot(document.querySelector('#root')!)
 
-ReactDOM.render(
+appRoot.render(
   <React.StrictMode>
     <Playground />
   </React.StrictMode>,
-  appRoot,
 )
 
 // Force a login by fetching usergroup

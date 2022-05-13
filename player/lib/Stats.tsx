@@ -1,4 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {
+  MouseEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react'
 import styled from 'styled-components'
 import { useInterval } from 'react-hooks-shareable'
 
@@ -231,7 +236,7 @@ export const Stats: React.FC<StatsProps> = ({
   const [showStats, setShowStats] = useState(true)
 
   // Handles show/hide stats
-  const onToggleStats = useCallback(
+  const onToggleStats = useCallback<MouseEventHandler<HTMLAnchorElement>>(
     (e) => {
       e.preventDefault()
       setShowStats((prevState) => !prevState)
