@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v11.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v11.0.0...v11.1.0) (2022-05-13 15:07:16 +0200)
+## [v11.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v11.1.0...v11.1.1) (2022-05-13 15:52:40 +0200)
+
+### ⚙️ Maintenance
+
+  -  remove legacy bundle ([eb630d0](https://github.com/AxisCommunications/media-stream-library-js/commit/eb630d090be6f985677fa9b287e8635c4bfbb65e))
+
+## [v11.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v11.0.0...v11.1.0) (2022-05-13 15:07:48 +0200)
 
 ### ⚙️ Maintenance
 
