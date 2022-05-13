@@ -3,7 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v7.0.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v6.4.0...v7.0.0) (2021-11-24 10:34:05 +0100)
+## [v8.0.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v7.0.0...v8.0.0) (2022-05-13 16:43:47 +0200)
+
+### ⚙️ Maintenance
+
+  -  update node versions (#198) ([23da56a](https://github.com/AxisCommunications/media-stream-player-js/commit/23da56af830cfd66f129331fd252f9077a70b421))
+  - **BREAKING** migrate from webpack to esbuild/vite and upgrade dependencies. ([062f1e5](https://github.com/AxisCommunications/media-stream-player-js/commit/062f1e52b460d5b8ce318ef309c8df59b7c0750a))
+
+## [v7.0.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v6.4.0...v7.0.0) (2021-11-24 10:42:57 +0100)
 
 ### ✨ Features
 
