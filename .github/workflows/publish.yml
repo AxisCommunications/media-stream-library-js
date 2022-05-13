@@ -54,16 +54,6 @@ jobs:
           asset_name: media-stream-library.min.js
           asset_content_type: application/javascript
 
-      - name: Upload bundle (legacy)
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: dist/media-stream-library.legacy.min.js
-          asset_name: media-stream-library.legacy.min.js
-          asset_content_type: application/javascript
-
       - name: Upload changelog
         uses: actions/upload-release-asset@v1.0.1
         env:
