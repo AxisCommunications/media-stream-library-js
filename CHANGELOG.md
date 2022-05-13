@@ -3,7 +3,14 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v11.0.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.4.1...v11.0.0) (2022-05-01 17:50:28 +0200)
+## [v11.1.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v11.0.0...v11.1.0) (2022-05-13 15:07:16 +0200)
+
+### ⚙️ Maintenance
+
+  -  add events explicitely (#672) ([c7717e3](https://github.com/AxisCommunications/media-stream-library-js/commit/c7717e3999371ddf9a13062f8c6805a9ac152c1a))
+  - **deps**:  upgrade all dependencies (#667) ([6eb1a45](https://github.com/AxisCommunications/media-stream-library-js/commit/6eb1a45f6e0aa2585be30dd177c7a068e11e06c6))
+
+## [v11.0.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v10.4.1...v11.0.0) (2022-05-01 17:54:13 +0200)
 
 ### ⚙️ Maintenance
 
