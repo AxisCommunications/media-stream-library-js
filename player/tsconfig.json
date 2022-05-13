@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "emitDeclarationOnly": true,
     "target": "es2018",
     "module": "esnext",
-    "outDir": "./dist/esm",
+    "outDir": "./dist",
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
