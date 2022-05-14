@@ -18,8 +18,7 @@
     "build:types": "yarn tsc",
     "build:bundle": "node esbuild.js && sbin/copyMinified.sh",
     "build": "yarn build:types && yarn build:bundle",
-    "release": "sbin/release.py",
-    "commitlint": "sbin/commitlint.py"
+    "release": "sbin/release.py"
   },
   "repository": {
     "type": "git",
