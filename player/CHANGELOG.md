@@ -3,7 +3,13 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v8.0.2](https://github.com/AxisCommunications/media-stream-player-js/compare/v8.0.1...v8.0.2) (2022-05-14 08:24:33 +0200)
+## [v8.1.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v8.0.2...v8.1.0) (2022-05-14 16:03:31 +0200)
+
+### ⚙️ Maintenance
+
+  -  remove legacy bundle ([6923b67](https://github.com/AxisCommunications/media-stream-player-js/commit/6923b67e4a14cbbac87c58eda9331d7536648de5))
+
+## [v8.0.2](https://github.com/AxisCommunications/media-stream-player-js/compare/v8.0.1...v8.0.2) (2022-05-14 08:25:04 +0200)
 
 ### ⚙️ Maintenance
 
