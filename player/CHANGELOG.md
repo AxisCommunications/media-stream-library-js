@@ -3,7 +3,15 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v8.0.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v8.0.0...v8.0.1) (2022-05-13 17:11:11 +0200)
+## [v8.0.2](https://github.com/AxisCommunications/media-stream-player-js/compare/v8.0.1...v8.0.2) (2022-05-14 08:24:33 +0200)
+
+### ⚙️ Maintenance
+
+  - **ci**:  remove commitlint ([22a065c](https://github.com/AxisCommunications/media-stream-player-js/commit/22a065cf7646cf286c8a221f3ec9d1fd4aea54bc))
+  - **deps**:  remove concurrently ([9fcfabd](https://github.com/AxisCommunications/media-stream-player-js/commit/9fcfabdd553daa27d429315441f2be3a8d8ad0a2))
+  - **ci**:  upgrade actions ([73e7d7e](https://github.com/AxisCommunications/media-stream-player-js/commit/73e7d7ec8962af425a042178808ade2d9154531d))
+
+## [v8.0.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v8.0.0...v8.0.1) (2022-05-13 17:23:12 +0200)
 
 ### ⚙️ Maintenance
 
