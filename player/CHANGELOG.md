@@ -3,7 +3,17 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v8.1.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v8.0.2...v8.1.0) (2022-05-14 16:03:31 +0200)
+## [v8.1.1](https://github.com/AxisCommunications/media-stream-player-js/compare/v8.1.0...v8.1.1) (2022-06-10 07:40:11 +0200)
+
+### ✨ Features
+
+  - **BREAKING** add expanded prop to stats overlay ([9f65b2b](https://github.com/AxisCommunications/media-stream-player-js/commit/9f65b2b45031691fa340d4515f7b5a6b020efff0))
+
+### ⚙️ Maintenance
+
+  -  add code owners ([b626704](https://github.com/AxisCommunications/media-stream-player-js/commit/b626704c0012a36e36123a1bba2d4f1a4b622aaa))
+
+## [v8.1.0](https://github.com/AxisCommunications/media-stream-player-js/compare/v8.0.2...v8.1.0) (2022-05-14 16:03:57 +0200)
 
 ### ⚙️ Maintenance
 
