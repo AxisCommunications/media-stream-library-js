@@ -109,6 +109,7 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
         ? window.localStorage.getItem('stats-overlay') === 'on'
         : false,
     )
+    const [statsExpanded, setStatsExpanded] = useState(true)
 
     useEffect(() => {
       if (window?.localStorage !== undefined) {
@@ -334,6 +335,8 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 videoProperties={videoProperties}
                 refresh={refresh}
                 volume={volume}
+                expanded={statsExpanded}
+                onToggleExpanded={setStatsExpanded}
               />
             ) : null}
           </Container>

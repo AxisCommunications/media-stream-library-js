@@ -117,6 +117,8 @@ interface StatsProps {
   readonly videoProperties: VideoProperties
   readonly refresh: number
   readonly volume?: number
+  readonly expanded: boolean
+  readonly onToggleExpanded: (value: boolean) => void
 }
 
 interface Stat {
@@ -125,12 +127,9 @@ interface Stat {
   readonly unit?: string
 }
 
-const StatsData: React.FC<StatsProps> = ({
-  format,
-  videoProperties,
-  refresh,
-  volume,
-}) => {
+const StatsData: React.FC<
+  Omit<StatsProps, 'expanded' | 'onToggleExpanded'>
+> = ({ format, videoProperties, refresh, volume }) => {
   const [stats, setStats] = useState<Array<Stat>>([])
 
   // Updates stat values
@@ -232,21 +231,21 @@ export const Stats: React.FC<StatsProps> = ({
   videoProperties,
   refresh,
   volume,
+  expanded,
+  onToggleExpanded,
 }) => {
-  const [showStats, setShowStats] = useState(true)
-
   // Handles show/hide stats
   const onToggleStats = useCallback<MouseEventHandler<HTMLAnchorElement>>(
     (e) => {
       e.preventDefault()
-      setShowStats((prevState) => !prevState)
+      onToggleExpanded(!expanded)
     },
-    [setShowStats],
+    [expanded, onToggleExpanded],
   )
 
   return (
     <>
-      {showStats ? (
+      {expanded ? (
         <StatsWrapper>
           <StatsHeader>
             <StatsIcon clickable={false}>
