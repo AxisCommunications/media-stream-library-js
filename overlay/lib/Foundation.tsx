@@ -11,12 +11,27 @@ import {
   CSSProperties,
   PropsWithChildren,
 } from 'react'
+import styled, { css } from 'styled-components'
 
 import { multiply, inverse, apply, Matrix } from './utils/affine'
 import { Coord } from './utils/geometry'
 
 type BaseElement = HTMLDivElement
 type BaseProps = HTMLAttributes<BaseElement>
+
+const Container = styled.div<{ readonly clickThrough: boolean }>`
+  ${({ clickThrough }) =>
+    clickThrough
+      ? css`
+          pointer-events: none;
+          & > svg > * {
+            pointer-events: initial;
+          }
+        `
+      : css`
+          pointer-events: initial;
+        `}
+`
 
 // Prototype of an Svg implementation with basis transform capabilities.
 
@@ -179,6 +194,10 @@ export interface FoundationProps extends BaseProps {
    * Classname for the <svg> container
    */
   readonly className?: string
+  /**
+   * Should Foundation respond to pointer events
+   */
+  readonly clickThrough?: boolean
 }
 
 export const Foundation = forwardRef<
@@ -193,6 +212,7 @@ export const Foundation = forwardRef<
       transformationMatrix,
       onReady,
       className,
+      clickThrough = false,
       children,
       ...externalProps
     },
@@ -323,9 +343,13 @@ export const Foundation = forwardRef<
     /**
      * Render SVG drawing area.
      */
-
     return (
-      <div ref={callbackRef} className={className} {...externalProps}>
+      <Container
+        ref={callbackRef}
+        clickThrough={clickThrough}
+        className={className}
+        {...externalProps}
+      >
         <svg width={width} height={height}>
           {contextValue !== undefined ? (
             <FoundationContext.Provider value={contextValue}>
@@ -333,7 +357,7 @@ export const Foundation = forwardRef<
             </FoundationContext.Provider>
           ) : null}
         </svg>
-      </div>
+      </Container>
     )
   },
 )
