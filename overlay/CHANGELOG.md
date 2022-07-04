@@ -2,11 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v4.2.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.1.2...v4.2.0) (2022-05-04 11:57:18 +0200)
+## [v4.3.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.1.2...v4.3.0) (2022-06-20 10:24:27 +0200)
 
 ### Maintenance
 
+  - add code owners ([781a9a3](https://github.com/AxisCommunications/media-stream-library-js/commit/781a9a3f666459819670bc7ee334870ba2a232aa))
   - update dependencies ([a9c2b6a](https://github.com/AxisCommunications/media-stream-library-js/commit/a9c2b6abbd8638b81f2adca18b0dc2a0710f64a6))
+
+### Features
+
+  - enable click through in Foundation ([7970976](https://github.com/AxisCommunications/media-stream-library-js/commit/7970976cc652e3fb83705a2fe0922ec57515e3b1))
 
 ## [v4.1.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v4.1.1...v4.1.2) (2021-06-30 10:13:15 +0200)
 
