@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@node-types",
+    ]
+  },
+  "files": [
+    "lib/index.node.ts"
+  ],
+  "exclude": [
+    "lib/**/*.browser.ts"
+  ]
+}

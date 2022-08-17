@@ -1,0 +1,43 @@
+# Publishes a GitHub release and NPM package for
+# any tag that is pushed to the repository.
+# Tags should be generated automatically by
+# manually running the "release" workflow.
+name: Publish Browser
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Install dependencies
+        env:
+          CYPRESS_INSTALL_BINARY: 0
+        run: yarn install --immutable --immutable-cache
+
+      - name: Build
+        run: yarn build:browser
+
+      - name: Build
+        run: yarn changePackageName:browser
+
+      - name: Deploy NPM package
+        env:
+          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [[ $GITHUB_REF =~ alpha|beta ]]; then
+              yarn npm publish --tag next
+          else
+              yarn npm publish --tag latest
+          fi

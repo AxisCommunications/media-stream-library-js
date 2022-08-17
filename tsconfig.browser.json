@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "types": []
+  },
+  "files": [
+    "lib/index.browser.ts"
+  ],
+  "exclude": [
+    "lib/**/*.node.ts"
+  ]
+}

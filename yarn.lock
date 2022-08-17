@@ -4736,6 +4736,15 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
+"isomorphic-stream@npm:^1.0.1":
+  version: 1.0.1
+  resolution: "isomorphic-stream@npm:1.0.1"
+  peerDependencies:
+    stream-browserify: "*"
+  checksum: 851101da9076939621cf05cffde3b756c00e673a995d196371510ddc7a0fe8ec20de1afcf4fdb89b31917eee48a138e664fceaa4be264ae075ad49cad5be3c41
+  languageName: node
+  linkType: hard
+
 "isstream@npm:~0.1.2":
   version: 0.1.2
   resolution: "isstream@npm:0.1.2"
@@ -5711,6 +5720,7 @@ fsevents@^2.3.2:
     eslint-plugin-promise: 6.0.0
     events: 3.3.0
     http-server: 14.1.0
+    isomorphic-stream: ^1.0.1
     jest: 27.5.1
     jest-environment-jsdom: 27.5.1
     mock-socket: 9.1.3

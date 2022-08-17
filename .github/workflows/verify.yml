@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['16', '17']
+        node-version: ["16", "17"]
     steps:
       - uses: actions/checkout@v2
       - name: Setup node
@@ -29,8 +29,12 @@ jobs:
         run: |
           yarn lint
           yarn test
-      - name: Build
-        run: yarn build
+      - name: Build Browser
+        run: yarn build:browser
+      - name: Build Node
+        run: yarn build:node
+      - name: Build Minified
+        run: yarn build:minified
 
   chrome:
     runs-on: ubuntu-latest
@@ -43,7 +47,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: "16"
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache
       - name: Linting & Unit testing
@@ -51,7 +55,7 @@ jobs:
           yarn lint
           yarn test
       - name: Build
-        run: yarn build
+        run: yarn build:minified
       - name: Test basic video functionality
         run: sbin/test.sh chrome
 
@@ -68,7 +72,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '16'
+          node-version: "16"
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache
       - name: Linting & Unit testing
@@ -76,7 +80,7 @@ jobs:
           yarn lint
           yarn test
       - name: Build
-        run: yarn build
+        run: yarn build:minified
       - name: Test basic video functionality
         run: sbin/test.sh /usr/bin/firefox
 
@@ -91,7 +95,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
       - name: Install dependencies
         run: yarn install --immutable --immutable-cache
       - name: Linting & Unit testing
@@ -99,6 +103,6 @@ jobs:
           yarn lint
           yarn test
       - name: Build
-        run: yarn build
+        run: yarn build:minified
       - name: Test basic video functionality
         run: sbin/test.sh edge

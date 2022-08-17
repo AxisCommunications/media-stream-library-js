@@ -6,8 +6,8 @@
 
     /* Basic Options */
     "target": "es2015",
-    "module": "es2015",
-    "outDir": "./dist",
+    "module": "ES2015",
+    "outFile": "./dist/index.js",
     "lib": ["dom", "es2017"],
     "skipLibCheck": true,
     "sourceMap": true,
@@ -19,6 +19,5 @@
     /* Module Resolution Options */
     "moduleResolution": "node",
     "esModuleInterop": true
-  },
-  "include": ["lib/**/*"]
+  }
 }
