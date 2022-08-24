@@ -1,6 +1,6 @@
 {
   "name": "media-stream-player",
-  "version": "8.1.1",
+  "version": "8.1.2",
   "description": "Player built on top of media-stream-library",
   "license": "MIT",
   "main": "dist/index-cjs.js",
