@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "allowJs": true
+  },
+  "include": [
+    ".eslintrc.cjs",
+    "cypress.config.ts",
+    "**/*.json",
+    "**/*.mjs",
+    "**/*.cjs",
+    "example*/**/*.js",
+    "example*/**/*.jsx",
+    "cypress/**/*.js"
+  ]
+}

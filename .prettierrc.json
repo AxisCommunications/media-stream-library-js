@@ -1,0 +1,15 @@
+{
+  "semi": false,
+  "singleQuote": true,
+  "overrides": [
+    {
+      "files": ["tsconfig.json"],
+      "options": {
+        "parser": "json5",
+        "quoteProps": "preserve",
+        "singleQuote": false,
+        "trailingComma": "all"
+      }
+    }
+  ]
+}

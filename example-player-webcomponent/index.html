@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>media-stream-player</title>
+    <script src="/node_modules/media-stream-player/dist/media-stream-player.min.js"></script>
+    <style>
+      #root {
+        height: 98vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root" />
+    <media-stream-player
+      hostname="192.168.0.90"
+      format="JPEG"
+      compression="10"
+      resolution="1920x1080"
+      rotation="0"
+      camera="1"
+      autoplay
+    />
+  </body>
+</html>

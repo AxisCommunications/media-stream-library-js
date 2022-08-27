@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "media-stream-player": "workspace:*"
+  }
+}

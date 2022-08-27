@@ -6,7 +6,7 @@ coverage/
 
 # Bundles
 dist/
-examples/browser/media-stream-library.min.js
+tsconfig.tsbuildinfo
 
 # Cypress
 cypress/videos/

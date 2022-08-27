@@ -1,8 +1,0 @@
-[modern]
-last 2 versions
-not ie 11
-not dead
-
-[legacy]
-last 2 versions
-ie >= 11

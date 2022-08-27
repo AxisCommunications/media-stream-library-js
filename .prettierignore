@@ -1,1 +1,9 @@
-**/*.min.js
+**/dist
+**/node_modules
+*.log*
+*.md
+.vscode
+.yarn/
+LICENSE
+coverage/
+yarn.lock
