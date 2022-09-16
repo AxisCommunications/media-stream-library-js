@@ -6,8 +6,8 @@
   "main": "dist/node-cjs.js",
   "module": "dist/node-esm.js",
   "browser": {
-    "dist/node-cjs.js": "dist/browser-cjs.js",
-    "dist/node-esm.js": "dist/browser-esm.js",
+    "dist/node-cjs.js": "./dist/browser-cjs.js",
+    "dist/node-esm.js": "./dist/browser-esm.js",
     "stream": "stream-browserify"
   },
   "types": "dist/index.browser.d.ts",
