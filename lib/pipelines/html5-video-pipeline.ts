@@ -69,6 +69,7 @@ export class Html5VideoPipeline extends RtspMp4Pipeline {
   }
 
   close() {
+    this.rtsp.stop()
     this._src && this._src.outgoing.end()
   }
 
