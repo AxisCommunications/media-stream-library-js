@@ -72,6 +72,7 @@ export class Html5CanvasPipeline extends RtspMjpegPipeline {
   }
 
   close() {
+    this.rtsp.stop()
     this._src && this._src.outgoing.end()
   }
 
