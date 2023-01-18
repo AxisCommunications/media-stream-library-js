@@ -108,7 +108,7 @@ To build a pipeline, you can connect the required components. A number of common
 pipelines are exported directly for convenience.
 
 Check the `examples` section to see how these can be used in your own code. To
-run the examples yourself, you'll need to clone this repository loccally and
+run the examples yourself, you'll need to clone this repository locally and
 follow the developer instructions.
 
 ## Debugging
