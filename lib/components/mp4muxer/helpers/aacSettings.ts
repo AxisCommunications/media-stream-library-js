@@ -96,7 +96,7 @@ export const aacSettings = (media: AACMedia, date: number, trackId: number) => {
    */
 
   const bitrate = Number(media.fmtp.parameters.bitrate) || 320000
-  const audioConfigBytes = parseInt(media.fmtp.parameters.config, 16)
+  const audioConfigBytes = parseInt(media.fmtp.parameters.config.substr(0, 4), 16);
   const audioObjectType = (audioConfigBytes >>> 11) & 0x001f
 
   return {
