@@ -3,7 +3,17 @@
 All notable changes to this project will be documented in this file.
 
 
-## [v11.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v11.1.0...v11.1.1) (2022-05-13 15:52:40 +0200)
+## [v11.1.2-alpha.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v11.1.1...v11.1.2-alpha.0) (2023-01-18 15:38:45 +0100)
+
+### 🐞 Bug fixes
+
+  -  stop rtsp session when closing pipeline ([5e15afe](https://github.com/AxisCommunications/media-stream-library-js/commit/5e15afe4b0268a707d4f37e2d2304c67c92ebe4e))
+
+### ⚙️ Maintenance
+
+  -  add code owners (#673) ([5a636cd](https://github.com/AxisCommunications/media-stream-library-js/commit/5a636cd1b5b12dacec0606f226d41fbf7360a88d))
+
+## [v11.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v11.1.0...v11.1.1) (2022-05-13 15:55:01 +0200)
 
 ### ⚙️ Maintenance
 
