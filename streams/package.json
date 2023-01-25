@@ -1,0 +1,64 @@
+{
+  "name": "media-stream-library",
+  "version": "11.1.1",
+  "license": "MIT",
+  "description": "Media stream library for Node & the Web.",
+  "keywords": [
+    "video",
+    "live",
+    "streaming",
+    "rtsp"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AxisCommunications/media-stream-library-js"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "exports": {
+    "types": "./dist/src/index.browser.d.ts",
+    "browser": {
+      "types": "./dist/src/index.browser.d.ts",
+      "require": "./dist/browser.cjs",
+      "import": "./dist/browser.mjs"
+    },
+    "node": {
+      "types": "./dist/src/index.node.d.ts",
+      "require": "./dist/node.cjs",
+      "import": "./dist/node.mjs"
+    }
+  },
+  "browser": {
+    "stream": "stream-browserify"
+  },
+  "files": [
+    "../LICENSE",
+    "dist/**/*",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "dependencies": {
+    "buffer": "6.0.3",
+    "debug": "4.3.4",
+    "events": "3.3.0",
+    "process": "0.11.10",
+    "stream-browserify": "3.0.0",
+    "ts-md5": "1.2.11",
+    "ws": "8.8.1"
+  },
+  "devDependencies": {
+    "@types/debug": "4.1.7",
+    "@types/node": "16.11.56",
+    "@types/ws": "8.5.3",
+    "esbuild": "0.15.6",
+    "global-jsdom": "8.6.0",
+    "jsdom": "20.0.0",
+    "mock-socket": "9.1.5",
+    "semver": "7.3.7",
+    "typescript": "4.8.2",
+    "uvu": "0.5.6",
+    "yargs": "17.5.1"
+  }
+}
