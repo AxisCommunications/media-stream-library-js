@@ -14,6 +14,7 @@ import styled from 'styled-components'
 
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { useEventState } from './hooks/useEventState'
+import { useVideoDebug } from './hooks/useVideoDebug'
 import {
   attachMetadataHandler,
   MetadataHandler,
@@ -137,6 +138,8 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
 
   const __sensorTmRef = useRef<TransformationMatrix>()
 
+  useVideoDebug(videoRef.current, debugLog)
+
   useEffect(() => {
     const videoEl = videoRef.current
 
@@ -148,6 +151,12 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
       debugLog('play')
       videoEl.play().catch((err) => {
         console.error('VideoElement error: ', err.message)
+      })
+
+      const { videoHeight, videoWidth } = videoEl
+      debugLog('%o', {
+        videoHeight,
+        videoWidth,
       })
     } else if (!play && playing === true) {
       debugLog('pause')
