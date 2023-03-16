@@ -107,6 +107,24 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   const __offsetRef = useRef(offset)
   const __rangeRef = useRef<Range>([offset, undefined])
 
+  /**
+   * Show debug log for current time.
+   * currentTime: current playback time
+   */
+  const timeout = useRef<number | undefined>(undefined)
+  useEffect(() => {
+    if (pipeline === null) {
+      return
+    }
+
+    timeout.current = window.setInterval(() => {
+      const { currentTime } = pipeline
+      debugLog('%o', { currentTime })
+    }, 1000)
+
+    return () => window.clearTimeout(timeout.current)
+  }, [pipeline])
+
   useEffect(() => {
     __offsetRef.current = offset
     const canvas = canvasRef.current
