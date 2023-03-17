@@ -3,6 +3,14 @@ import { Md5 as MD5 } from 'ts-md5'
 
 import { ChallengeParams } from './www-authenticate'
 
+function md5Hash(s: string): string {
+  const hash = new MD5().appendStr(s).end()
+  if (hash === undefined) {
+    throw new Error('empty MD5 hash')
+  }
+  return hash.toString()
+}
+
 export class DigestAuth {
   private readonly realm: string
   private readonly nonce: string
@@ -20,10 +28,8 @@ export class DigestAuth {
       throw new Error('no realm in digest challenge')
     }
     this.realm = realm
-    this.ha1Base = new MD5()
-      .appendStr(`${username}:${realm}:${password}`)
-      .end()
-      .toString()
+
+    this.ha1Base = md5Hash(`${username}:${realm}:${password}`)
 
     const nonce = params.get('nonce')
     if (nonce === undefined) {
@@ -74,19 +80,16 @@ export class DigestAuth {
   ha1 = (cnonce: string): string => {
     let ha1 = this.ha1Base
     if (this.algorithm === 'md5-sess') {
-      ha1 = new MD5()
-        .appendStr(`${ha1}:${this.nonce}:${cnonce}`)
-        .end()
-        .toString()
+      ha1 = md5Hash(`${ha1}:${this.nonce}:${cnonce}`)
     }
     return ha1
   }
 
   ha2 = (method: string, uri: string, body = ''): string => {
-    let ha2 = new MD5().appendStr(`${method}:${uri}`).end().toString()
+    let ha2 = md5Hash(`${method}:${uri}`)
     if (this.algorithm === 'md5-sess') {
-      const hbody = new MD5().appendStr(body).end().toString()
-      ha2 = new MD5().appendStr(`${method}:${uri}:${hbody}`).end().toString()
+      const hbody = md5Hash(body)
+      ha2 = md5Hash(`${method}:${uri}:${hbody}`)
     }
     return ha2
   }
@@ -101,13 +104,8 @@ export class DigestAuth {
 
     const response =
       this.qop === undefined
-        ? new MD5().appendStr(`${ha1}:${this.nonce}:${ha2}`).end().toString()
-        : new MD5()
-            .appendStr(
-              `${ha1}:${this.nonce}:${nc}:${cnonce}:${this.qop}:${ha2}`
-            )
-            .end()
-            .toString()
+        ? md5Hash(`${ha1}:${this.nonce}:${ha2}`)
+        : md5Hash(`${ha1}:${this.nonce}:${nc}:${cnonce}:${this.qop}:${ha2}`)
 
     const authorizationParams: string[] = []
     authorizationParams.push(`username="${this.username}"`)
