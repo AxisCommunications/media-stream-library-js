@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['16', '18']
+        node-version: ['18', '19']
     steps:
       - uses: extractions/setup-just@v1
       - uses: actions/checkout@v3
@@ -50,7 +50,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
       - name: Install dependencies
         run: just install
       - name: Build
@@ -81,7 +81,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
       - name: Install dependencies
         run: just install
       - name: Build
@@ -104,7 +104,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '18'
       - name: Install dependencies
         run: just install
       - name: Build
