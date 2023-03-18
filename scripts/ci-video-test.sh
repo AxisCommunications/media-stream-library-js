@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-CYPRESS_DOCKER_IMAGE=cypress/included:10.9.0
+CYPRESS_DOCKER_IMAGE=cypress/included:12.8.1
 
 #trap "kill 0" EXIT
 
