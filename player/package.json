@@ -1,6 +1,6 @@
 {
   "name": "media-stream-player",
-  "version": "12.1.0",
+  "version": "12.1.1",
   "license": "MIT",
   "description": "Player built on top of media-stream-library",
   "keywords": [
@@ -35,7 +35,7 @@
   },
   "peerDependencies": {
     "luxon": "^3.0.0",
-    "media-stream-library": "^12.1.0",
+    "media-stream-library": "^12.1.1",
     "react": "^17.0.2 || ^18.1.0",
     "react-dom": "^17.0.2 || ^18.1.0",
     "styled-components": "^5.3.5"
@@ -50,7 +50,7 @@
     "chalk": "5.2.0",
     "esbuild": "0.17.12",
     "luxon": "3.3.0",
-    "media-stream-library": "12.1.0",
+    "media-stream-library": "12.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-is": "18.2.0",
