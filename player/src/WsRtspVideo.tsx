@@ -14,6 +14,7 @@ import styled from 'styled-components'
 
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { useEventState } from './hooks/useEventState'
+import { useVideoDebug } from './hooks/useVideoDebug'
 import {
   attachMetadataHandler,
   MetadataHandler,
@@ -137,6 +138,8 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
 
   const __sensorTmRef = useRef<TransformationMatrix>()
 
+  useVideoDebug(videoRef.current, debugLog)
+
   useEffect(() => {
     const videoEl = videoRef.current
 
@@ -148,6 +151,12 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
       debugLog('play')
       videoEl.play().catch((err) => {
         console.error('VideoElement error: ', err.message)
+      })
+
+      const { videoHeight, videoWidth } = videoEl
+      debugLog('%o', {
+        videoHeight,
+        videoWidth,
       })
     } else if (!play && playing === true) {
       debugLog('pause')
@@ -180,11 +189,11 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
     __offsetRef.current = offset
 
     if (
-      ws !== undefined &&
-      ws.length > 0 &&
-      rtsp !== undefined &&
-      rtsp.length > 0 &&
-      videoEl !== null
+      ws !== undefined
+      && ws.length > 0
+      && rtsp !== undefined
+      && rtsp.length > 0
+      && videoEl !== null
     ) {
       debugLog('create pipeline', ws, rtsp)
       const newPipeline = new pipelines.Html5VideoPipeline({
@@ -235,8 +244,8 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
               return m.type === 'video'
             })
             if (videoMedia !== undefined) {
-              __sensorTmRef.current =
-                videoMedia['x-sensor-transform'] ?? videoMedia['transform']
+              __sensorTmRef.current = videoMedia['x-sensor-transform']
+                ?? videoMedia['transform']
             }
             if (__onSdpRef.current !== undefined) {
               __onSdpRef.current(sdp)

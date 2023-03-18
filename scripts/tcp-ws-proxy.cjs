@@ -11,9 +11,7 @@ const argv = yargs(hideBin(process.argv))
     default: '8854',
   })
   .option('rtspHost', { type: 'string', description: 'RTSP host' })
-  .parse()
-
-// Setup a new pipeline
+  .parse() // Setup a new pipeline
 ;(function wrap() {
   console.log(`WebSocket server at ws://localhost:${argv.port}`)
   console.log(pipelines, pipelines.TcpWsProxyPipeline)

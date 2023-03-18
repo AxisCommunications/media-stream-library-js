@@ -1,17 +1,17 @@
-/* prettier-ignore */
+/* dprint-ignore */
 export const rtpBuffers = [
   Buffer.from([128, 96, 80, 56, 225, 39, 20, 132, 25, 190, 186, 105]),
   Buffer.from([128, 224, 80, 76, 225, 39, 108, 97, 25, 190, 186, 105, 1, 2, 3]),
   Buffer.from([129, 224, 80, 95, 225, 40, 57, 104, 25, 190, 186, 105, 0, 0, 0, 1, 1, 2, 3])
 ];
 
-/* prettier-ignore */
+/* dprint-ignore */
 export const rtpBuffersWithHeaderExt = [
   Buffer.from([144, 224, 80, 76, 225, 39, 108, 97, 25, 190, 186, 105, 1, 2, 0, 0, 1, 2, 3]),
   Buffer.from([144, 224, 80, 76, 225, 39, 108, 97, 25, 190, 186, 105, 1, 2, 0, 1, 1, 2, 3, 4, 1, 2, 3])
 ];
 
-/* prettier-ignore */
+/* dprint-ignore */
 export const rtcpSRBuffers = [
   // 0 reports
   Buffer.from([128, 200, 0, 6, 243, 203, 32, 1, 131, 171, 3, 161, 235, 2, 11, 58, 0, 0, 148, 32, 0, 0, 0, 158, 0, 0, 155, 136]),
@@ -26,7 +26,7 @@ export const rtcpSRBuffers = [
 
 ]
 
-/* prettier-ignore */
+/* dprint-ignore */
 export const rtcpRRBuffers = [
   // 0 reports
   Buffer.from([128, 201, 0, 1, 27, 117, 249, 76]),
@@ -40,7 +40,7 @@ export const rtcpRRBuffers = [
   ])
 ]
 
-/* prettier-ignore */
+/* dprint-ignore */
 export const rtcpSDESBuffers = [
   Buffer.from([129, 202, 0, 12, 217, 157, 189, 215, 1, 28, 117, 115, 101, 114, 50, 53, 48, 51, 49, 52, 53, 55, 54, 54, 64, 104, 111, 115, 116, 45, 50, 57, 50, 48, 53, 57, 53, 50, 6, 9, 71, 83, 116, 114, 101, 97, 109, 101, 114, 0, 0, 0]),
 
@@ -52,7 +52,7 @@ export const rtcpSDESBuffers = [
   ])
 ]
 
-/* prettier-ignore */
+/* dprint-ignore */
 export const rtcpBYEBuffers = [
   Buffer.from([129, 203, 0, 1, 38, 197, 204, 95]),
 
@@ -63,7 +63,7 @@ export const rtcpBYEBuffers = [
   Buffer.from([131, 203, 0, 5, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 4, 76, 111, 115, 116, 0, 0, 0]),
 ];
 
-/* prettier-ignore */
+/* dprint-ignore */
 export const rtcpAPPBuffers = [
   Buffer.from([133, 204, 0, 4, 0, 0, 0, 42, 76, 105, 102, 101, 0, 1, 2, 3, 42, 42, 42, 42]),
 ];

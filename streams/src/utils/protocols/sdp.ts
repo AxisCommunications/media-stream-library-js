@@ -159,7 +159,7 @@ export interface MediaDescription extends RtspExtensions {
 export type TransformationMatrix = readonly [
   readonly [number, number, number],
   readonly [number, number, number],
-  readonly [number, number, number]
+  readonly [number, number, number],
 ]
 
 export interface VideoMedia extends MediaDescription {
@@ -346,8 +346,8 @@ const extractField = (line: string) => {
       return { phone: body }
     // c=<nettype> <addrtype> <connection-address>
     case 'c': {
-      const [connectionNetType, connectionAddrType, connectionAddress] =
-        body.split(' ')
+      const [connectionNetType, connectionAddrType, connectionAddress] = body
+        .split(' ')
       return {
         connectionData: {
           addrType: connectionAddrType,
@@ -392,7 +392,7 @@ const extractField = (line: string) => {
       return { type, port: Number(port), protocol, fmt: Number(fmt) }
     }
     default:
-    // console.log('unknown SDP prefix ', prefix);
+      // console.log('unknown SDP prefix ', prefix);
   }
 }
 
@@ -420,7 +420,7 @@ export const parse = (buffer: Buffer): Sdp => {
     if (newMediaLevel(line)) {
       struct.media[mediaCounter] = {}
       current = struct.media[mediaCounter]
-      ++mediaCounter
+      ;++mediaCounter
     }
     current = Object.assign(current, extractField(line))
   }

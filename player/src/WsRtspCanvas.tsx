@@ -98,14 +98,33 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   }
 
   // State tied to resources
-  const [pipeline, setPipeline] =
-    useState<null | pipelines.Html5CanvasPipeline>(null)
+  const [pipeline, setPipeline] = useState<
+    null | pipelines.Html5CanvasPipeline
+  >(null)
   const [fetching, setFetching] = useState(false)
 
   // keep track of changes in starting time
   // (offset in seconds to start playing from)
   const __offsetRef = useRef(offset)
   const __rangeRef = useRef<Range>([offset, undefined])
+
+  /**
+   * Show debug log for current time.
+   * currentTime: current playback time
+   */
+  const timeout = useRef<number | undefined>(undefined)
+  useEffect(() => {
+    if (pipeline === null) {
+      return
+    }
+
+    timeout.current = window.setInterval(() => {
+      const { currentTime } = pipeline
+      debugLog('%o', { currentTime })
+    }, 1000)
+
+    return () => window.clearTimeout(timeout.current)
+  }, [pipeline])
 
   useEffect(() => {
     __offsetRef.current = offset
@@ -161,8 +180,8 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
               return m.type === 'video'
             })
             if (videoMedia !== undefined) {
-              __sensorTmRef.current =
-                videoMedia['x-sensor-transform'] ?? videoMedia['transform']
+              __sensorTmRef.current = videoMedia['x-sensor-transform']
+                ?? videoMedia['transform']
             }
             if (__onSdpRef.current !== undefined) {
               __onSdpRef.current(sdp)
@@ -197,8 +216,8 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
       // play. We need to wait for that event to get the correct width/height.
       pipeline.onCanplay = () => {
         if (
-          canvasRef.current !== null &&
-          __onPlayingRef.current !== undefined
+          canvasRef.current !== null
+          && __onPlayingRef.current !== undefined
         ) {
           __onPlayingRef.current({
             el: canvasRef.current,

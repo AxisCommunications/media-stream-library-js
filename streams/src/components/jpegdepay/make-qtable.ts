@@ -12,7 +12,7 @@ import { clamp } from '../../utils/clamp'
  * @see https://tools.ietf.org/html/rfc2435
  * @see https://www.iso.org/standard/18902.html
  */
-// prettier-ignore
+// dprint-ignore
 const jpegLumaQuantizer = [
   16,  11,  12,  14,  12,  10,  16,  14,
   13,  14,  18,  17,  16,  19,  24,  40,
@@ -23,7 +23,7 @@ const jpegLumaQuantizer = [
   95,  98,  103, 104, 103, 62,  77,  113,
   121, 112, 100, 120, 92,  101, 103, 99,
 ]
-// prettier-ignore
+// dprint-ignore
 const jpeChromaQuantizer = [
   17,  18,  18,  24,  21,  24,  47,  26,
   26,  47,  99,  66,  56,  66,  99,  99,

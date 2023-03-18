@@ -14,14 +14,14 @@ If your changes cause problems with how the library was used before,
 don't forget to write `BREAKING CHANGE:` inside the commit message body,
 followed by a description of what has changed and how to adapt for it.
 
-We use `node` and `yarn` for any development related things, so make sure you
+We use `node`, `yarn`, and `just` for any development related things, so make sure you
 have those installed. If you want to run the examples against a test RTSP server,
 you'll need to have a working `docker` environment with access to docker hub.
 
 ### Testing
 
 Make sure your changes pass linting and unit testing locally to save time with your PR,
-by running `yarn test`.
+by running `just test`.
 If you add a new feature, please write a new unit test to catch any future regressions.
 
 Most components have unit tests, and basic proper behaviour is always
@@ -31,17 +31,15 @@ unit tests with sufficient coverage.
 
 ### Code formatting
 
-We use [prettier](https://prettier.io/) to automatically format code, and this
+We use [dprint](https://dprint.dev/) to automatically format code, and this
 is verified during testing (part of linting).
 To make sure tests don't fail on format problems, it's recommended to use a
-prettier plugin for you editor, or to run `yarn prettier:fix` before committing
+dprint plugin for you editor, or to run `just format` before committing
 any changes.
-Prettier will pick up relevant indentation and line ending settings from the
-.editorconfig file, so if your editor respects that too, you should be fine.
 
 ## Getting started
 
-After cloning this repository, run `yarn` to install all dependencies.
+After cloning this repository, run `just` to install all dependencies.
 The easiest way to get started is to get the examples up and running,
 so you can test any changes you make.
 
@@ -49,7 +47,7 @@ There are two sets of examples: those that expect a camera backend,
 and those that work with a test video provided by an RTSP server that
 you can run locally via this library.
 
-Run `yarn dev` to build the library, run a local RTSP test server, and serve
+Run `just run [workspace]` to build the library, run a local RTSP test server, and serve
 the examples. You'll see a link to a port on `localhost` (usually 8080).
 
 ## Creating PRs
@@ -89,7 +87,7 @@ Any tags that are prereleases will be tagged `next` for NPM, otherwise `latest` 
 To release, make sure you are on the `main` branch and run:
 
 ```
-yarn release
+just release
 git push --follow-tags
 ```
 

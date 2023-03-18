@@ -1,7 +1,5 @@
 /**
- *
  * Some helpers to deal with Affine matrices
- *
  */
 
 import { Coord } from './geometry'

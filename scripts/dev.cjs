@@ -20,10 +20,9 @@ rtspProcess.stdout.on('data', (data) => {
   console.log(`[rtsp]: ${data}`)
 })
 
-const serverProcess =
-  proxiedCamera !== undefined
-    ? spawn(`yarn examples -P ${proxiedCamera}`, { shell: true })
-    : spawn('yarn examples', { shell: true })
+const serverProcess = proxiedCamera !== undefined
+  ? spawn(`yarn examples -P ${proxiedCamera}`, { shell: true })
+  : spawn('yarn examples', { shell: true })
 serverProcess.stdout.on('data', (data) => {
   console.log(`[http]: ${data}`)
 })

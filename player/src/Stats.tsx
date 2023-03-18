@@ -213,15 +213,15 @@ const StatsData: React.FC<
     <Data>
       {stats.length > 0
         ? stats.map((stat) => {
-            return (
-              <StatItem key={stat.name}>
-                <StatName>{stat.name}</StatName>
-                <StatValue>{`${stat.value} ${
-                  stat.unit !== undefined ? stat.unit : ''
-                }`}</StatValue>
-              </StatItem>
-            )
-          })
+          return (
+            <StatItem key={stat.name}>
+              <StatName>{stat.name}</StatName>
+              <StatValue>
+                {`${stat.value} ${stat.unit !== undefined ? stat.unit : ''}`}
+              </StatValue>
+            </StatItem>
+          )
+        })
         : null}
     </Data>
   )
@@ -246,33 +246,35 @@ export const Stats: React.FC<StatsProps> = ({
 
   return (
     <>
-      {expanded ? (
-        <StatsWrapper>
-          <StatsHeader>
-            <StatsIcon clickable={false}>
-              <StreamStats />
+      {expanded
+        ? (
+          <StatsWrapper>
+            <StatsHeader>
+              <StatsIcon clickable={false}>
+                <StreamStats />
+              </StatsIcon>
+              <StatsTitle>Client stream data</StatsTitle>
+              <StatsHide>
+                <HideLink href="" onClick={onToggleStats}>
+                  Hide
+                </HideLink>
+              </StatsHide>
+            </StatsHeader>
+            <StatsData
+              format={format}
+              videoProperties={videoProperties}
+              refresh={refresh}
+              volume={volume}
+            />
+          </StatsWrapper>
+        )
+        : (
+          <StatsShow>
+            <StatsIcon onClick={onToggleStats} clickable={true}>
+              <StreamStats title="Show client stream data" />
             </StatsIcon>
-            <StatsTitle>Client stream data</StatsTitle>
-            <StatsHide>
-              <HideLink href="" onClick={onToggleStats}>
-                Hide
-              </HideLink>
-            </StatsHide>
-          </StatsHeader>
-          <StatsData
-            format={format}
-            videoProperties={videoProperties}
-            refresh={refresh}
-            volume={volume}
-          />
-        </StatsWrapper>
-      ) : (
-        <StatsShow>
-          <StatsIcon onClick={onToggleStats} clickable={true}>
-            <StreamStats title="Show client stream data" />
-          </StatsIcon>
-        </StatsShow>
-      )}
+          </StatsShow>
+        )}
     </>
   )
 }

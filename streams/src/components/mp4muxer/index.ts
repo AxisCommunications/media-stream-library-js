@@ -59,8 +59,8 @@ export class Mp4Muxer extends Tube {
 
           this.push({ type: MessageType.ISOM, data, tracks, ftyp, moov })
         } else if (
-          msg.type === MessageType.ELEMENTARY ||
-          msg.type === MessageType.H264
+          msg.type === MessageType.ELEMENTARY
+          || msg.type === MessageType.H264
         ) {
           /**
            * Otherwise we are getting some elementary stream data.
@@ -79,14 +79,13 @@ export class Mp4Muxer extends Tube {
             }
 
             let checkpointTime: number | undefined
-            const idrPicture =
-              msg.type === MessageType.H264
-                ? msg.nalType === NAL_TYPES.IDR_PICTURE
-                : undefined
+            const idrPicture = msg.type === MessageType.H264
+              ? msg.nalType === NAL_TYPES.IDR_PICTURE
+              : undefined
             if (
-              boxBuilder.ntpPresentationTime &&
-              idrPicture &&
-              msg.ntpTimestamp !== undefined
+              boxBuilder.ntpPresentationTime
+              && idrPicture
+              && msg.ntpTimestamp !== undefined
             ) {
               checkpointTime =
                 (msg.ntpTimestamp - boxBuilder.ntpPresentationTime) / 1000
@@ -123,15 +122,15 @@ export class Mp4Muxer extends Tube {
 
   get bitrate() {
     return (
-      this.boxBuilder.trackData &&
-      this.boxBuilder.trackData.map((data) => data.bitrate)
+      this.boxBuilder.trackData
+      && this.boxBuilder.trackData.map((data) => data.bitrate)
     )
   }
 
   get framerate() {
     return (
-      this.boxBuilder.trackData &&
-      this.boxBuilder.trackData.map((data) => data.framerate)
+      this.boxBuilder.trackData
+      && this.boxBuilder.trackData.map((data) => data.framerate)
     )
   }
 

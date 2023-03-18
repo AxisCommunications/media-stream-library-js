@@ -43,7 +43,7 @@ export class HttpSource extends Source {
     // When an error is sent on the incoming stream, close the socket.
     incoming.on('error', (e) => {
       console.warn('closing socket due to incoming error', e)
-      this._reader && this._reader.cancel()
+      this._reader && this._reader.cancel().catch((err) => console.error(err))
     })
 
     /**
@@ -90,8 +90,8 @@ export class HttpSource extends Source {
   }
 
   abort(): void {
-    this._reader &&
-      this._reader.cancel().catch((err) => {
+    this._reader
+      && this._reader.cancel().catch((err) => {
         console.log('http-source: cancel reader failed: ', err)
       })
     this._abortController && this._abortController.abort()

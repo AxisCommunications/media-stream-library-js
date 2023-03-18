@@ -155,6 +155,19 @@ where you specify the IP of the camera you want to proxy as the `MSP_CAMERA`
 environment variable (default is `192.168.0.90`). The vite dev server will
 proxy requests to the camera, so that you'll have no CORS issues for any format.
 
+## Debugging
+
+In the browser, you can set `localStorage.debug = 'msp:*'` to log everything
+related to just this library (make sure to reload the page after setting the
+value). You can also debug a specific component by using one of the following from the table below.
+
+| Detailed debugging |
+| ----- |
+| `msp:http-mp4-video` |
+| `msp:ws-rtsp-video` |
+| `msp:still-image` |
+| `msp:api` |
+
 ## FAQ
 
 **Does this library support audio?**

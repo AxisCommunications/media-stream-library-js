@@ -95,8 +95,9 @@ export class Parser {
     // We have enough data to extract a box.
     // The buffer package has a problem that it doesn't optimize concatenation
     // of an array with only one buffer, check for that (prevents performance issue)
-    const buffer =
-      this._chunks.length === 1 ? this._chunks[0] : Buffer.concat(this._chunks)
+    const buffer = this._chunks.length === 1
+      ? this._chunks[0]
+      : Buffer.concat(this._chunks)
     const box = buffer.slice(0, this._box.size)
     const trailing = buffer.slice(this._box.size)
 

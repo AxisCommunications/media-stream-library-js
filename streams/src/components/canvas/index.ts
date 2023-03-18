@@ -70,7 +70,6 @@ const generateUpdateInfo = (clockrate: number) => {
  *               `.play()` method on the component.
  *  - onSync: will be called when the presentation time offset is
  *            known, with the latter as argument (in UNIX milliseconds)
- *
  */
 export class CanvasSink extends Sink {
   public onCanplay?: () => void
@@ -173,9 +172,9 @@ export class CanvasSink extends Sink {
           firstTimestamp = 0
           const jpegMedia = msg.sdp.media.find((media): media is VideoMedia => {
             return (
-              media.type === 'video' &&
-              media.rtpmap !== undefined &&
-              media.rtpmap.encodingName === 'JPEG'
+              media.type === 'video'
+              && media.rtpmap !== undefined
+              && media.rtpmap.encodingName === 'JPEG'
             )
           })
 
@@ -206,8 +205,8 @@ export class CanvasSink extends Sink {
           }
           // Compute millisecond presentation time (with offset 0
           // as we initialized the scheduler with 0).
-          const presentationTime =
-            (1000 * (timestamp - firstTimestamp)) / clockrate
+          const presentationTime = (1000 * (timestamp - firstTimestamp))
+            / clockrate
           const blob = new window.Blob([msg.data], { type: 'image/jpeg' })
 
           // If the actual UTC time of the start of presentation isn't known yet,

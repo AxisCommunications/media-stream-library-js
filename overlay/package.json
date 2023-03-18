@@ -33,16 +33,16 @@
   },
   "devDependencies": {
     "@juggle/resize-observer": "3.4.0",
-    "@types/react": "18.0.17",
-    "@types/react-dom": "18.0.6",
+    "@types/react": "18.0.28",
+    "@types/react-dom": "18.0.11",
     "@types/styled-components": "5.1.26",
-    "esbuild": "0.15.6",
+    "esbuild": "0.15.18",
     "pepjs": "0.5.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-is": "18.2.0",
-    "semver": "7.3.7",
-    "styled-components": "5.3.5",
-    "typescript": "4.8.2"
+    "semver": "7.3.8",
+    "styled-components": "5.3.9",
+    "typescript": "4.9.5"
   }
 }

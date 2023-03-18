@@ -29,11 +29,11 @@ export class WSSink extends Sink {
       },
     })
 
-    socket.on('message', function (data: Buffer) {
+    socket.on('message', function(data: Buffer) {
       outgoing.push({ data, type: MessageType.RAW })
     })
 
-    socket.on('close', function () {
+    socket.on('close', function() {
       outgoing.push(null)
     })
     socket.on('error', (e: Error) => {
