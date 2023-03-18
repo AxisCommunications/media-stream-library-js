@@ -328,12 +328,14 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   }
 
   console.warn(`Error: unknown format: ${format},
-please use one of ${[
-    Format.RTP_H264,
-    Format.JPEG,
-    Format.MP4_H264,
-    Format.RTP_JPEG,
-  ].join(', ')}`)
+please use one of ${
+    [
+      Format.RTP_H264,
+      Format.JPEG,
+      Format.MP4_H264,
+      Format.RTP_JPEG,
+    ].join(', ')
+  }`)
 
   return null
 }

@@ -13,33 +13,33 @@ build: _build-streams _build-player _build-overlay
 @changed:
     git diff --diff-filter=d --name-only $(git merge-base --fork-point origin/main)
 
+# format or check files with dprint (default formats all matching files)
+dprint +args="fmt":
+    cd {{ invocation_directory() }} && dprint {{ args }}
+
 # run esbuild, WORKSPACE=(overlay|player|streams)
 esbuild workspace *args:
     cd {{ workspace }} && node esbuild.mjs {{ args }}
     
 # run eslint
-eslint +ARGS=invocation_directory():
+eslint *args:
     # FIXME: add --no-warning-on-ignored-files when https://github.com/eslint/rfcs/pull/90 is released
     # to avoid warnings when running as part of the lint/format command against changed files.
-    eslint --ext "cjs,js,json,jsx,mjs,ts,tsx" --no-error-on-unmatched-pattern {{ ARGS }}
+    cd {{ invocation_directory() }} && eslint --ext "cjs,js,json,jsx,mjs,ts,tsx" --no-error-on-unmatched-pattern --no-cache {{ args }}
 
 # autofix and format changed files
 format +FILES="`just changed`":
     just eslint --fix {{ FILES }}
-    just prettier --write {{ FILES }}
+    just dprint fmt {{ FILES }}
 
 # install dependencies
 install:
     CYPRESS_INSTALL_BINARY=0 && yarn install --immutable --immutable-cache
 
 # check lint rules and formatting for changed files
-lint +FILES="`just changed`":
-    just eslint {{ FILES }}
-    just prettier {{ FILES }}
-
-# check files with prettier, use --write to format, --no-cache to disable cache
-prettier +args=invocation_directory():
-    prettier --ignore-unknown --no-error-on-unmatched-pattern --check {{ args }}
+lint workspace:
+    just eslint {{ workspace }}
+    cd {{ workspace }} && just dprint check
 
 # create a prerelease commit, KIND=(new|nightly)
 release kind='patch':

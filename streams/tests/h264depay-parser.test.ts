@@ -8,7 +8,6 @@ import { describe } from './uvu-describe'
 
 /*
  * The h264Handler is more thoroughly tested in the end2end test.
- *
  */
 describe('h264 parser', (test) => {
   test.before.each((ctx) => {

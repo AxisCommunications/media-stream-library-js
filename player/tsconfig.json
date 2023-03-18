@@ -6,7 +6,7 @@
     "emitDeclarationOnly": true,
     "jsx": "react",
     "noEmit": false,
-    "outDir": "dist",
+    "outDir": "dist"
   },
-  "include": ["src", "tests"],
+  "include": ["src", "tests"]
 }

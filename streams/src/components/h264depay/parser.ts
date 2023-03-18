@@ -74,8 +74,8 @@ export class H264DepayParser {
       this._buffer = Buffer.concat([this._buffer, rtpPayload.slice(2)])
       return null
     } else if (
-      (type === NAL_TYPES.NON_IDR_PICTURE || type === NAL_TYPES.IDR_PICTURE) &&
-      this._buffer.length === 0
+      (type === NAL_TYPES.NON_IDR_PICTURE || type === NAL_TYPES.IDR_PICTURE)
+      && this._buffer.length === 0
     ) {
       /* Single NALU */ const h264frame = Buffer.concat([
         Buffer.from([0, 0, 0, 0]),

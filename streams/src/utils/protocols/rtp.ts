@@ -75,9 +75,9 @@ export const extHeader = (buffer: Buffer) => {
   return extHeaderLength(buffer) === 0
     ? Buffer.from([])
     : buffer.slice(
-        12 + cSrcCount(buffer) * 4,
-        12 + cSrcCount(buffer) * 4 + 4 + extHeaderLength(buffer) * 4
-      )
+      12 + cSrcCount(buffer) * 4,
+      12 + cSrcCount(buffer) * 4 + 4 + extHeaderLength(buffer) * 4
+    )
 }
 
 export const payload = (buffer: Buffer) => {
