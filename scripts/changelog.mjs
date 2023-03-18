@@ -17,8 +17,8 @@ const ChangeLogHeader = `# Changelog
 
 All notable changes to this project will be documented in this file.
 `
-const GitHubCompareUrl = 'https://github.com/axteams-software/zeno-web/compare'
-const GitHubCommitUrl = 'https://github.com/axteams-software/zeno-web/commit'
+const GitHubCompareUrl = 'https://github.com/AxisCommunications/media-stream-library-js/compare'
+const GitHubCommitUrl = 'https://github.com/AxisCommunications/media-stream-library-js/commit'
 const GroupTitles = {
   'build': '\u{1F477} Build',
   'chore': '\u{1F6A7} Maintenance',
