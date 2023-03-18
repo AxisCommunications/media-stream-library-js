@@ -1,0 +1,28 @@
+{
+  "lineWidth": 80,
+  "typescript": {
+    "jsx.quoteStyle": "preferDouble",
+    "arguments.trailingCommas": "never",
+    "parameters.trailingCommas": "never",
+    "quoteStyle": "preferSingle",
+    "semiColons": "asi",
+    "module.sortImportDeclarations": "maintain"
+  },
+  "json": {},
+  "markdown": {},
+  "dockerfile": {},
+  "includes": ["**/*.{ts,tsx,cjs,mjs,json}"],
+  "excludes": [
+    "**/build",
+    "**/buildinfo*.json",
+    "**/node_modules",
+    ".vscode",
+    ".yarn"
+  ],
+  "plugins": [
+    "https://plugins.dprint.dev/typescript-0.81.1.wasm",
+    "https://plugins.dprint.dev/json-0.17.0.wasm",
+    "https://plugins.dprint.dev/markdown-0.15.2.wasm",
+    "https://plugins.dprint.dev/dockerfile-0.3.0.wasm"
+  ]
+}
