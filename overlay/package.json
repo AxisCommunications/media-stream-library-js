@@ -1,6 +1,6 @@
 {
   "name": "media-overlay-library",
-  "version": "4.3.0",
+  "version": "12.0.0",
   "license": "MIT",
   "description": "React library for SVG drawing.",
   "keywords": [
@@ -21,9 +21,8 @@
   },
   "files": [
     "dist/**/*",
-    "README.md",
     "LICENSE",
-    "CHANGELOG.md"
+    "README.md"
   ],
   "peerDependencies": {
     "@juggle/resize-observer": "^3.3.1",

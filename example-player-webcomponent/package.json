@@ -1,4 +1,5 @@
 {
+  "private": true,
   "devDependencies": {
     "media-stream-player": "workspace:*"
   }
