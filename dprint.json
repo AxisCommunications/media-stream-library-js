@@ -13,7 +13,7 @@
   "dockerfile": {},
   "includes": ["**/*.{ts,tsx,cjs,mjs,json}"],
   "excludes": [
-    "**/build",
+    "**/dist",
     "**/buildinfo*.json",
     "**/node_modules",
     ".vscode",

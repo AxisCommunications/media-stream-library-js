@@ -51,19 +51,19 @@ export function makeFrameHeader(width: number, height: number, type: number) {
   ])
 }
 
-// prettier-ignore
+// dprint-ignore
 const LUM_DC_CODELENS = [
   0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0
 ]
-// prettier-ignore
+// dprint-ignore
 const LUM_DC_SYMBOLS = [
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 ]
-// prettier-ignore
+// dprint-ignore
 const LUM_AC_CODELENS = [
   0, 2, 1, 3, 3, 2, 4, 3, 5, 5, 4, 4, 0, 0, 1, 0x7d
 ]
-// prettier-ignore
+// dprint-ignore
 const LUM_AC_SYMBOLS = [
   0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12,
   0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07,
@@ -87,19 +87,19 @@ const LUM_AC_SYMBOLS = [
   0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, 0xf8,
   0xf9, 0xfa
 ]
-// prettier-ignore
+// dprint-ignore
 const CHM_DC_CODELENS = [
   0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0
 ]
-// prettier-ignore
+// dprint-ignore
 const CHM_DC_SYMBOLS = [
   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 ]
-// prettier-ignore
+// dprint-ignore
 const CHM_AC_CODELENS = [
   0, 2, 1, 2, 4, 4, 3, 4, 7, 5, 4, 4, 0, 1, 2, 0x77
 ]
-// prettier-ignore
+// dprint-ignore
 const CHM_AC_SYMBOLS = [
   0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21,
   0x31, 0x06, 0x12, 0x41, 0x51, 0x07, 0x61, 0x71,
