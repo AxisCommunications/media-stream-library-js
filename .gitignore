@@ -6,7 +6,7 @@ coverage/
 
 # Bundles
 dist/
-examples/browser/media-stream-library.min.js
+tsconfig.tsbuildinfo
 
 # Cypress
 cypress/videos/
@@ -28,3 +28,12 @@ node_modules/
 
 # Linting
 .eslintcache
+
+# Mac
+.DS_Store
+
+# Python
+__pycache__/
+
+# GitHub
+!.github/
