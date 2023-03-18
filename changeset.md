@@ -1,3 +1,10 @@
+## [12.1.1](https://github.com/axteams-software/zeno-web/compare/v12.1.0...v12.1.1) (2023-03-18T18:01:24.397Z)
+
+### 🚧 Maintenance
+
+  - install just in publish workflow (#741) ([b56be67](https://github.com/axteams-software/zeno-web/commit/b56be67af064a5fc5cb34f01dba58cfbdcb21a4e))
+  - enable monorepo releases ([99d95e6](https://github.com/axteams-software/zeno-web/commit/99d95e6da9fc244fc2861d69599cda8bd37b19ae))
+
 ## [12.1.0](https://github.com/axteams-software/zeno-web/compare/v12.0.0...v12.1.0) (2023-03-18T17:27:44.064Z)
 
 ### 🚧 Maintenance
