@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { useEventState } from './hooks/useEventState'
+import { useVideoDebug } from './hooks/useVideoDebug'
 import { MetadataHandler } from './metadata'
 import { VideoProperties } from './PlaybackArea'
 import { Format } from './types'
@@ -95,6 +96,8 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
 
   const __sensorTmRef = useRef<TransformationMatrix>()
 
+  useVideoDebug(videoRef.current, debugLog)
+
   useEffect(() => {
     const videoEl = videoRef.current
 
@@ -106,6 +109,12 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
       debugLog('play')
       videoEl.play().catch((err) => {
         console.error('VideoElement error: ', err.message)
+      })
+
+      const { videoHeight, videoWidth } = videoEl
+      debugLog('%o', {
+        videoHeight,
+        videoWidth,
       })
     } else if (!play && playing === true) {
       debugLog('pause')
@@ -162,8 +171,8 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
     if (play && pipeline && !fetching) {
       pipeline.onHeaders = (headers) => {
         __sensorTmRef.current = parseTransformHeader(
-          headers.get('video-sensor-transform') ??
-            headers.get('video-metadata-transform')
+          headers.get('video-sensor-transform')
+            ?? headers.get('video-metadata-transform')
         )
       }
       pipeline.http.play()

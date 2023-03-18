@@ -21,9 +21,9 @@ export class ONVIFDepay extends Tube {
           let validMedia
           for (const media of msg.sdp.media) {
             if (
-              media.type === 'application' &&
-              media.rtpmap &&
-              media.rtpmap.encodingName === 'VND.ONVIF.METADATA'
+              media.type === 'application'
+              && media.rtpmap
+              && media.rtpmap.encodingName === 'VND.ONVIF.METADATA'
             ) {
               validMedia = media
             }
@@ -33,8 +33,8 @@ export class ONVIFDepay extends Tube {
           }
           callback(undefined, msg)
         } else if (
-          msg.type === MessageType.RTP &&
-          payloadType(msg.data) === XMLPayloadType
+          msg.type === MessageType.RTP
+          && payloadType(msg.data) === XMLPayloadType
         ) {
           // Add payload to packet stack
           packets.push(payload(msg.data))

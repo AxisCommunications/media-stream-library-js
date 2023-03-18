@@ -66,12 +66,11 @@ export const Polygon: FC<PolygonProps> = ({ pos, onChangePos }) => {
       { name, vector: [tx, ty] },
       ended
     ) => {
-      const newSvgPos: CoordArray =
-        name === 'g'
-          ? clampCoordArray(initialSvgPos.map(([x, y]) => [x + tx, y + ty]))
-          : initialSvgPos.map(([x, y], index) =>
-              name === `p${index}` ? clampCoord([x + tx, y + ty]) : [x, y]
-            )
+      const newSvgPos: CoordArray = name === 'g'
+        ? clampCoordArray(initialSvgPos.map(([x, y]) => [x + tx, y + ty]))
+        : initialSvgPos.map(([x, y], index) =>
+          name === `p${index}` ? clampCoord([x + tx, y + ty]) : [x, y]
+        )
 
       if (ended) {
         onChangePos(newSvgPos.map(toUserBasis))

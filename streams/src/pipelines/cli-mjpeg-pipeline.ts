@@ -31,7 +31,7 @@ export class CliMjpegPipeline extends RtspMjpegPipeline {
     const dataSaver = process.stdout.isTTY
       ? (msg: any) => console.log(msg.type, msg.data)
       : (msg: any) =>
-          msg.type === MessageType.JPEG && process.stdout.write(msg.data)
+        msg.type === MessageType.JPEG && process.stdout.write(msg.data)
     const videoSink = Sink.fromHandler(dataSaver)
 
     this.prepend(tcpSource)

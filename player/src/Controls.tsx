@@ -193,8 +193,9 @@ export const Controls: React.FC<ControlsProps> = ({
 
   const [totalDuration, setTotalDuration] = useState(duration)
   const __mediaTimeline = useRef({
-    startDateTime:
-      startTime !== undefined ? DateTime.fromISO(startTime) : undefined,
+    startDateTime: startTime !== undefined
+      ? DateTime.fromISO(startTime)
+      : undefined,
   })
 
   /**
@@ -250,15 +251,16 @@ export const Controls: React.FC<ControlsProps> = ({
 
     const updateProgress = () => {
       const played = start + pipeline.currentTime
-      const buffered =
-        isHTMLMediaElement(el) && el.buffered.length > 0
-          ? start + el.buffered.end(el.buffered.length - 1)
-          : played
+      const buffered = isHTMLMediaElement(el) && el.buffered.length > 0
+        ? start + el.buffered.end(el.buffered.length - 1)
+        : played
       const total = __duration === Infinity ? buffered : __duration
 
-      const counter = `${Duration.fromMillis(played * 1000).toFormat(
-        'h:mm:ss'
-      )} / ${Duration.fromMillis(total * 1000).toFormat('h:mm:ss')}`
+      const counter = `${
+        Duration.fromMillis(played * 1000).toFormat(
+          'h:mm:ss'
+        )
+      } / ${Duration.fromMillis(total * 1000).toFormat('h:mm:ss')}`
       setProgress({
         playedFraction: played / total,
         bufferedFraction: buffered / total,
@@ -319,12 +321,11 @@ export const Controls: React.FC<ControlsProps> = ({
 
       setTimestamp({
         left: offset,
-        label:
-          __mediaTimeline.current.startDateTime !== undefined
-            ? __mediaTimeline.current.startDateTime
-                .plus(offsetMillis)
-                .toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS)
-            : Duration.fromMillis(offsetMillis).toFormat('h:mm:ss'),
+        label: __mediaTimeline.current.startDateTime !== undefined
+          ? __mediaTimeline.current.startDateTime
+            .plus(offsetMillis)
+            .toLocaleString(DateTime.DATETIME_FULL_WITH_SECONDS)
+          : Duration.fromMillis(offsetMillis).toFormat('h:mm:ss'),
       })
     }
 
@@ -351,11 +352,9 @@ export const Controls: React.FC<ControlsProps> = ({
     >
       <ControlBar>
         <Button onClick={onPlay}>
-          {play === true ? (
-            <Pause title={labels?.pause} />
-          ) : (
-            <Play title={labels?.play} />
-          )}
+          {play === true
+            ? <Pause title={labels?.pause} />
+            : <Play title={labels?.play} />}
         </Button>
         {src !== undefined && (
           <Button onClick={onStop}>
@@ -372,28 +371,32 @@ export const Controls: React.FC<ControlsProps> = ({
             <Screenshot title={labels?.screenshot} />
           </Button>
         )}
-        {volume !== undefined ? (
-          <VolumeContainer title={labels?.volume}>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.05"
-              onChange={onVolumeChange}
-              value={volume ?? 0}
-            />
-          </VolumeContainer>
-        ) : null}
+        {volume !== undefined
+          ? (
+            <VolumeContainer title={labels?.volume}>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                onChange={onVolumeChange}
+                value={volume ?? 0}
+              />
+            </VolumeContainer>
+          )
+          : null}
         <Progress>
           <ProgressBarContainer onClick={seek} ref={__progressBarContainerRef}>
             <ProgressBar>
               <ProgressBarPlayed fraction={progress.playedFraction} />
               <ProgressBarBuffered fraction={progress.bufferedFraction} />
-              {timestamp.left !== 0 ? (
-                <ProgressTimestamp left={timestamp.left}>
-                  {timestamp.label}
-                </ProgressTimestamp>
-              ) : null}
+              {timestamp.left !== 0
+                ? (
+                  <ProgressTimestamp left={timestamp.left}>
+                    {timestamp.label}
+                  </ProgressTimestamp>
+                )
+                : null}
             </ProgressBar>
           </ProgressBarContainer>
           <ProgressIndicator>

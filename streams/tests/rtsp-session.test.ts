@@ -106,7 +106,7 @@ describe('rtsp-session send method', (test) => {
   test('should not send if incoming is closed', async (ctx) => {
     const s = new RtspSession()
     const w = new Writable()
-    w._write = function (_msg, _enc, next) {
+    w._write = function(_msg, _enc, next) {
       // consume the msg
       next()
     }

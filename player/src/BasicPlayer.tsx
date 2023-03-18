@@ -170,11 +170,9 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
               >
                 <ControlBar>
                   <Button onClick={onPlayPause}>
-                    {play === true ? (
-                      <Pause title="Pause" />
-                    ) : (
-                      <Play title="Play" />
-                    )}
+                    {play === true
+                      ? <Pause title="Pause" />
+                      : <Play title="Play" />}
                   </Button>
                 </ControlBar>
               </ControlArea>

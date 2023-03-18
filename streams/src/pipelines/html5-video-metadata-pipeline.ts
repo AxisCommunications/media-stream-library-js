@@ -18,7 +18,6 @@ export interface Html5VideoMetadataConfig extends Html5VideoConfig {
  *
  * Handlers that can be set on the pipeline:
  * - all handlers inherited from the Html5VideoPipeline
- *
  */
 export class Html5VideoMetadataPipeline extends Html5VideoPipeline {
   constructor(config: Html5VideoMetadataConfig) {

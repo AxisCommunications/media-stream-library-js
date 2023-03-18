@@ -42,11 +42,11 @@ const aacEncodingName = (audioConfigBytes: number): AACEncoding => {
   const frequencyIndex = (audioConfigBytes >>> 7) & 0x000f
   const channelConfig = (audioConfigBytes >>> 3) & 0x000f
 
-  const audioType =
-    AUDIO_OBJECT_TYPE_NAMES[audioObjectType] || `AAC (${audioObjectType})`
+  const audioType = AUDIO_OBJECT_TYPE_NAMES[audioObjectType]
+    || `AAC (${audioObjectType})`
   const samplingRate = FREQUENCY_VALUES[frequencyIndex] || 'unknown'
-  const channels =
-    CHANNEL_CONFIG_NAMES[channelConfig] || channelConfig.toString()
+  const channels = CHANNEL_CONFIG_NAMES[channelConfig]
+    || channelConfig.toString()
 
   return {
     coding: audioType,

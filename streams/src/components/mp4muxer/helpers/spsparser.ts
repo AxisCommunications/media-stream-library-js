@@ -84,14 +84,12 @@ export class SPSParser {
       ? this.reader.readUnsignedExpGolomb()
       : 0
 
-    const w =
-      (picWidthInMbsMinus1 + 1) * 16 -
-      frameCropLeftOffset * 2 -
-      frameCropRightOffset * 2
-    const h =
-      (2 - picFrameMbsOnlyFlag) * (picHeightInMapUnitsMinus1 + 1) * 16 -
-      frameCropTopOffset * 2 -
-      frameCropBottomOffset * 2
+    const w = (picWidthInMbsMinus1 + 1) * 16
+      - frameCropLeftOffset * 2
+      - frameCropRightOffset * 2
+    const h = (2 - picFrameMbsOnlyFlag) * (picHeightInMapUnitsMinus1 + 1) * 16
+      - frameCropTopOffset * 2
+      - frameCropBottomOffset * 2
 
     return {
       profile,

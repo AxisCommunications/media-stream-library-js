@@ -24,9 +24,9 @@ export class Mp4Capture extends Tube {
       transform: (msg: Message, _encoding, callback) => {
         // Arrival of ISOM with tracks indicates new movie, start recording if active.
         if (
-          this._active &&
-          msg.type === MessageType.ISOM &&
-          msg.tracks !== undefined
+          this._active
+          && msg.type === MessageType.ISOM
+          && msg.tracks !== undefined
         ) {
           this._capture = true
         }
@@ -34,8 +34,8 @@ export class Mp4Capture extends Tube {
         // If capture enabled, record all ISOM (MP4) boxes
         if (this._capture && msg.type === MessageType.ISOM) {
           if (
-            this._bufferOffset <
-            this._buffer.byteLength - msg.data.byteLength
+            this._bufferOffset
+              < this._buffer.byteLength - msg.data.byteLength
           ) {
             msg.data.copy(this._buffer, this._bufferOffset)
             this._bufferOffset += msg.data.byteLength
