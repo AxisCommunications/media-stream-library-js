@@ -64,7 +64,7 @@ vite WORKSPACE *ARGS:
     
 # run the default app for a particular workspace
 run workspace:
-    just _run_{{ workspace }}
+    just _run-{{ workspace }}
 
 # run all unit tests
 test:
@@ -117,12 +117,12 @@ _run-example-streams-web: _build-streams
 
 _run-overlay: _build-overlay
     echo "no direct playground for overlay yet, running example-overlay-react instead"
-    just _run_example-overlay-react
+    just _run-example-overlay-react
 
 _run-player: (esbuild 'streams')
     just vite player
 
 _run-streams: _build-streams
     echo "no direct playground for streams yet, running example-streams-web instead"
-    just _run_example-streams-web
+    just _run-example-streams-web
 
