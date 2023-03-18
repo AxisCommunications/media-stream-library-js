@@ -218,10 +218,9 @@ export class BoxBuilder {
     // The RTP timestamps are unsigned 32 bit and will overflow
     // at some point. We can guard against the overflow by ORing with 0,
     // which will bring any difference back into signed 32-bit domain.
-    const duration =
-      trackData.lastTimestamp !== 0
-        ? (timestamp - trackData.lastTimestamp) | 0
-        : trackData.defaultFrameDuration
+    const duration = trackData.lastTimestamp !== 0
+      ? (timestamp - trackData.lastTimestamp) | 0
+      : trackData.defaultFrameDuration
 
     trackData.lastTimestamp = timestamp
 
@@ -269,15 +268,14 @@ export class BoxBuilder {
     // there is already a base NTP time to use as a reference
     // for computing presentation times.
     if (
-      !this.ntpPresentationTime &&
-      ntpTimestamp &&
-      trackId === this.videoTrackId
+      !this.ntpPresentationTime
+      && ntpTimestamp
+      && trackId === this.videoTrackId
     ) {
       const trackOffset = trackId - 1
       const trackData = this.trackData[trackOffset]
-      this.ntpPresentationTime =
-        ntpTimestamp -
-        1000 * (trackData.baseMediaDecodeTime / trackData.clockrate)
+      this.ntpPresentationTime = ntpTimestamp
+        - 1000 * (trackData.baseMediaDecodeTime / trackData.clockrate)
     }
   }
 }

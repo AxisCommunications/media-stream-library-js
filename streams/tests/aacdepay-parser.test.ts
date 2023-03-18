@@ -10,13 +10,12 @@ const audioData = Buffer.from([128, 225, 117, 55, 79, 22, 14, 25, 166, 135, 0, 2
 
 /*
  * The H264Handler is more thoroughly tested in the end2end test.
- *
  */
 describe('AAC depayer', (it) => {
   it('should parse a normal package', (ctx) => {
     let called = 0
     const cb = (msg: Message) => {
-      ++called
+      ;++called
       ctx.msg = msg
     }
     const hasHeader = true

@@ -65,7 +65,7 @@ export class DigestAuth {
   }
 
   nc = () => {
-    ++this.count
+    ;++this.count
     return this.count.toString(16).padStart(8, '0')
   }
 
@@ -102,10 +102,9 @@ export class DigestAuth {
     const ha1 = this.ha1(cnonce)
     const ha2 = this.ha2(method, uri, body)
 
-    const response =
-      this.qop === undefined
-        ? md5Hash(`${ha1}:${this.nonce}:${ha2}`)
-        : md5Hash(`${ha1}:${this.nonce}:${nc}:${cnonce}:${this.qop}:${ha2}`)
+    const response = this.qop === undefined
+      ? md5Hash(`${ha1}:${this.nonce}:${ha2}`)
+      : md5Hash(`${ha1}:${this.nonce}:${nc}:${cnonce}:${this.qop}:${ha2}`)
 
     const authorizationParams: string[] = []
     authorizationParams.push(`username="${this.username}"`)

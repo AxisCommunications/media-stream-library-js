@@ -25,7 +25,6 @@ export interface Html5VideoConfig {
  * - all handlers inherited from the RtspMp4Pipeline
  * - `onServerClose`: called when the WebSocket server closes the connection
  *   (only then, not when the connection is closed in a different way)
- *
  */
 export class Html5VideoPipeline extends RtspMp4Pipeline {
   public onSourceOpen?: (mse: MediaSource, tracks: MediaTrack[]) => void

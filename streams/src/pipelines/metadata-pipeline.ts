@@ -28,7 +28,6 @@ export interface WsRtspMetadataConfig {
  * - all handlers inherited from the RtspPipeline
  * - `onServerClose`: called when the WebSocket server closes the connection
  *   (only then, not when the connection is closed in a different way)
- *
  */
 export class MetadataPipeline extends RtspPipeline {
   public onServerClose?: () => void

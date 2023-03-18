@@ -34,7 +34,7 @@ export class Auth extends Tube {
     let lastSentMessage: RtspMessage
     let authHeader: string
 
-    const outgoing = createTransform(function (
+    const outgoing = createTransform(function(
       msg: Message,
       encoding,
       callback
@@ -49,14 +49,14 @@ export class Auth extends Tube {
       callback(undefined, msg)
     })
 
-    const incoming = createTransform(function (
+    const incoming = createTransform(function(
       msg: Message,
       encoding,
       callback
     ) {
       if (
-        msg.type === MessageType.RTSP &&
-        statusCode(msg.data) === UNAUTHORIZED
+        msg.type === MessageType.RTSP
+        && statusCode(msg.data) === UNAUTHORIZED
       ) {
         const headers = msg.data.toString().split('\n')
         const wwwAuth = headers.find((header) => /WWW-Auth/i.test(header))
@@ -65,9 +65,11 @@ export class Auth extends Tube {
         }
         const challenge = parseWWWAuthenticate(wwwAuth)
         if (challenge.type === 'basic') {
-          authHeader = `Basic ${Buffer.from(`${username}:${password}`).toString(
-            'base64'
-          )}`
+          authHeader = `Basic ${
+            Buffer.from(`${username}:${password}`).toString(
+              'base64'
+            )
+          }`
         } else if (challenge.type === 'digest') {
           const digest = new DigestAuth(challenge.params, username, password)
           authHeader = digest.authorization(
