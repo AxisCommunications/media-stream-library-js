@@ -49,7 +49,7 @@ export class HttpMp4Source extends Source {
     // When an error is sent on the incoming stream, close the socket.
     incoming.on('error', (e) => {
       console.warn('closing socket due to incoming error', e)
-      this._reader && this._reader.cancel()
+      this._reader && this._reader.cancel().catch((err) => console.error(err))
     })
 
     /**
