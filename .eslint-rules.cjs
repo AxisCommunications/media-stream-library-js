@@ -274,9 +274,6 @@ const base = {
   'react-hooks/rules-of-hooks': 'error',
   'react-hooks/exhaustive-deps': 'error',
 
-  /** Prefer property signatures with readonly modifiers over method signatures */
-  'functional/no-method-signature': 'error',
-
   'simple-import-sort/imports': [
     'error',
     {
