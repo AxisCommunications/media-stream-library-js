@@ -1,5 +1,7 @@
 {
   "name": "media-js",
+  "version": "12.0.0",
+  "private": true,
   "description": "Media libraries for Node and the Web.",
   "workspaces": {
     "packages": [
@@ -17,6 +19,7 @@
     "@typescript-eslint/eslint-plugin": "5.55.0",
     "@typescript-eslint/parser": "5.55.0",
     "c8": "7.13.0",
+    "cmd-ts": "0.12.1",
     "cypress": "12.8.1",
     "dpdm": "3.12.0",
     "dprint": "0.35.3",

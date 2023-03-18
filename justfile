@@ -13,6 +13,10 @@ build: _build-streams _build-player _build-overlay
 @changed:
     git diff --diff-filter=d --name-only $(git merge-base --fork-point origin/main)
 
+# create a changelog or changeset
+changelog:
+    scripts/changelog.mjs --write=CHANGELOG.md > changeset.md
+
 # format or check files with dprint (default formats all matching files)
 dprint +args="fmt":
     cd {{ invocation_directory() }} && dprint {{ args }}
@@ -42,8 +46,11 @@ lint workspace:
     cd {{ workspace }} && just dprint check
 
 # create a prerelease commit, KIND=(new|nightly)
-release kind='patch':
-    scripts/release.py {{ kind }}
+release $level='patch':
+    just version $level
+    just changelog
+    git add -u
+    git commit -m "release: $(jq -r .version package.json)"
 
 # start an example RTSP over WebSocket server
 rtsp-ws:
@@ -58,6 +65,15 @@ rtsp-ws:
 serve path *args='--bind 0.0.0.0':
     http-server {{ path }} {{ args }}
 
+# update the package version of all workspaces
+version $level='prerelease':
+    #!/usr/bin/env bash
+    current=$(jq -r '.version' package.json)
+    next=$(semver -i $level --preid alpha $current)
+    echo "update $workspace: $current => $next"
+    yarn workspaces foreach version --deferred $next
+    yarn version apply --all
+
 # run vite development server, WORKSPACE=(player)
 vite WORKSPACE *ARGS:
     cd {{ WORKSPACE }} && node vite.mjs {{ ARGS }}
@@ -65,6 +81,10 @@ vite WORKSPACE *ARGS:
 # run the default app for a particular workspace
 run workspace:
     just _run-{{ workspace }}
+
+# tag a commit with annotated tag (e.g. just tag v1.2.3 main)
+tag tagname commit:
+    git tag -a -m {{ tagname }} {{ tagname }} {{ commit }}
 
 # run all unit tests
 test:
