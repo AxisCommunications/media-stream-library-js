@@ -16,6 +16,9 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
+  "types": "./dist/src/index.browser.d.ts",
+  "main": "./dist/node.cjs",
+  "module": "./dist/node.mjs",
   "exports": {
     "types": "./dist/src/index.browser.d.ts",
     "browser": {
@@ -30,6 +33,8 @@
     }
   },
   "browser": {
+    "./dist/node.cjs": "./dist/browser.cjs",
+    "./dist/node.mjs": "./dist/browser.mjs",
     "stream": "stream-browserify"
   },
   "files": [
