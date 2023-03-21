@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [12.2.0](https://github.com/AxisCommunications/media-stream-library-js/compare/v12.1.1...v12.2.0) (2023-03-21T09:54:34.838Z)
+
+### 🚧 Maintenance
+
+  - add fallback package exports (#745) ([b029dc9](https://github.com/AxisCommunications/media-stream-library-js/commit/b029dc9af8b701956ab0a18b605400a50799c4de))
+  - use correct GitHub repo link ([ee5142f](https://github.com/AxisCommunications/media-stream-library-js/commit/ee5142fbcfec9004c65e511ea7052ffebbeb261d))
+
 ## [12.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/v12.1.0...v12.1.1) (2023-03-18T18:01:24.397Z)
 
 ### 🚧 Maintenance
