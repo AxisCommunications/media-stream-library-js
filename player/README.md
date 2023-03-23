@@ -122,18 +122,24 @@ npm install media-stream-player
 You will also need to install a number of peer dependencies
 such as [luxon](https://github.com/moment/luxon), which we use for date and time purposes,
 `react`/`react-dom`, `styled-components`, and `media-stream-library`.
-You can find an example of this under `examples/react-app`.
+You can find an example of this under `example-player-react`, e.g.:
+
+```js
+import { BasicPlayer } from 'media-stream-player'
+```
+
+By default, we do not pre-bundle external dependencies. If this causes problems
+with certain bundlers (e.g. CRA), you can use a pre-bundled version like so:
+
+```js
+import { BasicPlayer } from 'media-stream-player/heavy'
+```
 
 To run our example react app, you can start a vite dev server with:
 
 ```sh
-export MSP_CAMERA=<YOUR_CAMERA_HOST>
-```
-
-for example
-
-```sh
 export MSP_CAMERA=http://192.168.0.90
+node vite.mjs
 ```
 
 where you specify the IP of the camera you want to proxy as the `MSP_CAMERA`

@@ -77,11 +77,18 @@ import {components, pipelines} from 'media-stream-library';
 
 Note that we expose entry points for both node and the browser. Any bundler
 should be able to pick up the correct entry point from `package.json`. If not,
-then you can try importing from `media-stream-library/dist/browser-esm`
-instead. Since we no longer pre-bundle external dependencies, your bundler will
-have to handle this. It might be that you need to replace references to
-`global` with `window` because `readable-streams` (imported via
-`stream-browserify`) still refers to `global`.
+then you can try importing from `media-stream-library/dist/browser` instead.
+
+It might be that you need to replace references to `global` with `window`
+because `readable-streams` (imported via `stream-browserify`) still refers to
+`global`.
+
+By default, we do not pre-bundle external dependencies. If this causes problems
+with certain bundlers (e.g. CRA), you can use a pre-bundled version like so:
+
+```js
+import {components, pipelines} from 'media-stream-library/heavy';
+```
 
 ### Components and pipelines
 

@@ -10,36 +10,53 @@ if (!existsSync(buildDir)) {
   mkdirSync(buildDir)
 }
 
-for (
-  const output of [
-    { format: 'esm', ext: 'mjs' },
-    { format: 'cjs', ext: 'cjs' },
-  ]
-) {
+const browserBundles = [
+  {
+    format: 'esm',
+    name: 'browser.mjs',
+    external: ['stream', 'buffer', 'process'],
+  },
+  {
+    format: 'cjs',
+    name: 'browser.cjs',
+    external: ['stream', 'buffer', 'process'],
+  },
+  { format: 'esm', name: 'browser-heavy.mjs' },
+  { format: 'cjs', name: 'browser-heavy.cjs' },
+]
+
+for (const { format, name, external } of browserBundles) {
   buildSync({
     platform: 'browser',
     entryPoints: ['src/index.browser.ts'],
-    outfile: join(buildDir, `browser.${output.ext}`),
-    format: output.format,
+    outfile: join(buildDir, name),
+    format,
     // Needed because readable-streams (needed by stream-browserify) still references global.
     // There are issues on this, but they get closed, so unsure if this will ever change.
     define: {
       global: 'window',
     },
     inject: ['polyfill.mjs'],
-    external: ['stream', 'buffer', 'process'],
+    external,
     bundle: true,
     minify: false,
     sourcemap: true,
     // avoid a list of browser targets by setting a common baseline ES level
     target: 'es2015',
   })
+}
 
+const nodeBundles = [
+  { format: 'esm', name: 'node.mjs' },
+  { format: 'cjs', name: 'node.cjs' },
+]
+
+for (const { format, name } of nodeBundles) {
   buildSync({
     platform: 'node',
     entryPoints: ['src/index.node.ts'],
-    outfile: join(buildDir, `node.${output.ext}`),
-    format: output.format,
+    outfile: join(buildDir, name),
+    format,
     external: ['stream', 'buffer', 'process', 'ws'],
     bundle: true,
     minify: false,
