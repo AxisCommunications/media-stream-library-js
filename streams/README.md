@@ -33,17 +33,10 @@ it's limited to the webpack configuration.
 ## Installation
 
 Make sure you have Node installed on your machine.
-
 Then, to install the library:
 
-```
+```sh
 npm install media-stream-library
-```
-
-or if you are using `yarn`:
-
-```
-yarn add media-stream-library
 ```
 
 ## Usage
@@ -68,7 +61,7 @@ another. Contributions of new components/pipelines are always welcome.
 **script tag** You can directly include the `media-stream-library.min.js` file
 (located in the package `dist` folder) in your browser (check the browser example):
 
-```
+```html
 <script src="media-stream-library.min.js"></script>
 ```
 
@@ -78,7 +71,7 @@ contains all the necessary functions.
 **bundler** Alternatively, you can import it into your javascript code if you
 are going to bundle it yourself:
 
-```
+```js
 import {components, pipelines} from 'media-stream-library';
 ```
 

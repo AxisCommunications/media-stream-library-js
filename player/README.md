@@ -59,7 +59,7 @@ Then, you can use the `<media-stream-player/>` tag, similar to how you would use
 <media-stream-player hostname="192.168.0.90" />
 ```
 
-You can find an example of this under `examples/web-component`.
+You can find an example of this under `example-player-webcomponent`.
 
 Supported properties right now are:
 
@@ -94,22 +94,13 @@ Example:
 
 You may need to start a localhost server to get H.264 or Motion JPEG video to
 run properly. It doesn't work with the `file:///` protocol. The easiest way to
-do that is Pythons simpleHttpServer.
+do that is to run:
 
 First run
 
 ```bash
-yarn build
+just run example-player-webcomponent
 ```
-
-to get a local copy of the minified file. Then go to the web-component example
-folder and type the following in you terminal:
-
-```bash
-python -m SimpleHTTPServer 8080
-```
-
-Then you can open up http://localhost:8080 to see the result.
 
 Note that using anything other than the actual hostname you're hosting from
 will result in CORS errors for some video formats. You'll need to proxy the
@@ -124,14 +115,8 @@ sure you have Node installed on your machine.
 
 Then, to install the package:
 
-```shell
+```sh
 npm install media-stream-player
-```
-
-or if you are using yarn:
-
-```shell
-yarn add media-stream-player
 ```
 
 You will also need to install a number of peer dependencies
@@ -141,14 +126,14 @@ You can find an example of this under `examples/react-app`.
 
 To run our example react app, you can start a vite dev server with:
 
-```shell
-MSP_CAMERA=<YOUR_CAMERA_HOST> yarn dev
+```sh
+export MSP_CAMERA=<YOUR_CAMERA_HOST>
 ```
 
 for example
 
-```shell
-MSP_CAMERA=http://192.168.0.90 yarn dev
+```sh
+export MSP_CAMERA=http://192.168.0.90
 ```
 
 where you specify the IP of the camera you want to proxy as the `MSP_CAMERA`

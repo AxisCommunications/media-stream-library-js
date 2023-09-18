@@ -14,7 +14,7 @@ If your changes cause problems with how the library was used before,
 don't forget to write `BREAKING CHANGE:` inside the commit message body,
 followed by a description of what has changed and how to adapt for it.
 
-We use `node`, `yarn`, and `just` for any development related things, so make sure you
+We use `node`, `npm`, and `just` for any development related things, so make sure you
 have those installed. If you want to run the examples against a test RTSP server,
 you'll need to have a working `docker` environment with access to docker hub.
 
@@ -55,20 +55,6 @@ the examples. You'll see a link to a port on `localhost` (usually 8080).
 Whenever you want to apply your changes to the upstream repository,
 you can create a pull request (PR). You can find general information
 on making pull requests on GitHub.
-
-When you are ready to push your changes,
-make sure you include a proper version strategy in your commit by running:
-
-```
-yarn version <strategy> --deferred
-```
-
-where you should select a `<strategy>` based on if your changes introduce
-(possible) breaking changes (`major`), new feature additions (`minor`),
-or just fixes a bug (`patch`).
-
-The command will generate a file in `.yarn/versions` that should be committed
-together with your changes.
 
 ## Continuous integration
 

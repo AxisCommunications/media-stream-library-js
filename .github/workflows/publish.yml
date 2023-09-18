@@ -80,10 +80,8 @@ jobs:
 
       - name: Deploy NPM packages
         env:
-          YARN_NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
-          if [[ $GITHUB_REF =~ alpha|beta ]]; then
-              yarn workspaces foreach --no-private npm publish --tag next
-          else
-              yarn workspaces foreach --no-private npm publish --tag latest
-          fi
+          npm publish --workspace overlay --tag latest
+          npm publish --workspace player --tag latest
+          npm publish --workspace streams --tag latest

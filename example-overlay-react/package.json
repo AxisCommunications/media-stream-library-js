@@ -1,15 +1,15 @@
 {
   "private": true,
   "devDependencies": {
-    "@types/react": "18.0.28",
-    "@types/react-dom": "18.0.11",
-    "@types/styled-components": "5.1.26",
-    "@vitejs/plugin-react": "3.1.0",
-    "media-overlay-library": "workspace:*",
+    "@types/react": "18.2.22",
+    "@types/react-dom": "18.2.7",
+    "@types/styled-components": "5.1.27",
+    "@vitejs/plugin-react": "4.0.4",
+    "media-overlay-library": "file:../overlay",
     "pepjs": "0.5.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "styled-components": "5.3.9",
-    "vite": "4.2.0"
+    "styled-components": "5.3.11",
+    "vite": "4.4.9"
   }
 }

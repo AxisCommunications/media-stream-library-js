@@ -13,7 +13,7 @@ WARNING: no MSP_CAMERA environment variable detected, will use default.
 If you want to use a specific camera, please pass its host to the
 environment variable CAMERA, like so:
 
-    MSP_CAMERA=http://camera-ip:port yarn dev
+    export MSP_CAMERA=http://camera-ip:port
 `
   )
   host = defaultCamera

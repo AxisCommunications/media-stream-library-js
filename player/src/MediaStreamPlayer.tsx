@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import ReactDOM from 'react-dom'
+import { createRoot, Root } from 'react-dom/client'
 
 import { BasicPlayer } from './BasicPlayer'
 import { VapixParameters } from './PlaybackArea'
@@ -41,6 +41,7 @@ type SetStateType = React.Dispatch<React.SetStateAction<InitialAttributes>>
  */
 export class MediaStreamPlayer extends HTMLElement {
   private _setState?: SetStateType
+  private _root?: Root
 
   public attributeChangeSubscriber(cb: SetStateType) {
     this._setState = cb
@@ -281,6 +282,7 @@ export class MediaStreamPlayer extends HTMLElement {
   }
 
   public connectedCallback() {
+    this._root = createRoot(this)
     const userGroupUrl = new URL(
       `http://${this.hostname}/axis-cgi/usergroup.cgi`
     )
@@ -292,7 +294,7 @@ export class MediaStreamPlayer extends HTMLElement {
         mode: 'no-cors',
       })
       .then(() => {
-        ReactDOM.render(
+        this._root?.render(
           <PlayerComponent
             // eslint-disable-next-line react/jsx-no-bind
             subscribeAttributesChanged={(cb) =>
@@ -300,8 +302,7 @@ export class MediaStreamPlayer extends HTMLElement {
             initialAttributes={{
               ...this.allAttributes,
             }}
-          />,
-          this
+          />
         )
       })
       .catch((err) => {
@@ -310,7 +311,8 @@ export class MediaStreamPlayer extends HTMLElement {
   }
 
   public disconnectedCallback() {
-    ReactDOM.unmountComponentAtNode(this)
+    this._root?.unmount()
+    this._root = undefined
   }
 
   public attributeChangedCallback(attrName: string, _: string, value: string) {

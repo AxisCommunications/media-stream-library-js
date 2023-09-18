@@ -6,7 +6,7 @@
  * @param buffer - An ArrayBuffer to be read from.
  */
 export class BufferReader {
-  private readonly _buffer: Buffer
+  private readonly _buffer: ArrayBuffer
   private readonly _dataView: DataView
   private _offset: number
   private _bitpos: number

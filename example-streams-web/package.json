@@ -1,6 +1,7 @@
 {
+  "name": "example-streams-web",
   "private": true,
   "devDependencies": {
-    "media-stream-library": "workspace:*"
+    "media-stream-library": "file:../streams"
   }
 }

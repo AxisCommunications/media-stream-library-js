@@ -7,6 +7,7 @@ coverage/
 # Bundles
 dist/
 tsconfig.tsbuildinfo
+*.min.js*
 
 # Cypress
 cypress/videos/
@@ -17,13 +18,7 @@ cypress/screenshots/
 .vscode/
 .vim/
 
-# Yarn
-.yarn/*
-!.yarn/cache
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions
+# NPM
 node_modules/
 
 # Linting

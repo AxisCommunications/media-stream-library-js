@@ -16,7 +16,6 @@
     "**/buildinfo*.json",
     "**/node_modules",
     ".vscode",
-    ".yarn",
     "coverage"
   ],
   "plugins": [
