@@ -52,7 +52,7 @@
     "ws": "8.14.2"
   },
   "devDependencies": {
-    "@types/debug": "4.1.8",
+    "@types/debug": "4.1.9",
     "@types/node": "18.17.17",
     "@types/ws": "8.5.5",
     "esbuild": "0.19.3",
