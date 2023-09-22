@@ -3,16 +3,6 @@ set -e
 
 CYPRESS_DOCKER_IMAGE=cypress/included:12.8.1
 
-#trap "kill 0" EXIT
-
-# echo -n "Starting RTSP WebSocket proxy..."
-# node scripts/tcp-ws-proxy.cjs --rtspHost localhost:8554 >& tcp-ws-proxy.log &
-# echo "done."
-
-# echo -n "Starting HTTP server with examples..."
-# just serve example-streams-web >& http-server.log &
-# echo "done."
-
 echo -n "Starting RTSP/WebSocket proxy and example server..."
 just _run-example-streams-web >& example-streams-web.log &
 echo "done."

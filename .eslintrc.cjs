@@ -9,11 +9,12 @@ module.exports = {
     ecmaFeatures: { jsx: true },
     ecmaVersion: 2022,
     project: [
-      './tsconfig.eslint.json',
+      './example-overlay-react/tsconfig.json',
       './overlay/tsconfig.json',
       './player/tsconfig.json',
       './streams/tsconfig.json',
-      './example-overlay-react/tsconfig.json',
+      './tools/tsconfig.json',
+      './tsconfig.eslint.json',
     ],
     sourceType: 'module',
     tsconfigRootDir: __dirname,
@@ -34,5 +35,9 @@ module.exports = {
   settings: {
     react: { version: '18' },
   },
-  ignorePatterns: ['**/dist/'],
+  ignorePatterns: [
+    '**/*.min.js*',
+    '**/__generated__/',
+    '**/dist/',
+  ],
 }
