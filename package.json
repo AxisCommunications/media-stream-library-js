@@ -21,7 +21,7 @@
     "dpdm": "3.14.0",
     "dprint": "0.35.4",
     "eslint": "8.49.0",
-    "eslint-plugin-deprecation": "1.5.0",
+    "eslint-plugin-deprecation": "2.0.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-react-hooks": "4.6.0",
