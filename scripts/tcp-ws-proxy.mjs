@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { pipelines } from 'media-stream-library'
+
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 

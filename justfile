@@ -38,12 +38,16 @@ format +FILES="`just changed`":
 
 # install dependencies
 install:
-    CYPRESS_INSTALL_BINARY=0 && yarn install --immutable --immutable-cache
+    CYPRESS_INSTALL_BINARY=0 && npm ci
 
 # check lint rules and formatting for changed files
 lint workspace:
     just eslint {{ workspace }}
     cd {{ workspace }} && just dprint check
+
+# check for updates
+ncu *args:
+    ncu --root --workspaces {{ args }}
 
 # create a prerelease commit, KIND=(new|nightly)
 release $level='patch':
@@ -65,14 +69,18 @@ rtsp-ws:
 serve path *args='--bind 0.0.0.0':
     http-server {{ path }} {{ args }}
 
+update package:
+    just ncu -u {{ package }}
+    npm install
+    npm update --include-workspace-root --workspaces {{ package }}
+
 # update the package version of all workspaces
 version $level='prerelease':
     #!/usr/bin/env bash
     current=$(jq -r '.version' package.json)
     next=$(semver -i $level --preid alpha $current)
-    echo "update $workspace: $current => $next"
-    yarn workspaces foreach version --deferred $next
-    yarn version apply --all
+    echo "update: $current => $next"
+    npm version $next --workspace=streams --workspace=player --workspace=overlay
 
 # run vite development server, WORKSPACE=(player)
 vite WORKSPACE *ARGS:
@@ -96,7 +104,7 @@ tsc workspace:
 
 # run uvu to test files matching pattern (path = path to tsconfig.json + tests, e.g. "admx/web", or "iam")
 uvu path pattern='.*\.test\.tsx?':
-    c8 -r none --clean=false --src={{ path }} -- tsx --tsconfig {{ path }}/tsconfig.json $(just workspace {{ path }})/node_modules/uvu/bin.js {{ path }}/tests/ {{ pattern }}
+    c8 -r none --clean=false --src={{ path }} -- tsx --tsconfig {{ path }}/tsconfig.json node_modules/uvu/bin.js {{ path }}/tests/ {{ pattern }}
 
 # get workspace from pathname
 @workspace pathname=invocation_directory():
@@ -115,19 +123,27 @@ _build-player: _build-streams (tsc "player")
 _build-overlay: (tsc "overlay")
     just esbuild overlay
 
+_copy-player-bundle dst:
+    cp player/dist/media-stream-player.min.js {{ dst }}
+    cp player/dist/media-stream-player.min.js.map {{ dst }}
+
+_copy-streams-bundle dst:
+    cp streams/dist/media-stream-library.min.js {{ dst }}
+    cp streams/dist/media-stream-library.min.js.map {{ dst }}
+
 _run-example-overlay-react: _build-overlay
     cd example-overlay-react && node vite.mjs
 
 _run-example-player-react: _build-player
     cd example-player-react && node vite.mjs
 
-_run-example-player-webcomponent: _build-player
+_run-example-player-webcomponent: _build-player (_copy-player-bundle "example-player-webcomponent")
     just serve example-player-webcomponent
 
 _run-example-streams-node: _build-streams
     cd example-streams-node && node player.cjs
 
-_run-example-streams-web: _build-streams
+_run-example-streams-web: _build-streams (_copy-streams-bundle "example-streams-web")
     #!/usr/bin/env bash
     set -euo pipefail
     trap "kill 0" EXIT SIGINT

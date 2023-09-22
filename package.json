@@ -1,41 +1,39 @@
 {
   "name": "media-js",
-  "version": "12.2.0",
   "private": true,
   "description": "Media libraries for Node and the Web.",
-  "workspaces": {
-    "packages": [
-      "example-overlay-react",
-      "example-player-react",
-      "example-player-webcomponent",
-      "example-streams-node",
-      "example-streams-web",
-      "overlay",
-      "player",
-      "streams"
-    ]
-  },
+  "workspaces": [
+    "example-overlay-react",
+    "example-player-react",
+    "example-player-webcomponent",
+    "example-streams-node",
+    "example-streams-web",
+    "overlay",
+    "player",
+    "streams"
+  ],
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "5.55.0",
-    "@typescript-eslint/parser": "5.55.0",
-    "c8": "7.13.0",
-    "cmd-ts": "0.12.1",
-    "cypress": "12.8.1",
-    "dpdm": "3.12.0",
-    "dprint": "0.35.3",
-    "eslint": "8.36.0",
-    "eslint-plugin-deprecation": "1.3.3",
+    "@typescript-eslint/eslint-plugin": "5.62.0",
+    "@typescript-eslint/parser": "5.62.0",
+    "c8": "7.14.0",
+    "cmd-ts": "0.13.0",
+    "cypress": "12.17.4",
+    "dpdm": "3.14.0",
+    "dprint": "0.35.4",
+    "eslint": "8.49.0",
+    "eslint-plugin-deprecation": "1.5.0",
     "eslint-plugin-node": "11.1.0",
-    "eslint-plugin-react": "7.32.2",
+    "eslint-plugin-react": "7.33.2",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-simple-import-sort": "10.0.0",
     "http-server": "14.1.1",
     "license-checker": "25.0.1",
-    "media-stream-library": "workspace:*",
-    "semver": "7.3.8",
-    "stylelint": "15.3.0",
-    "tsx": "3.12.5",
-    "typescript": "5.0.2"
-  },
-  "packageManager": "yarn@3.1.1"
+    "media-stream-library": "file:streams",
+    "npm-check-updates": "16.14.4",
+    "semver": "7.5.4",
+    "stylelint": "15.10.3",
+    "tsx": "3.12.10",
+    "typescript": "5.2.2",
+    "yargs": "17.7.2"
+  }
 }
