@@ -28,7 +28,7 @@
     "dprint": "0.41.0",
     "esbuild": "0.17.19",
     "eslint": "8.49.0",
-    "eslint-plugin-deprecation": "1.5.0",
+    "eslint-plugin-deprecation": "2.0.0",
     "eslint-plugin-node": "11.1.0",
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-react-hooks": "4.6.0",
