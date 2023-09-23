@@ -1,7 +1,12 @@
 {
   "name": "media-js",
-  "private": true,
   "description": "Media libraries for Node and the Web.",
+  "private": true,
+  "version": "12.2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AxisCommunications/media-stream-library-js"
+  },
   "workspaces": [
     "example-overlay-react",
     "example-player-react",
@@ -10,7 +15,8 @@
     "example-streams-web",
     "overlay",
     "player",
-    "streams"
+    "streams",
+    "tools"
   ],
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.62.0",
@@ -19,7 +25,8 @@
     "cmd-ts": "0.13.0",
     "cypress": "13.2.0",
     "dpdm": "3.14.0",
-    "dprint": "0.35.4",
+    "dprint": "0.41.0",
+    "esbuild": "0.17.19",
     "eslint": "8.49.0",
     "eslint-plugin-deprecation": "1.5.0",
     "eslint-plugin-node": "11.1.0",
