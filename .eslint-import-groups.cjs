@@ -16,29 +16,16 @@ const externalDeps = [
   ),
 ].sort()
 
-const nodeDeps = [
-  'child_process',
-  'crypto',
-  'dgram',
-  'electron',
-  'fs',
-  'http',
-  'https',
-  'net',
-  'os',
-  'path',
-  'tls',
-  'url',
-]
 const reactDeps = ['react', 'react-dom']
 const baseUrlPatterns = ['^[a-z_]']
 const parentPatterns = ['^\\.\\.']
 const siblingPatterns = ['^\\.']
 const nakedImports = ['^\\u0000']
+const explicitNodeImports = ['^node:']
 
 module.exports = [
   nakedImports,
-  nodeDeps.map((dep) => `^${dep}$`),
+  explicitNodeImports,
   reactDeps.map((dep) => `^${dep}(\\/|$)`),
   externalDeps.map((dep) => `^${dep}(\\/|$)`),
   baseUrlPatterns,

@@ -1,6 +1,6 @@
 set shell := ["bash", "-uc"]
 
-export PATH := "./node_modules/.bin:" + env_var('PATH')
+export PATH := "./node_modules/.bin" + ":" + join(justfile_directory(), "node_modules/.bin") + ":" + env_var('PATH')
 
 # just setup -- default when running just with no command
 default:
@@ -13,9 +13,19 @@ build: _build-streams _build-player _build-overlay
 @changed:
     git diff --diff-filter=d --name-only $(git merge-base --fork-point origin/main)
 
-# create a changelog or changeset
+# create a changelog
 changelog:
-    scripts/changelog.mjs --write=CHANGELOG.md > changeset.md
+    #!/usr/bin/env bash
+    set -euo pipefail
+    new_version="$(jq -r .version package.json)"
+    old_version="$(git show HEAD:package.json | jq -r .version)"
+    url="$(jq -r .repository.url package.json)"
+    range=$(just sha v$old_version)..$(just sha HEAD)
+    changelog $new_version $range --url $url --outfile=CHANGELOG.md
+
+# check if there are uncommitted changes in the workspace
+@check-dirty:
+    git diff --quiet || (echo "workspace dirty!"; git diff; exit 1)
 
 # format or check files with dprint (default formats all matching files)
 dprint +args="fmt":
@@ -69,10 +79,28 @@ rtsp-ws:
 serve path *args='--bind 0.0.0.0':
     http-server {{ path }} {{ args }}
 
+# get the complete SHA ID for a commit
+@sha $commitish='HEAD':
+    git rev-parse $commitish
+
+# generate tools
+tools:
+    cd tools && esbuild --platform=node --outfile=src/__generated__/changelog.mjs --format=esm --out-extension:.js=.mjs --bundle --external:cmd-ts src/changelog/cli.ts
+    just dprint fmt 'tools/src/__generated__/*'
+
+# update a specific dependency to latest
 update package:
     just ncu -u {{ package }}
     npm install
     npm update --include-workspace-root --workspaces {{ package }}
+
+# CI verification
+verify:
+    just build
+    just lint .
+    just test
+    just tools
+    just check-dirty
 
 # update the package version of all workspaces
 version $level='prerelease':
@@ -80,7 +108,7 @@ version $level='prerelease':
     current=$(jq -r '.version' package.json)
     next=$(semver -i $level --preid alpha $current)
     echo "update: $current => $next"
-    npm version $next --workspace=streams --workspace=player --workspace=overlay
+    npm version $next --git-tag-version=false --workspace=streams --workspace=player --workspace=overlay --include-workspace-root
 
 # run vite development server, WORKSPACE=(player)
 vite WORKSPACE *ARGS:
@@ -105,10 +133,6 @@ tsc workspace:
 # run uvu to test files matching pattern (path = path to tsconfig.json + tests, e.g. "admx/web", or "iam")
 uvu path pattern='.*\.test\.tsx?':
     c8 -r none --clean=false --src={{ path }} -- tsx --tsconfig {{ path }}/tsconfig.json node_modules/uvu/bin.js {{ path }}/tests/ {{ pattern }}
-
-# get workspace from pathname
-@workspace pathname=invocation_directory():
-    node scripts/top-level-dir.mjs {{ justfile_directory() }} {{ pathname }}
 
 #
 # hidden commands (these can be run but they are not shown with just --list)
