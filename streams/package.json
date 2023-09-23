@@ -20,16 +20,23 @@
   "main": "./dist/node.cjs",
   "module": "./dist/node.mjs",
   "exports": {
-    "types": "./dist/src/index.browser.d.ts",
-    "browser": {
+    ".": {
       "types": "./dist/src/index.browser.d.ts",
-      "require": "./dist/browser.cjs",
-      "import": "./dist/browser.mjs"
+      "browser": {
+        "types": "./dist/src/index.browser.d.ts",
+        "require": "./dist/browser.cjs",
+        "import": "./dist/browser.mjs"
+      },
+      "node": {
+        "types": "./dist/src/index.node.d.ts",
+        "require": "./dist/node.cjs",
+        "import": "./dist/node.mjs"
+      }
     },
-    "node": {
-      "types": "./dist/src/index.node.d.ts",
-      "require": "./dist/node.cjs",
-      "import": "./dist/node.mjs"
+    "./heavy": {
+      "types": "./dist/src/index.browser.d.ts",
+      "require": "./dist/browser-heavy.cjs",
+      "import": "./dist/browser-heavy.mjs"
     }
   },
   "browser": {

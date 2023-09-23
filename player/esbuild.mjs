@@ -10,17 +10,21 @@ if (!existsSync(buildDir)) {
   mkdirSync(buildDir)
 }
 
+const bundles = [
+  { format: 'esm', name: 'index.mjs', external: ['media-stream-library'] },
+  { format: 'cjs', name: 'index.cjs', external: ['media-stream-library'] },
+  { format: 'esm', name: 'index-heavy.mjs', external: [] },
+  { format: 'cjs', name: 'index-heavy.cjs', external: [] },
+]
+
 for (
-  const output of [
-    { format: 'esm', ext: 'mjs' },
-    { format: 'cjs', ext: 'cjs' },
-  ]
+  const { name, format, external } of bundles
 ) {
   buildSync({
     platform: 'browser',
     entryPoints: ['src/index.ts'],
-    outfile: join(buildDir, `index.${output.ext}`),
-    format: output.format,
+    outfile: join(buildDir, name),
+    format,
     external: [
       '@juggle/resize-observer',
       'debug',
@@ -28,11 +32,11 @@ for (
       'react',
       'react-dom',
       'luxon',
-      'media-stream-library',
       'styled-components',
+      ...external,
     ],
     bundle: true,
-    minify: true,
+    minify: false,
     sourcemap: true,
     // avoid a list of browser targets by setting a common baseline ES level
     target: 'es2015',
