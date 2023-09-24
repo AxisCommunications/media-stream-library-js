@@ -14,29 +14,40 @@ const browserBundles = [
   {
     format: 'esm',
     name: 'browser.mjs',
-    external: ['stream', 'buffer', 'process'],
+    external: ['debug', 'ts-md5', 'ws'],
+    inject: ['polyfill.mjs'],
   },
   {
     format: 'cjs',
     name: 'browser.cjs',
-    external: ['stream', 'buffer', 'process'],
+    external: ['debug', 'ts-md5', 'ws'],
+    inject: ['polyfill.mjs'],
   },
-  { format: 'esm', name: 'browser-heavy.mjs' },
-  { format: 'cjs', name: 'browser-heavy.cjs' },
+  {
+    format: 'esm',
+    name: 'browser-light.mjs',
+    external: ['buffer', 'debug', 'process', 'stream', 'ts-md5', 'ws'],
+  },
+  {
+    format: 'cjs',
+    name: 'browser-light.cjs',
+    external: ['buffer', 'debug', 'process', 'stream', 'ts-md5', 'ws'],
+  },
 ]
 
-for (const { format, name, external } of browserBundles) {
+for (const { format, name, external, inject } of browserBundles) {
   buildSync({
     platform: 'browser',
     entryPoints: ['src/index.browser.ts'],
     outfile: join(buildDir, name),
     format,
-    // Needed because readable-streams (needed by stream-browserify) still references global.
+    // Needed because readable-stream (needed by stream-browserify) still references global.
     // There are issues on this, but they get closed, so unsure if this will ever change.
     define: {
       global: 'window',
+      process: 'process_browser',
     },
-    inject: ['polyfill.mjs'],
+    inject,
     external,
     bundle: true,
     minify: false,
@@ -71,10 +82,11 @@ buildSync({
   outfile: join(buildDir, 'media-stream-library.min.js'),
   format: 'iife',
   globalName: 'mediaStreamLibrary',
-  // Needed because readable-streams (needed by stream-browserify) still references global.
+  // Needed because readable-stream (needed by stream-browserify) still references global.
   // There are issues on this, but they get closed, so unsure if this will ever change.
   define: {
     global: 'window',
+    process: 'process_browser',
   },
   inject: ['polyfill.mjs'],
   bundle: true,

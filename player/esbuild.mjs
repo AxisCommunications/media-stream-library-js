@@ -11,14 +11,12 @@ if (!existsSync(buildDir)) {
 }
 
 const bundles = [
-  { format: 'esm', name: 'index.mjs', external: ['media-stream-library'] },
-  { format: 'cjs', name: 'index.cjs', external: ['media-stream-library'] },
-  { format: 'esm', name: 'index-heavy.mjs', external: [] },
-  { format: 'cjs', name: 'index-heavy.cjs', external: [] },
+  { format: 'esm', name: 'index.mjs' },
+  { format: 'cjs', name: 'index.cjs' },
 ]
 
 for (
-  const { name, format, external } of bundles
+  const { name, format } of bundles
 ) {
   buildSync({
     platform: 'browser',
@@ -33,7 +31,7 @@ for (
       'react-dom',
       'luxon',
       'styled-components',
-      ...external,
+      'media-stream-library',
     ],
     bundle: true,
     minify: false,
@@ -49,11 +47,6 @@ buildSync({
   outfile: join(buildDir, 'media-stream-player.min.js'),
   format: 'iife',
   globalName: 'mediaStreamPlayer',
-  // Needed because readable-streams (needed by stream-browserify) still references global.
-  // There are issues on this, but they get closed, so unsure if this will ever change.
-  define: {
-    global: 'window',
-  },
   bundle: true,
   minify: true,
   sourcemap: true,

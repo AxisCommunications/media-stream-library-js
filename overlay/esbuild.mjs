@@ -36,11 +36,6 @@ buildSync({
   outfile: join(buildDir, 'media-overlay-library.min.js'),
   format: 'iife',
   globalName: 'mediaOverlayLibrary',
-  // Needed because readable-streams (needed by stream-browserify) still references global.
-  // There are issues on this, but they get closed, so unsure if this will ever change.
-  define: {
-    global: 'window',
-  },
   bundle: true,
   minify: true,
   sourcemap: true,

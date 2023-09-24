@@ -26,11 +26,6 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
-    },
-    "./heavy": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index-heavy.cjs",
-      "import": "./dist/index-heavy.mjs"
     }
   },
   "files": [
@@ -45,7 +40,7 @@
   },
   "peerDependencies": {
     "luxon": "^3.0.0",
-    "media-stream-library": "^12.2.0",
+    "media-stream-library": "^13.0.0",
     "react": "^17.0.2 || ^18.1.0",
     "react-dom": "^17.0.2 || ^18.1.0",
     "styled-components": "^5.3.5"
