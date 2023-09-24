@@ -128,11 +128,17 @@ You can find an example of this under `example-player-react`, e.g.:
 import { BasicPlayer } from 'media-stream-player'
 ```
 
-By default, we do not pre-bundle external dependencies. If this causes problems
-with certain bundlers (e.g. CRA), you can use a pre-bundled version like so:
+There have been issue where bundlers pick up the wrong variant of `media-stream-player`,
+in which case you can try to override the resolution with an alias that points directly
+at the `browser` variant (and not the `node`) variant, e.g.:
 
 ```js
-import { BasicPlayer } from 'media-stream-player/heavy'
+{
+  //configuration options
+  alias: {
+    "media-stream-library": "media-stream-library/dist/browser"
+  }
+}
 ```
 
 To run our example react app, you can start a vite dev server with:
