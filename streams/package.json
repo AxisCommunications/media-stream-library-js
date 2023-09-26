@@ -63,7 +63,7 @@
     "esbuild": "0.19.3",
     "events": "3.3.0",
     "global-jsdom": "9.1.0",
-    "jsdom": "21.1.2",
+    "jsdom": "22.1.0",
     "mock-socket": "9.3.1",
     "semver": "7.5.4",
     "stream-browserify": "3.0.0",
