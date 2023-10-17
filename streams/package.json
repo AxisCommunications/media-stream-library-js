@@ -58,9 +58,9 @@
   "devDependencies": {
     "@types/debug": "4.1.9",
     "@types/node": "18.17.17",
-    "@types/ws": "8.5.6",
+    "@types/ws": "8.5.7",
     "buffer": "6.0.3",
-    "esbuild": "0.19.4",
+    "esbuild": "0.19.5",
     "events": "3.3.0",
     "global-jsdom": "9.1.0",
     "jsdom": "22.1.0",
