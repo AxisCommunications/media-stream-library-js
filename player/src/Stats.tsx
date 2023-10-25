@@ -138,6 +138,8 @@ const StatsData: React.FC<
     let streamType = 'Unknown'
     if (format === Format.JPEG) {
       streamType = 'Still image'
+    } else if (format === Format.MJPEG) {
+      streamType = 'MJPEG'
     } else if (format === Format.RTP_H264) {
       streamType = 'RTSP (WebSocket)'
     } else if (format === Format.RTP_JPEG) {
@@ -167,7 +169,7 @@ const StatsData: React.FC<
       )
       const videoTrack = tracks?.find((track) => track.type === 'video')
       if (videoTrack !== undefined) {
-        const { coding, profile, level } = videoTrack?.codec
+        const { coding, profile, level } = videoTrack.codec
         const framerate = Number(
           pipeline.framerate[videoTrack.index].toFixed(2)
         )
