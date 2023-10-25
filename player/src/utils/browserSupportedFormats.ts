@@ -25,5 +25,6 @@ export const browserSupportedFormats: Record<Format, boolean> = {
   [Format.RTP_H264]: isH264Supported() && MSE_SUPPORT,
   [Format.RTP_JPEG]: isMJPEGSupported(),
   [Format.JPEG]: true,
+  [Format.MJPEG]: isMJPEGSupported(),
   [Format.MP4_H264]: isH264Supported(),
 }

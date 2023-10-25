@@ -27,7 +27,6 @@ interface StillImageProps {
  * Properties:
  *
  * play: indicated the _intended_ playback state
- * ws/rtsp: src URIs for WebSocket/RTP server
  *
  * Internal state:
  * canplay: there is enough data on the video element to play
