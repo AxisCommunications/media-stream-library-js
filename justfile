@@ -27,6 +27,10 @@ changelog:
 @check-dirty:
     git diff --quiet || (echo "workspace dirty!"; git diff; exit 1)
 
+# report coverage information after running tests
+coverage workspace *args='-r text --all':
+    c8 report --src={{ workspace }}/src {{ args }}
+
 # format or check files with dprint (default formats all matching files)
 dprint +args="fmt":
     cd {{ invocation_directory() }} && dprint {{ args }}
@@ -125,6 +129,7 @@ tag tagname commit:
 # run all unit tests
 test:
     just uvu streams
+    just coverage streams
 
 # run tsc in workspace(s) (default current, or all if in project root)
 tsc workspace:
