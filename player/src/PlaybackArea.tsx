@@ -33,6 +33,7 @@ export enum AxisApi {
   'AXIS_IMAGE_CGI' = 'AXIS_IMAGE_CGI',
   'AXIS_MEDIA_AMP' = 'AXIS_MEDIA_AMP',
   'AXIS_MEDIA_CGI' = 'AXIS_MEDIA_CGI',
+  'AXIS_MJPEG_CGI' = 'AXIS_MJPEG_CGI',
 }
 
 export enum Protocol {
@@ -45,6 +46,7 @@ export enum Protocol {
 export const FORMAT_API: Record<Format, AxisApi> = {
   RTP_H264: AxisApi.AXIS_MEDIA_AMP,
   RTP_JPEG: AxisApi.AXIS_MEDIA_AMP,
+  MJPEG: AxisApi.AXIS_MJPEG_CGI,
   MP4_H264: AxisApi.AXIS_MEDIA_CGI,
   JPEG: AxisApi.AXIS_IMAGE_CGI,
 }
@@ -117,6 +119,16 @@ const imgUri = (
 ) => {
   return host.length !== 0
     ? `${protocol}//${host}/axis-cgi/jpg/image.cgi?${searchParams}`
+    : ''
+}
+
+const mjpegUri = (
+  protocol: Protocol.HTTP | Protocol.HTTPS,
+  host: string,
+  searchParams: string
+) => {
+  return host.length !== 0
+    ? `${protocol}//${host}/mjpg/video.mjpg?${searchParams}`
     : ''
 }
 
@@ -194,6 +206,29 @@ const PARAMETERS: Record<AxisApi, ReadonlyArray<string>> = {
     'event',
     'timestamp',
     'videocodec',
+  ],
+  [AxisApi.AXIS_MJPEG_CGI]: [
+    'camera',
+    'resolution',
+    'streamprofile',
+    'compression',
+    'colorlevel',
+    'color',
+    'palette',
+    'clock',
+    'date',
+    'text',
+    'textstring',
+    'textcolor',
+    'textbackgroundcolor',
+    'rotation',
+    'textpos',
+    'overlayimage',
+    'overlaypos',
+    'duration',
+    'nbrofframes',
+    'fps',
+    'timestamp',
   ],
 }
 
@@ -306,6 +341,25 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
     )
   }
 
+  if (format === Format.MJPEG) {
+    const src = mjpegUri(
+      secure ? Protocol.HTTPS : Protocol.HTTP,
+      host,
+      searchParams(FORMAT_API[format], {
+        ...parameters,
+        timestamp,
+      })
+    )
+
+    return (
+      <StillImage
+        key={refresh}
+        forwardedRef={forwardedRef as Ref<HTMLImageElement>}
+        {...{ src, play, onPlaying }}
+      />
+    )
+  }
+
   if (format === Format.MP4_H264) {
     const src = mediaUri(
       secure ? Protocol.HTTPS : Protocol.HTTP,
@@ -327,12 +381,13 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
     )
   }
 
-  console.warn(`Error: unknown format: ${format},
+  console.warn(`Error: unknown format: ${format}, 
 please use one of ${
     [
-      Format.RTP_H264,
       Format.JPEG,
+      Format.MJPEG,
       Format.MP4_H264,
+      Format.RTP_H264,
       Format.RTP_JPEG,
     ].join(', ')
   }`)
