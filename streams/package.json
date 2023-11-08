@@ -56,9 +56,9 @@
     "ws": "8.14.2"
   },
   "devDependencies": {
-    "@types/debug": "4.1.10",
-    "@types/node": "18.17.17",
-    "@types/ws": "8.5.8",
+    "@types/debug": "4.1.11",
+    "@types/node": "18.18.9",
+    "@types/ws": "8.5.9",
     "buffer": "6.0.3",
     "esbuild": "0.19.5",
     "events": "3.3.0",
