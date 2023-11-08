@@ -188,8 +188,6 @@ const base = {
   '@typescript-eslint/no-misused-new': 'error',
   /** Disallows non-null assertions using the ! postfix operator */
   '@typescript-eslint/no-non-null-assertion': 'error',
-  /** Disallow the use of parameter properties in class constructors */
-  '@typescript-eslint/no-parameter-properties': 'error',
   /** Disallow variable redeclaration */
   '@typescript-eslint/no-redeclare': 'error',
   /** Disallows invocation of require() */
@@ -210,6 +208,8 @@ const base = {
   ],
   /** Disallow unnecessary constructors */
   '@typescript-eslint/no-useless-constructor': 'error',
+  /** Disallow the use of parameter properties in class constructors */
+  '@typescript-eslint/parameter-properties': 'error',
   /** Use for-of loops instead of standard for loops over arrays */
   '@typescript-eslint/prefer-for-of': 'error',
   /** Use function types instead of interfaces with call signatures */

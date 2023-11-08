@@ -93,10 +93,10 @@ tools:
     just dprint fmt 'tools/src/__generated__/*'
 
 # update a specific dependency to latest
-update package:
-    just ncu -u {{ package }}
+update *packages:
+    just ncu -u {{ packages }}
     npm install
-    npm update --include-workspace-root --workspaces {{ package }}
+    npm update --include-workspace-root --workspaces {{ packages }}
 
 # CI verification
 verify:
