@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-CYPRESS_DOCKER_IMAGE=cypress/included:12.8.1
+CYPRESS_DOCKER_IMAGE=cypress/included:13.5.0
 
 echo -n "Starting RTSP/WebSocket proxy and example server..."
 just _run-example-streams-web >& example-streams-web.log &
