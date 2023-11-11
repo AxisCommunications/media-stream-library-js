@@ -56,7 +56,7 @@
     "ws": "8.14.2"
   },
   "devDependencies": {
-    "@types/debug": "4.1.11",
+    "@types/debug": "4.1.12",
     "@types/node": "18.18.9",
     "@types/ws": "8.5.9",
     "buffer": "6.0.3",
