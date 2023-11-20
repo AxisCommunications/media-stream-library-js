@@ -53,7 +53,7 @@
     "@types/styled-components": "5.1.27",
     "@vitejs/plugin-react": "4.1.1",
     "chalk": "5.3.0",
-    "esbuild": "0.19.5",
+    "esbuild": "0.19.6",
     "luxon": "3.4.3",
     "media-stream-library": "file:../streams",
     "react": "18.2.0",

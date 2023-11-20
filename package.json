@@ -26,7 +26,7 @@
     "cypress": "13.5.0",
     "dpdm": "3.14.0",
     "dprint": "0.42.5",
-    "esbuild": "0.19.5",
+    "esbuild": "0.19.6",
     "eslint": "8.53.0",
     "eslint-plugin-deprecation": "2.0.0",
     "eslint-plugin-node": "11.1.0",
