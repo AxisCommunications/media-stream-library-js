@@ -47,21 +47,21 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.12",
-    "@types/luxon": "3.3.4",
-    "@types/react": "18.2.37",
-    "@types/react-dom": "18.2.15",
+    "@types/luxon": "3.3.7",
+    "@types/react": "18.2.42",
+    "@types/react-dom": "18.2.17",
     "@types/styled-components": "5.1.27",
-    "@vitejs/plugin-react": "4.1.1",
+    "@vitejs/plugin-react": "4.2.1",
     "chalk": "5.3.0",
-    "esbuild": "0.19.5",
-    "luxon": "3.4.3",
+    "esbuild": "0.19.8",
+    "luxon": "3.4.4",
     "media-stream-library": "file:../streams",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-is": "18.2.0",
     "semver": "7.5.4",
     "styled-components": "5.3.11",
-    "typescript": "5.2.2",
+    "typescript": "5.3.2",
     "vite": "4.5.0"
   }
 }
