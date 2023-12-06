@@ -57,17 +57,17 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.12",
-    "@types/node": "18.18.9",
-    "@types/ws": "8.5.9",
+    "@types/node": "18.19.2",
+    "@types/ws": "8.5.10",
     "buffer": "6.0.3",
-    "esbuild": "0.19.5",
+    "esbuild": "0.19.8",
     "events": "3.3.0",
     "global-jsdom": "9.1.0",
     "jsdom": "22.1.0",
     "mock-socket": "9.3.1",
     "semver": "7.5.4",
     "stream-browserify": "3.0.0",
-    "typescript": "5.2.2",
+    "typescript": "5.3.3",
     "uvu": "0.5.6"
   }
 }
