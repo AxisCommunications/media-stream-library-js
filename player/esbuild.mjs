@@ -11,8 +11,8 @@ if (!existsSync(buildDir)) {
 }
 
 const bundles = [
-  { format: 'esm', name: 'index.mjs' },
-  { format: 'cjs', name: 'index.cjs' },
+  { format: 'esm', name: 'index-esm.js' },
+  { format: 'cjs', name: 'index-cjs.js' },
 ]
 
 for (

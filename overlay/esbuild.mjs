@@ -12,14 +12,14 @@ if (!existsSync(buildDir)) {
 
 for (
   const output of [
-    { format: 'esm', ext: 'mjs' },
-    { format: 'cjs', ext: 'cjs' },
+    { format: 'esm', name: 'index-esm.js' },
+    { format: 'cjs', name: 'index-cjs.js' },
   ]
 ) {
   buildSync({
     platform: 'browser',
     entryPoints: ['src/index.ts'],
-    outfile: join(buildDir, `index.${output.ext}`),
+    outfile: join(buildDir, output.name),
     format: output.format,
     external: ['@juggle/resize-observer', 'react', 'react-dom', 'pepjs'],
     bundle: true,

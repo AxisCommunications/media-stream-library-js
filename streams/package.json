@@ -24,8 +24,8 @@
       "types": "./dist/src/index.browser.d.ts",
       "browser": {
         "types": "./dist/src/index.browser.d.ts",
-        "require": "./dist/browser.cjs",
-        "import": "./dist/browser.mjs"
+        "require": "./dist/browser-cjs.js",
+        "import": "./dist/browser-esm.js"
       },
       "node": {
         "types": "./dist/src/index.node.d.ts",
@@ -35,13 +35,13 @@
     },
     "./light": {
       "types": "./dist/src/index.browser.d.ts",
-      "require": "./dist/browser-light.cjs",
-      "import": "./dist/browser-light.mjs"
+      "require": "./dist/browser-light-cjs.js",
+      "import": "./dist/browser-light-esm.js"
     }
   },
   "browser": {
-    "./dist/node.cjs": "./dist/browser.cjs",
-    "./dist/node.mjs": "./dist/browser.mjs",
+    "./dist/node.cjs": "./dist/browser-cjs.js",
+    "./dist/node.mjs": "./dist/browser-esm.js",
     "stream": "stream-browserify"
   },
   "files": [
