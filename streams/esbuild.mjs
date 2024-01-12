@@ -13,24 +13,24 @@ if (!existsSync(buildDir)) {
 const browserBundles = [
   {
     format: 'esm',
-    name: 'browser.mjs',
+    name: 'browser-esm.js',
     external: ['debug', 'ts-md5', 'ws'],
     inject: ['polyfill.mjs'],
   },
   {
     format: 'cjs',
-    name: 'browser.cjs',
+    name: 'browser-cjs.js',
     external: ['debug', 'ts-md5', 'ws'],
     inject: ['polyfill.mjs'],
   },
   {
     format: 'esm',
-    name: 'browser-light.mjs',
+    name: 'browser-light-esm.js',
     external: ['buffer', 'debug', 'process', 'stream', 'ts-md5', 'ws'],
   },
   {
     format: 'cjs',
-    name: 'browser-light.cjs',
+    name: 'browser-light-cjs.js',
     external: ['buffer', 'debug', 'process', 'stream', 'ts-md5', 'ws'],
   },
 ]
