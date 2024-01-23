@@ -57,10 +57,10 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.12",
-    "@types/node": "18.19.6",
+    "@types/node": "18.19.8",
     "@types/ws": "8.5.9",
     "buffer": "6.0.3",
-    "esbuild": "0.19.11",
+    "esbuild": "0.19.12",
     "events": "3.3.0",
     "global-jsdom": "9.2.0",
     "jsdom": "23.2.0",

@@ -19,14 +19,14 @@
     "tools"
   ],
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "6.18.1",
-    "@typescript-eslint/parser": "6.18.1",
+    "@typescript-eslint/eslint-plugin": "6.19.1",
+    "@typescript-eslint/parser": "6.19.1",
     "c8": "9.1.0",
     "cmd-ts": "0.13.0",
-    "cypress": "13.6.2",
+    "cypress": "13.6.3",
     "dpdm": "3.14.0",
     "dprint": "0.45.0",
-    "esbuild": "0.19.11",
+    "esbuild": "0.19.12",
     "eslint": "8.56.0",
     "eslint-plugin-deprecation": "2.0.0",
     "eslint-plugin-node": "11.1.0",
@@ -38,7 +38,7 @@
     "media-stream-library": "file:streams",
     "npm-check-updates": "16.14.12",
     "semver": "7.5.4",
-    "stylelint": "16.1.0",
+    "stylelint": "16.2.0",
     "tsx": "4.7.0",
     "typescript": "5.3.3",
     "yargs": "17.7.2"
