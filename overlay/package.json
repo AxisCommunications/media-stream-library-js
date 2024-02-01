@@ -36,10 +36,10 @@
   },
   "devDependencies": {
     "@juggle/resize-observer": "3.4.0",
-    "@types/react": "18.2.47",
+    "@types/react": "18.2.51",
     "@types/react-dom": "18.2.18",
     "@types/styled-components": "5.1.27",
-    "esbuild": "0.19.11",
+    "esbuild": "0.20.0",
     "pepjs": "0.5.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
