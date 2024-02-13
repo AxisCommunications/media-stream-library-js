@@ -19,7 +19,7 @@
     "tools"
   ],
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "6.18.1",
+    "@typescript-eslint/eslint-plugin": "7.0.0",
     "@typescript-eslint/parser": "6.18.1",
     "c8": "9.1.0",
     "cmd-ts": "0.13.0",
