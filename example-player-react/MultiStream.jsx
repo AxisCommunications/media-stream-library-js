@@ -70,29 +70,31 @@ export const MultiStream = () => {
 
   return (
     <>
-      {state.length > 0 ? (
-        state.map((device) => {
-          return device.authorized ? (
-            <MediaPlayerContainer key={device.hostname}>
-              <Centered>{device.hostname}</Centered>
-              <MediaPlayer
-                hostname={device.hostname}
-                initialFormat="JPEG"
-                autoPlay
-                autoRetry
-                vapixParams={{ resolution: '800x600' }}
-              />
-            </MediaPlayerContainer>
-          ) : (
-            <MediaPlayerContainer key={device.hostname}>
-              <Centered>{device.hostname}</Centered>
-              <Centered>Not authorized</Centered>
-            </MediaPlayerContainer>
-          )
-        })
-      ) : (
-        <div>No authorized devices</div>
-      )}
+      {state.length > 0
+        ? (
+          state.map((device) => {
+            return device.authorized
+              ? (
+                <MediaPlayerContainer key={device.hostname}>
+                  <Centered>{device.hostname}</Centered>
+                  <MediaPlayer
+                    hostname={device.hostname}
+                    initialFormat="JPEG"
+                    autoPlay
+                    autoRetry
+                    vapixParams={{ resolution: '800x600' }}
+                  />
+                </MediaPlayerContainer>
+              )
+              : (
+                <MediaPlayerContainer key={device.hostname}>
+                  <Centered>{device.hostname}</Centered>
+                  <Centered>Not authorized</Centered>
+                </MediaPlayerContainer>
+              )
+          })
+        )
+        : <div>No authorized devices</div>}
     </>
   )
 }

@@ -29,8 +29,7 @@ const ButtonContainer = styled.div`
 const Button = styled.button`
   padding: 8px 12px;
   margin: 4px;
-  background-color: ${({ selected }) =>
-    selected ? 'lightgreen' : 'lightpink'};
+  background-color: ${({ selected }) => selected ? 'lightgreen' : 'lightpink'};
 `
 
 const LOCALSTORAGE_KEY = 'media-stream-player-example'

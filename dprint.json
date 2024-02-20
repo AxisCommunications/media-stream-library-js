@@ -10,7 +10,9 @@
   },
   "json": {},
   "dockerfile": {},
-  "includes": ["**/*.{ts,tsx,cjs,mjs,json}"],
+  "includes": [
+    "**/*.{ts,tsx,jsx,cjs,mjs,json}"
+  ],
   "excludes": [
     "**/dist",
     "**/buildinfo*.json",
