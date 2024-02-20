@@ -5,6 +5,7 @@ import styled, { createGlobalStyle } from 'styled-components'
 import { BasicStream } from './BasicStream'
 import { MultiStream } from './MultiStream'
 import { SingleStream } from './SingleStream'
+import { WebRtcStream } from './WebRtcStream'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -48,6 +49,11 @@ export const App = () => {
     localStorage.setItem(LOCALSTORAGE_KEY, 'basic')
   }, [setState])
 
+  const webrtc = useCallback(() => {
+    setState('webrtc')
+    localStorage.setItem(LOCALSTORAGE_KEY, 'webrtc')
+  }, [setState])
+
   const multi = useCallback(() => {
     setState('multi')
     localStorage.setItem(LOCALSTORAGE_KEY, 'multi')
@@ -67,10 +73,14 @@ export const App = () => {
         <Button onClick={multi} selected={state === 'multi'}>
           Multi stream
         </Button>
+        <Button onClick={webrtc} selected={state === 'webrtc'}>
+          webRTC stream
+        </Button>
       </ButtonContainer>
       {state === 'single' ? <SingleStream /> : null}
       {state === 'basic' ? <BasicStream /> : null}
       {state === 'multi' ? <MultiStream /> : null}
+      {state === 'webrtc' ? <WebRtcStream /> : null}
     </AppContainer>
   )
 }

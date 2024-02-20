@@ -22,6 +22,7 @@ import {
   VideoProperties,
 } from './PlaybackArea'
 import { Format } from './types'
+import { SignalingOptions } from './WebRtcVideo'
 
 const DEFAULT_FORMAT = Format.JPEG
 
@@ -40,6 +41,8 @@ interface BasicPlayerProps {
    * Activate automatic retries on RTSP errors.
    */
   readonly autoRetry?: boolean
+  readonly signalingOptions?: SignalingOptions
+  readonly refresh?: number
 }
 
 export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
@@ -52,6 +55,8 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
       autoRetry = false,
       secure,
       className,
+      signalingOptions,
+      refresh,
     },
     ref
   ) => {
@@ -145,7 +150,6 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
      * aspect ratio is carried over to the container, and the layers match the
      * container size.
      */
-
     return (
       <MediaStreamPlayerContainer className={className}>
         <Limiter ref={limiterRef}>
@@ -153,7 +157,7 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
             <Layer>
               <PlaybackArea
                 forwardedRef={ref}
-                refresh={0}
+                refresh={refresh ?? 0}
                 play={play}
                 host={host}
                 format={format}
@@ -161,6 +165,7 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
                 onPlaying={onPlaying}
                 secure={secure}
                 autoRetry={autoRetry}
+                signalingOptions={signalingOptions}
               />
             </Layer>
             <Layer>
