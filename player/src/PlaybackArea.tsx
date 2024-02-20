@@ -14,6 +14,7 @@ import { HttpMp4Video } from './HttpMp4Video'
 import { MetadataHandler } from './metadata'
 import { StillImage } from './StillImage'
 import { Format } from './types'
+import { SignalingOptions, WebRtcVideo } from './WebRtcVideo'
 import { WsRtspCanvas } from './WsRtspCanvas'
 import { WsRtspVideo } from './WsRtspVideo'
 
@@ -34,6 +35,7 @@ export enum AxisApi {
   'AXIS_MEDIA_AMP' = 'AXIS_MEDIA_AMP',
   'AXIS_MEDIA_CGI' = 'AXIS_MEDIA_CGI',
   'AXIS_MJPEG_CGI' = 'AXIS_MJPEG_CGI',
+  'AXIS_WEBRTC' = 'AXIS_WEBRTC',
 }
 
 export enum Protocol {
@@ -49,6 +51,7 @@ export const FORMAT_API: Record<Format, AxisApi> = {
   MJPEG: AxisApi.AXIS_MJPEG_CGI,
   MP4_H264: AxisApi.AXIS_MEDIA_CGI,
   JPEG: AxisApi.AXIS_IMAGE_CGI,
+  WEBRTC: AxisApi.AXIS_WEBRTC,
 }
 
 export interface VapixParameters {
@@ -90,6 +93,7 @@ interface PlaybackAreaProps {
    * Activate automatic retries on RTSP errors.
    */
   readonly autoRetry?: boolean
+  readonly signalingOptions?: SignalingOptions
 }
 
 const wsUri = (protocol: Protocol.WS | Protocol.WSS, host: string) => {
@@ -230,6 +234,16 @@ const PARAMETERS: Record<AxisApi, ReadonlyArray<string>> = {
     'fps',
     'timestamp',
   ],
+  [AxisApi.AXIS_WEBRTC]: [
+    'resolution',
+    'fps',
+    'camera',
+    'videomaxbitrate',
+    'videozstrength',
+    'videozgopmode',
+    'rotation',
+    'streamprofile',
+  ],
 }
 
 /**
@@ -268,6 +282,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   metadataHandler,
   secure = window.location.protocol === Protocol.HTTPS,
   autoRetry = false,
+  signalingOptions,
 }) => {
   const timestamp = refresh.toString()
 
@@ -336,7 +351,12 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
       <StillImage
         key={refresh}
         forwardedRef={forwardedRef as Ref<HTMLImageElement>}
-        {...{ src, play, onPlaying }}
+        {...{
+          src,
+          play,
+          onPlaying,
+          authenticator: signalingOptions?.authenticator,
+        }}
       />
     )
   }
@@ -377,6 +397,27 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
         key={refresh}
         forwardedRef={forwardedRef as Ref<HTMLVideoElement>}
         {...{ src, play, onPlaying, onEnded }}
+      />
+    )
+  }
+
+  if (format === Format.WEBRTC) {
+    if (signalingOptions === undefined) {
+      console.error(`Error: missing signalingOptions`)
+      return
+    }
+
+    Object.keys(parameters).forEach((key) => {
+      if (!PARAMETERS.AXIS_WEBRTC.includes(key)) {
+        debugLog(`webRTC.parameters: ${key} is not a valid parameter.`)
+      }
+    })
+
+    return (
+      <WebRtcVideo
+        key={refresh}
+        forwardedRef={forwardedRef as Ref<HTMLVideoElement>}
+        {...{ play, onPlaying, onEnded, parameters, signalingOptions }}
       />
     )
   }

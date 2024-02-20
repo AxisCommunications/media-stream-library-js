@@ -7,6 +7,7 @@ import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { useEventState } from './hooks/useEventState'
 import { VideoProperties } from './PlaybackArea'
 import { Format } from './types'
+import { Authenticator } from './webrtc/types'
 
 const debugLog = debug('msp:still-image')
 
@@ -21,6 +22,7 @@ interface StillImageProps {
   readonly play?: boolean
   readonly src?: string
   readonly onPlaying: (props: VideoProperties) => void
+  readonly authenticator?: Authenticator
 }
 
 /**
@@ -38,6 +40,7 @@ export const StillImage: React.FC<StillImageProps> = ({
   forwardedRef,
   play = false,
   onPlaying,
+  authenticator,
   src,
 }) => {
   let imgRef = useRef<HTMLImageElement>(null)
@@ -58,13 +61,29 @@ export const StillImage: React.FC<StillImageProps> = ({
       return
     }
     if (play && src !== undefined) {
-      imgEl.src = `${src}&cachebust=${cachebust++}`
+      if (authenticator === undefined) {
+        imgEl.src = `${src}&cachebust=${cachebust++}`
+        return
+      }
+
+      authenticator().then((accessToken) => {
+        return fetch(`${src}&cachebust=${cachebust++}`, {
+          headers: {
+            Authorization: `${accessToken}`,
+          },
+        })
+      }).then(response => {
+        return response.blob()
+      }).then(blob => {
+        imgEl.src = URL.createObjectURL(blob)
+      }).catch(console.trace)
+
       return () => {
         imgEl.src = ''
         unsetLoaded()
       }
     }
-  }, [play, src, unsetLoaded])
+  }, [authenticator, play, src, unsetLoaded])
 
   // keep a stable reference to the external onPlaying callback
   const __onPlayingRef = useRef(onPlaying)

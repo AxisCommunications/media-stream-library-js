@@ -27,4 +27,5 @@ export const browserSupportedFormats: Record<Format, boolean> = {
   [Format.JPEG]: true,
   [Format.MJPEG]: isMJPEGSupported(),
   [Format.MP4_H264]: isH264Supported(),
+  [Format.WEBRTC]: window.RTCPeerConnection !== undefined,
 }

@@ -6,4 +6,5 @@ export const FORMAT_SUPPORTS_AUDIO: Record<Format, boolean> = {
   MP4_H264: true,
   JPEG: false,
   MJPEG: false,
+  WEBRTC: true,
 }

@@ -4,4 +4,5 @@ export enum Format {
   'JPEG' = 'JPEG',
   'MJPEG' = 'MJPEG',
   'MP4_H264' = 'MP4_H264',
+  'WEBRTC' = 'WEBRTC',
 }
