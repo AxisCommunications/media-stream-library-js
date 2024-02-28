@@ -31,6 +31,7 @@ we make underlying API-calls to AXIS specfic APIs to get the video streams.
 
 - For H.264 to work you need at least firmware 6.50 (LTS)
 - For MP4 to work you need at least firmware 9.80 (LTS)
+- For webRTC to work you need to have webRTC installed on the device.
 
 ## Structure
 
@@ -61,10 +62,10 @@ Then, you can use the `<media-stream-player/>` tag, similar to how you would use
 
 You can find an example of this under `example-player-webcomponent`.
 
-Supported properties right now are:
+Supported properties right now, with exceptions for webRTC, are:
 
-| Property              | Comment                                                                            |
-| --------------------- | ---------------------------------------------------------------------------------- |
+| Property              | Comment                                                                            | webRTC
+| --------------------- | ---------------------------------------------------------------------------------- | ------
 | `variant`             | Supported choices are `basic` or `advanced`. Refers to `BasicPlayer` and `Player`. |
 | `hostname`            | The ip address to your device                                                      |
 | `autoplay`            | If the property exists, we try and autoplay your video                             |
@@ -72,12 +73,12 @@ Supported properties right now are:
 | `secure`              | If the property exists, we will connect with https instead of http                 |
 | `format`              | Accepted values are `JPEG`, `RTP_JPEG`, `RTP_H264`, or `MP4_H264`                  |
 | `compression`         | Accepted values are `0..100`, with 10 between each step                            |
-| `resolution`          | Written as WidthXHeight, eg `1920x1080`                                            |
-| `rotation`            | Accepted values are `0`, `90`, `180` and `270`                                     |
-| `camera`              | Accepted values are `0...n` or `quad` depending on your device                     |
+| `resolution`          | Written as WidthXHeight, eg `1920x1080`                                            | yes
+| `rotation`            | Accepted values are `0`, `90`, `180` and `270`                                     | yes
+| `camera`              | Accepted values are `0...n` or `quad` depending on your device                     | yes
 |                       | **RTP_H264 / RTP_JPEG / MP4_H264 specific properties**                             |
-| `fps`                 | Accepted values are `0...n`                                                        |
-| `audio`               | Accepted values are `0` (off) and `1` (on)                                         |
+| `fps`                 | Accepted values are `0...n`                                                        | yes
+| `audio`               | Accepted values are `0` (off) and `1` (on)                                         | requested by default
 | `clock`               | Accepted values are `0` (hide) and `1` (show)                                      |
 | `date`                | Accepted values are `0` (hide) and `1` (show)                                      |
 | `text`                | Accepted values are `0` (hide text overlay) and `1` (show text overlay)            |
@@ -85,6 +86,10 @@ Supported properties right now are:
 | `textcolor`           | Accepted values are `black` and `white`                                            |
 | `textbackgroundcolor` | Accepted values are `black`, `white`, `transparent` and `semitransparent`          |
 | `textpos`             | Accepted values are `0` (top) and `1` (bottom)                                     |
+| `videomaxbitrate`     | Accepted values are `0...n`                                                        | yes      
+| `videozstrength`      | Accepted values are `off`,`10`,`20`,`30`,`40`,`50`                                 | yes
+| `videozgopmode`       | Accepted values are `dynamic` or `fixed`                                           | yes
+| `streamprofile`       | Acceted value, `string`                                                            | yes
 
 Example:
 
@@ -162,6 +167,7 @@ value). You can also debug a specific component by using one of the following fr
 | ----- |
 | `msp:http-mp4-video` |
 | `msp:ws-rtsp-video` |
+| `msp:webrtc-video` |
 | `msp:still-image` |
 | `msp:api` |
 
