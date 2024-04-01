@@ -298,7 +298,8 @@ export class MediaStreamPlayer extends HTMLElement {
           <PlayerComponent
             // eslint-disable-next-line react/jsx-no-bind
             subscribeAttributesChanged={(cb) =>
-              this.attributeChangeSubscriber(cb)}
+              this.attributeChangeSubscriber(cb)
+            }
             initialAttributes={{
               ...this.allAttributes,
             }}

@@ -31,7 +31,7 @@ const changesetCli = command({
       description: 'date of the changeset',
       long: 'date',
       short: 'd',
-      defaultValue: () => (new Date()).toISOString(),
+      defaultValue: () => new Date().toISOString(),
       type: string,
     }),
     outfile: option({

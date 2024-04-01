@@ -10,12 +10,10 @@ if (!existsSync(buildDir)) {
   mkdirSync(buildDir)
 }
 
-for (
-  const output of [
-    { format: 'esm', name: 'index-esm.js' },
-    { format: 'cjs', name: 'index-cjs.js' },
-  ]
-) {
+for (const output of [
+  { format: 'esm', name: 'index-esm.js' },
+  { format: 'cjs', name: 'index-cjs.js' },
+]) {
   buildSync({
     platform: 'browser',
     entryPoints: ['src/index.ts'],

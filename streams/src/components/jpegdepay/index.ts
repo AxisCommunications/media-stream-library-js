@@ -22,9 +22,9 @@ export class JPEGDepay extends Tube {
         if (msg.type === MessageType.SDP) {
           const jpegMedia = msg.sdp.media.find((media): media is VideoMedia => {
             return (
-              media.type === 'video'
-              && media.rtpmap !== undefined
-              && media.rtpmap.encodingName === 'JPEG'
+              media.type === 'video' &&
+              media.rtpmap !== undefined &&
+              media.rtpmap.encodingName === 'JPEG'
             )
           })
           if (jpegMedia !== undefined && jpegMedia.rtpmap !== undefined) {
@@ -47,8 +47,8 @@ export class JPEGDepay extends Tube {
 
           callback(undefined, msg)
         } else if (
-          msg.type === MessageType.RTP
-          && payloadType(msg.data) === jpegPayloadType
+          msg.type === MessageType.RTP &&
+          payloadType(msg.data) === jpegPayloadType
         ) {
           packets.push(msg.data)
 

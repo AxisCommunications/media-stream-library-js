@@ -15,9 +15,7 @@ const bundles = [
   { format: 'cjs', name: 'index-cjs.js' },
 ]
 
-for (
-  const { name, format } of bundles
-) {
+for (const { name, format } of bundles) {
   buildSync({
     platform: 'browser',
     entryPoints: ['src/index.ts'],

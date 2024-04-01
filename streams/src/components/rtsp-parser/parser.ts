@@ -106,8 +106,8 @@ export class Parser {
     const rtspHeaderLength = chunkBodyOffset
     const contentLength = extractHeaderValue(buffer, 'Content-Length')
     if (
-      contentLength
-      && parseInt(contentLength) > buffer.length - rtspHeaderLength
+      contentLength &&
+      parseInt(contentLength) > buffer.length - rtspHeaderLength
     ) {
       // we do not have the whole body
       return messages
@@ -116,8 +116,8 @@ export class Parser {
     this._init() // resets this._chunks and this._length
 
     if (
-      rtspHeaderLength === buffer.length
-      || buffer[rtspHeaderLength] === ASCII_DOLLAR
+      rtspHeaderLength === buffer.length ||
+      buffer[rtspHeaderLength] === ASCII_DOLLAR
     ) {
       // No body in this chunk, assume there is no body?
       const packet = buffer.slice(0, rtspHeaderLength)

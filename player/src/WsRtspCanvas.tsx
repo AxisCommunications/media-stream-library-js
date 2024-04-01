@@ -98,9 +98,8 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   }
 
   // State tied to resources
-  const [pipeline, setPipeline] = useState<
-    null | pipelines.Html5CanvasPipeline
-  >(null)
+  const [pipeline, setPipeline] =
+    useState<null | pipelines.Html5CanvasPipeline>(null)
   const [fetching, setFetching] = useState(false)
 
   // keep track of changes in starting time
@@ -180,8 +179,8 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
               return m.type === 'video'
             })
             if (videoMedia !== undefined) {
-              __sensorTmRef.current = videoMedia['x-sensor-transform']
-                ?? videoMedia['transform']
+              __sensorTmRef.current =
+                videoMedia['x-sensor-transform'] ?? videoMedia['transform']
             }
             if (__onSdpRef.current !== undefined) {
               __onSdpRef.current(sdp)
@@ -216,8 +215,8 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
       // play. We need to wait for that event to get the correct width/height.
       pipeline.onCanplay = () => {
         if (
-          canvasRef.current !== null
-          && __onPlayingRef.current !== undefined
+          canvasRef.current !== null &&
+          __onPlayingRef.current !== undefined
         ) {
           __onPlayingRef.current({
             el: canvasRef.current,

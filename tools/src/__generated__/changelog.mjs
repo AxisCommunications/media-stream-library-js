@@ -43,26 +43,20 @@ function shortSha(sha) {
 
 // src/changelog/changeset.ts
 var GroupTitles = {
-  'build': '\u{1F477} Build',
-  'chore': '\u{1F6A7} Maintenance',
-  'ci': '\u{1F6A6} Continous integration',
-  'docs': '\u{1F4DD} Documentation',
-  'feat': '\u2728 Features',
-  'fix': '\u{1F41B} Bug fixes',
-  'perf': '\u{1F3CE}\uFE0F Performance',
-  'refactor': '\u267B\uFE0F Refactoring',
-  'revert': '\u23EA\uFE0F Reverts',
-  'style': '\u{1F484} Styling',
-  'test': '\u{1F9EA} Test',
+  build: '\u{1F477} Build',
+  chore: '\u{1F6A7} Maintenance',
+  ci: '\u{1F6A6} Continous integration',
+  docs: '\u{1F4DD} Documentation',
+  feat: '\u2728 Features',
+  fix: '\u{1F41B} Bug fixes',
+  perf: '\u{1F3CE}\uFE0F Performance',
+  refactor: '\u267B\uFE0F Refactoring',
+  revert: '\u23EA\uFE0F Reverts',
+  style: '\u{1F484} Styling',
+  test: '\u{1F9EA} Test',
 }
 var GroupKeys = new Set(Object.keys(GroupTitles))
-function changeset({
-  date,
-  name,
-  range,
-  scope,
-  url,
-}) {
+function changeset({ date, name, range, scope, url }) {
   return [
     changesetHeader({ date, name, range, url }),
     changesetBody({ range, scope, url }),
@@ -76,11 +70,7 @@ function changesetHeader({ date, name, range, url }) {
   return `## ${name} (${date})
 `
 }
-function changesetBody({
-  range,
-  scope,
-  url,
-}) {
+function changesetBody({ range, scope, url }) {
   const outputChunks = []
   const groups = {}
   for (const [sha, msg] of gitLogFromRange(range)) {
@@ -102,13 +92,13 @@ function changesetBody({
 
 `)
     for (const [sha, cc] of groups[group]) {
-      const scopePrefix = scope === void 0 && cc.scope !== void 0
-        ? ` **${cc.scope}**:`
-        : ''
+      const scopePrefix =
+        scope === void 0 && cc.scope !== void 0 ? ` **${cc.scope}**:` : ''
       const breakingPrefix = cc.breaking ? ` **BREAKING**` : ''
-      const link = url !== void 0
-        ? `([${shortSha(sha)}](${commitUrl(url, sha)}))`
-        : `(${shortSha(sha)})`
+      const link =
+        url !== void 0
+          ? `([${shortSha(sha)}](${commitUrl(url, sha)}))`
+          : `(${shortSha(sha)})`
       outputChunks.push(
         `  -${scopePrefix}${breakingPrefix} ${cc.title} ${link}
 `
@@ -160,7 +150,7 @@ var changesetCli = command({
       description: 'date of the changeset',
       long: 'date',
       short: 'd',
-      defaultValue: () => (/* @__PURE__ */ new Date()).toISOString(),
+      defaultValue: () => /* @__PURE__ */ new Date().toISOString(),
       type: string,
     }),
     outfile: option({

@@ -330,18 +330,16 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 duration={duration}
               />
             </Layer>
-            {showStatsOverlay && videoProperties !== undefined
-              ? (
-                <Stats
-                  format={format}
-                  videoProperties={videoProperties}
-                  refresh={refresh}
-                  volume={volume}
-                  expanded={statsExpanded}
-                  onToggleExpanded={setStatsExpanded}
-                />
-              )
-              : null}
+            {showStatsOverlay && videoProperties !== undefined ? (
+              <Stats
+                format={format}
+                videoProperties={videoProperties}
+                refresh={refresh}
+                volume={volume}
+                expanded={statsExpanded}
+                onToggleExpanded={setStatsExpanded}
+              />
+            ) : null}
           </Container>
         </Limiter>
       </MediaStreamPlayerContainer>

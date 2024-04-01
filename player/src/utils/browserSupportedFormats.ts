@@ -7,8 +7,8 @@ import { Format } from '../types'
 const MSE_SUPPORT = 'MediaSource' in window
 
 const isMJPEGSupported = () => {
-  const isInternetExplorer = navigator.userAgent.includes('MSIE')
-    || 'ActiveXObject' in window
+  const isInternetExplorer =
+    navigator.userAgent.includes('MSIE') || 'ActiveXObject' in window
   return !isInternetExplorer
 }
 

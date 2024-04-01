@@ -77,9 +77,10 @@ const defaultConfig = (
     : window.location.hostname,
   parameters: string[] = []
 ): RtspConfig => {
-  const uri = parameters.length > 0
-    ? `rtsp://${hostname}/axis-media/media.amp?${parameters.join('&')}`
-    : `rtsp://${hostname}/axis-media/media.amp`
+  const uri =
+    parameters.length > 0
+      ? `rtsp://${hostname}/axis-media/media.amp?${parameters.join('&')}`
+      : `rtsp://${hostname}/axis-media/media.amp`
 
   return { uri }
 }
@@ -312,10 +313,8 @@ export class RtspSession extends Tube {
     }
     if (status >= 400) {
       // TODO: Retry in certain cases?
-      this.onError
-        && this.onError(
-          new RTSPResponseError(msg.data.toString('ascii'), status)
-        )
+      this.onError &&
+        this.onError(new RTSPResponseError(msg.data.toString('ascii'), status))
     }
 
     if (method === RTSP_METHOD.PLAY) {
@@ -346,9 +345,9 @@ export class RtspSession extends Tube {
 
   _onRtp(msg: RtpMessage) {
     if (
-      this.t0 === undefined
-      || this.n0 === undefined
-      || this.clockrates === undefined
+      this.t0 === undefined ||
+      this.n0 === undefined ||
+      this.clockrates === undefined
     ) {
       throw new Error('rtsp: internal error')
     }
@@ -388,9 +387,10 @@ export class RtspSession extends Tube {
       const rtp = index * 2
       const rtcp = rtp + 1
 
-      const uri = media.control === undefined
-        ? this._sessionControlURL
-        : this._controlURL(media.control)
+      const uri =
+        media.control === undefined
+          ? this._sessionControlURL
+          : this._controlURL(media.control)
 
       this._enqueue({
         method: RTSP_METHOD.SETUP,
@@ -487,9 +487,9 @@ export class RtspSession extends Tube {
     this.retry = this.send.bind(this, cmd)
 
     if (
-      this._sequence === undefined
-      || this.headers === undefined
-      || this._callHistory === undefined
+      this._sequence === undefined ||
+      this.headers === undefined ||
+      this._callHistory === undefined
     ) {
       throw new Error('rtsp: internal error')
     }

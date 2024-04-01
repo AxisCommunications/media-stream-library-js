@@ -189,11 +189,11 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
     __offsetRef.current = offset
 
     if (
-      ws !== undefined
-      && ws.length > 0
-      && rtsp !== undefined
-      && rtsp.length > 0
-      && videoEl !== null
+      ws !== undefined &&
+      ws.length > 0 &&
+      rtsp !== undefined &&
+      rtsp.length > 0 &&
+      videoEl !== null
     ) {
       debugLog('create pipeline', ws, rtsp)
       const newPipeline = new pipelines.Html5VideoPipeline({
@@ -244,8 +244,8 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
               return m.type === 'video'
             })
             if (videoMedia !== undefined) {
-              __sensorTmRef.current = videoMedia['x-sensor-transform']
-                ?? videoMedia['transform']
+              __sensorTmRef.current =
+                videoMedia['x-sensor-transform'] ?? videoMedia['transform']
             }
             if (__onSdpRef.current !== undefined) {
               __onSdpRef.current(sdp)
