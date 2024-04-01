@@ -2,18 +2,18 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import debug from 'debug'
 import {
-  isRtcpBye,
-  pipelines,
   Rtcp,
   Sdp,
   TransformationMatrix,
-  utils,
   VideoMedia,
+  isRtcpBye,
+  pipelines,
+  utils,
 } from 'media-stream-library'
 import styled from 'styled-components'
 
-import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { Range, VideoProperties } from './PlaybackArea'
+import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { Format } from './types'
 
 const debugLog = debug('msp:ws-rtsp-video')

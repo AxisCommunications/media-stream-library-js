@@ -3,14 +3,14 @@ import * as assert from 'uvu/assert'
 import {
   cSrc,
   cSrcCount,
-  extension,
   extHeader,
+  extension,
   marker,
   padding,
   payload,
   payloadType,
-  sequenceNumber,
   sSrc,
+  sequenceNumber,
   timestamp,
   version,
 } from 'utils/protocols/rtp'

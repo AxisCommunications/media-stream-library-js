@@ -1,8 +1,8 @@
 import * as assert from 'uvu/assert'
 
+import { Writable } from 'stream'
 import { MessageType } from 'components/message'
 import { RTSP_METHOD, RtspSession } from 'components/rtsp-session'
-import { Writable } from 'stream'
 import { messageFromBuffer } from 'utils/protocols/sdp'
 
 import {

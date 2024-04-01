@@ -1,4 +1,4 @@
-import { connect, Socket } from 'node:net'
+import { Socket, connect } from 'node:net'
 
 import { Readable, Writable } from 'stream'
 

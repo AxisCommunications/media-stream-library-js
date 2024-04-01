@@ -4,7 +4,7 @@ import { Transform } from 'stream'
 
 import { merge } from '../../utils/config'
 import { getTime } from '../../utils/protocols/ntp'
-import { isRtcpSR, Rtcp } from '../../utils/protocols/rtcp'
+import { Rtcp, isRtcpSR } from '../../utils/protocols/rtcp'
 import { timestamp } from '../../utils/protocols/rtp'
 import {
   connectionEnded,

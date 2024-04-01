@@ -2,8 +2,8 @@ import React, { ChangeEventHandler, useCallback, useRef, useState } from 'react'
 
 import styled from 'styled-components'
 
-import { Switch } from './components/Switch'
 import { VapixParameters } from './PlaybackArea'
+import { Switch } from './components/Switch'
 import { Format } from './types'
 
 const SettingsMenu = styled.div`

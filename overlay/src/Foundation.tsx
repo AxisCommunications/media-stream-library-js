@@ -14,7 +14,7 @@ import React, {
 
 import styled, { css } from 'styled-components'
 
-import { apply, inverse, Matrix, multiply } from './utils/affine'
+import { Matrix, apply, inverse, multiply } from './utils/affine'
 import { Coord } from './utils/geometry'
 
 type BaseElement = HTMLDivElement

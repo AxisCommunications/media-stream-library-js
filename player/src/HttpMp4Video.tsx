@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
 
 import debug from 'debug'
-import { pipelines, TransformationMatrix } from 'media-stream-library'
+import { TransformationMatrix, pipelines } from 'media-stream-library'
 import styled from 'styled-components'
 
+import { VideoProperties } from './PlaybackArea'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { useEventState } from './hooks/useEventState'
 import { useVideoDebug } from './hooks/useVideoDebug'
 import { MetadataHandler } from './metadata'
-import { VideoProperties } from './PlaybackArea'
 import { Format } from './types'
 
 const debugLog = debug('msp:http-mp4-video')

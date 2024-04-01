@@ -1,9 +1,9 @@
 import {
-  components,
   MessageType,
+  XmlMessage,
+  components,
   pipelines,
   utils,
-  XmlMessage,
 } from 'media-stream-library'
 
 /**

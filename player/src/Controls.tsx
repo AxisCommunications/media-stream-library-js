@@ -3,11 +3,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { DateTime, Duration } from 'luxon'
 import styled from 'styled-components'
 
+import { VapixParameters, VideoProperties } from './PlaybackArea'
+import { Settings } from './Settings'
 import { Button } from './components/Button'
 import { useUserActive } from './hooks/useUserActive'
 import { CogWheel, Pause, Play, Refresh, Screenshot, Stop } from './img'
-import { VapixParameters, VideoProperties } from './PlaybackArea'
-import { Settings } from './Settings'
 import { Format } from './types'
 
 function isHTMLMediaElement(el: HTMLElement): el is HTMLMediaElement {

@@ -11,11 +11,11 @@ import {
 } from 'media-stream-library'
 
 import { HttpMp4Video } from './HttpMp4Video'
-import { MetadataHandler } from './metadata'
 import { StillImage } from './StillImage'
-import { Format } from './types'
 import { WsRtspCanvas } from './WsRtspCanvas'
 import { WsRtspVideo } from './WsRtspVideo'
+import { MetadataHandler } from './metadata'
+import { Format } from './types'
 
 export type PlayerNativeElement =
   | HTMLVideoElement

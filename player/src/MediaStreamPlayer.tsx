@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react'
-import { createRoot, Root } from 'react-dom/client'
+import { Root, createRoot } from 'react-dom/client'
 
 import { BasicPlayer } from './BasicPlayer'
 import { VapixParameters } from './PlaybackArea'

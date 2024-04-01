@@ -9,8 +9,8 @@ import { Html5VideoPipeline } from 'media-stream-library'
 import { useInterval } from 'react-hooks-shareable'
 import styled from 'styled-components'
 
-import { StreamStats } from './img'
 import { PlayerPipeline, VideoProperties } from './PlaybackArea'
+import { StreamStats } from './img'
 import { Format } from './types'
 
 const isHtml5VideoPipeline = (

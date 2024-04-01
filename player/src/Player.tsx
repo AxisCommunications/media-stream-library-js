@@ -10,13 +10,9 @@ import React, {
 
 import { Sdp } from 'media-stream-library'
 
-import { Limiter } from './components/Limiter'
-import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
 import { Container, Layer } from './Container'
 import { Controls } from './Controls'
 import { Feedback } from './Feedback'
-import { useSwitch } from './hooks/useSwitch'
-import { MetadataHandler } from './metadata'
 import {
   PlaybackArea,
   PlayerNativeElement,
@@ -24,6 +20,10 @@ import {
   VideoProperties,
 } from './PlaybackArea'
 import { Stats } from './Stats'
+import { Limiter } from './components/Limiter'
+import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
+import { useSwitch } from './hooks/useSwitch'
+import { MetadataHandler } from './metadata'
 import { Format } from './types'
 import { getImageURL } from './utils'
 

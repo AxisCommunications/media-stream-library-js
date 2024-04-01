@@ -2,25 +2,25 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import debug from 'debug'
 import {
-  isRtcpBye,
-  pipelines,
   Rtcp,
   Sdp,
   TransformationMatrix,
-  utils,
   VideoMedia,
+  isRtcpBye,
+  pipelines,
+  utils,
 } from 'media-stream-library'
 import styled from 'styled-components'
 
+import { Range, VideoProperties } from './PlaybackArea'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { useEventState } from './hooks/useEventState'
 import { useVideoDebug } from './hooks/useVideoDebug'
 import {
-  attachMetadataHandler,
   MetadataHandler,
   ScheduledMessage,
+  attachMetadataHandler,
 } from './metadata'
-import { Range, VideoProperties } from './PlaybackArea'
 import { Format } from './types'
 
 const debugLog = debug('msp:ws-rtsp-video')
