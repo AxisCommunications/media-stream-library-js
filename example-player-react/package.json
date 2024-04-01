@@ -3,8 +3,8 @@
   "devDependencies": {
     "@vitejs/plugin-react": "4.2.1",
     "luxon": "3.4.4",
-    "media-stream-library": "file:../streams",
-    "media-stream-player": "file:../player",
+    "media-stream-library": "workspace:^",
+    "media-stream-player": "workspace:^",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "styled-components": "5.3.11",

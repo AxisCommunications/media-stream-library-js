@@ -31,10 +31,10 @@ unit tests with sufficient coverage.
 
 ### Code formatting
 
-We use [dprint](https://dprint.dev/) to automatically format code, and this
+We use [biome](https://dprint.dev/) to automatically format code, and this
 is verified during testing (part of linting).
 To make sure tests don't fail on format problems, it's recommended to use a
-dprint plugin for you editor, or to run `just format` before committing
+biome plugin for you editor, or to run `just format` before committing
 any changes.
 
 ## Getting started

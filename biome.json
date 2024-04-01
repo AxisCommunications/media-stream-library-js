@@ -1,0 +1,48 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": {
+    "include": ["**/*.json", "**/*.js", "**/*.mjs", "**/*.cjs", "**/*.ts", "**/*.tsx"],
+    "ignore": ["bin/", "*.min.js", "dist/", "package.json", ".vscode/"]
+  },
+  "organizeImports": {
+    "enabled": true,
+    "ignore": ["__generated__/"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "ignore": ["__generated__/", ".vscode/"],
+    "rules": {
+      "recommended": false,
+      "correctness": {
+        "noUnusedVariables": "error",
+        "recommended": true,
+        "useExhaustiveDependencies": "warn"
+      },
+      "security": {
+        "recommended": true
+      },
+      "suspicious": {
+        "recommended": true,
+        "noArrayIndexKey": "off",
+        "noAssignInExpressions": "off",
+        "noConfusingVoidType": "off",
+        "noExplicitAny": "off",
+        "noGlobalIsNan": "off",
+        "noImplicitAnyLet": "off"
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteStyle": "single",
+      "semicolons": "asNeeded",
+      "trailingComma": "es5"
+    }
+  }
+}

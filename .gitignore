@@ -18,8 +18,16 @@ cypress/screenshots/
 .vscode/
 .vim/
 
-# NPM
+# dependency management
 node_modules/
+vendor/
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 
 # Linting
 .eslintcache
