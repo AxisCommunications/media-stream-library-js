@@ -45,7 +45,7 @@ format +FILES="`just changed`":
 
 # install dependencies
 install:
-    CYPRESS_INSTALL_BINARY=0 && npm ci
+    CYPRESS_INSTALL_BINARY=0 && yarn install --immutable
 
 # check lint rules and formatting for changed files
 lint workspace:
