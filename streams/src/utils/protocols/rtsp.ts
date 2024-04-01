@@ -98,7 +98,7 @@ export const sessionTimeout = (buffer: Buffer) => {
     let timeoutVal = val.substring(timeoutPosition + timeoutToken.length)
     timeoutVal = timeoutVal.split(';')[0]
     const parsedTimeout = parseInt(timeoutVal)
-    return isNaN(parsedTimeout) ? defaultTimeout : parsedTimeout
+    return Number.isNaN(parsedTimeout) ? defaultTimeout : parsedTimeout
   }
   return defaultTimeout
 }

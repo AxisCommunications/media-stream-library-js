@@ -209,6 +209,6 @@ export class MseSink extends Sink {
   }
 
   pause(): void {
-    return this._videoEl.pause()
+    this._videoEl.pause()
   }
 }

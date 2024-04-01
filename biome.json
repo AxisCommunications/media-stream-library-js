@@ -26,9 +26,9 @@
     "rules": {
       "recommended": false,
       "correctness": {
-        "noUnusedVariables": "error",
         "recommended": true,
-        "useExhaustiveDependencies": "warn"
+        "noUnusedVariables": "off",
+        "useExhaustiveDependencies": "off"
       },
       "security": {
         "recommended": true
@@ -37,9 +37,7 @@
         "recommended": true,
         "noArrayIndexKey": "off",
         "noAssignInExpressions": "off",
-        "noConfusingVoidType": "off",
         "noExplicitAny": "off",
-        "noGlobalIsNan": "off",
         "noImplicitAnyLet": "off"
       }
     }
