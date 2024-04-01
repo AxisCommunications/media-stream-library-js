@@ -270,7 +270,6 @@ const parseSDES = (buffer: Buffer, base: Rtcp): RtcpSDES => {
     }
     offset += 4
 
-    // eslint-disable-next-line no-constant-condition
     while (true) {
       const itemType = buffer.readUInt8(offset++)
 

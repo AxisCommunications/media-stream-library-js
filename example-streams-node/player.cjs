@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-require-imports */
 const yargs = require('yargs')
 
 const { pipelines } = require('media-stream-library')

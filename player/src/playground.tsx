@@ -3,7 +3,6 @@ import { createRoot } from 'react-dom/client'
 
 import { Player } from './Player'
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 const appRoot = createRoot(document.querySelector('#root')!)
 
 appRoot.render(

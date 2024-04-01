@@ -296,7 +296,6 @@ export class MediaStreamPlayer extends HTMLElement {
       .then(() => {
         this._root?.render(
           <PlayerComponent
-            // eslint-disable-next-line react/jsx-no-bind
             subscribeAttributesChanged={(cb) =>
               this.attributeChangeSubscriber(cb)
             }

@@ -1,6 +1,5 @@
 import { Readable, Transform, Writable } from 'stream'
 
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export default class StreamFactory {
   /**
    * Creates a writable stream that sends all messages written to the stream

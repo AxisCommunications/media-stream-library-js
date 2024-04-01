@@ -242,7 +242,6 @@ const createParameterSetArrayClass = function (sizeMask = 0x00) {
         [new UInt8(sizeMask | array.length)]
       )
       this.byteLength = this.value.reduce(
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         (total, element) => total + element.byteLength,
         0
       )
@@ -1008,7 +1007,6 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
  * All boxes have a length and type, where so-called full boxes have an
  * additional 4-bytes (1-byte version and 3-byte flags fields).
  */
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 class Header {
   static None() {
     return []
