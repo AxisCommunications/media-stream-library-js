@@ -1212,23 +1212,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/styled-components@npm:5.1.27":
-  version: 5.1.27
-  resolution: "@types/styled-components@npm:5.1.27"
+"@types/styled-components@npm:5.1.34":
+  version: 5.1.34
+  resolution: "@types/styled-components@npm:5.1.34"
   dependencies:
     "@types/hoist-non-react-statics": "*"
     "@types/react": "*"
     csstype: ^3.0.2
-  checksum: 6f8d99642f09f28a233a5bf93d3139389c3bf5e4c643620881cb286f581d6844f3c1c43be5bd9405d3b199b6a858bd8b0ec6ccbb17b2304a88d70e2a6f91a996
+  checksum: 7868066a15afe42d8b353953fc196a7f11a9918b1c980f51d21bb9b49e309c7fe2d730be2d3dc48e92ab4de20f44a3c9dfe6cc98b6ea4dd02655e6f8128171b6
   languageName: node
   linkType: hard
 
-"@types/ws@npm:8.5.9":
-  version: 8.5.9
-  resolution: "@types/ws@npm:8.5.9"
+"@types/ws@npm:8.5.10":
+  version: 8.5.10
+  resolution: "@types/ws@npm:8.5.10"
   dependencies:
     "@types/node": "*"
-  checksum: 83f436b731d2cdc49a45ced31a0a65cdd2e39c24d7b882776c26efa190dad6553e266d624c7a7089f36ad3ed471e02e729f3219282c80689b435f665df4a2b0b
+  checksum: 3ec416ea2be24042ebd677932a462cf16d2080393d8d7d0b1b3f5d6eaa4a7387aaf0eefb99193c0bfd29444857cf2e0c3ac89899e130550dc6c14ada8a46d25e
   languageName: node
   linkType: hard
 
@@ -2515,7 +2515,7 @@ __metadata:
   dependencies:
     "@types/react": 18.2.74
     "@types/react-dom": 18.2.24
-    "@types/styled-components": 5.1.27
+    "@types/styled-components": 5.1.34
     "@vitejs/plugin-react": 4.2.1
     media-overlay-library: "workspace:^"
     pepjs: 0.5.3
@@ -3891,7 +3891,7 @@ __metadata:
     "@juggle/resize-observer": 3.4.0
     "@types/react": 18.2.74
     "@types/react-dom": 18.2.24
-    "@types/styled-components": 5.1.27
+    "@types/styled-components": 5.1.34
     esbuild: 0.20.2
     pepjs: 0.5.3
     react: 18.2.0
@@ -3915,7 +3915,7 @@ __metadata:
   dependencies:
     "@types/debug": 4.1.12
     "@types/node": 18.19.30
-    "@types/ws": 8.5.9
+    "@types/ws": 8.5.10
     buffer: 6.0.3
     debug: 4.3.4
     esbuild: 0.20.2
@@ -3929,7 +3929,7 @@ __metadata:
     ts-md5: 1.3.1
     typescript: 5.4.4
     uvu: 0.5.6
-    ws: 8.14.2
+    ws: 8.16.0
   languageName: unknown
   linkType: soft
 
@@ -3942,7 +3942,7 @@ __metadata:
     "@types/luxon": 3.4.2
     "@types/react": 18.2.74
     "@types/react-dom": 18.2.24
-    "@types/styled-components": 5.1.27
+    "@types/styled-components": 5.1.34
     "@vitejs/plugin-react": 4.2.1
     chalk: 5.3.0
     debug: 4.3.4
@@ -6033,22 +6033,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.14.2":
-  version: 8.14.2
-  resolution: "ws@npm:8.14.2"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ">=5.0.2"
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 3ca0dad26e8cc6515ff392b622a1467430814c463b3368b0258e33696b1d4bed7510bc7030f7b72838b9fdeb8dbd8839cbf808367d6aae2e1d668ce741d4308b
-  languageName: node
-  linkType: hard
-
-"ws@npm:^8.16.0":
+"ws@npm:8.16.0, ws@npm:^8.16.0":
   version: 8.16.0
   resolution: "ws@npm:8.16.0"
   peerDependencies:
