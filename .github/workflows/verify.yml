@@ -17,10 +17,10 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: ['18', '19']
+        node-version: ['20', '21']
     steps:
       - uses: extractions/setup-just@v1
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -44,11 +44,11 @@ jobs:
           - 8554:8554
     steps:
       - uses: extractions/setup-just@v1
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: yarn
       - name: Install dependencies
         run: just install
@@ -74,11 +74,11 @@ jobs:
           - 8554:8554
     steps:
       - uses: extractions/setup-just@v1
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: yarn
       - name: Install dependencies
         run: just install
@@ -96,11 +96,11 @@ jobs:
           - 8554:8554
     steps:
       - uses: extractions/setup-just@v1
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: yarn
       - name: Install dependencies
         run: just install

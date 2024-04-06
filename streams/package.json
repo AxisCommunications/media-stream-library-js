@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@types/debug": "4.1.12",
-    "@types/node": "18.19.30",
+    "@types/node": "20.12.5",
     "@types/ws": "8.5.10",
     "buffer": "6.0.3",
     "esbuild": "0.20.2",
