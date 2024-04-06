@@ -1153,12 +1153,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:18.19.30":
-  version: 18.19.30
-  resolution: "@types/node@npm:18.19.30"
+"@types/node@npm:20.12.5":
+  version: 20.12.5
+  resolution: "@types/node@npm:20.12.5"
   dependencies:
     undici-types: ~5.26.4
-  checksum: b3daafa3fe23312f493fc2548c5e03801e1e4a5657af1f327ffae76087b64b926b84daf839297348a7e3c90aced10e3d66126270ad8081d32c979418d93c7828
+  checksum: 38358c091392bb3def1136772ada4ccd39a9429d459160b5ab728b690d2f15f2212eafd9e65ce716e270f70a4e6927ebffccfefc08dabdf68f4016c1fc8a7938
   languageName: node
   linkType: hard
 
@@ -3914,7 +3914,7 @@ __metadata:
   resolution: "media-stream-library@workspace:streams"
   dependencies:
     "@types/debug": 4.1.12
-    "@types/node": 18.19.30
+    "@types/node": 20.12.5
     "@types/ws": 8.5.10
     buffer: 6.0.3
     debug: 4.3.4
