@@ -24,9 +24,9 @@ export class H264Depay extends Tube {
         if (msg.type === MessageType.SDP) {
           const h264Media = msg.sdp.media.find((media): media is VideoMedia => {
             return (
-              media.type === 'video'
-              && media.rtpmap !== undefined
-              && media.rtpmap.encodingName === 'H264'
+              media.type === 'video' &&
+              media.rtpmap !== undefined &&
+              media.rtpmap.encodingName === 'H264'
             )
           })
           if (h264Media !== undefined && h264Media.rtpmap !== undefined) {
@@ -34,16 +34,16 @@ export class H264Depay extends Tube {
           }
           callback(undefined, msg) // Pass on the original SDP message
         } else if (
-          msg.type === MessageType.RTP
-          && payloadType(msg.data) === h264PayloadType
+          msg.type === MessageType.RTP &&
+          payloadType(msg.data) === h264PayloadType
         ) {
           const endOfFrame = marker(msg.data)
           const h264Message = h264DepayParser.parse(msg)
 
           // Skip if not a full H264 frame, or when there hasn't been an I-frame yet
           if (
-            h264Message === null
-            || (!idrFound && h264Message.nalType !== NAL_TYPES.IDR_PICTURE)
+            h264Message === null ||
+            (!idrFound && h264Message.nalType !== NAL_TYPES.IDR_PICTURE)
           ) {
             callback()
             return

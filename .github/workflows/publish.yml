@@ -16,8 +16,6 @@ jobs:
     steps:
       - uses: extractions/setup-just@v1
       - uses: actions/checkout@v3
-        with:
-          lfs: true
 
       - name: Extract version number
         id: vars
@@ -27,6 +25,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
+          cache: yarn
           registry-url: 'https://registry.npmjs.org'
 
       - name: Build
@@ -80,8 +79,8 @@ jobs:
 
       - name: Deploy NPM packages
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
-          npm publish --workspace overlay --tag latest
-          npm publish --workspace player --tag latest
-          npm publish --workspace streams --tag latest
+          cd overlay && yarn npm publish --tag latest
+          cd player && yarn npm publish --tag latest
+          cd streams && yarn npm publish --tag latest

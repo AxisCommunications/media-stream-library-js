@@ -1,7 +1,7 @@
 {
   "private": true,
   "devDependencies": {
-    "media-stream-library": "file:../streams",
+    "media-stream-library": "workspace:^",
     "yargs": "17.7.2"
   }
 }

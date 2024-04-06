@@ -14,7 +14,7 @@ import React, {
 
 import styled, { css } from 'styled-components'
 
-import { apply, inverse, Matrix, multiply } from './utils/affine'
+import { Matrix, apply, inverse, multiply } from './utils/affine'
 import { Coord } from './utils/geometry'
 
 type BaseElement = HTMLDivElement
@@ -22,14 +22,14 @@ type BaseProps = HTMLAttributes<BaseElement>
 
 const Container = styled.div<{ readonly clickThrough: boolean }>`
   ${({ clickThrough }) =>
-  clickThrough
-    ? css`
+    clickThrough
+      ? css`
           pointer-events: none;
           & > svg > * {
             pointer-events: initial;
           }
         `
-    : css`
+      : css`
           pointer-events: initial;
         `}
 `
@@ -228,10 +228,10 @@ export const Foundation = forwardRef<
      */
     const { toSvgBasis, toUserBasis } = useMemo(() => {
       if (
-        width === undefined
-        || width <= 0
-        || height === undefined
-        || height <= 0
+        width === undefined ||
+        width <= 0 ||
+        height === undefined ||
+        height <= 0
       ) {
         return {}
       }
@@ -270,11 +270,11 @@ export const Foundation = forwardRef<
      */
     useEffect(() => {
       if (
-        onReady !== undefined
-        && width !== undefined
-        && height !== undefined
-        && toSvgBasis !== undefined
-        && toUserBasis !== undefined
+        onReady !== undefined &&
+        width !== undefined &&
+        height !== undefined &&
+        toSvgBasis !== undefined &&
+        toUserBasis !== undefined
       ) {
         onReady({
           toUserBasis,
@@ -333,10 +333,10 @@ export const Foundation = forwardRef<
       () =>
         toSvgBasis !== undefined && toUserBasis !== undefined
           ? {
-            userBasis,
-            toSvgBasis,
-            toUserBasis,
-          }
+              userBasis,
+              toSvgBasis,
+              toUserBasis,
+            }
           : undefined,
       [userBasis, toSvgBasis, toUserBasis]
     )
@@ -352,13 +352,11 @@ export const Foundation = forwardRef<
         {...externalProps}
       >
         <svg width={width} height={height}>
-          {contextValue !== undefined
-            ? (
-              <FoundationContext.Provider value={contextValue}>
-                {children}
-              </FoundationContext.Provider>
-            )
-            : null}
+          {contextValue !== undefined ? (
+            <FoundationContext.Provider value={contextValue}>
+              {children}
+            </FoundationContext.Provider>
+          ) : null}
         </svg>
       </Container>
     )

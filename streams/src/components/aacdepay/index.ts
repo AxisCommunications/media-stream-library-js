@@ -48,7 +48,7 @@ export class AACDepay extends Tube {
     let AACPayloadType: number
     let hasHeader: boolean
 
-    const incoming = createTransform(function(
+    const incoming = createTransform(function (
       msg: Message,
       encoding,
       callback
@@ -58,10 +58,10 @@ export class AACDepay extends Tube {
         let validMedia
         for (const media of msg.sdp.media) {
           if (
-            media.type === 'audio'
-            && media.fmtp
-            && media.fmtp.parameters
-            && media.fmtp.parameters.mode === 'AAC-hbr'
+            media.type === 'audio' &&
+            media.fmtp &&
+            media.fmtp.parameters &&
+            media.fmtp.parameters.mode === 'AAC-hbr'
           ) {
             validMedia = media
           }
@@ -78,24 +78,25 @@ export class AACDepay extends Tube {
           const DTSDeltaLength = Number(parameters.dtsdeltalength) || 0
           const RandomAccessIndication =
             Number(parameters.randomaccessindication) || 0
-          const StreamStateIndication = Number(parameters.streamstateindication)
-            || 0
+          const StreamStateIndication =
+            Number(parameters.streamstateindication) || 0
           const AuxiliaryDataSizeLength =
             Number(parameters.auxiliarydatasizelength) || 0
 
-          hasHeader = sizeLength
-              + Math.max(indexLength, indexDeltaLength)
-              + CTSDeltaLength
-              + DTSDeltaLength
-              + RandomAccessIndication
-              + StreamStateIndication
-              + AuxiliaryDataSizeLength
-            > 0
+          hasHeader =
+            sizeLength +
+              Math.max(indexLength, indexDeltaLength) +
+              CTSDeltaLength +
+              DTSDeltaLength +
+              RandomAccessIndication +
+              StreamStateIndication +
+              AuxiliaryDataSizeLength >
+            0
         }
         callback(undefined, msg)
       } else if (
-        msg.type === MessageType.RTP
-        && payloadType(msg.data) === AACPayloadType
+        msg.type === MessageType.RTP &&
+        payloadType(msg.data) === AACPayloadType
       ) {
         parse(msg, hasHeader, this.push.bind(this))
         callback()

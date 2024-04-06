@@ -57,9 +57,10 @@ export function jpegDepayFactory(defaultWidth = 0, defaultHeight = 0) {
 
       // Parse and extract JPEG header.
       const typeSpecific = fragment.readUInt8(0)
-      const fragmentOffset = (fragment.readUInt8(1) << 16)
-        | (fragment.readUInt8(2) << 8)
-        | fragment.readUInt8(3)
+      const fragmentOffset =
+        (fragment.readUInt8(1) << 16) |
+        (fragment.readUInt8(2) << 8) |
+        fragment.readUInt8(3)
       const type = fragment.readUInt8(4)
       const Q = fragment.readUInt8(5)
       const width = fragment.readUInt8(6) * 8 || defaultWidth
@@ -115,9 +116,8 @@ export function jpegDepayFactory(defaultWidth = 0, defaultHeight = 0) {
 
     const quantHeader = makeQuantHeader(precision, qTable)
 
-    const driHeader = metadata.DRI === 0
-      ? Buffer.alloc(0)
-      : makeDRIHeader(metadata.DRI)
+    const driHeader =
+      metadata.DRI === 0 ? Buffer.alloc(0) : makeDRIHeader(metadata.DRI)
 
     const frameHeader = makeFrameHeader(width, height, type)
 

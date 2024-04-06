@@ -8,7 +8,7 @@ import React, {
 } from 'react'
 
 import { Area, BBox, FoundationContext } from './Foundation'
-import { bbox, Coord, CoordArray } from './utils/geometry'
+import { Coord, CoordArray, bbox } from './utils/geometry'
 
 const clamp = (lo: number, value: number, hi: number) => {
   return Math.min(Math.max(lo, value), hi)

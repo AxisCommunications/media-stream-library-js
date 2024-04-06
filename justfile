@@ -6,6 +6,10 @@ export PATH := "./node_modules/.bin" + ":" + join(justfile_directory(), "node_mo
 default:
     just install
 
+# run biome
+biome *args:
+    cd {{ invocation_directory() }} && biome {{ args }}
+
 # build all packages
 build: _build-streams _build-player _build-overlay
 
@@ -31,33 +35,21 @@ changelog:
 coverage workspace *args='-r text --all':
     c8 report --src={{ workspace }}/src {{ args }}
 
-# format or check files with dprint (default formats all matching files)
-dprint +args="fmt":
-    cd {{ invocation_directory() }} && dprint {{ args }}
-
 # run esbuild, WORKSPACE=(overlay|player|streams)
 esbuild workspace *args:
     cd {{ workspace }} && node esbuild.mjs {{ args }}
     
-# run eslint
-eslint *args:
-    # FIXME: add --no-warning-on-ignored-files when https://github.com/eslint/rfcs/pull/90 is released
-    # to avoid warnings when running as part of the lint/format command against changed files.
-    cd {{ invocation_directory() }} && eslint --ext "cjs,js,json,jsx,mjs,ts,tsx" --no-error-on-unmatched-pattern --no-cache {{ args }}
-
 # autofix and format changed files
 format +FILES="`just changed`":
-    just eslint --fix {{ FILES }}
-    just dprint fmt {{ FILES }}
+    just biome check --apply {{ FILES }}
 
 # install dependencies
 install:
-    CYPRESS_INSTALL_BINARY=0 && npm ci
+    CYPRESS_INSTALL_BINARY=0 && yarn install --immutable
 
 # check lint rules and formatting for changed files
 lint workspace:
-    just eslint {{ workspace }}
-    cd {{ workspace }} && just dprint check
+    just biome check {{ workspace }}
 
 # check for updates
 ncu *args:
@@ -90,7 +82,7 @@ serve path *args='--bind 0.0.0.0':
 # generate tools
 tools:
     cd tools && esbuild --platform=node --outfile=src/__generated__/changelog.mjs --format=esm --out-extension:.js=.mjs --bundle --external:cmd-ts src/changelog/cli.ts
-    just dprint fmt 'tools/src/__generated__/*'
+    just biome format --write 'tools/src/__generated__/*'
 
 # update a specific dependency to latest
 update *packages:

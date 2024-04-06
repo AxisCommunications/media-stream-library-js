@@ -1,7 +1,7 @@
 import { execSync } from 'node:child_process'
 
 function sanitizeGitHubUrl(url: string) {
-  if ((new URL(url)).hostname !== 'github.com') {
+  if (new URL(url).hostname !== 'github.com') {
     throw new Error('not implemented: only GitHub repositories are supported')
   }
   return url.replace(/\.git$/, '')

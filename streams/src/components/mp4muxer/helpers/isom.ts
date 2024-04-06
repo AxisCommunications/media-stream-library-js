@@ -129,8 +129,8 @@ class UInt24BE extends BoxElement {
 
   load: BufferMutation = (buffer, offset) => {
     this.value =
-      (buffer.readUInt8(offset) << (16 + buffer.readUInt8(offset + 1)))
-      << (8 + buffer.readUInt8(offset + 2))
+      (buffer.readUInt8(offset) << (16 + buffer.readUInt8(offset + 1))) <<
+      (8 + buffer.readUInt8(offset + 2))
   }
 }
 
@@ -222,7 +222,7 @@ class UInt64BE extends BoxElement {
  * @param  [sizeMask=0x00]  A bit mask to use for the size.
  * @return An element type that groups parameter sets.
  */
-const createParameterSetArrayClass = function(sizeMask = 0x00) {
+const createParameterSetArrayClass = function (sizeMask = 0x00) {
   return class ParameterSetArray extends BoxElement {
     public value: any[]
     /**
@@ -242,7 +242,6 @@ const createParameterSetArrayClass = function(sizeMask = 0x00) {
         [new UInt8(sizeMask | array.length)]
       )
       this.byteLength = this.value.reduce(
-        // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
         (total, element) => total + element.byteLength,
         0
       )
@@ -1008,7 +1007,6 @@ QTFF/QTFFChap3/qtff3.html#//apple_ref/doc/uid/TP40000939-CH205-124774'
  * All boxes have a length and type, where so-called full boxes have an
  * additional 4-bytes (1-byte version and 3-byte flags fields).
  */
-// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 class Header {
   static None() {
     return []
@@ -1211,9 +1209,9 @@ export class Box extends BoxElement {
         lines.push(element.format(indent + 2))
       } else {
         lines.push(
-          `${
-            ' '.repeat(indent + 2)
-          }${key} = ${element.value} (${element.byteLength})`
+          `${' '.repeat(indent + 2)}${key} = ${element.value} (${
+            element.byteLength
+          })`
         )
       }
     }

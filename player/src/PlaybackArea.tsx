@@ -11,11 +11,11 @@ import {
 } from 'media-stream-library'
 
 import { HttpMp4Video } from './HttpMp4Video'
-import { MetadataHandler } from './metadata'
 import { StillImage } from './StillImage'
-import { Format } from './types'
 import { WsRtspCanvas } from './WsRtspCanvas'
 import { WsRtspVideo } from './WsRtspVideo'
+import { MetadataHandler } from './metadata'
+import { Format } from './types'
 
 export type PlayerNativeElement =
   | HTMLVideoElement
@@ -30,17 +30,17 @@ export type PlayerPipeline =
 const debugLog = debug('msp:api')
 
 export enum AxisApi {
-  'AXIS_IMAGE_CGI' = 'AXIS_IMAGE_CGI',
-  'AXIS_MEDIA_AMP' = 'AXIS_MEDIA_AMP',
-  'AXIS_MEDIA_CGI' = 'AXIS_MEDIA_CGI',
-  'AXIS_MJPEG_CGI' = 'AXIS_MJPEG_CGI',
+  AXIS_IMAGE_CGI = 'AXIS_IMAGE_CGI',
+  AXIS_MEDIA_AMP = 'AXIS_MEDIA_AMP',
+  AXIS_MEDIA_CGI = 'AXIS_MEDIA_CGI',
+  AXIS_MJPEG_CGI = 'AXIS_MJPEG_CGI',
 }
 
 export enum Protocol {
-  'HTTP' = 'http:',
-  'HTTPS' = 'https:',
-  'WS' = 'ws:',
-  'WSS' = 'wss:',
+  HTTP = 'http:',
+  HTTPS = 'https:',
+  WS = 'ws:',
+  WSS = 'wss:',
 }
 
 export const FORMAT_API: Record<Format, AxisApi> = {
@@ -382,15 +382,13 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   }
 
   console.warn(`Error: unknown format: ${format}, 
-please use one of ${
-    [
-      Format.JPEG,
-      Format.MJPEG,
-      Format.MP4_H264,
-      Format.RTP_H264,
-      Format.RTP_JPEG,
-    ].join(', ')
-  }`)
+please use one of ${[
+    Format.JPEG,
+    Format.MJPEG,
+    Format.MP4_H264,
+    Format.RTP_H264,
+    Format.RTP_JPEG,
+  ].join(', ')}`)
 
   return null
 }

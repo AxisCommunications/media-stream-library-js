@@ -112,10 +112,11 @@ export const h264Settings = (
     },
 
     // (ticks / s) / (frames / s) = ticks / frame, e.g. frame duration in ticks
-    defaultFrameDuration: media.framerate !== undefined && media.framerate > 0
-      ? Number(media.rtpmap.clockrate) / Number(media.framerate)
-        || FALLBACK_FRAME_DURATION
-      : FALLBACK_FRAME_DURATION,
+    defaultFrameDuration:
+      media.framerate !== undefined && media.framerate > 0
+        ? Number(media.rtpmap.clockrate) / Number(media.framerate) ||
+          FALLBACK_FRAME_DURATION
+        : FALLBACK_FRAME_DURATION,
     // MIME type
     mime: `avc1.${profileLevelId}`,
     codec: h264EncodingName(profileLevelId),

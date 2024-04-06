@@ -1,8 +1,8 @@
 import * as assert from 'uvu/assert'
 
+import { Writable } from 'stream'
 import { MessageType } from 'components/message'
 import { RTSP_METHOD, RtspSession } from 'components/rtsp-session'
-import { Writable } from 'stream'
 import { messageFromBuffer } from 'utils/protocols/sdp'
 
 import {
@@ -106,7 +106,7 @@ describe('rtsp-session send method', (test) => {
   test('should not send if incoming is closed', async (ctx) => {
     const s = new RtspSession()
     const w = new Writable()
-    w._write = function(_msg, _enc, next) {
+    w._write = function (_msg, _enc, next) {
       // consume the msg
       next()
     }

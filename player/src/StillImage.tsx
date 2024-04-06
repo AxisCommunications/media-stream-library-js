@@ -3,9 +3,9 @@ import React, { useEffect, useRef } from 'react'
 import debug from 'debug'
 import styled from 'styled-components'
 
+import { VideoProperties } from './PlaybackArea'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { useEventState } from './hooks/useEventState'
-import { VideoProperties } from './PlaybackArea'
 import { Format } from './types'
 
 const debugLog = debug('msp:still-image')

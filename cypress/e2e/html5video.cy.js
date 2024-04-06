@@ -2,7 +2,6 @@
 
 // We need to disable specific linting because of Chai assertions:
 // https://github.com/standard/standard/issues/690#issuecomment-278533482
-/* eslint-disable no-unused-expressions */
 
 const PRESENTATION_START = 0
 const MAX_LATENCY = 0.25

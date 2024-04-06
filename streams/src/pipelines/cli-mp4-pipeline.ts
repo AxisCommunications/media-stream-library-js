@@ -31,7 +31,7 @@ export class CliMp4Pipeline extends RtspMp4Pipeline {
     const dataSaver = process.stdout.isTTY
       ? (msg: any) => console.log(msg.type, msg.data)
       : (msg: any) =>
-        msg.type === MessageType.ISOM && process.stdout.write(msg.data)
+          msg.type === MessageType.ISOM && process.stdout.write(msg.data)
     const videoSink = Sink.fromHandler(dataSaver)
 
     this.prepend(tcpSource)

@@ -49,9 +49,10 @@ export class MseSink extends Sink {
             const mimeCodecs = tracks
               .map((track) => track.mime)
               .filter((mime) => mime)
-            const codecs = mimeCodecs.length !== 0
-              ? mimeCodecs.join(', ')
-              : 'avc1.640029, mp4a.40.2'
+            const codecs =
+              mimeCodecs.length !== 0
+                ? mimeCodecs.join(', ')
+                : 'avc1.640029, mp4a.40.2'
 
             // Take MIME type directly from the message, or constructed
             // from the tracks (with a default fallback to basic H.264).
@@ -95,9 +96,10 @@ export class MseSink extends Sink {
             mse.addEventListener('sourceopen', handler)
           } else {
             // Continue current movie
-            this._lastCheckpointTime = msg.checkpointTime !== undefined
-              ? msg.checkpointTime
-              : this._lastCheckpointTime
+            this._lastCheckpointTime =
+              msg.checkpointTime !== undefined
+                ? msg.checkpointTime
+                : this._lastCheckpointTime
 
             try {
               sourceBuffer?.appendBuffer(msg.data)
@@ -172,7 +174,7 @@ export class MseSink extends Sink {
 
     let trigger = 0
     const onUpdateEndHandler = () => {
-      ;++trigger
+      ++trigger
 
       if (trigger > TRIGGER_THRESHOLD && sourceBuffer.buffered.length) {
         trigger = 0
@@ -207,6 +209,6 @@ export class MseSink extends Sink {
   }
 
   pause(): void {
-    return this._videoEl.pause()
+    this._videoEl.pause()
   }
 }

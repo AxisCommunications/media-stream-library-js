@@ -2,14 +2,14 @@ export function b64ToUint6(nChr: number) {
   return nChr > 64 && nChr < 91
     ? nChr - 65
     : nChr > 96 && nChr < 123
-    ? nChr - 71
-    : nChr > 47 && nChr < 58
-    ? nChr + 4
-    : nChr === 43
-    ? 62
-    : nChr === 47
-    ? 63
-    : 0
+      ? nChr - 71
+      : nChr > 47 && nChr < 58
+        ? nChr + 4
+        : nChr === 43
+          ? 62
+          : nChr === 47
+            ? 63
+            : 0
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding

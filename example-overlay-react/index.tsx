@@ -1,5 +1,5 @@
-import './index.css'
 import 'pepjs'
+import './index.css'
 
 import { createRoot } from 'react-dom/client'
 

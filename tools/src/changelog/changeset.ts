@@ -1,17 +1,17 @@
 import { commitUrl, compareUrl, gitLogFromRange, shortSha } from './git'
 
 const GroupTitles = {
-  'build': '👷 Build',
-  'chore': '🚧 Maintenance',
-  'ci': '🚦 Continous integration',
-  'docs': '📝 Documentation',
-  'feat': '✨ Features',
-  'fix': '🐛 Bug fixes',
-  'perf': '🏎️ Performance',
-  'refactor': '♻️ Refactoring',
-  'revert': '⏪️ Reverts',
-  'style': '💄 Styling',
-  'test': '🧪 Test',
+  build: '👷 Build',
+  chore: '🚧 Maintenance',
+  ci: '🚦 Continous integration',
+  docs: '📝 Documentation',
+  feat: '✨ Features',
+  fix: '🐛 Bug fixes',
+  perf: '🏎️ Performance',
+  refactor: '♻️ Refactoring',
+  revert: '⏪️ Reverts',
+  style: '💄 Styling',
+  test: '🧪 Test',
 } as const
 const GroupKeys = new Set(Object.keys(GroupTitles)) as ReadonlySet<
   keyof typeof GroupTitles
@@ -24,18 +24,11 @@ interface ChangesetArgs {
   readonly scope?: string
   readonly url?: string
 }
-export function changeset({
-  date,
-  name,
-  range,
-  scope,
-  url,
-}: ChangesetArgs) {
+export function changeset({ date, name, range, scope, url }: ChangesetArgs) {
   return [
     changesetHeader({ date, name, range, url }),
     changesetBody({ range, scope, url }),
-  ]
-    .join('')
+  ].join('')
 }
 
 interface ChangesetHeaderArgs {
@@ -57,13 +50,7 @@ interface ChangesetBodyArgs {
   readonly scope?: string
   readonly url?: string
 }
-function changesetBody(
-  {
-    range,
-    scope,
-    url,
-  }: ChangesetBodyArgs
-): string {
+function changesetBody({ range, scope, url }: ChangesetBodyArgs): string {
   const outputChunks = []
 
   const groups: Record<string, Array<[string, ConventionalCommit]>> = {}
@@ -84,13 +71,13 @@ function changesetBody(
     }
     outputChunks.push(`\n### ${GroupTitles[group]}\n\n`)
     for (const [sha, cc] of groups[group]) {
-      const scopePrefix = scope === undefined && cc.scope !== undefined
-        ? ` **${cc.scope}**:`
-        : ''
+      const scopePrefix =
+        scope === undefined && cc.scope !== undefined ? ` **${cc.scope}**:` : ''
       const breakingPrefix = cc.breaking ? ` **BREAKING**` : ''
-      const link = url !== undefined
-        ? `([${shortSha(sha)}](${commitUrl(url, sha)}))`
-        : `(${shortSha(sha)})`
+      const link =
+        url !== undefined
+          ? `([${shortSha(sha)}](${commitUrl(url, sha)}))`
+          : `(${shortSha(sha)})`
       outputChunks.push(
         `  -${scopePrefix}${breakingPrefix} ${cc.title} ${link}\n`
       )

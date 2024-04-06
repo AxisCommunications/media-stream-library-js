@@ -21,12 +21,11 @@ jobs:
     steps:
       - uses: extractions/setup-just@v1
       - uses: actions/checkout@v3
-        with:
-          lfs: true
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
+          cache: yarn
       - name: Install dependencies
         run: just install
       - name: Build
@@ -46,12 +45,11 @@ jobs:
     steps:
       - uses: extractions/setup-just@v1
       - uses: actions/checkout@v3
-        with:
-          lfs: true
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: yarn
       - name: Install dependencies
         run: just install
       - name: Build
@@ -77,12 +75,11 @@ jobs:
     steps:
       - uses: extractions/setup-just@v1
       - uses: actions/checkout@v3
-        with:
-          lfs: true
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: yarn
       - name: Install dependencies
         run: just install
       - name: Build
@@ -100,12 +97,11 @@ jobs:
     steps:
       - uses: extractions/setup-just@v1
       - uses: actions/checkout@v3
-        with:
-          lfs: true
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: yarn
       - name: Install dependencies
         run: just install
       - name: Build

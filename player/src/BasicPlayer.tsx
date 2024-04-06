@@ -8,19 +8,19 @@ import React, {
   useState,
 } from 'react'
 
-import { Button } from './components/Button'
-import { Limiter } from './components/Limiter'
-import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
 import { Container, Layer } from './Container'
 import { ControlArea, ControlBar } from './Controls'
-import { useUserActive } from './hooks/useUserActive'
-import { Pause, Play } from './img'
 import {
   PlaybackArea,
   PlayerNativeElement,
   VapixParameters,
   VideoProperties,
 } from './PlaybackArea'
+import { Button } from './components/Button'
+import { Limiter } from './components/Limiter'
+import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
+import { useUserActive } from './hooks/useUserActive'
+import { Pause, Play } from './img'
 import { Format } from './types'
 
 const DEFAULT_FORMAT = Format.JPEG
@@ -170,9 +170,11 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
               >
                 <ControlBar>
                   <Button onClick={onPlayPause}>
-                    {play === true
-                      ? <Pause title="Pause" />
-                      : <Play title="Play" />}
+                    {play === true ? (
+                      <Pause title="Pause" />
+                    ) : (
+                      <Play title="Play" />
+                    )}
                   </Button>
                 </ControlBar>
               </ControlArea>

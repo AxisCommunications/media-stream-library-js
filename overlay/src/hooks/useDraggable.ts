@@ -1,6 +1,6 @@
 import {
-  PointerEvent as PointerEventReact,
   PointerEventHandler,
+  PointerEvent as PointerEventReact,
   useCallback,
   useEffect,
   useRef,

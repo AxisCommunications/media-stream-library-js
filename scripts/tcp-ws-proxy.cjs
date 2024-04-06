@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-/* eslint-disable @typescript-eslint/no-require-imports */
 const { pipelines } = require('media-stream-library')
 const yargs = require('yargs')
 const { hideBin } = require('yargs/helpers')

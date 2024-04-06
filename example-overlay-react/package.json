@@ -5,7 +5,7 @@
     "@types/react-dom": "18.2.19",
     "@types/styled-components": "5.1.27",
     "@vitejs/plugin-react": "4.2.1",
-    "media-overlay-library": "file:../overlay",
+    "media-overlay-library": "workspace:^",
     "pepjs": "0.5.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",

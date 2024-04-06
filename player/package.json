@@ -55,7 +55,7 @@
     "chalk": "5.3.0",
     "esbuild": "0.20.0",
     "luxon": "3.4.4",
-    "media-stream-library": "file:../streams",
+    "media-stream-library": "workspace:^",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-is": "18.2.0",

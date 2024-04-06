@@ -90,8 +90,8 @@ export class HttpSource extends Source {
   }
 
   abort(): void {
-    this._reader
-      && this._reader.cancel().catch((err) => {
+    this._reader &&
+      this._reader.cancel().catch((err) => {
         console.log('http-source: cancel reader failed: ', err)
       })
     this._abortController && this._abortController.abort()

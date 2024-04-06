@@ -5,7 +5,7 @@ import { Readable, Writable } from 'stream'
 import { Source } from '../component'
 import { MessageType } from '../message'
 
-import { openWebSocket, WSConfig } from './openwebsocket'
+import { WSConfig, openWebSocket } from './openwebsocket'
 
 // Named status codes for CloseEvent, see:
 // https://developer.mozilla.org/en-US/docs/Web/API/CloseEvent
