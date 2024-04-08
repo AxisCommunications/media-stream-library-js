@@ -1188,13 +1188,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.2.74":
-  version: 18.2.74
-  resolution: "@types/react@npm:18.2.74"
+"@types/react@npm:18.2.75":
+  version: 18.2.75
+  resolution: "@types/react@npm:18.2.75"
   dependencies:
     "@types/prop-types": "*"
     csstype: ^3.0.2
-  checksum: 093c0e350552e61393e2ba30169aa620e2e64c1e2d0ff38efd2a7549ded689b6ab6bffb65fe0f7ef9e143174de54442d942bd70c014649f464c52465701208d8
+  checksum: f77322720744beba6650462c0d75ccc0be27c176bd7b2aff32039ea30e498a78fe6dbce4a1c3fdbf592ccc01286059f332a294a3b6975dbb0d8d5999718ece38
   languageName: node
   linkType: hard
 
@@ -2513,7 +2513,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "example-overlay-react-12c560@workspace:example-overlay-react"
   dependencies:
-    "@types/react": 18.2.74
+    "@types/react": 18.2.75
     "@types/react-dom": 18.2.24
     "@types/styled-components": 5.1.34
     "@vitejs/plugin-react": 4.2.1
@@ -3889,7 +3889,7 @@ __metadata:
   resolution: "media-overlay-library@workspace:overlay"
   dependencies:
     "@juggle/resize-observer": 3.4.0
-    "@types/react": 18.2.74
+    "@types/react": 18.2.75
     "@types/react-dom": 18.2.24
     "@types/styled-components": 5.1.34
     esbuild: 0.20.2
@@ -3940,7 +3940,7 @@ __metadata:
     "@juggle/resize-observer": 3.4.0
     "@types/debug": 4.1.12
     "@types/luxon": 3.4.2
-    "@types/react": 18.2.74
+    "@types/react": 18.2.75
     "@types/react-dom": 18.2.24
     "@types/styled-components": 5.1.34
     "@vitejs/plugin-react": 4.2.1
