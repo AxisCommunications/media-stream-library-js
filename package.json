@@ -31,7 +31,7 @@
     "semver": "7.6.0",
     "stylelint": "16.3.1",
     "tsx": "4.7.2",
-    "typescript": "5.4.4",
+    "typescript": "5.4.5",
     "yargs": "17.7.2"
   },
   "packageManager": "yarn@3.8.1"
