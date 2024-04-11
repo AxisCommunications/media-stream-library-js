@@ -22,7 +22,7 @@
     "@biomejs/biome": "^1.6.4",
     "c8": "9.1.0",
     "cmd-ts": "0.13.0",
-    "cypress": "13.7.2",
+    "cypress": "13.7.3",
     "dpdm": "3.14.0",
     "esbuild": "0.20.2",
     "http-server": "14.1.1",
@@ -31,7 +31,7 @@
     "semver": "7.6.0",
     "stylelint": "16.3.1",
     "tsx": "4.7.2",
-    "typescript": "5.4.4",
+    "typescript": "5.4.5",
     "yargs": "17.7.2"
   },
   "packageManager": "yarn@3.8.1"
