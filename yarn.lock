@@ -297,18 +297,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:^1.6.4":
-  version: 1.6.4
-  resolution: "@biomejs/biome@npm:1.6.4"
+"@biomejs/biome@npm:^1.7.0":
+  version: 1.7.0
+  resolution: "@biomejs/biome@npm:1.7.0"
   dependencies:
-    "@biomejs/cli-darwin-arm64": 1.6.4
-    "@biomejs/cli-darwin-x64": 1.6.4
-    "@biomejs/cli-linux-arm64": 1.6.4
-    "@biomejs/cli-linux-arm64-musl": 1.6.4
-    "@biomejs/cli-linux-x64": 1.6.4
-    "@biomejs/cli-linux-x64-musl": 1.6.4
-    "@biomejs/cli-win32-arm64": 1.6.4
-    "@biomejs/cli-win32-x64": 1.6.4
+    "@biomejs/cli-darwin-arm64": 1.7.0
+    "@biomejs/cli-darwin-x64": 1.7.0
+    "@biomejs/cli-linux-arm64": 1.7.0
+    "@biomejs/cli-linux-arm64-musl": 1.7.0
+    "@biomejs/cli-linux-x64": 1.7.0
+    "@biomejs/cli-linux-x64-musl": 1.7.0
+    "@biomejs/cli-win32-arm64": 1.7.0
+    "@biomejs/cli-win32-x64": 1.7.0
   dependenciesMeta:
     "@biomejs/cli-darwin-arm64":
       optional: true
@@ -328,62 +328,62 @@ __metadata:
       optional: true
   bin:
     biome: bin/biome
-  checksum: c8b28b3e0dfa9fe5033ffec9ac923e3ef9f5fd20ad451f4cb04dfc19981e7b97acc7cd63709d91cb1c93dc58b742513d0b68674c040b8b9f1f25e0c5c7289fc2
+  checksum: 10db050e5b96a9bdc9720f2d53dff41761858b5ba4a542988fc8bd1824e1c1ba68e4f30ceedd30c2b2f3639b96f9d15cef9b6472fad31f429f308e9b9ec610e4
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-arm64@npm:1.6.4":
-  version: 1.6.4
-  resolution: "@biomejs/cli-darwin-arm64@npm:1.6.4"
+"@biomejs/cli-darwin-arm64@npm:1.7.0":
+  version: 1.7.0
+  resolution: "@biomejs/cli-darwin-arm64@npm:1.7.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-x64@npm:1.6.4":
-  version: 1.6.4
-  resolution: "@biomejs/cli-darwin-x64@npm:1.6.4"
+"@biomejs/cli-darwin-x64@npm:1.7.0":
+  version: 1.7.0
+  resolution: "@biomejs/cli-darwin-x64@npm:1.7.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64-musl@npm:1.6.4":
-  version: 1.6.4
-  resolution: "@biomejs/cli-linux-arm64-musl@npm:1.6.4"
+"@biomejs/cli-linux-arm64-musl@npm:1.7.0":
+  version: 1.7.0
+  resolution: "@biomejs/cli-linux-arm64-musl@npm:1.7.0"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64@npm:1.6.4":
-  version: 1.6.4
-  resolution: "@biomejs/cli-linux-arm64@npm:1.6.4"
+"@biomejs/cli-linux-arm64@npm:1.7.0":
+  version: 1.7.0
+  resolution: "@biomejs/cli-linux-arm64@npm:1.7.0"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64-musl@npm:1.6.4":
-  version: 1.6.4
-  resolution: "@biomejs/cli-linux-x64-musl@npm:1.6.4"
+"@biomejs/cli-linux-x64-musl@npm:1.7.0":
+  version: 1.7.0
+  resolution: "@biomejs/cli-linux-x64-musl@npm:1.7.0"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64@npm:1.6.4":
-  version: 1.6.4
-  resolution: "@biomejs/cli-linux-x64@npm:1.6.4"
+"@biomejs/cli-linux-x64@npm:1.7.0":
+  version: 1.7.0
+  resolution: "@biomejs/cli-linux-x64@npm:1.7.0"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-arm64@npm:1.6.4":
-  version: 1.6.4
-  resolution: "@biomejs/cli-win32-arm64@npm:1.6.4"
+"@biomejs/cli-win32-arm64@npm:1.7.0":
+  version: 1.7.0
+  resolution: "@biomejs/cli-win32-arm64@npm:1.7.0"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-x64@npm:1.6.4":
-  version: 1.6.4
-  resolution: "@biomejs/cli-win32-x64@npm:1.6.4"
+"@biomejs/cli-win32-x64@npm:1.7.0":
+  version: 1.7.0
+  resolution: "@biomejs/cli-win32-x64@npm:1.7.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -1169,12 +1169,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.2.24":
-  version: 18.2.24
-  resolution: "@types/react-dom@npm:18.2.24"
+"@types/react-dom@npm:18.2.25":
+  version: 18.2.25
+  resolution: "@types/react-dom@npm:18.2.25"
   dependencies:
     "@types/react": "*"
-  checksum: 7fb0dd0c88c5219bcc27f1f9bf14d9e1b1593014ee7938dd46ee9782c77c39d1ccc79d2b8364a6113019d7f65c94e4dc3c37425c3972910bb2674cce98d3f3ca
+  checksum: 85f9278d6456c6cdc76da6806a33b472588cdd029b08dde32e8b5636b25a3eae529b4ac2e08c848a3d7ca44e4e97ee9a3df406c96fa0768de935c8eed6e07590
   languageName: node
   linkType: hard
 
@@ -1188,13 +1188,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.2.74":
-  version: 18.2.74
-  resolution: "@types/react@npm:18.2.74"
+"@types/react@npm:18.2.79":
+  version: 18.2.79
+  resolution: "@types/react@npm:18.2.79"
   dependencies:
     "@types/prop-types": "*"
     csstype: ^3.0.2
-  checksum: 093c0e350552e61393e2ba30169aa620e2e64c1e2d0ff38efd2a7549ded689b6ab6bffb65fe0f7ef9e143174de54442d942bd70c014649f464c52465701208d8
+  checksum: 85aa96e0e88725c84d8fc5f04f10a4da6a1f507dde33557ac9cc211414756867721264bfefd9e02bae1288ce2905351d949b652b931e734ea24519ee5c625138
   languageName: node
   linkType: hard
 
@@ -2005,9 +2005,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:13.7.2":
-  version: 13.7.2
-  resolution: "cypress@npm:13.7.2"
+"cypress@npm:13.7.3":
+  version: 13.7.3
+  resolution: "cypress@npm:13.7.3"
   dependencies:
     "@cypress/request": ^3.0.0
     "@cypress/xvfb": ^1.2.4
@@ -2053,7 +2053,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: ff4df8403756bf12b21b045ffd288da53c1b4bb2e69b4ce8fcc54ccf6a35cb4c2ede8e08586f2c758086a552170e61a14908fbead35a72783fff4f6e23cf9852
+  checksum: 618db0839893d7633771437a0109225251fc4d3c1fcf54f35e727acc1422ec811907edab2721fa3d8bbc3017df5eb974e2b96cf78d70e40eb92465b3772fa5ca
   languageName: node
   linkType: hard
 
@@ -2513,8 +2513,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "example-overlay-react-12c560@workspace:example-overlay-react"
   dependencies:
-    "@types/react": 18.2.74
-    "@types/react-dom": 18.2.24
+    "@types/react": 18.2.79
+    "@types/react-dom": 18.2.25
     "@types/styled-components": 5.1.34
     "@vitejs/plugin-react": 4.2.1
     media-overlay-library: "workspace:^"
@@ -3867,10 +3867,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "media-js@workspace:."
   dependencies:
-    "@biomejs/biome": ^1.6.4
+    "@biomejs/biome": ^1.7.0
     c8: 9.1.0
     cmd-ts: 0.13.0
-    cypress: 13.7.2
+    cypress: 13.7.3
     dpdm: 3.14.0
     esbuild: 0.20.2
     http-server: 14.1.1
@@ -3879,7 +3879,7 @@ __metadata:
     semver: 7.6.0
     stylelint: 16.3.1
     tsx: 4.7.2
-    typescript: 5.4.4
+    typescript: 5.4.5
     yargs: 17.7.2
   languageName: unknown
   linkType: soft
@@ -3889,8 +3889,8 @@ __metadata:
   resolution: "media-overlay-library@workspace:overlay"
   dependencies:
     "@juggle/resize-observer": 3.4.0
-    "@types/react": 18.2.74
-    "@types/react-dom": 18.2.24
+    "@types/react": 18.2.79
+    "@types/react-dom": 18.2.25
     "@types/styled-components": 5.1.34
     esbuild: 0.20.2
     pepjs: 0.5.3
@@ -3899,7 +3899,7 @@ __metadata:
     react-is: 18.2.0
     semver: 7.6.0
     styled-components: 5.3.11
-    typescript: 5.4.4
+    typescript: 5.4.5
   peerDependencies:
     "@juggle/resize-observer": ^3.3.1
     pepjs: ">= 0.4.3 < 1"
@@ -3927,7 +3927,7 @@ __metadata:
     semver: 7.6.0
     stream-browserify: 3.0.0
     ts-md5: 1.3.1
-    typescript: 5.4.4
+    typescript: 5.4.5
     uvu: 0.5.6
     ws: 8.16.0
   languageName: unknown
@@ -3940,8 +3940,8 @@ __metadata:
     "@juggle/resize-observer": 3.4.0
     "@types/debug": 4.1.12
     "@types/luxon": 3.4.2
-    "@types/react": 18.2.74
-    "@types/react-dom": 18.2.24
+    "@types/react": 18.2.79
+    "@types/react-dom": 18.2.25
     "@types/styled-components": 5.1.34
     "@vitejs/plugin-react": 4.2.1
     chalk: 5.3.0
@@ -3955,7 +3955,7 @@ __metadata:
     react-is: 18.2.0
     semver: 7.6.0
     styled-components: 5.3.11
-    typescript: 5.4.4
+    typescript: 5.4.5
     vite: 5.2.8
   peerDependencies:
     luxon: ^3.0.0
@@ -5646,13 +5646,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.4.4":
-  version: 5.4.4
-  resolution: "typescript@npm:5.4.4"
+"typescript@npm:5.4.5":
+  version: 5.4.5
+  resolution: "typescript@npm:5.4.5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: a7b54515d2adfc75c8d14188af0216b6b9ae3c192c9732797c24b1d14608eac1c83be7b1c65ce6f4ced0f2c40583f11b495fe1ba3d982afadbcc523517d183c8
+  checksum: 53c879c6fa1e3bcb194b274d4501ba1985894b2c2692fa079db03c5a5a7140587a1e04e1ba03184605d35f439b40192d9e138eb3279ca8eee313c081c8bcd9b0
   languageName: node
   linkType: hard
 
@@ -5666,13 +5666,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@5.4.4#~builtin<compat/typescript>":
-  version: 5.4.4
-  resolution: "typescript@patch:typescript@npm%3A5.4.4#~builtin<compat/typescript>::version=5.4.4&hash=5adc0c"
+"typescript@patch:typescript@5.4.5#~builtin<compat/typescript>":
+  version: 5.4.5
+  resolution: "typescript@patch:typescript@npm%3A5.4.5#~builtin<compat/typescript>::version=5.4.5&hash=5adc0c"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: f64e07e11f787a18b5b98cbe7506465a5a92f56bbd4691977cc9c690f4ec49ebce51dfac77728dc792b743f8d89e8d99004370f5c96f7f56947c25c3f90f9350
+  checksum: d59e26e74f6b444517d0ba16e0ee16e75c652c2b49a59f2ebdbeb16647a855fd50c7fc786a58987e45f03bce0677092e2dd3333649fd53b11d0b0d271455837c
   languageName: node
   linkType: hard
 
