@@ -62,6 +62,6 @@
     "semver": "7.6.0",
     "styled-components": "5.3.11",
     "typescript": "5.4.5",
-    "vite": "5.2.8"
+    "vite": "5.2.9"
   }
 }

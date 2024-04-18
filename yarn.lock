@@ -2005,9 +2005,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:13.7.3":
-  version: 13.7.3
-  resolution: "cypress@npm:13.7.3"
+"cypress@npm:13.8.0":
+  version: 13.8.0
+  resolution: "cypress@npm:13.8.0"
   dependencies:
     "@cypress/request": ^3.0.0
     "@cypress/xvfb": ^1.2.4
@@ -2053,7 +2053,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: 618db0839893d7633771437a0109225251fc4d3c1fcf54f35e727acc1422ec811907edab2721fa3d8bbc3017df5eb974e2b96cf78d70e40eb92465b3772fa5ca
+  checksum: 908672e29e600ebdb765e94bff3dcb32774d81014f2910653ae083595ed2b47af514570f0cce7cf99c791bf90e8e26a002dae9f8f6cfc87f88e00fe686ac1797
   languageName: node
   linkType: hard
 
@@ -2522,7 +2522,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     styled-components: 5.3.11
-    vite: 5.2.8
+    vite: 5.2.9
   languageName: unknown
   linkType: soft
 
@@ -2537,7 +2537,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     styled-components: 5.3.11
-    vite: 5.2.8
+    vite: 5.2.9
   languageName: unknown
   linkType: soft
 
@@ -3870,7 +3870,7 @@ __metadata:
     "@biomejs/biome": ^1.7.0
     c8: 9.1.0
     cmd-ts: 0.13.0
-    cypress: 13.7.3
+    cypress: 13.8.0
     dpdm: 3.14.0
     esbuild: 0.20.2
     http-server: 14.1.1
@@ -3956,7 +3956,7 @@ __metadata:
     semver: 7.6.0
     styled-components: 5.3.11
     typescript: 5.4.5
-    vite: 5.2.8
+    vite: 5.2.9
   peerDependencies:
     luxon: ^3.0.0
     media-stream-library: ^13.0.0
@@ -5850,9 +5850,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:5.2.8":
-  version: 5.2.8
-  resolution: "vite@npm:5.2.8"
+"vite@npm:5.2.9":
+  version: 5.2.9
+  resolution: "vite@npm:5.2.9"
   dependencies:
     esbuild: ^0.20.1
     fsevents: ~2.3.3
@@ -5886,7 +5886,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: c0a77271b548fce443af59a383939924ffcba8e6d0ba6ecb2e481d0ec2318465d2116ce9317599c448e6d6d8af11a67b8efc5b52cb1deab37d2e83311ac4f1b5
+  checksum: 7a97f9547af8550c55bc2529cc6827c1ef0a043a09e9686cf20b615e8d59305cbe917954e806c5fdad6c33bfb883c1ce51325a9c474b5aa5bc13c377a74805fd
   languageName: node
   linkType: hard
 
