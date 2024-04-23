@@ -297,18 +297,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:^1.7.0":
-  version: 1.7.0
-  resolution: "@biomejs/biome@npm:1.7.0"
+"@biomejs/biome@npm:^1.7.1":
+  version: 1.7.1
+  resolution: "@biomejs/biome@npm:1.7.1"
   dependencies:
-    "@biomejs/cli-darwin-arm64": 1.7.0
-    "@biomejs/cli-darwin-x64": 1.7.0
-    "@biomejs/cli-linux-arm64": 1.7.0
-    "@biomejs/cli-linux-arm64-musl": 1.7.0
-    "@biomejs/cli-linux-x64": 1.7.0
-    "@biomejs/cli-linux-x64-musl": 1.7.0
-    "@biomejs/cli-win32-arm64": 1.7.0
-    "@biomejs/cli-win32-x64": 1.7.0
+    "@biomejs/cli-darwin-arm64": 1.7.1
+    "@biomejs/cli-darwin-x64": 1.7.1
+    "@biomejs/cli-linux-arm64": 1.7.1
+    "@biomejs/cli-linux-arm64-musl": 1.7.1
+    "@biomejs/cli-linux-x64": 1.7.1
+    "@biomejs/cli-linux-x64-musl": 1.7.1
+    "@biomejs/cli-win32-arm64": 1.7.1
+    "@biomejs/cli-win32-x64": 1.7.1
   dependenciesMeta:
     "@biomejs/cli-darwin-arm64":
       optional: true
@@ -328,62 +328,62 @@ __metadata:
       optional: true
   bin:
     biome: bin/biome
-  checksum: 10db050e5b96a9bdc9720f2d53dff41761858b5ba4a542988fc8bd1824e1c1ba68e4f30ceedd30c2b2f3639b96f9d15cef9b6472fad31f429f308e9b9ec610e4
+  checksum: 221a311d33a9ed4bcfbfd0f8a5857d6786051ab1407319a6a10f445ef959d41fbd2bb82f4b197fba104cd326d7478c36fdb39266227d572a847da5de787dcd4b
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-arm64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "@biomejs/cli-darwin-arm64@npm:1.7.0"
+"@biomejs/cli-darwin-arm64@npm:1.7.1":
+  version: 1.7.1
+  resolution: "@biomejs/cli-darwin-arm64@npm:1.7.1"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-x64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "@biomejs/cli-darwin-x64@npm:1.7.0"
+"@biomejs/cli-darwin-x64@npm:1.7.1":
+  version: 1.7.1
+  resolution: "@biomejs/cli-darwin-x64@npm:1.7.1"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64-musl@npm:1.7.0":
-  version: 1.7.0
-  resolution: "@biomejs/cli-linux-arm64-musl@npm:1.7.0"
+"@biomejs/cli-linux-arm64-musl@npm:1.7.1":
+  version: 1.7.1
+  resolution: "@biomejs/cli-linux-arm64-musl@npm:1.7.1"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "@biomejs/cli-linux-arm64@npm:1.7.0"
+"@biomejs/cli-linux-arm64@npm:1.7.1":
+  version: 1.7.1
+  resolution: "@biomejs/cli-linux-arm64@npm:1.7.1"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64-musl@npm:1.7.0":
-  version: 1.7.0
-  resolution: "@biomejs/cli-linux-x64-musl@npm:1.7.0"
+"@biomejs/cli-linux-x64-musl@npm:1.7.1":
+  version: 1.7.1
+  resolution: "@biomejs/cli-linux-x64-musl@npm:1.7.1"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "@biomejs/cli-linux-x64@npm:1.7.0"
+"@biomejs/cli-linux-x64@npm:1.7.1":
+  version: 1.7.1
+  resolution: "@biomejs/cli-linux-x64@npm:1.7.1"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-arm64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "@biomejs/cli-win32-arm64@npm:1.7.0"
+"@biomejs/cli-win32-arm64@npm:1.7.1":
+  version: 1.7.1
+  resolution: "@biomejs/cli-win32-arm64@npm:1.7.1"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-x64@npm:1.7.0":
-  version: 1.7.0
-  resolution: "@biomejs/cli-win32-x64@npm:1.7.0"
+"@biomejs/cli-win32-x64@npm:1.7.1":
+  version: 1.7.1
+  resolution: "@biomejs/cli-win32-x64@npm:1.7.1"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -421,7 +421,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@csstools/selector-specificity@npm:^3.0.2":
+"@csstools/selector-specificity@npm:^3.0.3":
   version: 3.0.3
   resolution: "@csstools/selector-specificity@npm:3.0.3"
   peerDependencies:
@@ -1952,10 +1952,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-functions-list@npm:^3.2.1":
-  version: 3.2.1
-  resolution: "css-functions-list@npm:3.2.1"
-  checksum: 57d7deb3b05e84d95b88ba9b3244cf60d33b40652b3357f084c805b24a9febda5987ade44ef25a56be41e73249a7dcc157abd704d8a0e998b2c1c2e2d5de6461
+"css-functions-list@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "css-functions-list@npm:3.2.2"
+  checksum: b8a564118b93b87b63236a57132a3ef581416896a70c1d0df73360a9ec43dc582f7c2a586b578feb8476179518e557c6657570a8b6185b16300c7232a84d43e3
   languageName: node
   linkType: hard
 
@@ -2005,9 +2005,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:13.7.3":
-  version: 13.7.3
-  resolution: "cypress@npm:13.7.3"
+"cypress@npm:13.8.1":
+  version: 13.8.1
+  resolution: "cypress@npm:13.8.1"
   dependencies:
     "@cypress/request": ^3.0.0
     "@cypress/xvfb": ^1.2.4
@@ -2053,7 +2053,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: 618db0839893d7633771437a0109225251fc4d3c1fcf54f35e727acc1422ec811907edab2721fa3d8bbc3017df5eb974e2b96cf78d70e40eb92465b3772fa5ca
+  checksum: 7abaf952d58485b4178bb044a2520ca029521b68dc002dce44d30ce1144df739f15178354e6386096e197ea0868a0b6ffab2f16777b65caf72216df8f4276b95
   languageName: node
   linkType: hard
 
@@ -2522,7 +2522,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     styled-components: 5.3.11
-    vite: 5.2.8
+    vite: 5.2.10
   languageName: unknown
   linkType: soft
 
@@ -2537,7 +2537,7 @@ __metadata:
     react: 18.2.0
     react-dom: 18.2.0
     styled-components: 5.3.11
-    vite: 5.2.8
+    vite: 5.2.10
   languageName: unknown
   linkType: soft
 
@@ -3867,17 +3867,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "media-js@workspace:."
   dependencies:
-    "@biomejs/biome": ^1.7.0
+    "@biomejs/biome": ^1.7.1
     c8: 9.1.0
     cmd-ts: 0.13.0
-    cypress: 13.7.3
+    cypress: 13.8.1
     dpdm: 3.14.0
     esbuild: 0.20.2
     http-server: 14.1.1
     license-checker: 25.0.1
     media-stream-library: "workspace:^"
     semver: 7.6.0
-    stylelint: 16.3.1
+    stylelint: 16.4.0
     tsx: 4.7.2
     typescript: 5.4.5
     yargs: 17.7.2
@@ -3956,7 +3956,7 @@ __metadata:
     semver: 7.6.0
     styled-components: 5.3.11
     typescript: 5.4.5
-    vite: 5.2.8
+    vite: 5.2.10
   peerDependencies:
     luxon: ^3.0.0
     media-stream-library: ^13.0.0
@@ -5373,19 +5373,19 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stylelint@npm:16.3.1":
-  version: 16.3.1
-  resolution: "stylelint@npm:16.3.1"
+"stylelint@npm:16.4.0":
+  version: 16.4.0
+  resolution: "stylelint@npm:16.4.0"
   dependencies:
     "@csstools/css-parser-algorithms": ^2.6.1
     "@csstools/css-tokenizer": ^2.2.4
     "@csstools/media-query-list-parser": ^2.1.9
-    "@csstools/selector-specificity": ^3.0.2
+    "@csstools/selector-specificity": ^3.0.3
     "@dual-bundle/import-meta-resolve": ^4.0.0
     balanced-match: ^2.0.0
     colord: ^2.9.3
     cosmiconfig: ^9.0.0
-    css-functions-list: ^3.2.1
+    css-functions-list: ^3.2.2
     css-tree: ^2.3.1
     debug: ^4.3.4
     fast-glob: ^3.3.2
@@ -5414,11 +5414,11 @@ __metadata:
     strip-ansi: ^7.1.0
     supports-hyperlinks: ^3.0.0
     svg-tags: ^1.0.0
-    table: ^6.8.1
+    table: ^6.8.2
     write-file-atomic: ^5.0.1
   bin:
     stylelint: bin/stylelint.mjs
-  checksum: b3ab398fcabcac36b4a788fbb3e3b9248cdb6c6c36f791687b4e44e56f7e9b3ebde1fc7354ce93978e28cfc4fb47fef3262b7c5f948ff92782b90c459f466a4e
+  checksum: 0363d1eaa1663fa9f7b7b59a8a3cae527ed7cb9b61647da67770f989472595c9d368b8e72aef9dfc5e2ad856f1cbcf19118c4340c693a4fcddab3ab202677ae6
   languageName: node
   linkType: hard
 
@@ -5480,7 +5480,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"table@npm:^6.8.1":
+"table@npm:^6.8.2":
   version: 6.8.2
   resolution: "table@npm:6.8.2"
   dependencies:
@@ -5850,9 +5850,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:5.2.8":
-  version: 5.2.8
-  resolution: "vite@npm:5.2.8"
+"vite@npm:5.2.10":
+  version: 5.2.10
+  resolution: "vite@npm:5.2.10"
   dependencies:
     esbuild: ^0.20.1
     fsevents: ~2.3.3
@@ -5886,7 +5886,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: c0a77271b548fce443af59a383939924ffcba8e6d0ba6ecb2e481d0ec2318465d2116ce9317599c448e6d6d8af11a67b8efc5b52cb1deab37d2e83311ac4f1b5
+  checksum: feb11be2b97259783afe1d0ff4b7ee0bef78fe8934d8b043465e039e4d8318249e2263adc724b719b9e9b45a37e012caeb7746854768f371d1a82bb189f50fe6
   languageName: node
   linkType: hard
 
