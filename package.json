@@ -19,19 +19,19 @@
     "tools"
   ],
   "devDependencies": {
-    "@biomejs/biome": "^1.7.0",
+    "@biomejs/biome": "^1.8.3",
     "c8": "9.1.0",
     "cmd-ts": "0.13.0",
-    "cypress": "13.7.3",
+    "cypress": "13.12.0",
     "dpdm": "3.14.0",
-    "esbuild": "0.20.2",
+    "esbuild": "0.21.5",
     "http-server": "14.1.1",
     "license-checker": "25.0.1",
     "media-stream-library": "workspace:^",
-    "semver": "7.6.0",
-    "stylelint": "16.3.1",
-    "tsx": "4.7.2",
-    "typescript": "5.4.5",
+    "semver": "7.6.2",
+    "stylelint": "16.6.1",
+    "tsx": "4.15.8",
+    "typescript": "5.5.2",
     "yargs": "17.7.2"
   },
   "packageManager": "yarn@3.8.1"
