@@ -60,7 +60,7 @@
     "react-dom": "18.3.1",
     "react-is": "18.3.1",
     "semver": "7.6.2",
-    "styled-components": "5.3.11",
+    "styled-components": "6.1.11",
     "typescript": "5.5.3",
     "vite": "5.3.3"
   }
