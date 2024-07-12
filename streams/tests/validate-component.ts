@@ -8,7 +8,6 @@ import * as assert from 'uvu/assert'
  * @param  name - A name for the component.
  */
 
-// biome-ignore lint/suspicious/noExportsInTest: this file isn't included in tests
 export const runComponentTests = (component: any, name = '', test: Test) => {
   test(`${name} should have incoming/outgoing stream`, () => {
     assert.is.not(component.incoming, undefined)

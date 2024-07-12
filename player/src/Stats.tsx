@@ -128,107 +128,106 @@ interface Stat {
   readonly unit?: string
 }
 
-const StatsData: React.FC<Omit<StatsProps, 'expanded' | 'onToggleExpanded'>> =
-  ({ format, videoProperties, refresh, volume }) => {
-    const [stats, setStats] = useState<Array<Stat>>([])
+const StatsData: React.FC<
+  Omit<StatsProps, 'expanded' | 'onToggleExpanded'>
+> = ({ format, videoProperties, refresh, volume }) => {
+  const [stats, setStats] = useState<Array<Stat>>([])
 
-    // Updates stat values
-    const updateValues = useCallback(() => {
-      let streamType = 'Unknown'
-      if (format === Format.JPEG) {
-        streamType = 'Still image'
-      } else if (format === Format.MJPEG) {
-        streamType = 'MJPEG'
-      } else if (format === Format.RTP_H264) {
-        streamType = 'RTSP (WebSocket)'
-      } else if (format === Format.RTP_JPEG) {
-        streamType = 'MJPEG'
-      } else if (format === Format.MP4_H264) {
-        streamType = 'MP4 (HTTP)'
-      }
-      const { width, height, pipeline } = videoProperties
-      let statsData: Array<Stat> = [
-        {
-          name: 'Stream type',
-          value: streamType,
-        },
-        {
-          name: 'Resolution',
-          value: `${width}x${height}`,
-        },
-        {
-          name: 'Refreshed',
-          value: refresh,
-          unit: refresh > 1 ? 'times' : 'time',
-        },
-      ]
-      if (isHtml5VideoPipeline(pipeline)) {
-        const tracks = pipeline.tracks?.map((track, index) =>
-          Object.assign({ index }, track)
+  // Updates stat values
+  const updateValues = useCallback(() => {
+    let streamType = 'Unknown'
+    if (format === Format.JPEG) {
+      streamType = 'Still image'
+    } else if (format === Format.MJPEG) {
+      streamType = 'MJPEG'
+    } else if (format === Format.RTP_H264) {
+      streamType = 'RTSP (WebSocket)'
+    } else if (format === Format.RTP_JPEG) {
+      streamType = 'MJPEG'
+    } else if (format === Format.MP4_H264) {
+      streamType = 'MP4 (HTTP)'
+    }
+    const { width, height, pipeline } = videoProperties
+    let statsData: Array<Stat> = [
+      {
+        name: 'Stream type',
+        value: streamType,
+      },
+      {
+        name: 'Resolution',
+        value: `${width}x${height}`,
+      },
+      {
+        name: 'Refreshed',
+        value: refresh,
+        unit: refresh > 1 ? 'times' : 'time',
+      },
+    ]
+    if (isHtml5VideoPipeline(pipeline)) {
+      const tracks = pipeline.tracks?.map((track, index) =>
+        Object.assign({ index }, track)
+      )
+      const videoTrack = tracks?.find((track) => track.type === 'video')
+      if (videoTrack !== undefined) {
+        const { coding, profile, level } = videoTrack.codec
+        const framerate = Number(
+          pipeline.framerate[videoTrack.index].toFixed(2)
         )
-        const videoTrack = tracks?.find((track) => track.type === 'video')
-        if (videoTrack !== undefined) {
-          const { coding, profile, level } = videoTrack.codec
-          const framerate = Number(
-            pipeline.framerate[videoTrack.index].toFixed(2)
-          )
-          const bitrate = Math.round(pipeline.bitrate[videoTrack.index] / 1000)
+        const bitrate = Math.round(pipeline.bitrate[videoTrack.index] / 1000)
 
-          statsData = statsData.concat([
-            {
-              name: 'Encoding',
-              value: `${coding} ${profile} (${level})`,
-            },
-            {
-              name: 'Frame rate',
-              value: framerate,
-              unit: 'fps',
-            },
-            {
-              name: 'Bitrate',
-              value: bitrate,
-              unit: 'kbit/s',
-            },
-          ])
-        }
+        statsData = statsData.concat([
+          {
+            name: 'Encoding',
+            value: `${coding} ${profile} (${level})`,
+          },
+          {
+            name: 'Frame rate',
+            value: framerate,
+            unit: 'fps',
+          },
+          {
+            name: 'Bitrate',
+            value: bitrate,
+            unit: 'kbit/s',
+          },
+        ])
       }
+    }
 
-      if (volume !== undefined) {
-        statsData.push({
-          name: 'Volume',
-          value: Math.floor(volume * 100),
-          unit: '%',
-        })
-      }
+    if (volume !== undefined) {
+      statsData.push({
+        name: 'Volume',
+        value: Math.floor(volume * 100),
+        unit: '%',
+      })
+    }
 
-      setStats(statsData)
-    }, [format, refresh, videoProperties, volume])
+    setStats(statsData)
+  }, [format, refresh, videoProperties, volume])
 
-    useEffect(() => {
-      updateValues()
-    }, [updateValues])
+  useEffect(() => {
+    updateValues()
+  }, [updateValues])
 
-    useInterval(updateValues, 1000)
+  useInterval(updateValues, 1000)
 
-    return (
-      <Data>
-        {stats.length > 0
-          ? stats.map((stat) => {
-              return (
-                <StatItem key={stat.name}>
-                  <StatName>{stat.name}</StatName>
-                  <StatValue>
-                    {`${stat.value} ${
-                      stat.unit !== undefined ? stat.unit : ''
-                    }`}
-                  </StatValue>
-                </StatItem>
-              )
-            })
-          : null}
-      </Data>
-    )
-  }
+  return (
+    <Data>
+      {stats.length > 0
+        ? stats.map((stat) => {
+            return (
+              <StatItem key={stat.name}>
+                <StatName>{stat.name}</StatName>
+                <StatValue>
+                  {`${stat.value} ${stat.unit !== undefined ? stat.unit : ''}`}
+                </StatValue>
+              </StatItem>
+            )
+          })
+        : null}
+    </Data>
+  )
+}
 
 export const Stats: React.FC<StatsProps> = ({
   format,
