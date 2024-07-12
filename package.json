@@ -29,7 +29,7 @@
     "license-checker": "25.0.1",
     "media-stream-library": "workspace:^",
     "semver": "7.6.2",
-    "stylelint": "16.6.1",
+    "stylelint": "16.7.0",
     "tsx": "4.16.2",
     "typescript": "5.5.3",
     "yargs": "17.7.2"
