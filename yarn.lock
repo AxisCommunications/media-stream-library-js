@@ -546,7 +546,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@csstools/css-parser-algorithms@npm:^2.6.3":
+"@csstools/css-parser-algorithms@npm:^2.7.1":
   version: 2.7.1
   resolution: "@csstools/css-parser-algorithms@npm:2.7.1"
   peerDependencies:
@@ -555,14 +555,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@csstools/css-tokenizer@npm:^2.3.1":
+"@csstools/css-tokenizer@npm:^2.4.1":
   version: 2.4.1
   resolution: "@csstools/css-tokenizer@npm:2.4.1"
   checksum: 395c51f8724ddc4851d836f484346bb3ea6a67af936dde12cbf9a57ae321372e79dee717cbe4823599eb0e6fd2d5405cf8873450e986c2fca6e6ed82e7b10219
   languageName: node
   linkType: hard
 
-"@csstools/media-query-list-parser@npm:^2.1.11":
+"@csstools/media-query-list-parser@npm:^2.1.13":
   version: 2.1.13
   resolution: "@csstools/media-query-list-parser@npm:2.1.13"
   peerDependencies:
@@ -2172,9 +2172,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:13.13.0":
-  version: 13.13.0
-  resolution: "cypress@npm:13.13.0"
+"cypress@npm:13.13.1":
+  version: 13.13.1
+  resolution: "cypress@npm:13.13.1"
   dependencies:
     "@cypress/request": ^3.0.0
     "@cypress/xvfb": ^1.2.4
@@ -2220,7 +2220,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: 61251459daec04993d7b180d0073776d3e6d9e882e7152612b393e7834274a619cf0735fd118897aada1fb828d507966fc65ff973f596984fcd30374a07996c7
+  checksum: ed6ae3ccb534563671f7a010b64e8f48871a0250eff95b30e9b8fe73d58ae8a9da261fd781a920b104b6930cde95a1eb43198bf0503432ab638d73c11dfe259b
   languageName: node
   linkType: hard
 
@@ -2268,6 +2268,18 @@ __metadata:
   dependencies:
     ms: ^2.1.1
   checksum: b3d8c5940799914d30314b7c3304a43305fd0715581a919dacb8b3176d024a782062368405b47491516d2091d6462d4d11f2f4974a405048094f8bfebfa3071c
+  languageName: node
+  linkType: hard
+
+"debug@npm:^4.3.5":
+  version: 4.3.5
+  resolution: "debug@npm:4.3.5"
+  dependencies:
+    ms: 2.1.2
+  peerDependenciesMeta:
+    supports-color:
+      optional: true
+  checksum: 7c002b51e256257f936dda09eb37167df952758c57badf6bf44bdc40b89a4bcb8e5a0a2e4c7b53f97c69e2970dd5272d33a757378a12c8f8e64ea7bf99e8e86e
   languageName: node
   linkType: hard
 
@@ -2692,7 +2704,7 @@ __metadata:
     react: 18.3.1
     react-dom: 18.3.1
     styled-components: 5.3.11
-    vite: 5.3.3
+    vite: 5.3.4
   languageName: unknown
   linkType: soft
 
@@ -2707,7 +2719,7 @@ __metadata:
     react: 18.3.1
     react-dom: 18.3.1
     styled-components: 5.3.11
-    vite: 5.3.3
+    vite: 5.3.4
   languageName: unknown
   linkType: soft
 
@@ -3853,10 +3865,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"known-css-properties@npm:^0.31.0":
-  version: 0.31.0
-  resolution: "known-css-properties@npm:0.31.0"
-  checksum: 814979212974f229f33ece048a54c3da5b689cbf1275fcfda83b9317a3826605c5d85b28ed68d9b62300a8eb9db61708a662ef6ec2ec12029f3139d117ebb2a1
+"known-css-properties@npm:^0.34.0":
+  version: 0.34.0
+  resolution: "known-css-properties@npm:0.34.0"
+  checksum: 2f1c562767164672442949c44310cf8bbd0cc8a1fbf76b2437a0a2ed364876f40b03d18ffee3de2490e789e916be6c635823e4137fcb3c2f690a96e79bd66a8c
   languageName: node
   linkType: hard
 
@@ -4059,14 +4071,14 @@ __metadata:
     "@biomejs/biome": ^1.8.3
     c8: 9.1.0
     cmd-ts: 0.13.0
-    cypress: 13.13.0
+    cypress: 13.13.1
     dpdm: 3.14.0
     esbuild: 0.23.0
     http-server: 14.1.1
     license-checker: 25.0.1
     media-stream-library: "workspace:^"
-    semver: 7.6.2
-    stylelint: 16.6.1
+    semver: 7.6.3
+    stylelint: 16.7.0
     tsx: 4.16.2
     typescript: 5.5.3
     yargs: 17.7.2
@@ -4086,7 +4098,7 @@ __metadata:
     react: 18.3.1
     react-dom: 18.3.1
     react-is: 18.3.1
-    semver: 7.6.2
+    semver: 7.6.3
     styled-components: 5.3.11
     typescript: 5.5.3
   peerDependencies:
@@ -4113,7 +4125,7 @@ __metadata:
     jsdom: 24.1.0
     mock-socket: 9.3.1
     process: 0.11.10
-    semver: 7.6.2
+    semver: 7.6.3
     stream-browserify: 3.0.0
     ts-md5: 1.3.1
     typescript: 5.5.3
@@ -4142,10 +4154,10 @@ __metadata:
     react-dom: 18.3.1
     react-hooks-shareable: 1.53.0
     react-is: 18.3.1
-    semver: 7.6.2
+    semver: 7.6.3
     styled-components: 5.3.11
     typescript: 5.5.3
-    vite: 5.3.3
+    vite: 5.3.4
   peerDependencies:
     luxon: ^3.0.0
     media-stream-library: ^13.0.0
@@ -4770,17 +4782,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"postcss@npm:^8.4.38":
-  version: 8.4.38
-  resolution: "postcss@npm:8.4.38"
-  dependencies:
-    nanoid: ^3.3.7
-    picocolors: ^1.0.0
-    source-map-js: ^1.2.0
-  checksum: 649f9e60a763ca4b5a7bbec446a069edf07f057f6d780a5a0070576b841538d1ecf7dd888f2fbfd1f76200e26c969e405aeeae66332e6927dbdc8bdcb90b9451
-  languageName: node
-  linkType: hard
-
 "postcss@npm:^8.4.39":
   version: 8.4.39
   resolution: "postcss@npm:8.4.39"
@@ -5255,12 +5256,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:7.6.2":
-  version: 7.6.2
-  resolution: "semver@npm:7.6.2"
+"semver@npm:7.6.3":
+  version: 7.6.3
+  resolution: "semver@npm:7.6.3"
   bin:
     semver: bin/semver.js
-  checksum: 40f6a95101e8d854357a644da1b8dd9d93ce786d5c6a77227bc69dbb17bea83d0d1d1d7c4cd5920a6df909f48e8bd8a5909869535007f90278289f2451d0292d
+  checksum: 4110ec5d015c9438f322257b1c51fe30276e5f766a3f64c09edd1d7ea7118ecbc3f379f3b69032bacf13116dc7abc4ad8ce0d7e2bd642e26b0d271b56b61a7d8
   languageName: node
   linkType: hard
 
@@ -5606,13 +5607,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stylelint@npm:16.6.1":
-  version: 16.6.1
-  resolution: "stylelint@npm:16.6.1"
+"stylelint@npm:16.7.0":
+  version: 16.7.0
+  resolution: "stylelint@npm:16.7.0"
   dependencies:
-    "@csstools/css-parser-algorithms": ^2.6.3
-    "@csstools/css-tokenizer": ^2.3.1
-    "@csstools/media-query-list-parser": ^2.1.11
+    "@csstools/css-parser-algorithms": ^2.7.1
+    "@csstools/css-tokenizer": ^2.4.1
+    "@csstools/media-query-list-parser": ^2.1.13
     "@csstools/selector-specificity": ^3.1.1
     "@dual-bundle/import-meta-resolve": ^4.1.0
     balanced-match: ^2.0.0
@@ -5620,7 +5621,7 @@ __metadata:
     cosmiconfig: ^9.0.0
     css-functions-list: ^3.2.2
     css-tree: ^2.3.1
-    debug: ^4.3.4
+    debug: ^4.3.5
     fast-glob: ^3.3.2
     fastest-levenshtein: ^1.0.16
     file-entry-cache: ^9.0.0
@@ -5631,13 +5632,13 @@ __metadata:
     ignore: ^5.3.1
     imurmurhash: ^0.1.4
     is-plain-object: ^5.0.0
-    known-css-properties: ^0.31.0
+    known-css-properties: ^0.34.0
     mathml-tag-names: ^2.1.3
     meow: ^13.2.0
     micromatch: ^4.0.7
     normalize-path: ^3.0.0
     picocolors: ^1.0.1
-    postcss: ^8.4.38
+    postcss: ^8.4.39
     postcss-resolve-nested-selector: ^0.1.1
     postcss-safe-parser: ^7.0.0
     postcss-selector-parser: ^6.1.0
@@ -5651,7 +5652,7 @@ __metadata:
     write-file-atomic: ^5.0.1
   bin:
     stylelint: bin/stylelint.mjs
-  checksum: eae2d11e1b7c1d0b8e242e2ce5f6098cdc303b0210b676dd2692c68c9c9458938e8a7e29af22f8f3f0907874456191c293e6677b55bdeb8eb8c6e5a9e6e34491
+  checksum: b6b3b2772abbdbff02ed9357eb355c6b3056c806301fba0aa62a45eebb93d3e87ea969f03cc8f802de3a50b3b3b008de70536cff91edc09287e640960dd8b5d9
   languageName: node
   linkType: hard
 
@@ -6095,9 +6096,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:5.3.3":
-  version: 5.3.3
-  resolution: "vite@npm:5.3.3"
+"vite@npm:5.3.4":
+  version: 5.3.4
+  resolution: "vite@npm:5.3.4"
   dependencies:
     esbuild: ^0.21.3
     fsevents: ~2.3.3
@@ -6131,7 +6132,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 1a54b678c03b52be934b0db95295aa573819063fad9e13f148936cfc4006d081a6790fdd2dbe111b09b75b9a8d49f15e0788c58b86156d238ab3a0c1cc1a941f
+  checksum: 2dfbab98daf91b86b3d3e535add1d6a982f7087df62f8f4bc219f3ae91a97f38c04683a32ba2457618e804fa93380090ddda5b0c9823a94bdcb53d6044b04732
   languageName: node
   linkType: hard
 
