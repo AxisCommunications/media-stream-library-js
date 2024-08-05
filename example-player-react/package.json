@@ -2,12 +2,12 @@
   "private": true,
   "devDependencies": {
     "@vitejs/plugin-react": "4.3.1",
-    "luxon": "3.4.4",
+    "luxon": "3.5.0",
     "media-stream-library": "workspace:^",
     "media-stream-player": "workspace:^",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "styled-components": "5.3.11",
-    "vite": "5.3.3"
+    "vite": "5.3.5"
   }
 }
