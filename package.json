@@ -30,7 +30,7 @@
     "media-stream-library": "workspace:^",
     "semver": "7.6.3",
     "stylelint": "16.8.1",
-    "tsx": "4.16.5",
+    "tsx": "4.17.0",
     "typescript": "5.5.4",
     "yargs": "17.7.2"
   },

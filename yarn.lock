@@ -2498,7 +2498,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:0.23.0":
+"esbuild@npm:0.23.0, esbuild@npm:~0.23.0":
   version: 0.23.0
   resolution: "esbuild@npm:0.23.0"
   dependencies:
@@ -2581,7 +2581,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"esbuild@npm:^0.21.3, esbuild@npm:~0.21.5":
+"esbuild@npm:^0.21.3":
   version: 0.21.5
   resolution: "esbuild@npm:0.21.5"
   dependencies:
@@ -4113,7 +4113,7 @@ __metadata:
     media-stream-library: "workspace:^"
     semver: 7.6.3
     stylelint: 16.8.1
-    tsx: 4.16.5
+    tsx: 4.17.0
     typescript: 5.5.4
     yargs: 17.7.2
   languageName: unknown
@@ -5920,11 +5920,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:4.16.5":
-  version: 4.16.5
-  resolution: "tsx@npm:4.16.5"
+"tsx@npm:4.17.0":
+  version: 4.17.0
+  resolution: "tsx@npm:4.17.0"
   dependencies:
-    esbuild: ~0.21.5
+    esbuild: ~0.23.0
     fsevents: ~2.3.3
     get-tsconfig: ^4.7.5
   dependenciesMeta:
@@ -5932,7 +5932,7 @@ __metadata:
       optional: true
   bin:
     tsx: dist/cli.mjs
-  checksum: 4307313e1688afe7346a0fe86509bcd1111e4f98c9fad8fa56bdcf14effbea9093cc613fb79299ab51915eeaaa9524bff6db6eebd98699ee984c1944c7182eed
+  checksum: 36fb12cef74b177d11601f04aa1b768e7ce74ad0c4d8983a6050c6e19657a30362b07ac84ac5796fd1923b51904e801b42d26768a563a6139b310f8ffb0f08b1
   languageName: node
   linkType: hard
 
