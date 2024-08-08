@@ -20,7 +20,7 @@
   ],
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
-    "c8": "9.1.0",
+    "c8": "10.1.2",
     "cmd-ts": "0.13.0",
     "cypress": "13.13.2",
     "dpdm": "3.14.0",
