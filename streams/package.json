@@ -60,7 +60,7 @@
     "@types/node": "20.12.5",
     "@types/ws": "8.5.12",
     "buffer": "6.0.3",
-    "esbuild": "0.23.0",
+    "esbuild": "0.23.1",
     "events": "3.3.0",
     "global-jsdom": "9.2.0",
     "jsdom": "24.1.1",
