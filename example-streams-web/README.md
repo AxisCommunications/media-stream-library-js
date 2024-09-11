@@ -17,6 +17,8 @@ examples in one go, combining the different steps explained below.
 To build the project and start serving the examples:
 
 ```sh
+npm install -g just-install
+just build
 just run example-streams-web
 ```
 
