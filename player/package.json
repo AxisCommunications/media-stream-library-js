@@ -35,7 +35,7 @@
   ],
   "dependencies": {
     "@juggle/resize-observer": "3.4.0",
-    "debug": "4.3.6",
+    "debug": "4.3.7",
     "react-hooks-shareable": "1.53.0"
   },
   "peerDependencies": {
