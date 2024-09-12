@@ -14,10 +14,15 @@ examples in one go, combining the different steps explained below.
 
 ## Getting started
 
-To build the project and start serving the examples:
+Make sure you have Node.js installed and `yarn` is available
+(by running `corepack enable` after Node.js installation).
+Supported versions of Node.js are LTS or latest stable.
+You also need to install `just` (see main README.md).
+
+Then, install dependencies, build the project and start serving the examples:
 
 ```sh
-npm install -g just-install
+just install
 just build
 just run example-streams-web
 ```
