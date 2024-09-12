@@ -72,7 +72,7 @@ for (const { format, name } of nodeBundles) {
     bundle: true,
     minify: false,
     sourcemap: true,
-    target: 'node16',
+    target: 'node20',
   })
 }
 
