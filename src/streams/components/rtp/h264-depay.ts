@@ -13,6 +13,7 @@ export enum NAL_TYPES {
   UNSPECIFIED = 0,
   NON_IDR_PICTURE = 1, // P-frame
   IDR_PICTURE = 5, // I-frame
+  SEI = 6, // Supplemental Enhancement Information
   SPS = 7,
   PPS = 8,
 }
@@ -81,7 +82,8 @@ export class H264Depay {
       }
     } else if (
       (nalType === NAL_TYPES.NON_IDR_PICTURE ||
-        nalType === NAL_TYPES.IDR_PICTURE) &&
+        nalType === NAL_TYPES.IDR_PICTURE ||
+        nalType === NAL_TYPES.SEI) &&
       this.buffer.length === 0
     ) {
       /* Single NALU */ h264frame = concat([
