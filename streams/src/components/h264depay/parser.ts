@@ -92,10 +92,26 @@ export class H264DepayParser {
       }
       this._buffer = Buffer.alloc(0)
       return msg
+    } else if (type === 6)
+    {
+      const h264frame = Buffer.concat([
+      Buffer.from([0, 0, 0, 0]),
+      rtpPayload,
+      ])
+      h264frame.writeUInt32BE(h264frame.length - 4, 0)
+      const msg: H264Message = {
+        data: h264frame,
+        type: MessageType.H264,
+        timestamp: timestamp(rtp.data),
+        ntpTimestamp: rtp.ntpTimestamp,
+        payloadType: payloadType(rtp.data),
+        nalType: type,
+      }
+      this._buffer = Buffer.alloc(0)
+      h264Debug(`got a SEI type`)
+      return msg
     }
-    h264Debug(
-      `H264depayComponent can only extract types 1,5 and 28, got ${type}`
-    )
+    h264Debug(`H264depayComponent can only extract types 1,5,6 and 28, got ${type}`)
     this._buffer = Buffer.alloc(0)
     return null
   }
