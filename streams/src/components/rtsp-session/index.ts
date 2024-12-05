@@ -273,9 +273,12 @@ export class RtspSession extends Tube {
   _onRtsp(msg: RtspMessage) {
     this._waiting = false
 
-    const status = statusCode(msg.data)
-    const ended = connectionEnded(msg.data)
-    const seq = sequence(msg.data)
+    const dec = new TextDecoder()
+    const content = dec.decode(msg.data)
+
+    const status = statusCode(content)
+    const ended = connectionEnded(content)
+    const seq = sequence(content)
     if (seq === null) {
       throw new Error('rtsp: expected sequence number')
     }
@@ -284,11 +287,11 @@ export class RtspSession extends Tube {
     }
     const method = this._callHistory[seq - 1]
 
-    debug('msl:rtsp:incoming')(`${msg.data}`)
+    debug('msl:rtsp:incoming')(`${content}`)
     if (!this._sessionId && !ended) {
       // Response on first SETUP
-      this._sessionId = sessionId(msg.data)
-      const _sessionTimeout = sessionTimeout(msg.data)
+      this._sessionId = sessionId(content)
+      const _sessionTimeout = sessionTimeout(content)
       if (_sessionTimeout !== null) {
         // The server specified that sessions will timeout if not renewed.
         // In order to keep it alive we need periodically send a RTSP_OPTIONS message
@@ -306,20 +309,20 @@ export class RtspSession extends Tube {
     }
 
     if (!this._contentBase) {
-      this._contentBase = contentBase(msg.data)
+      this._contentBase = contentBase(content)
     }
     if (!this._contentLocation) {
-      this._contentLocation = contentLocation(msg.data)
+      this._contentLocation = contentLocation(content)
     }
     if (status >= 400) {
       // TODO: Retry in certain cases?
       this.onError &&
-        this.onError(new RTSPResponseError(msg.data.toString('ascii'), status))
+        this.onError(new RTSPResponseError(content, status))
     }
 
     if (method === RTSP_METHOD.PLAY) {
       // When starting to play, send the actual range to an external handler.
-      this.onPlay && this.onPlay(range(msg.data))
+      this.onPlay && this.onPlay(range(content))
     }
 
     if (ended) {

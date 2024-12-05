@@ -1,3 +1,4 @@
+import { concat } from 'utils/bytes'
 import { rtcpMessageFromBuffer } from '../../utils/protocols/rtcp'
 import { bodyOffset, extractHeaderValue } from '../../utils/protocols/rtsp'
 import { messageFromBuffer } from '../../utils/protocols/sdp'
@@ -96,18 +97,22 @@ export class Parser {
   _parseRtsp(): Array<RtspMessage | SdpMessage> {
     const messages: Array<RtspMessage | SdpMessage> = []
 
-    const buffer = Buffer.concat(this._chunks)
-    const chunkBodyOffset = bodyOffset(buffer)
+    const data = concat(this._chunks)
+    const chunkBodyOffset = bodyOffset(data)
     // If last added chunk does not have the end of the header, return.
     if (chunkBodyOffset === -1) {
       return messages
     }
 
     const rtspHeaderLength = chunkBodyOffset
-    const contentLength = extractHeaderValue(buffer, 'Content-Length')
+
+    const dec = new TextDecoder()
+    const header = dec.decode(data.subarray(0, rtspHeaderLength))
+
+    const contentLength = extractHeaderValue(header, 'Content-Length')
     if (
       contentLength &&
-      parseInt(contentLength) > buffer.length - rtspHeaderLength
+      parseInt(contentLength) > data.length - rtspHeaderLength
     ) {
       // we do not have the whole body
       return messages
@@ -116,10 +121,11 @@ export class Parser {
     this._init() // resets this._chunks and this._length
 
     if (
-      rtspHeaderLength === buffer.length ||
-      buffer[rtspHeaderLength] === ASCII_DOLLAR
+      rtspHeaderLength === data.length ||
+      data[rtspHeaderLength] === ASCII_DOLLAR
     ) {
       // No body in this chunk, assume there is no body?
+      const buffer = Buffer.from(data.buffer)
       const packet = buffer.slice(0, rtspHeaderLength)
       messages.push({ type: MessageType.RTSP, data: packet })
 
@@ -128,8 +134,8 @@ export class Parser {
       this._push(trailing)
     } else {
       // Body is assumed to be the remaining data of the last chunk.
-      const packet = buffer
-      const body = buffer.slice(rtspHeaderLength)
+      const packet = Buffer.from(data.buffer)
+      const body = Buffer.from(data.buffer).slice(rtspHeaderLength)
 
       messages.push({ type: MessageType.RTSP, data: packet })
       messages.push(messageFromBuffer(body))
