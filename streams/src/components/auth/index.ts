@@ -56,7 +56,7 @@ export class Auth extends Tube {
     ) {
       if (
         msg.type === MessageType.RTSP &&
-        statusCode(msg.data) === UNAUTHORIZED
+        statusCode(msg.data.toString()) === UNAUTHORIZED
       ) {
         const headers = msg.data.toString().split('\n')
         const wwwAuth = headers.find((header) => /WWW-Auth/i.test(header))

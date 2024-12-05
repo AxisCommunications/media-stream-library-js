@@ -11,7 +11,7 @@ export function makeImageHeader() {
   return Buffer.from([0xff, 0xd8])
 }
 
-export function makeQuantHeader(precision: number, qTable: Buffer) {
+export function makeQuantHeader(precision: number, qTable: Uint8Array) {
   const lumSize = precision & 1 ? 128 : 64
   const chmSize = precision & 2 ? 128 : 64
   if (qTable.length !== lumSize + chmSize) {

@@ -1,10 +1,11 @@
 import debug from 'debug'
 
+import { encode } from 'utils/bytes'
 import { RtspMessage } from '../message'
 
 const DEFAULT_PROTOCOL = 'RTSP/1.0'
 
-export const builder = (msg: RtspMessage): Buffer => {
+export const builder = (msg: RtspMessage): Uint8Array => {
   if (!msg.method || !msg.uri) {
     throw new Error('message needs to contain a method and a uri')
   }
@@ -20,5 +21,5 @@ export const builder = (msg: RtspMessage): Buffer => {
   ].join('\r\n')
   debug('msl:rtsp:outgoing')(messageString)
 
-  return Buffer.from(messageString)
+  return encode(messageString)
 }

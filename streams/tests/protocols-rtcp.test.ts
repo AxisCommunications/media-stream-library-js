@@ -220,7 +220,7 @@ describe('Rtcp parsing', (test) => {
       subtype: 5,
       source: 42,
       name: 'Life',
-      data: Buffer.from([0, 1, 2, 3, 42, 42, 42, 42]),
+      data: new Uint8Array([0, 1, 2, 3, 42, 42, 42, 42]),
     })
   })
 })

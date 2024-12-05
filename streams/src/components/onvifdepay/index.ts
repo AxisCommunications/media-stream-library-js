@@ -12,7 +12,7 @@ import { Message, MessageType, XmlMessage } from '../message'
 export class ONVIFDepay extends Tube {
   constructor() {
     let XMLPayloadType: number
-    let packets: Buffer[] = []
+    let packets: Uint8Array[] = []
 
     const incoming = new Transform({
       objectMode: true,

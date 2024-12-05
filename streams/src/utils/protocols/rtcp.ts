@@ -1,3 +1,10 @@
+import {
+  readUInt8,
+  readUInt16BE,
+  readUInt24BE,
+  readUInt32BE,
+  decode,
+} from 'utils/bytes'
 import { MessageType, RtcpMessage } from '../../components/message'
 import { POS } from '../bits'
 
@@ -29,16 +36,16 @@ export interface Rtcp {
   readonly length: number
 }
 
-const parseBase = (buffer: Buffer): Rtcp => ({
+const parseBase = (buffer: Uint8Array): Rtcp => ({
   version: buffer[0] >>> 6,
   padding: !!(buffer[0] & POS[2]),
   count: buffer[0] & 0x1f,
-  packetType: buffer.readUInt8(1),
-  length: buffer.readUInt16BE(2),
+  packetType: readUInt8(buffer, 1),
+  length: readUInt16BE(buffer, 2),
 })
 
 export const parseRtcp = (
-  buffer: Buffer
+  buffer: Uint8Array
 ): Rtcp | RtcpSR | RtcpRR | RtcpSDES | RtcpBye | RtcpApp => {
   const base = parseBase(buffer)
 
@@ -60,11 +67,12 @@ export const parseRtcp = (
 
 export const rtcpMessageFromBuffer = (
   channel: number,
-  buffer: Buffer
+  buffer: Uint8Array
 ): RtcpMessage => {
   return {
     type: MessageType.RTCP,
-    data: buffer,
+    // FIXME: update after GenericMessage uses Uint8Array for data
+    data: Buffer.from(buffer),
     channel,
     rtcp: parseRtcp(buffer),
   }
@@ -126,20 +134,20 @@ export interface RtcpReportBlock {
 
 const parseReportBlocks = (
   count: number,
-  buffer: Buffer,
+  buffer: Uint8Array,
   offset: number
 ): RtcpReportBlock[] => {
   const reports: RtcpReportBlock[] = []
   for (let reportNumber = 0; reportNumber < count; reportNumber++) {
     const o = offset + reportNumber * 24
     reports.push({
-      syncSource: buffer.readUInt32BE(o + 0),
-      fractionLost: buffer.readUInt8(o + 4),
-      cumulativeNumberOfPacketsLost: buffer.readUIntBE(o + 5, 3),
-      extendedHighestSequenceNumberReceived: buffer.readUInt32BE(o + 8),
-      interarrivalJitter: buffer.readUInt32BE(o + 12),
-      lastSRTimestamp: buffer.readUInt32BE(o + 16),
-      delaySinceLastSR: buffer.readUInt32BE(o + 20),
+      syncSource: readUInt32BE(buffer, o + 0),
+      fractionLost: readUInt8(buffer, o + 4),
+      cumulativeNumberOfPacketsLost: readUInt24BE(buffer, o + 5),
+      extendedHighestSequenceNumberReceived: readUInt32BE(buffer, o + 8),
+      interarrivalJitter: readUInt32BE(buffer, o + 12),
+      lastSRTimestamp: readUInt32BE(buffer, o + 16),
+      delaySinceLastSR: readUInt32BE(buffer, o + 20),
     })
   }
   return reports
@@ -157,14 +165,14 @@ export interface RtcpSR extends Rtcp {
   readonly reports: readonly RtcpReportBlock[]
 }
 
-const parseSR = (buffer: Buffer, base: Rtcp): RtcpSR => ({
+const parseSR = (buffer: Uint8Array, base: Rtcp): RtcpSR => ({
   ...base,
-  syncSource: buffer.readUInt32BE(4),
-  ntpMost: buffer.readUInt32BE(8),
-  ntpLeast: buffer.readUInt32BE(12),
-  rtpTimestamp: buffer.readUInt32BE(16),
-  sendersPacketCount: buffer.readUInt32BE(20),
-  sendersOctetCount: buffer.readUInt32BE(24),
+  syncSource: readUInt32BE(buffer, 4),
+  ntpMost: readUInt32BE(buffer, 8),
+  ntpLeast: readUInt32BE(buffer, 12),
+  rtpTimestamp: readUInt32BE(buffer, 16),
+  sendersPacketCount: readUInt32BE(buffer, 20),
+  sendersOctetCount: readUInt32BE(buffer, 24),
   reports: parseReportBlocks(base.count, buffer, 28),
 })
 
@@ -208,9 +216,9 @@ export interface RtcpRR extends Rtcp {
   readonly reports: readonly RtcpReportBlock[]
 }
 
-const parseRR = (buffer: Buffer, base: Rtcp): RtcpRR => ({
+const parseRR = (buffer: Uint8Array, base: Rtcp): RtcpRR => ({
   ...base,
-  syncSource: buffer.readUInt32BE(4),
+  syncSource: readUInt32BE(buffer, 4),
   reports: parseReportBlocks(base.count, buffer, 8),
 })
 
@@ -260,18 +268,18 @@ export interface RtcpSDES extends Rtcp {
   readonly sourceDescriptions: readonly RtcpSDESBlock[]
 }
 
-const parseSDES = (buffer: Buffer, base: Rtcp): RtcpSDES => {
+const parseSDES = (buffer: Uint8Array, base: Rtcp): RtcpSDES => {
   const sourceDescriptions: RtcpSDESBlock[] = []
   let offset = 4
   for (let block = 0; block < base.count; block++) {
     const chunk: RtcpSDESBlock = {
-      source: buffer.readUInt32BE(offset),
+      source: readUInt32BE(buffer, offset),
       items: [],
     }
     offset += 4
 
     while (true) {
-      const itemType = buffer.readUInt8(offset++)
+      const itemType = readUInt8(buffer, offset++)
 
       if (itemType === 0) {
         // start next block at word boundary
@@ -281,23 +289,19 @@ const parseSDES = (buffer: Buffer, base: Rtcp): RtcpSDES => {
         break
       }
 
-      const length = buffer.readUInt8(offset++)
+      const length = readUInt8(buffer, offset++)
 
       if (itemType === SDESItem.PRIV) {
-        const prefixLength = buffer.readUInt8(offset)
-        const prefix = buffer.toString(
-          'utf8',
-          offset + 1,
-          offset + 1 + prefixLength
+        const prefixLength = readUInt8(buffer, offset)
+        const prefix = decode(
+          buffer.subarray(offset + 1, offset + 1 + prefixLength)
         )
-        const value = buffer.toString(
-          'utf8',
-          offset + 1 + prefixLength,
-          offset + length
+        const value = decode(
+          buffer.subarray(offset + 1 + prefixLength, offset + length)
         )
         chunk.items.push([SDESItem.PRIV, prefix, value])
       } else {
-        const value = buffer.toString('utf8', offset, offset + length)
+        const value = decode(buffer.subarray(offset, offset + length))
         chunk.items.push([itemType, value])
       }
 
@@ -308,7 +312,7 @@ const parseSDES = (buffer: Buffer, base: Rtcp): RtcpSDES => {
 
   return {
     ...base,
-    syncSource: buffer.readUInt32BE(4),
+    syncSource: readUInt32BE(buffer, 4),
     sourceDescriptions,
   }
 }
@@ -339,17 +343,17 @@ export interface RtcpBye extends Rtcp {
   readonly reason?: string
 }
 
-const parseBYE = (buffer: Buffer, base: Rtcp): RtcpBye => {
+const parseBYE = (buffer: Uint8Array, base: Rtcp): RtcpBye => {
   const sources: number[] = []
   for (let block = 0; block < base.count; block++) {
-    sources.push(buffer.readUInt32BE(4 + 4 * block))
+    sources.push(readUInt32BE(buffer, 4 + 4 * block))
   }
 
   let reason
   if (base.length > base.count) {
     const start = 4 + 4 * base.count
-    const length = buffer.readUInt8(start)
-    reason = buffer.toString('utf-8', start + 1, start + 1 + length)
+    const length = readUInt8(buffer, start)
+    reason = decode(buffer.subarray(start + 1, start + 1 + length))
   }
 
   return {
@@ -385,16 +389,16 @@ export interface RtcpApp extends Rtcp {
   readonly subtype: number
   readonly source: number
   readonly name: string
-  readonly data: Buffer
+  readonly data: Uint8Array
 }
 
-const parseAPP = (buffer: Buffer, base: Rtcp): RtcpApp => {
+const parseAPP = (buffer: Uint8Array, base: Rtcp): RtcpApp => {
   return {
     ...base,
     subtype: base.count,
-    source: buffer.readUInt32BE(4),
-    name: buffer.toString('ascii', 8, 12),
-    data: buffer.slice(12),
+    source: readUInt32BE(buffer, 4),
+    name: decode(buffer.subarray(8, 12)),
+    data: buffer.subarray(12),
   }
 }
 

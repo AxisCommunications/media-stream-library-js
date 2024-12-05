@@ -1,11 +1,11 @@
 import * as assert from 'uvu/assert'
 
 import { MessageType } from 'components/message'
-import { extractURIs, messageFromBuffer, parse } from 'utils/protocols/sdp'
+import { extractURIs, parse, sdpFromBody } from 'utils/protocols/sdp'
 
 import { describe } from './uvu-describe'
 
-const example = Buffer.from(`
+const example = `
 v=0
 o=- 18315797286303868614 1 IN IP4 127.0.0.1
 s=Session streamed with GStreamer
@@ -29,7 +29,7 @@ b=AS:32
 a=rtpmap:97 MPEG4-GENERIC/16000/1
 a=fmtp:97 streamtype=5;profile-level-id=2;mode=AAC-hbr;config=1408;sizeLength=13;indexlength=3;indexdeltalength=3;bitrate=32000
 a=control:rtsp://hostname/axis-media/media.amp/stream=1?audio=1&video=1
-`)
+`
 /* eslint-enable */
 
 describe('Sdp', (test) => {
@@ -132,11 +132,11 @@ describe('Sdp', (test) => {
     })
   })
 
-  test('messageFromBuffer should produce a message with the correct structure', () => {
-    const message = messageFromBuffer(example)
+  test('sdpFromBody should produce a message with the correct structure', () => {
+    const message = sdpFromBody(example)
     assert.equal(Object.keys(message), ['type', 'data', 'sdp'])
 
-    assert.equal(message.data, example)
+    assert.equal(message.data.byteLength, 0)
     assert.is(message.type, MessageType.SDP)
   })
 })

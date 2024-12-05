@@ -3,13 +3,12 @@ import * as assert from 'uvu/assert'
 import { AACDepay } from 'components/aacdepay'
 import { Message, MessageType } from 'components/message'
 import { payload } from 'utils/protocols/rtp'
-import { messageFromBuffer } from 'utils/protocols/sdp'
+import { sdpFromBody } from 'utils/protocols/sdp'
 
 import { describe } from './uvu-describe'
 import { runComponentTests } from './validate-component'
 
-const sdpMessage = messageFromBuffer(
-  Buffer.from(`
+const sdpMessage = sdpFromBody(`
 v=0
 o=- 18315797286303868614 1 IN IP4 127.0.0.1
 s=Session streamed with GStreamer
@@ -34,7 +33,7 @@ a=rtpmap:97 MPEG4-GENERIC/16000/1
 a=fmtp:97 streamtype=5;profile-level-id=2;mode=AAC-hbr;config=1408;sizeLength=13;indexlength=3;indexdeltalength=3;bitrate=32000
 a=control:rtsp://hostname/axis-media/media.amp/stream=1?audio=1&video=1
 `)
-)
+
 const rtpMessage = {
   type: MessageType.RTP,
   data: Buffer.from(
