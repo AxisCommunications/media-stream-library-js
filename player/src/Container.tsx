@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 
 import styled from 'styled-components'
 
@@ -53,7 +53,7 @@ export const Layer = styled.div`
 
 interface ContainerProps {
   readonly aspectRatio?: number
-  readonly children: ReactNode
+  readonly children: any // styled-components type mismatch
 }
 
 export const Container: React.FC<ContainerProps> = ({

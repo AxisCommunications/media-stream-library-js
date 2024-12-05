@@ -45,6 +45,24 @@ the camera example directly, browse directly to
 
 ### Camera example
 
+**Note on CORS** when accessing the camera using HTTP (e.g. streaming HTTP MP4) it's
+likely you will get a CORS error. To resolve this, you can add a custom header
+to the camera to allow any origin.
+
+The simplest way is to navigate to the IP of the camera, open developer tools
+on that page and run the following in the console:
+
+```
+const rsp = await fetch("/axis-cgi/customhttpheader.cgi", {
+  method: "POST",
+  body: JSON.stringify({
+    "apiVersion":"1.1",
+    "method":"set",
+    "params": {"Access-Control-Allow-Origin": "*"}
+  })
+})
+```
+
 After serving the examples with and browsing to a file under
 `http://localhost:8080/camera`, you will need to enter the camera (device) IP
 address and choose an encoding. After that, just click the `play` button and
@@ -93,3 +111,4 @@ After you verified everything seems to be running fine, you can browse to
 file like e.g. `http://localhost:8080/test/mjpeg.html` for the motion JPEG
 example. Note that if you specified your own launch command, make sure it uses
 the correct encoding to match the example.
+

@@ -1,10 +1,4 @@
-import {
-  MessageType,
-  XmlMessage,
-  components,
-  pipelines,
-  utils,
-} from 'media-stream-library'
+import { RtspMp4Pipeline, Scheduler, XmlMessage } from 'media-stream-library'
 
 /**
  * Metadata handlers
@@ -46,15 +40,15 @@ export interface MetadataHandler {
  * @param handlers The handlers to deal with XML data
  */
 export const attachMetadataHandler = (
-  pipeline: pipelines.Html5VideoPipeline,
+  pipeline: RtspMp4Pipeline,
   { parser, cb }: MetadataHandler
-): utils.Scheduler<ScheduledMessage> => {
+): Scheduler<ScheduledMessage> => {
   /**
    * When a metadata handler is available on this component, it will be
    * called in sync with the player, using a scheduler to synchronize the
    * callback with the video presentation time.
    */
-  const scheduler = new utils.Scheduler(pipeline, cb, 30)
+  const scheduler = new Scheduler(pipeline, cb, 30)
   const xmlParser = new DOMParser()
 
   const xmlMessageHandler = (msg: XmlMessage) => {
@@ -68,19 +62,17 @@ export const attachMetadataHandler = (
     }
   }
 
-  // Add extra components to the pipeline.
-  const onvifDepay = new components.ONVIFDepay()
-  const onvifHandlerPipe = components.Tube.fromHandlers((msg) => {
-    if (msg.type === MessageType.XML) {
+  // Peek at the messages coming out of RTP depay
+  pipeline.rtp.peek(['xml'], (msg) => {
+    if (msg.type === 'xml') {
       xmlMessageHandler(msg)
     }
-  }, undefined)
-  pipeline.insertAfter(pipeline.rtsp, onvifDepay)
-  pipeline.insertAfter(onvifDepay, onvifHandlerPipe)
+  })
 
   // Initialize the scheduler when presentation time is ready
-  pipeline.onSync = (ntpPresentationTime: number) =>
+  pipeline.videoStartTime.then((ntpPresentationTime) => {
     scheduler.init(ntpPresentationTime)
+  })
 
   return scheduler
 }

@@ -1,4 +1,4 @@
-const { pipelines } = window.mediaStreamLibrary
+const { HttpMp4Pipeline } = window.mediaStreamLibrary
 
 // force auth
 const authorize = async (host) => {
@@ -24,13 +24,13 @@ const play = (host) => {
   const mediaElement = document.querySelector('video')
 
   // Setup a new pipeline
-  pipeline = new pipelines.HttpMsePipeline({
-    http: {
-      uri: `http://${host}/axis-cgi/media.cgi?videocodec=h264&container=mp4`,
-    },
+  pipeline = new HttpMp4Pipeline({
+    uri: `http://${host}/axis-cgi/media.cgi?videocodec=h264&container=mp4`,
     mediaElement,
   })
-  pipeline.http.play()
+  pipeline.start().catch((err) => {
+    console.error(err)
+  })
 }
 
 // Each time a device ip is entered, authorize and then play
@@ -38,7 +38,8 @@ const playButton = document.querySelector('#play')
 playButton.addEventListener('click', async () => {
   pipeline && pipeline.close()
 
-  const host = window.location.host
+  const device = document.querySelector('#device')
+  const host = device.value || device.placeholder
 
   await authorize(host)
 

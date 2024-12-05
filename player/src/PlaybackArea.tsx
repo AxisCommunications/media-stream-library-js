@@ -1,13 +1,13 @@
 import React, { Ref } from 'react'
 
-import debug from 'debug'
 import {
-  Html5CanvasPipeline,
-  Html5VideoPipeline,
-  HttpMsePipeline,
+  HttpMp4Pipeline,
   Rtcp,
+  RtspJpegPipeline,
+  RtspMp4Pipeline,
   Sdp,
   TransformationMatrix,
+  axisWebSocketConfig,
 } from 'media-stream-library'
 
 import { HttpMp4Video } from './HttpMp4Video'
@@ -16,6 +16,7 @@ import { WsRtspCanvas } from './WsRtspCanvas'
 import { WsRtspVideo } from './WsRtspVideo'
 import { MetadataHandler } from './metadata'
 import { Format } from './types'
+import { logDebug } from './utils/log'
 
 export type PlayerNativeElement =
   | HTMLVideoElement
@@ -23,11 +24,9 @@ export type PlayerNativeElement =
   | HTMLImageElement
 
 export type PlayerPipeline =
-  | Html5VideoPipeline
-  | Html5CanvasPipeline
-  | HttpMsePipeline
-
-const debugLog = debug('msp:api')
+  | RtspJpegPipeline
+  | RtspMp4Pipeline
+  | HttpMp4Pipeline
 
 export enum AxisApi {
   AXIS_IMAGE_CGI = 'AXIS_IMAGE_CGI',
@@ -92,8 +91,9 @@ interface PlaybackAreaProps {
   readonly autoRetry?: boolean
 }
 
-const wsUri = (protocol: Protocol.WS | Protocol.WSS, host: string) => {
-  return host.length !== 0 ? `${protocol}//${host}/rtsp-over-websocket` : ''
+const wsUri = (secure: boolean, host: string) => {
+  const scheme = secure ? Protocol.HTTPS : Protocol.HTTP
+  return axisWebSocketConfig(`${scheme}//${host}`)
 }
 
 const rtspUri = (host: string, searchParams: string) => {
@@ -246,7 +246,7 @@ const searchParams = (api: AxisApi, parameters: VapixParameters = {}) => {
   return Object.entries(parameters)
     .map(([key, value]) => {
       if (!parameterList.includes(key)) {
-        debugLog(`undocumented VAPIX parameter ${key}`)
+        logDebug(`undocumented VAPIX parameter ${key}`)
       }
       return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`
     })
@@ -272,7 +272,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   const timestamp = refresh.toString()
 
   if (format === Format.RTP_H264) {
-    const ws = wsUri(secure ? Protocol.WSS : Protocol.WS, host)
+    const { uri: ws, tokenUri: token } = wsUri(secure, host)
     const rtsp = rtspUri(
       host,
       searchParams(FORMAT_API[format], {
@@ -288,6 +288,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
         forwardedRef={forwardedRef as Ref<HTMLVideoElement>}
         {...{
           ws,
+          token,
           rtsp,
           play,
           offset,
@@ -303,7 +304,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
   }
 
   if (format === Format.RTP_JPEG) {
-    const ws = wsUri(secure ? Protocol.WSS : Protocol.WS, host)
+    const { uri: ws, tokenUri: token } = wsUri(secure, host)
     const rtsp = rtspUri(
       host,
       searchParams(FORMAT_API[format], {
@@ -317,7 +318,17 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
       <WsRtspCanvas
         key={refresh}
         forwardedRef={forwardedRef as Ref<HTMLCanvasElement>}
-        {...{ ws, rtsp, play, offset, onPlaying, onEnded, onSdp, onRtcp }}
+        {...{
+          ws,
+          token,
+          rtsp,
+          play,
+          offset,
+          onPlaying,
+          onEnded,
+          onSdp,
+          onRtcp,
+        }}
       />
     )
   }

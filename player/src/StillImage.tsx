@@ -1,14 +1,12 @@
 import React, { useEffect, useRef } from 'react'
 
-import debug from 'debug'
 import styled from 'styled-components'
 
 import { VideoProperties } from './PlaybackArea'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { useEventState } from './hooks/useEventState'
 import { Format } from './types'
-
-const debugLog = debug('msp:still-image')
+import { logDebug } from './utils/log'
 
 const ImageNative = styled.img`
   max-height: 100%;
@@ -82,6 +80,6 @@ export const StillImage: React.FC<StillImageProps> = ({
     }
   }, [loaded])
 
-  debugLog('render image', loaded)
+  logDebug('render image', loaded)
   return <ImageNative ref={imgRef} />
 }

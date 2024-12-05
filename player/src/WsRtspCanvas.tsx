@@ -1,22 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import debug from 'debug'
 import {
   Rtcp,
+  RtspJpegPipeline,
   Sdp,
   TransformationMatrix,
   VideoMedia,
   isRtcpBye,
-  pipelines,
-  utils,
 } from 'media-stream-library'
 import styled from 'styled-components'
 
 import { Range, VideoProperties } from './PlaybackArea'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { Format } from './types'
-
-const debugLog = debug('msp:ws-rtsp-video')
+import { logDebug } from './utils/log'
 
 const CanvasNative = styled.canvas`
   max-height: 100%;
@@ -34,6 +31,7 @@ interface WsRtspCanvasProps {
    * The source URI for the WebSocket server.
    */
   readonly ws?: string
+  readonly token?: string
   /**
    * The RTSP URI.
    */
@@ -79,8 +77,9 @@ interface WsRtspCanvasProps {
 export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   forwardedRef,
   play = true,
-  ws = '',
-  rtsp = '',
+  ws,
+  token,
+  rtsp,
   onPlaying,
   onEnded,
   onSdp,
@@ -98,8 +97,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   }
 
   // State tied to resources
-  const [pipeline, setPipeline] =
-    useState<null | pipelines.Html5CanvasPipeline>(null)
+  const [pipeline, setPipeline] = useState<null | RtspJpegPipeline>(null)
   const [fetching, setFetching] = useState(false)
 
   // keep track of changes in starting time
@@ -119,7 +117,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
 
     timeout.current = window.setInterval(() => {
       const { currentTime } = pipeline
-      debugLog('%o', { currentTime })
+      logDebug(`currentTime: ${currentTime}`)
     }, 1000)
 
     return () => window.clearTimeout(timeout.current)
@@ -129,24 +127,24 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
     __offsetRef.current = offset
     const canvas = canvasRef.current
     if (ws && rtsp && canvas) {
-      debugLog('create pipeline')
-      const newPipeline = new pipelines.Html5CanvasPipeline({
-        ws: { uri: ws },
+      logDebug('create pipeline', ws, rtsp)
+      const newPipeline = new RtspJpegPipeline({
+        ws: { uri: ws, tokenUri: token },
         rtsp: { uri: rtsp },
         mediaElement: canvas,
       })
       if (autoRetry) {
-        utils.addRTSPRetry(newPipeline.rtsp)
+        newPipeline.rtsp.retry.codes = [503]
       }
       setPipeline(newPipeline)
 
       return () => {
-        debugLog('destroy pipeline')
+        logDebug('destroy pipeline')
         newPipeline.pause()
         newPipeline.close()
         setPipeline(null)
         setFetching(false)
-        debugLog('canvas cleared')
+        logDebug('canvas cleared')
       }
     }
   }, [ws, rtsp, offset, autoRetry])
@@ -171,49 +169,41 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
 
   useEffect(() => {
     if (play && pipeline && !fetching) {
-      pipeline.ready
-        .then(() => {
-          debugLog('fetch')
-          pipeline.onSdp = (sdp) => {
-            const videoMedia = sdp.media.find((m): m is VideoMedia => {
-              return m.type === 'video'
-            })
-            if (videoMedia !== undefined) {
-              __sensorTmRef.current =
-                videoMedia['x-sensor-transform'] ?? videoMedia['transform']
-            }
-            if (__onSdpRef.current !== undefined) {
-              __onSdpRef.current(sdp)
-            }
-          }
+      pipeline.rtsp.onRtcp = (rtcp) => {
+        __onRtcpRef.current?.(rtcp)
 
-          pipeline.rtsp.onRtcp = (rtcp) => {
-            __onRtcpRef.current?.(rtcp)
-
-            if (isRtcpBye(rtcp)) {
-              __onEndedRef.current?.()
-            }
+        if (isRtcpBye(rtcp)) {
+          __onEndedRef.current?.()
+        }
+      }
+      pipeline
+        .start(__offsetRef.current)
+        .then(({ sdp, range }) => {
+          const videoMedia = sdp.media.find((m): m is VideoMedia => {
+            return m.type === 'video'
+          })
+          if (videoMedia !== undefined) {
+            __sensorTmRef.current =
+              videoMedia['x-sensor-transform'] ?? videoMedia['transform']
           }
-
-          pipeline.rtsp.onPlay = (range) => {
-            if (range !== undefined) {
-              __rangeRef.current = [
-                parseFloat(range[0]) || 0,
-                parseFloat(range[1]) || undefined,
-              ]
-            }
+          if (__onSdpRef.current !== undefined) {
+            __onSdpRef.current(sdp)
           }
-          pipeline.rtsp.play(__offsetRef.current)
-          setFetching(true)
+          if (range !== undefined) {
+            __rangeRef.current = [
+              parseFloat(range[0]) || 0,
+              parseFloat(range[1]) || undefined,
+            ]
+          }
         })
-        .catch(console.error)
+        .catch((err) => console.log('failed to start pipeline:', err))
+      logDebug('fetching')
+      setFetching(true)
     } else if (play && pipeline !== null) {
-      debugLog('play')
-      pipeline.play()
-
-      // Callback `onCanPlay` is called when the canvas element is ready to
-      // play. We need to wait for that event to get the correct width/height.
-      pipeline.onCanplay = () => {
+      logDebug('play')
+      // Play only starts when the canvas element is ready to play.
+      /// We need to await that to get the correct width/height.
+      pipeline.play().then(() => {
         if (
           canvasRef.current !== null &&
           __onPlayingRef.current !== undefined
@@ -227,9 +217,9 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
             sensorTm: __sensorTmRef.current,
           })
         }
-      }
+      })
     } else if (!play && pipeline) {
-      debugLog('pause')
+      logDebug('pause')
       pipeline.pause()
     }
   }, [play, pipeline, fetching])

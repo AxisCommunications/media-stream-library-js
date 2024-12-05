@@ -1,10 +1,11 @@
-export const optionsRequest = `OPTIONS rtsp://192.168.0.3/axis-media/media.amp?resolution=176x144&fps=1 RTSP/1.0
+export const optionsRequest =
+  `OPTIONS rtsp://192.168.0.3/axis-media/media.amp?resolution=176x144&fps=1 RTSP/1.0
 CSeq: 1
 Date: Wed, 03 Jun 2015 14:26:16 GMT
 
 `
-  .split('\n')
-  .join('\r\n')
+    .split('\n')
+    .join('\r\n')
 
 export const sdpResponse = `RTSP/1.0 200 OK
 CSeq: 3
@@ -497,7 +498,7 @@ export const frames = {
 }
 
 // biome-ignore format: custom formatting
-export const rtspRtpRtcpCombined = Buffer.from([
+export const rtspRtpRtcpCombined = new Uint8Array([
   82, 84, 83, 80, 47, 49, 46, 48, 32, 50, 48, 48, 32, 79, 75, 13, 10, 67, 83,
   101, 113, 58, 32, 52, 13, 10, 68, 97, 116, 101, 58, 32, 84, 104, 117, 44, 32,
   65, 112, 114, 32, 50, 49, 32, 50, 48, 49, 54, 32, 48, 56, 58, 51, 49, 58, 52,
@@ -572,7 +573,7 @@ export const rtspRtpRtcpCombined = Buffer.from([
 ])
 
 // biome-ignore format: custom formatting
-export const rtspWithTrailingRtp = Buffer.from([
+export const rtspWithTrailingRtp = new Uint8Array([
   82, 84, 83, 80, 47, 49, 46, 48, 32, 50, 48, 48, 32, 79, 75, 13, 10, 67, 83,
   101, 113, 58, 32, 52, 13, 10, 68, 97, 116, 101, 58, 32, 84, 104, 117, 44, 32,
   65, 112, 114, 32, 50, 49, 32, 50, 48, 49, 54, 32, 48, 55, 58, 48, 57, 58, 51,
