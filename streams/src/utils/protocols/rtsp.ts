@@ -38,56 +38,59 @@
  * ....
  */
 
+export const ASCII = {
+  LF: 10,
+  CR: 13,
+} as const
+
 /**
  * Extract the value of a header.
  *
  * @param buffer The response bytes
- * @param header The header to search for
+ * @param key The header to search for
  */
-export const extractHeaderValue = (buffer: Buffer, header: string) => {
-  const anchor = `\n${header.toLowerCase()}: `
-  const start = buffer.toString().toLowerCase().indexOf(anchor)
+export const extractHeaderValue = (header: string, key: string) => {
+  const anchor = `\n${key.toLowerCase()}: `
+  const start = header.toLowerCase().indexOf(anchor)
   if (start >= 0) {
-    const end = buffer.indexOf('\n', start + anchor.length)
-    const headerValue = buffer
-      .toString('ascii', start + anchor.length, end)
-      .trim()
+    const end = header.indexOf('\n', start + anchor.length)
+    const headerValue = header.substring(start + anchor.length, end).trim()
     return headerValue
   }
   return null
 }
 
-export const sequence = (buffer: Buffer) => {
+export const sequence = (header: string) => {
   /**
    * CSeq           =  "CSeq" HCOLON cseq-nr
    * cseq-nr        =  1*9DIGIT
    */
-  const val = extractHeaderValue(buffer, 'CSeq')
+  const val = extractHeaderValue(header, 'CSeq')
   if (val !== null) {
     return Number(val)
   }
   return null
 }
 
-export const sessionId = (buffer: Buffer) => {
+export const sessionId = (header: string) => {
   /**
    * Session          =  "Session" HCOLON session-id
    *                     [ SEMI "timeout" EQUAL delta-seconds ]
    * session-id        =  1*256( ALPHA / DIGIT / safe )
    * delta-seconds     =  1*19DIGIT
    */
-  const val = extractHeaderValue(buffer, 'Session')
+  const val = extractHeaderValue(header, 'Session')
   return val ? val.split(';')[0] : null
 }
 
-export const sessionTimeout = (buffer: Buffer) => {
+export const sessionTimeout = (header: string) => {
   /**
    * Session          =  "Session" HCOLON session-id
    *                     [ SEMI "timeout" EQUAL delta-seconds ]
    * session-id        =  1*256( ALPHA / DIGIT / safe )
    * delta-seconds     =  1*19DIGIT
    */
-  const val = extractHeaderValue(buffer, 'Session')
+  const val = extractHeaderValue(header, 'Session')
   if (val === null) {
     return null
   }
@@ -103,35 +106,35 @@ export const sessionTimeout = (buffer: Buffer) => {
   return defaultTimeout
 }
 
-export const statusCode = (buffer: Buffer) => {
-  return Number(buffer.toString('ascii', 9, 12))
+export const statusCode = (header: string) => {
+  return Number(header.substring(9, 12))
 }
 
-export const contentBase = (buffer: Buffer) => {
+export const contentBase = (header: string) => {
   /**
    * Content-Base       =  "Content-Base" HCOLON RTSP-URI
    */
-  return extractHeaderValue(buffer, 'Content-Base')
+  return extractHeaderValue(header, 'Content-Base')
 }
 
-export const contentLocation = (buffer: Buffer) => {
+export const contentLocation = (header: string) => {
   /**
    * Content-Location   =  "Content-Location" HCOLON RTSP-REQ-Ref
    */
-  return extractHeaderValue(buffer, 'Content-Location')
+  return extractHeaderValue(header, 'Content-Location')
 }
 
-export const connectionEnded = (buffer: Buffer) => {
+export const connectionEnded = (header: string) => {
   /**
    * Connection         =  "Connection" HCOLON connection-token
    *                       *(COMMA connection-token)
    * connection-token   =  "close" / token
    */
-  const connectionToken = extractHeaderValue(buffer, 'Connection')
+  const connectionToken = extractHeaderValue(header, 'Connection')
   return connectionToken !== null && connectionToken.toLowerCase() === 'close'
 }
 
-export const range = (buffer: Buffer) => {
+export const range = (header: string) => {
   /**
    * Range              =  "Range" HCOLON ranges-spec
    * ranges-spec        =  npt-range / utc-range / smpte-range
@@ -154,12 +157,25 @@ export const range = (buffer: Buffer) => {
   // Example range headers:
   // Range: npt=now-
   // Range: npt=1154.598701-3610.259146
-  const npt = extractHeaderValue(buffer, 'Range')
+  const npt = extractHeaderValue(header, 'Range')
   if (npt !== null) {
     return npt.split('=')[1].split('-')
   }
   return undefined
 }
+
+interface HeaderTerminator {
+  byteLength: number
+  sequence: string
+  startByte: number
+}
+const headerTerminators: HeaderTerminator[] = [
+  // expected
+  { sequence: '\r\n\r\n', startByte: ASCII.CR, byteLength: 4 },
+  // legacy compatibility
+  { sequence: '\r\r', startByte: ASCII.CR, byteLength: 2 },
+  { sequence: '\n\n', startByte: ASCII.LF, byteLength: 2 },
+]
 
 /**
  * Determine the offset of the RTSP body, where the header ends.
@@ -167,25 +183,30 @@ export const range = (buffer: Buffer) => {
  * @param  chunk - A piece of data
  * @return The body offset, or -1 if no header end found
  */
-export const bodyOffset = (chunk: Buffer) => {
-  /**
-   * Strictly speaking, it seems RTSP MUST have CRLF and doesn't allow CR or LF on its own.
-   * That means that the end of the header part should be a pair of CRLF, but we're being
-   * flexible here and also allow LF LF or CR CR instead of CRLF CRLF.
-   */
-  const bodyOffsets = ['\n\n', '\r\r', '\r\n\r\n']
-    .map((s) => {
-      const offset = chunk.indexOf(s)
-      if (offset !== -1) {
-        return offset + s.length
+export const bodyOffset = (chunk: Uint8Array) => {
+  // Strictly speaking, it seems RTSP MUST have CRLF and doesn't allow CR or LF on its own.
+  // That means that the end of the header part should be a pair of CRLF, but we're being
+  // flexible here and also allow LF LF or CR CR instead of CRLF CRLF (should be handled
+  // according to version 1.0)
+  const dec = new TextDecoder()
+
+  for (const terminator of headerTerminators) {
+    const terminatorOffset = chunk.findIndex((value, index, array) => {
+      if (value === terminator.startByte) {
+        const candidate = dec.decode(
+          array.slice(index, index + terminator.byteLength)
+        )
+
+        if (candidate === terminator.sequence) {
+          return true
+        }
       }
-      return offset
+      return false
     })
-    .filter((offset) => offset !== -1)
-  if (bodyOffsets.length > 0) {
-    return bodyOffsets.reduce((acc, offset) => {
-      return Math.min(acc, offset)
-    })
+    if (terminatorOffset !== -1) {
+      return terminatorOffset + terminator.byteLength
+    }
   }
+
   return -1
 }

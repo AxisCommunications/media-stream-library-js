@@ -1,5 +1,7 @@
 import { Readable, Transform, Writable } from 'stream'
 
+import { fromByteArray, toByteArray } from 'base64-js'
+
 export default class StreamFactory {
   /**
    * Creates a writable stream that sends all messages written to the stream
@@ -61,7 +63,7 @@ export default class StreamFactory {
         const timestamp = Date.now()
         // Replace binary data with base64 string
         const message = Object.assign({}, msg, {
-          data: msg.data.toString('base64'),
+          data: fromByteArray(msg.data),
         })
         fileStream.write(JSON.stringify({ type, timestamp, message }, null, 2))
         fileStream.write(',\n')
@@ -87,8 +89,8 @@ export default class StreamFactory {
           lastTimestamp = timestamp
           if (message) {
             const data = message.data
-              ? Buffer.from(message.data, 'base64')
-              : Buffer.alloc(0)
+              ? toByteArray(message.data)
+              : new Uint8Array(0)
             const msg = Object.assign({}, message, { data })
             this.push({ type, delay, msg })
           } else {

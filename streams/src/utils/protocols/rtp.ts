@@ -1,3 +1,4 @@
+import { readUInt16BE, readUInt32BE } from 'utils/bytes'
 import { POS } from '../bits'
 
 // Real Time Protocol (RTP)
@@ -25,63 +26,63 @@ RTP Fixed Header Fields
   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 */
 
-export const version = (buffer: Buffer) => {
-  return buffer[0] >>> 6
+export const version = (bytes: Uint8Array): number => {
+  return bytes[0] >>> 6
 }
 
-export const padding = (buffer: Buffer) => {
-  return !!(buffer[0] & POS[2])
+export const padding = (bytes: Uint8Array): boolean => {
+  return !!(bytes[0] & POS[2])
 }
 
-export const extension = (buffer: Buffer) => {
-  return !!(buffer[0] & POS[3])
+export const extension = (bytes: Uint8Array): boolean => {
+  return !!(bytes[0] & POS[3])
 }
 
-export const cSrcCount = (buffer: Buffer) => {
-  return buffer[0] & 0x0f
+export const cSrcCount = (bytes: Uint8Array): number => {
+  return bytes[0] & 0x0f
 }
 
-export const marker = (buffer: Buffer) => {
-  return !!(buffer[1] & POS[0])
+export const marker = (bytes: Uint8Array): boolean => {
+  return !!(bytes[1] & POS[0])
 }
 
-export const payloadType = (buffer: Buffer) => {
-  return buffer[1] & 0x7f
+export const payloadType = (bytes: Uint8Array): number => {
+  return bytes[1] & 0x7f
 }
 
-export const sequenceNumber = (buffer: Buffer) => {
-  return buffer.readUInt16BE(2)
+export const sequenceNumber = (bytes: Uint8Array): number => {
+  return readUInt16BE(bytes, 2)
 }
 
-export const timestamp = (buffer: Buffer) => {
-  return buffer.readUInt32BE(4)
+export const timestamp = (bytes: Uint8Array): number => {
+  return readUInt32BE(bytes, 4)
 }
 
-export const sSrc = (buffer: Buffer) => {
-  return buffer.readUInt32BE(8)
+export const sSrc = (bytes: Uint8Array): number => {
+  return readUInt32BE(bytes, 8)
 }
 
-export const cSrc = (buffer: Buffer, rank = 0) => {
-  return cSrcCount(buffer) > rank ? buffer.readUInt32BE(12 + rank * 4) : 0
+export const cSrc = (bytes: Uint8Array, rank = 0): number => {
+  return cSrcCount(bytes) > rank ? readUInt32BE(bytes, 12 + rank * 4) : 0
 }
 
-export const extHeaderLength = (buffer: Buffer) => {
-  return !extension(buffer)
+export const extHeaderLength = (bytes: Uint8Array): number => {
+  return !extension(bytes)
     ? 0
-    : buffer.readUInt16BE(12 + cSrcCount(buffer) * 4 + 2)
+    : readUInt16BE(bytes, 12 + cSrcCount(bytes) * 4 + 2)
 }
 
-export const extHeader = (buffer: Buffer) => {
-  return extHeaderLength(buffer) === 0
-    ? Buffer.from([])
-    : buffer.slice(
-        12 + cSrcCount(buffer) * 4,
-        12 + cSrcCount(buffer) * 4 + 4 + extHeaderLength(buffer) * 4
+export const extHeader = (bytes: Uint8Array): Uint8Array => {
+  return extHeaderLength(bytes) === 0
+    ? new Uint8Array(0)
+    : bytes.subarray(
+        12 + cSrcCount(bytes) * 4,
+        12 + cSrcCount(bytes) * 4 + 4 + extHeaderLength(bytes) * 4
       )
 }
 
-export const payload = (buffer: Buffer) => {
-  return !extension(buffer)
-    ? buffer.slice(12 + cSrcCount(buffer) * 4)
-    : buffer.slice(12 + cSrcCount(buffer) * 4 + 4 + extHeaderLength(buffer) * 4)
+export const payload = (bytes: Uint8Array): Uint8Array => {
+  return !extension(bytes)
+    ? bytes.subarray(12 + cSrcCount(bytes) * 4)
+    : bytes.subarray(12 + cSrcCount(bytes) * 4 + 4 + extHeaderLength(bytes) * 4)
 }

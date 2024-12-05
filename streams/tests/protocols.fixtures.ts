@@ -1,18 +1,18 @@
 /* biome-ignore format: custom formatting */
 export const rtpBuffers = [
-  Buffer.from([128, 96, 80, 56, 225, 39, 20, 132, 25, 190, 186, 105]),
-  Buffer.from([128, 224, 80, 76, 225, 39, 108, 97, 25, 190, 186, 105, 1, 2, 3]),
-  Buffer.from([
+  new Uint8Array([128, 96, 80, 56, 225, 39, 20, 132, 25, 190, 186, 105]),
+  new Uint8Array([128, 224, 80, 76, 225, 39, 108, 97, 25, 190, 186, 105, 1, 2, 3]),
+  new Uint8Array([
     129, 224, 80, 95, 225, 40, 57, 104, 25, 190, 186, 105, 0, 0, 0, 1, 1, 2, 3,
   ]),
 ]
 
 /* biome-ignore format: custom formatting */
 export const rtpBuffersWithHeaderExt = [
-  Buffer.from([
+  new Uint8Array([
     144, 224, 80, 76, 225, 39, 108, 97, 25, 190, 186, 105, 1, 2, 0, 0, 1, 2, 3,
   ]),
-  Buffer.from([
+  new Uint8Array([
     144, 224, 80, 76, 225, 39, 108, 97, 25, 190, 186, 105, 1, 2, 0, 1, 1, 2, 3,
     4, 1, 2, 3,
   ]),
@@ -21,13 +21,13 @@ export const rtpBuffersWithHeaderExt = [
 /* biome-ignore format: custom formatting */
 export const rtcpSRBuffers = [
   // 0 reports
-  Buffer.from([
+  new Uint8Array([
     128, 200, 0, 6, 243, 203, 32, 1, 131, 171, 3, 161, 235, 2, 11, 58, 0, 0,
     148, 32, 0, 0, 0, 158, 0, 0, 155, 136,
   ]),
 
   // 3 reports
-  Buffer.from([
+  new Uint8Array([
     131, 200, 0, 24, 243, 203, 32, 1, 131, 171, 3, 161, 235, 2, 11, 58, 0, 0,
     148, 32, 0, 0, 0, 158, 0, 0, 155, 136, 0, 0, 0, 1, 4, 0, 0, 10, 0, 0, 0,
     1000, 0, 0, 0, 5, 0, 0, 0, 6, 0, 0, 0, 7, 0, 0, 0, 2, 4, 0, 0, 11, 0, 0, 0,
@@ -39,10 +39,10 @@ export const rtcpSRBuffers = [
 /* biome-ignore format: custom formatting */
 export const rtcpRRBuffers = [
   // 0 reports
-  Buffer.from([128, 201, 0, 1, 27, 117, 249, 76]),
+  new Uint8Array([128, 201, 0, 1, 27, 117, 249, 76]),
 
   // 3 reports
-  Buffer.from([
+  new Uint8Array([
     131, 201, 0, 19, 27, 117, 249, 76, 0, 0, 0, 1, 4, 0, 0, 10, 0, 0, 0, 1000,
     0, 0, 0, 5, 0, 0, 0, 6, 0, 0, 0, 7, 0, 0, 0, 2, 4, 0, 0, 11, 0, 0, 0, 1001,
     0, 0, 0, 8, 0, 0, 0, 9, 0, 0, 0, 10, 0, 0, 0, 3, 4, 0, 0, 12, 0, 0, 0, 1002,
@@ -52,14 +52,14 @@ export const rtcpRRBuffers = [
 
 /* biome-ignore format: custom formatting */
 export const rtcpSDESBuffers = [
-  Buffer.from([
+  new Uint8Array([
     129, 202, 0, 12, 217, 157, 189, 215, 1, 28, 117, 115, 101, 114, 50, 53, 48,
     51, 49, 52, 53, 55, 54, 54, 64, 104, 111, 115, 116, 45, 50, 57, 50, 48, 53,
     57, 53, 50, 6, 9, 71, 83, 116, 114, 101, 97, 109, 101, 114, 0, 0, 0,
   ]),
 
   // 2 chunks (1+2 priv)
-  Buffer.from([
+  new Uint8Array([
     130,
     202,
     0,
@@ -117,13 +117,13 @@ export const rtcpSDESBuffers = [
 
 /* biome-ignore format: custom formatting */
 export const rtcpBYEBuffers = [
-  Buffer.from([129, 203, 0, 1, 38, 197, 204, 95]),
+  new Uint8Array([129, 203, 0, 1, 38, 197, 204, 95]),
 
   // 0 byes (valid, but useless)
-  Buffer.from([128, 203, 0, 0]),
+  new Uint8Array([128, 203, 0, 0]),
 
   // 3 byes + reason (valid, but useless)
-  Buffer.from([
+  new Uint8Array([
     131, 203, 0, 5, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 4, 76, 111, 115, 116, 0,
     0, 0,
   ]),
@@ -131,7 +131,7 @@ export const rtcpBYEBuffers = [
 
 /* biome-ignore format: custom formatting */
 export const rtcpAPPBuffers = [
-  Buffer.from([
+  new Uint8Array([
     133, 204, 0, 4, 0, 0, 0, 42, 76, 105, 102, 101, 0, 1, 2, 3, 42, 42, 42, 42,
   ]),
 ]

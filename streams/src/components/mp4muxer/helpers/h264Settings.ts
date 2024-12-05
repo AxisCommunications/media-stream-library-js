@@ -1,8 +1,9 @@
+import { toByteArray } from 'base64-js'
+
 import { H264Media } from '../../../utils/protocols/sdp'
 
 import { Box, Container } from './isom'
 import { SPSParser } from './spsparser'
-import { base64DecToArr } from './utils'
 
 const PROFILE_NAMES: { [key: number]: string } = {
   66: 'Baseline',
@@ -66,16 +67,18 @@ export const h264Settings = (
    */
 
   const profileLevelId = media.fmtp.parameters['profile-level-id']
-  const parameterSets = media.fmtp.parameters['sprop-parameter-sets']
+  const parameterSets: Uint8Array[] = media.fmtp.parameters[
+    'sprop-parameter-sets'
+  ]
     .split(',')
-    .map(base64DecToArr)
+    .map(toByteArray)
 
   // We assume the first set is _the_ SPS (no support for multiple).
   const sps = parameterSets.slice(0, 1)
   // The remaining sets are all PPS to support more than one.
   const pps = parameterSets.slice(1)
 
-  const parsedSps = new SPSParser(sps[0].buffer).parse()
+  const parsedSps = new SPSParser(sps[0]).parse()
   // If media framerate is missing in SDP, it is not possible to calculate
   // the frame duration. Use a fallback value (90000 Hz / 25 fps)
   const FALLBACK_FRAME_DURATION = 3600

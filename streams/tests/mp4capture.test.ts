@@ -12,6 +12,13 @@ const MOCK_BUFFER_SIZE = 10 // Jest has problems with large buffers
 const MOCK_MOVIE_DATA = 0xff
 const MOCK_MOVIE_ENDING_DATA = 0xfe
 
+// FIXME: remove and use GenericMessage when it's data is Uint8Array
+interface MockMessage {
+  readonly type: MessageType
+  readonly data: any
+  ntpTimestamp?: number
+}
+
 // A movie consists of ISOM packets, starting with an ISOM message that has a
 // tracks property.  We want to simulate the beginning and end of a movie, as
 // well as non-movie packets.
@@ -20,12 +27,12 @@ const MOCK_MOVIE = [MessageType.ISOM, MessageType.ISOM].map((type, idx) => {
     return {
       type,
       tracks: [],
-      data: Buffer.allocUnsafe(1).fill(MOCK_MOVIE_DATA),
+      data: new Uint8Array(1).fill(MOCK_MOVIE_DATA),
     }
   }
-  return { type, data: Buffer.allocUnsafe(1).fill(MOCK_MOVIE_DATA) }
+  return { type, data: new Uint8Array(1).fill(MOCK_MOVIE_DATA) }
 })
-const MOCK_MOVIE_BUFFER = Buffer.alloc(2).fill(MOCK_MOVIE_DATA)
+const MOCK_MOVIE_BUFFER = new Uint8Array(2).fill(MOCK_MOVIE_DATA)
 
 const MOCK_MOVIE_ENDING = [
   MessageType.ISOM,
@@ -33,33 +40,15 @@ const MOCK_MOVIE_ENDING = [
   MessageType.ISOM,
   MessageType.ISOM,
 ].map((type) => {
-  return { type, data: Buffer.allocUnsafe(1).fill(MOCK_MOVIE_ENDING_DATA) }
+  return { type, data: new Uint8Array(1).fill(MOCK_MOVIE_ENDING_DATA) }
 })
 
 const MOCK_NOT_MOVIE = ['', ''].map((type) => {
   return {
     type: type as unknown as MessageType, // Intentionally bad type for testing
-    data: Buffer.allocUnsafe(1).fill(0),
+    data: new Uint8Array(1).fill(0),
   }
 })
-
-const copySpies = (
-  type: MessageType,
-  messages: ReadonlyArray<GenericMessage>
-) => {
-  return messages
-    .filter((msg) => msg.type === type)
-    .map((msg) => {
-      const fn = msg.data.copy.bind(msg.data)
-      const spy = { called: false }
-      const spyFn: typeof fn = (...args) => {
-        spy.called = true
-        return fn(...args)
-      }
-      msg.data.copy = spyFn
-      return spy
-    })
-}
 
 /**
  * Set up a pipeline: source - capture - sink.
@@ -67,11 +56,9 @@ const copySpies = (
  * @return Components and function to start flow.
  */
 const pipelineFactory = (
-  ...fragments: ReadonlyArray<ReadonlyArray<GenericMessage>>
+  ...fragments: ReadonlyArray<ReadonlyArray<MockMessage>>
 ) => {
-  const sourceMessages = ([] as ReadonlyArray<GenericMessage>).concat(
-    ...fragments
-  )
+  const sourceMessages = ([] as ReadonlyArray<MockMessage>).concat(...fragments)
   const sinkCalled = { value: 0 }
   const sinkHandler = () => {
     sinkCalled.value++
@@ -100,16 +87,14 @@ describe('data copying', (test) => {
   test('should not occur when capture inactive', async (ctx) => {
     const pipeline = pipelineFactory(MOCK_MOVIE)
 
-    // Spy on the copy method of the underlying movie data.
-    const shouldNotCopy = copySpies(MessageType.ISOM, MOCK_MOVIE)
-
     // Start the pipeline (this will flow the messages)
     pipeline.flow()
 
     const done = new Promise((resolve) => (ctx.resolve = resolve))
     pipeline.sink.incoming.on('finish', () => {
-      shouldNotCopy.forEach(({ called }) => assert.not(called))
       assert.is(pipeline.sinkCalled.value, MOCK_MOVIE.length)
+      // @ts-ignore _bufferOffset is private but we want to check nothing was captured
+      assert.is(pipeline.capture._bufferOffset, 0)
       ctx.resolve()
     })
     await done
@@ -118,12 +103,9 @@ describe('data copying', (test) => {
   test('should occur when capture active', async (ctx) => {
     const pipeline = pipelineFactory(MOCK_MOVIE)
 
-    // Spy on the copy method of the underlying movie data.
-    const shouldCopy = copySpies(MessageType.ISOM, MOCK_MOVIE)
-
     // Activate capture.
-    let capturedBuffer: Buffer
-    const captureHandler = (buffer: Buffer) => {
+    let capturedBuffer: Uint8Array
+    const captureHandler = (buffer: Uint8Array) => {
       capturedBuffer = buffer
     }
     pipeline.capture.start(captureHandler)
@@ -133,7 +115,6 @@ describe('data copying', (test) => {
 
     const done = new Promise((resolve) => (ctx.resolve = resolve))
     pipeline.sink.incoming.on('finish', () => {
-      shouldCopy.forEach(({ called }) => assert.ok(called))
       assert.equal(capturedBuffer, MOCK_MOVIE_BUFFER)
       ctx.resolve()
     })
@@ -143,12 +124,9 @@ describe('data copying', (test) => {
   test('should only occur when new movie has started', async (ctx) => {
     const pipeline = pipelineFactory(MOCK_MOVIE_ENDING, MOCK_MOVIE)
 
-    const shouldNotCopy = copySpies(MessageType.ISOM, MOCK_MOVIE_ENDING)
-    const shouldCopy = copySpies(MessageType.ISOM, MOCK_MOVIE)
-
     // Activate capture.
-    let capturedBuffer: Buffer
-    const captureHandler = (buffer: Buffer) => {
+    let capturedBuffer: Uint8Array
+    const captureHandler = (buffer: Uint8Array) => {
       capturedBuffer = buffer
     }
     pipeline.capture.start(captureHandler)
@@ -158,8 +136,6 @@ describe('data copying', (test) => {
 
     const done = new Promise((resolve) => (ctx.resolve = resolve))
     pipeline.sink.incoming.on('finish', () => {
-      shouldNotCopy.forEach(({ called }) => assert.not(called))
-      shouldCopy.forEach(({ called }) => assert.ok(called))
       assert.equal(capturedBuffer, MOCK_MOVIE_BUFFER)
       ctx.resolve()
     })
@@ -169,12 +145,9 @@ describe('data copying', (test) => {
   test('should not occur when not a movie', async (ctx) => {
     const pipeline = pipelineFactory(MOCK_MOVIE, MOCK_NOT_MOVIE)
 
-    const shouldCopy = copySpies(MessageType.ISOM, MOCK_MOVIE)
-    const shouldNotCopy = copySpies(MessageType.ISOM, MOCK_NOT_MOVIE)
-
     // Activate capture.
-    let capturedBuffer: Buffer
-    const captureHandler = (buffer: Buffer) => {
+    let capturedBuffer: Uint8Array
+    const captureHandler = (buffer: Uint8Array) => {
       capturedBuffer = buffer
     }
     pipeline.capture.start(captureHandler)
@@ -184,8 +157,6 @@ describe('data copying', (test) => {
 
     const done = new Promise((resolve) => (ctx.resolve = resolve))
     pipeline.sink.incoming.on('finish', () => {
-      shouldCopy.forEach(({ called }) => assert.ok(called))
-      shouldNotCopy.forEach(({ called }) => assert.not(called))
       assert.equal(capturedBuffer, MOCK_MOVIE_BUFFER)
       ctx.resolve()
     })
@@ -195,12 +166,9 @@ describe('data copying', (test) => {
   test('should stop when requested', async (ctx) => {
     const pipeline = pipelineFactory(MOCK_MOVIE, MOCK_MOVIE_ENDING)
 
-    const shouldCopy = copySpies(MessageType.ISOM, MOCK_MOVIE)
-    const shouldNotCopy = copySpies(MessageType.ISOM, MOCK_NOT_MOVIE)
-
     // Activate capture.
-    let capturedBuffer: Buffer
-    const captureHandler = (buffer: Buffer) => {
+    let capturedBuffer: Uint8Array
+    const captureHandler = (buffer: Uint8Array) => {
       capturedBuffer = buffer
     }
     pipeline.capture.start(captureHandler)
@@ -215,8 +183,6 @@ describe('data copying', (test) => {
 
     const done = new Promise((resolve) => (ctx.resolve = resolve))
     pipeline.sink.incoming.on('finish', () => {
-      shouldCopy.forEach(({ called }) => assert.ok(called))
-      shouldNotCopy.forEach(({ called }) => assert.not(called))
       assert.equal(capturedBuffer, MOCK_MOVIE_BUFFER)
       ctx.resolve()
     })

@@ -2,7 +2,7 @@ import { Sdp } from '../../../utils/protocols/sdp'
 
 import { aacSettings } from './aacSettings'
 import { h264Settings } from './h264Settings'
-import { Box, Container } from './isom'
+import { Box, ByteArray, Container } from './isom'
 
 interface MoofMetadata {
   trackId: number
@@ -260,9 +260,9 @@ export class BoxBuilder {
    * @param  data - Elementary stream data
    * @return mdat Box
    */
-  mdat(data: Buffer) {
+  mdat(data: Uint8Array) {
     const box = new Box('mdat')
-    box.add('data', data)
+    box.add('data', new ByteArray(data))
     return box
   }
 

@@ -10,10 +10,10 @@ import { jpegDepayFactory } from './parser'
 export class JPEGDepay extends Tube {
   constructor() {
     let jpegPayloadType: number
-    let packets: Buffer[] = []
-    let jpegDepay: (packets: Buffer[]) => {
+    let packets: Uint8Array[] = []
+    let jpegDepay: (packets: Uint8Array[]) => {
       size: { width: number; height: number }
-      data: Buffer
+      data: Uint8Array
     }
 
     const incoming = new Transform({

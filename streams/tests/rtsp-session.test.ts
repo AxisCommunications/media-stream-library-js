@@ -3,8 +3,9 @@ import * as assert from 'uvu/assert'
 import { Writable } from 'stream'
 import { MessageType } from 'components/message'
 import { RTSP_METHOD, RtspSession } from 'components/rtsp-session'
-import { messageFromBuffer } from 'utils/protocols/sdp'
+import { sdpFromBody } from 'utils/protocols/sdp'
 
+import { encode } from 'utils/bytes'
 import {
   responses,
   sdpResponseVideoAudioSVG,
@@ -144,7 +145,7 @@ describe('rtsp-sessiont onIncoming method', (test) => {
       assert.is((s as any)._callStack[0].method, 'SETUP')
       ctx.resolve()
     })
-    s.incoming.write(messageFromBuffer(Buffer.from(sdp)))
+    s.incoming.write(sdpFromBody(sdp))
     await done
   })
 
@@ -154,7 +155,7 @@ describe('rtsp-sessiont onIncoming method', (test) => {
     assert.is((s as any)._sessionId, null)
 
     assert.is((s as any)._renewSessionInterval, null)
-    const res = Buffer.from(setupResponse)
+    const res = encode(setupResponse)
     s.incoming.write({ data: res, type: MessageType.RTSP })
 
     assert.is((s as any)._sessionId, 'Bk48Ak7wjcWaAgRD')
@@ -177,7 +178,7 @@ describe('rtsp-sessiont onIncoming method', (test) => {
       assert.is((s as any)._callStack.length, 2)
       ctx.resolve()
     })
-    s.incoming.write(messageFromBuffer(Buffer.from(sdpResponseVideoAudioSVG)))
+    s.incoming.write(sdpFromBody(sdpResponseVideoAudioSVG))
     await done
   })
 
@@ -188,7 +189,7 @@ describe('rtsp-sessiont onIncoming method', (test) => {
       assert.is(msg.headers.Blocksize, '64000')
       ctx.resolve()
     })
-    s.incoming.write(messageFromBuffer(Buffer.from(sdpResponseVideoAudioSVG)))
+    s.incoming.write(sdpFromBody(sdpResponseVideoAudioSVG))
     await done
   })
 })
@@ -259,12 +260,12 @@ describe('rtsp-session play', (test) => {
       methods.push(req.method)
       const rtspResponse = responses[calls++]
       const rtspMessage = {
-        data: Buffer.from(rtspResponse),
+        data: encode(rtspResponse),
         type: MessageType.RTSP,
       }
       s.incoming.write(rtspMessage) // Give a canned response
       if (req.method === 'DESCRIBE') {
-        const sdpMessage = messageFromBuffer(Buffer.from(rtspResponse))
+        const sdpMessage = sdpFromBody(rtspResponse)
         s.incoming.write(sdpMessage)
       }
       if (req.method === 'PLAY') {

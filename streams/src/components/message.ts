@@ -4,7 +4,7 @@ import { Sdp } from '../utils/protocols/sdp'
 
 export interface GenericMessage {
   readonly type: MessageType
-  readonly data: Buffer
+  readonly data: Uint8Array
   ntpTimestamp?: number
 }
 

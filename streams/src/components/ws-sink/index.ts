@@ -29,7 +29,7 @@ export class WSSink extends Sink {
       },
     })
 
-    socket.on('message', function (data: Buffer) {
+    socket.on('message', function (data: Uint8Array) {
       outgoing.push({ data, type: MessageType.RAW })
     })
 

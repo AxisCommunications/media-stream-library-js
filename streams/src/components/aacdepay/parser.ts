@@ -1,3 +1,4 @@
+import { readUInt16BE } from 'utils/bytes'
 import { payload, payloadType, timestamp } from '../../utils/protocols/rtp'
 import { ElementaryMessage, MessageType, RtpMessage } from '../message'
 
@@ -41,12 +42,12 @@ export function parse(
 
   let headerLength = 0
   if (hasHeader) {
-    const auHeaderLengthInBits = buffer.readUInt16BE(0)
+    const auHeaderLengthInBits = readUInt16BE(buffer, 0)
     headerLength = 2 + (auHeaderLengthInBits + (auHeaderLengthInBits % 8)) / 8 // Add padding
   }
   const packet: ElementaryMessage = {
     type: MessageType.ELEMENTARY,
-    data: buffer.slice(headerLength),
+    data: new Uint8Array(buffer.subarray(headerLength)),
     payloadType: payloadType(rtp.data),
     timestamp: timestamp(rtp.data),
     ntpTimestamp: rtp.ntpTimestamp,

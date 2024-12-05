@@ -2,6 +2,7 @@ import * as assert from 'uvu/assert'
 
 import { MessageType, RtspMessage } from 'components/message'
 import { builder } from 'components/rtsp-parser/builder'
+import { decode } from 'utils/bytes'
 
 import { optionsRequest } from './rtsp-parser.fixtures'
 import { describe } from './uvu-describe'
@@ -16,10 +17,10 @@ describe('rtsp-parser builder', (test) => {
         CSeq: '1',
         Date: 'Wed, 03 Jun 2015 14:26:16 GMT',
       },
-      data: Buffer.alloc(0),
+      data: new Uint8Array(0),
     }
     const data = builder(msg)
 
-    assert.is(data.toString('ascii'), optionsRequest)
+    assert.is(decode(data), optionsRequest)
   })
 })

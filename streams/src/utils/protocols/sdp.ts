@@ -217,15 +217,15 @@ export interface Sdp {
   readonly media: MediaDescription[]
 }
 
-const extractLineVals = (buffer: Buffer, lineStart: string, start = 0) => {
+const extractLineVals = (body: string, lineStart: string, start = 0) => {
   const anchor = `\n${lineStart}`
-  start = buffer.indexOf(anchor, start)
+  start = body.indexOf(anchor, start)
   let end = 0
   const ret: string[] = []
   while (start >= 0) {
-    end = buffer.indexOf('\n', start + anchor.length)
-    ret.push(buffer.toString('ascii', start + anchor.length, end).trim())
-    start = buffer.indexOf(anchor, end)
+    end = body.indexOf('\n', start + anchor.length)
+    ret.push(body.substring(start + anchor.length, end).trim())
+    start = body.indexOf(anchor, end)
   }
   return ret
 }
@@ -396,23 +396,20 @@ const extractField = (line: string) => {
   }
 }
 
-export const extractURIs = (buffer: Buffer) => {
+export const extractURIs = (body: string) => {
   // There is a control URI above the m= line, which should not be used
-  const seekFrom = buffer.indexOf('\nm=')
-  return extractLineVals(buffer, 'a=control:', seekFrom)
+  const seekFrom = body.indexOf('\nm=')
+  return extractLineVals(body, 'a=control:', seekFrom)
 }
 
 /**
  * Parse an SDP text into a data structure with session and media objects.
  *
- * @param  buffer - The buffer containing the SDP plain text
+ * @param  body - The buffer containing the SDP plain text
  * @return Structured SDP data
  */
-export const parse = (buffer: Buffer): Sdp => {
-  const sdp = buffer
-    .toString('ascii')
-    .split('\n')
-    .map((s) => s.trim())
+export const parse = (body: string): Sdp => {
+  const sdp = body.split('\n').map((s) => s.trim())
   const struct: { [key: string]: any } = { session: {}, media: [] }
   let mediaCounter = 0
   let current = struct.session
@@ -427,10 +424,10 @@ export const parse = (buffer: Buffer): Sdp => {
   return struct as Sdp
 }
 
-export const messageFromBuffer = (buffer: Buffer): SdpMessage => {
+export const sdpFromBody = (body: string): SdpMessage => {
   return {
     type: MessageType.SDP,
-    data: buffer,
-    sdp: parse(buffer),
+    data: new Uint8Array(0),
+    sdp: parse(body),
   }
 }

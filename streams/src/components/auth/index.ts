@@ -1,9 +1,11 @@
+import { encode } from 'utils/bytes'
 import { merge } from '../../utils/config'
 import { statusCode } from '../../utils/protocols/rtsp'
 import { Tube } from '../component'
 import { Message, MessageType, RtspMessage } from '../message'
 import { createTransform } from '../messageStreams'
 
+import { fromByteArray } from 'base64-js'
 import { DigestAuth } from './digest'
 import { parseWWWAuthenticate } from './www-authenticate'
 
@@ -56,7 +58,7 @@ export class Auth extends Tube {
     ) {
       if (
         msg.type === MessageType.RTSP &&
-        statusCode(msg.data) === UNAUTHORIZED
+        statusCode(msg.data.toString()) === UNAUTHORIZED
       ) {
         const headers = msg.data.toString().split('\n')
         const wwwAuth = headers.find((header) => /WWW-Auth/i.test(header))
@@ -65,9 +67,7 @@ export class Auth extends Tube {
         }
         const challenge = parseWWWAuthenticate(wwwAuth)
         if (challenge.type === 'basic') {
-          authHeader = `Basic ${Buffer.from(`${username}:${password}`).toString(
-            'base64'
-          )}`
+          authHeader = `Basic ${fromByteArray(encode(`${username}:${password}`))}`
         } else if (challenge.type === 'digest') {
           const digest = new DigestAuth(challenge.params, username, password)
           authHeader = digest.authorization(

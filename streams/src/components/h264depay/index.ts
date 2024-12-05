@@ -5,13 +5,14 @@ import { VideoMedia } from '../../utils/protocols/sdp'
 import { Tube } from '../component'
 import { Message, MessageType } from '../message'
 
+import { concat } from 'utils/bytes'
 import { H264DepayParser, NAL_TYPES } from './parser'
 
 export class H264Depay extends Tube {
   constructor() {
     let h264PayloadType: number
     let idrFound = false
-    let packets: Buffer[] = []
+    let packets: Uint8Array[] = []
 
     const h264DepayParser = new H264DepayParser()
 
@@ -59,7 +60,7 @@ export class H264Depay extends Tube {
           if (endOfFrame) {
             this.push({
               ...h264Message,
-              data: packets.length === 1 ? packets[0] : Buffer.concat(packets),
+              data: packets.length === 1 ? packets[0] : concat(packets),
             })
             packets = []
           }

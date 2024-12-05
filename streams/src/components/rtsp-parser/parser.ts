@@ -1,8 +1,9 @@
+import { concat, decode, readUInt16BE } from 'utils/bytes'
 import { rtcpMessageFromBuffer } from '../../utils/protocols/rtcp'
 import { bodyOffset, extractHeaderValue } from '../../utils/protocols/rtsp'
-import { messageFromBuffer } from '../../utils/protocols/sdp'
-import {
-  MessageType,
+import { sdpFromBody } from '../../utils/protocols/sdp'
+import { MessageType } from '../message'
+import type {
   RtcpMessage,
   RtpMessage,
   RtspMessage,
@@ -33,20 +34,20 @@ interface RtpPacketInfo {
  * @param  chunks - Buffers constituting the data.
  * @return Packet information (channel, begin, end).
  */
-const rtpPacketInfo = (chunks: Buffer[]): RtpPacketInfo => {
-  const header = Buffer.alloc(INTERLEAVED_HEADER_BYTES)
+const rtpPacketInfo = (chunks: Uint8Array[]): RtpPacketInfo => {
+  const header = new Uint8Array(INTERLEAVED_HEADER_BYTES)
   let i = 0
   let bytesRead = 0
 
   while (bytesRead < header.length) {
     const chunk = chunks[i++]
     const bytesToRead = Math.min(chunk.length, header.length - bytesRead)
-    chunk.copy(header, bytesRead, 0, bytesToRead)
+    header.set(chunk.subarray(0, bytesToRead), bytesRead)
     bytesRead += bytesToRead
   }
   const channel = header[1]
   const begin = header.length
-  const length = header.readUInt16BE(2)
+  const length = readUInt16BE(header, 2)
   const end = begin + length
 
   return { channel, begin, end }
@@ -60,7 +61,7 @@ const rtpPacketInfo = (chunks: Buffer[]): RtpPacketInfo => {
  * @type {[type]}
  */
 export class Parser {
-  private _chunks: Buffer[] = []
+  private _chunks: Uint8Array[] = []
   private _length = 0
   private _state: STATE = STATE.IDLE
   private _packet?: RtpPacketInfo
@@ -84,7 +85,7 @@ export class Parser {
     this._state = STATE.IDLE
   }
 
-  _push(chunk: Buffer) {
+  _push(chunk: Uint8Array) {
     this._chunks.push(chunk)
     this._length += chunk.length
   }
@@ -96,18 +97,22 @@ export class Parser {
   _parseRtsp(): Array<RtspMessage | SdpMessage> {
     const messages: Array<RtspMessage | SdpMessage> = []
 
-    const buffer = Buffer.concat(this._chunks)
-    const chunkBodyOffset = bodyOffset(buffer)
+    const data = concat(this._chunks)
+    const chunkBodyOffset = bodyOffset(data)
     // If last added chunk does not have the end of the header, return.
     if (chunkBodyOffset === -1) {
       return messages
     }
 
     const rtspHeaderLength = chunkBodyOffset
-    const contentLength = extractHeaderValue(buffer, 'Content-Length')
+
+    const dec = new TextDecoder()
+    const header = dec.decode(data.subarray(0, rtspHeaderLength))
+
+    const contentLength = extractHeaderValue(header, 'Content-Length')
     if (
       contentLength &&
-      parseInt(contentLength) > buffer.length - rtspHeaderLength
+      Number.parseInt(contentLength) > data.length - rtspHeaderLength
     ) {
       // we do not have the whole body
       return messages
@@ -116,23 +121,22 @@ export class Parser {
     this._init() // resets this._chunks and this._length
 
     if (
-      rtspHeaderLength === buffer.length ||
-      buffer[rtspHeaderLength] === ASCII_DOLLAR
+      rtspHeaderLength === data.length ||
+      data[rtspHeaderLength] === ASCII_DOLLAR
     ) {
       // No body in this chunk, assume there is no body?
-      const packet = buffer.slice(0, rtspHeaderLength)
+      const packet = data.subarray(0, rtspHeaderLength)
       messages.push({ type: MessageType.RTSP, data: packet })
 
       // Add the remaining data to the chunk stack.
-      const trailing = buffer.slice(rtspHeaderLength)
+      const trailing = data.subarray(rtspHeaderLength)
       this._push(trailing)
     } else {
       // Body is assumed to be the remaining data of the last chunk.
-      const packet = buffer
-      const body = buffer.slice(rtspHeaderLength)
+      const body = data.subarray(rtspHeaderLength)
 
-      messages.push({ type: MessageType.RTSP, data: packet })
-      messages.push(messageFromBuffer(body))
+      messages.push({ type: MessageType.RTSP, data })
+      messages.push(sdpFromBody(decode(body)))
     }
 
     return messages
@@ -161,12 +165,12 @@ export class Parser {
     }
 
     // We have enough data to extract the packet.
-    const buffer = Buffer.concat(this._chunks)
-    const packet = buffer.slice(this._packet.begin, this._packet.end)
-    const trailing = buffer.slice(this._packet.end)
+    const buffer = concat(this._chunks)
+    const packet = buffer.subarray(this._packet.begin, this._packet.end)
+    const trailing = buffer.subarray(this._packet.end)
     const channel = this._packet.channel
 
-    delete this._packet
+    this._packet = undefined
 
     // Prepare next bit.
     this._init()
@@ -175,13 +179,17 @@ export class Parser {
     // Extract messages
     if (channel % 2 === 0) {
       // Even channels 0, 2, ...
-      messages.push({ type: MessageType.RTP, data: packet, channel })
+      messages.push({
+        type: MessageType.RTP,
+        data: packet,
+        channel,
+      })
     } else {
       // Odd channels 1, 3, ...
       let rtcpPackets = packet
       do {
         // RTCP packets can be packed together, unbundle them:
-        const rtcpByteSize = rtcpPackets.readUInt16BE(2) * 4 + 4
+        const rtcpByteSize = readUInt16BE(rtcpPackets, 2) * 4 + 4
         messages.push(
           rtcpMessageFromBuffer(channel, rtcpPackets.slice(0, rtcpByteSize))
         )
@@ -207,7 +215,7 @@ export class Parser {
       this._state = STATE.IDLE
     } else if (firstChunk[0] === ASCII_DOLLAR) {
       this._state = STATE.INTERLEAVED
-    } else if (firstChunk.toString('ascii', 0, 4) === 'RTSP') {
+    } else if (decode(firstChunk).startsWith('RTSP')) {
       this._state = STATE.RTSP
     } else {
       throw new Error(`Unknown chunk of length ${firstChunk.length}`)
@@ -222,7 +230,7 @@ export class Parser {
    * @return An array of messages, possibly empty.
    */
   parse(
-    chunk: Buffer
+    chunk: Uint8Array
   ): Array<SdpMessage | RtspMessage | RtpMessage | RtcpMessage> {
     this._push(chunk)
 

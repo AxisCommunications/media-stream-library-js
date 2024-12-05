@@ -1,5 +1,6 @@
 import { Transform } from 'stream'
 
+import { concat } from 'utils/bytes'
 import {
   marker,
   payload,
@@ -12,7 +13,7 @@ import { Message, MessageType, XmlMessage } from '../message'
 export class ONVIFDepay extends Tube {
   constructor() {
     let XMLPayloadType: number
-    let packets: Buffer[] = []
+    let packets: Uint8Array[] = []
 
     const incoming = new Transform({
       objectMode: true,
@@ -47,7 +48,7 @@ export class ONVIFDepay extends Tube {
               timestamp: timestamp(msg.data),
               ntpTimestamp: msg.ntpTimestamp,
               payloadType: payloadType(msg.data),
-              data: Buffer.concat(packets),
+              data: concat(packets),
               type: MessageType.XML,
             }
             callback(undefined, xmlMsg)

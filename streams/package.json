@@ -50,6 +50,7 @@
     "README.md"
   ],
   "dependencies": {
+    "base64-js": "1.5.1",
     "debug": "4.3.6",
     "process": "0.11.10",
     "ts-md5": "1.3.1",
@@ -59,7 +60,6 @@
     "@types/debug": "4.1.12",
     "@types/node": "20.12.5",
     "@types/ws": "8.5.12",
-    "buffer": "6.0.3",
     "esbuild": "0.23.0",
     "events": "3.3.0",
     "global-jsdom": "9.2.0",

@@ -1,3 +1,4 @@
+import { concat, readUInt8, readUInt16BE } from 'utils/bytes'
 import { payload } from '../../utils/protocols/rtp'
 
 import {
@@ -49,36 +50,36 @@ export function jpegDepayFactory(defaultWidth = 0, defaultHeight = 0) {
   const HUFFMAN_HEADER = makeHuffmanHeader()
   const SCAN_HEADER = makeScanHeader()
 
-  return function jpegDepay(packets: Buffer[]) {
+  return function jpegDepay(packets: Uint8Array[]) {
     let metadata
-    const fragments: Buffer[] = []
+    const fragments: Uint8Array[] = []
     for (const packet of packets) {
       let fragment = payload(packet)
 
       // Parse and extract JPEG header.
-      const typeSpecific = fragment.readUInt8(0)
+      const typeSpecific = readUInt8(fragment, 0)
       const fragmentOffset =
-        (fragment.readUInt8(1) << 16) |
-        (fragment.readUInt8(2) << 8) |
-        fragment.readUInt8(3)
-      const type = fragment.readUInt8(4)
-      const Q = fragment.readUInt8(5)
-      const width = fragment.readUInt8(6) * 8 || defaultWidth
-      const height = fragment.readUInt8(7) * 8 || defaultHeight
+        (readUInt8(fragment, 1) << 16) |
+        (readUInt8(fragment, 2) << 8) |
+        readUInt8(fragment, 3)
+      const type = readUInt8(fragment, 4)
+      const Q = readUInt8(fragment, 5)
+      const width = readUInt8(fragment, 6) * 8 || defaultWidth
+      const height = readUInt8(fragment, 7) * 8 || defaultHeight
       fragment = fragment.slice(8)
 
       // Parse and extract Restart Marker header if present.
       let DRI = 0
       if (type >= 64 && type <= 127) {
-        DRI = fragment.readUInt16BE(0)
+        DRI = readUInt16BE(fragment, 0)
         fragment = fragment.slice(4)
       }
 
       // Parse and extract Quantization Table header if present.
       if (Q >= 128 && fragmentOffset === 0) {
         // const MBZ = fragment.readUInt8()
-        const precision = fragment.readUInt8(1)
-        const length = fragment.readUInt16BE(2)
+        const precision = readUInt8(fragment, 1)
+        const length = readUInt16BE(fragment, 2)
         const qTable = fragment.slice(4, 4 + length)
         metadata = {
           typeSpecific,
@@ -117,13 +118,13 @@ export function jpegDepayFactory(defaultWidth = 0, defaultHeight = 0) {
     const quantHeader = makeQuantHeader(precision, qTable)
 
     const driHeader =
-      metadata.DRI === 0 ? Buffer.alloc(0) : makeDRIHeader(metadata.DRI)
+      metadata.DRI === 0 ? new Uint8Array(0) : makeDRIHeader(metadata.DRI)
 
     const frameHeader = makeFrameHeader(width, height, type)
 
     return {
       size: { width, height },
-      data: Buffer.concat([
+      data: concat([
         IMAGE_HEADER,
         quantHeader,
         driHeader,

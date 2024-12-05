@@ -1,15 +1,16 @@
 import * as assert from 'uvu/assert'
 
+import { toByteArray } from 'base64-js'
+
 import { AACDepay } from 'components/aacdepay'
 import { Message, MessageType } from 'components/message'
 import { payload } from 'utils/protocols/rtp'
-import { messageFromBuffer } from 'utils/protocols/sdp'
+import { sdpFromBody } from 'utils/protocols/sdp'
 
 import { describe } from './uvu-describe'
 import { runComponentTests } from './validate-component'
 
-const sdpMessage = messageFromBuffer(
-  Buffer.from(`
+const sdpMessage = sdpFromBody(`
 v=0
 o=- 18315797286303868614 1 IN IP4 127.0.0.1
 s=Session streamed with GStreamer
@@ -34,15 +35,14 @@ a=rtpmap:97 MPEG4-GENERIC/16000/1
 a=fmtp:97 streamtype=5;profile-level-id=2;mode=AAC-hbr;config=1408;sizeLength=13;indexlength=3;indexdeltalength=3;bitrate=32000
 a=control:rtsp://hostname/axis-media/media.amp/stream=1?audio=1&video=1
 `)
-)
+
 const rtpMessage = {
   type: MessageType.RTP,
-  data: Buffer.from(
+  data: toByteArray(
     'gOE3VgfSkcjtSUMVABAHyAEmNa0UobgEQutal+Vl5JNVvdLtBVkkrFXytphSh4iIAIi/D647wkC+' +
       '+19nzXfn1DVGN9b7rquOONOLHxYfa+X1KnPvneEN+D/t5v152p9RC8X9/5/DcR/M65g/v/P7XxH+T9pePb/5/f8F/g/oU' +
       'vtf9fh77sHwGgZn6v5/d7B95wlR7Ht67gOMPgE3FyU104ciaEGj5lElEouptaCTg0M3yBAizaANAjth8RpWzgLktGZd8xw' +
-      'uDXEzn3j+Gn55+yaLrEDqB1iVbQBWbRmv1ZjfCQBmKBw/b5Mw/xH+kP8LADeDgAAAAAAAAAAAAAAAAAAAAAAAAAAAew==',
-    'base64'
+      'uDXEzn3j+Gn55+yaLrEDqB1iVbQBWbRmv1ZjfCQBmKBw/b5Mw/xH+kP8LADeDgAAAAAAAAAAAAAAAAAAAAAAAAAAAew=='
   ),
 }
 

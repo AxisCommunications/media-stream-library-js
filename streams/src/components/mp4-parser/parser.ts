@@ -1,5 +1,6 @@
 import registerDebug from 'debug'
 
+import { concat, readUInt32BE } from 'utils/bytes'
 import { BOX_HEADER_BYTES, boxType } from '../../utils/protocols/isom'
 import { IsomMessage, MessageType } from '../message'
 import { Container } from '../mp4muxer/helpers/isom'
@@ -20,19 +21,19 @@ interface Mp4BoxInfo {
  * Extract type and size information from the box header
  * (8-byte section at beginning of the box).
  */
-const mp4BoxInfo = (chunks: Buffer[]): Mp4BoxInfo => {
-  const header = Buffer.alloc(BOX_HEADER_BYTES)
+const mp4BoxInfo = (chunks: Uint8Array[]): Mp4BoxInfo => {
+  const header = new Uint8Array(BOX_HEADER_BYTES)
   let i = 0
   let bytesRead = 0
 
   while (bytesRead < header.length) {
     const chunk = chunks[i++]
     const bytesToRead = Math.min(chunk.length, header.length - bytesRead)
-    chunk.copy(header, bytesRead, 0, bytesToRead)
+    header.set(chunk.subarray(0, bytesToRead), bytesRead)
     bytesRead += bytesToRead
   }
 
-  const size = header.readUInt32BE(0)
+  const size = readUInt32BE(header, 0)
   const type = boxType(header)
 
   return { type, size }
@@ -46,10 +47,10 @@ const mp4BoxInfo = (chunks: Buffer[]): Mp4BoxInfo => {
  * @type {[type]}
  */
 export class Parser {
-  private _chunks: Buffer[] = []
+  private _chunks: Uint8Array[] = []
   private _length = 0
   private _box?: Mp4BoxInfo
-  private _ftyp?: Buffer
+  private _ftyp?: Uint8Array
 
   /**
    * Create a new Parser object.
@@ -67,7 +68,7 @@ export class Parser {
     this._length = 0
   }
 
-  _push(chunk: Buffer): void {
+  _push(chunk: Uint8Array): void {
     this._chunks.push(chunk)
     this._length += chunk.length
   }
@@ -76,7 +77,7 @@ export class Parser {
    * Extract MP4 boxes.
    * @return {Array} An array of messages, possibly empty.
    */
-  _parseBox(): Buffer | null {
+  _parseBox(): Uint8Array | null {
     // Skip as long as we don't have the first 8 bytes
     if (this._length < BOX_HEADER_BYTES) {
       return null
@@ -96,7 +97,7 @@ export class Parser {
     // The buffer package has a problem that it doesn't optimize concatenation
     // of an array with only one buffer, check for that (prevents performance issue)
     const buffer =
-      this._chunks.length === 1 ? this._chunks[0] : Buffer.concat(this._chunks)
+      this._chunks.length === 1 ? this._chunks[0] : concat(this._chunks)
     const box = buffer.slice(0, this._box.size)
     const trailing = buffer.slice(this._box.size)
 
@@ -109,7 +110,7 @@ export class Parser {
       console.warn(
         `ignored non-ISO BMFF Byte Stream box type: ${this._box.type} (${this._box.size} bytes)`
       )
-      return Buffer.alloc(0)
+      return new Uint8Array(0)
     }
 
     delete this._box
@@ -124,7 +125,7 @@ export class Parser {
    * @param  chunk - The next piece of data.
    * @return An array of messages, possibly empty.
    */
-  parse(chunk: Buffer): IsomMessage[] {
+  parse(chunk: Uint8Array): IsomMessage[] {
     this._push(chunk)
 
     const messages: IsomMessage[] = []
@@ -142,7 +143,7 @@ export class Parser {
           debug('MP4 tracks: ', tracks)
           messages.push({
             type: MessageType.ISOM,
-            data: Buffer.concat([this._ftyp ?? Buffer.alloc(0), data]),
+            data: concat([this._ftyp ?? new Uint8Array(0), data]),
             tracks,
           })
         } else {

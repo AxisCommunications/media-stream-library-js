@@ -6,15 +6,17 @@
  * @param buffer - An ArrayBuffer to be read from.
  */
 export class BufferReader {
-  private readonly _buffer: ArrayBuffer
   private readonly _dataView: DataView
   private _offset: number
   private _bitpos: number
   private _byte: number
 
-  constructor(buffer: Buffer) {
-    this._buffer = buffer
-    this._dataView = new DataView(this._buffer)
+  constructor(bytes: Uint8Array) {
+    this._dataView = new DataView(
+      bytes.buffer,
+      bytes.byteOffset,
+      bytes.byteLength
+    )
     this._offset = 0
     this._bitpos = 0
     this._byte = 0
@@ -50,11 +52,7 @@ export class BufferReader {
     return this._dataView.getUint32(offset)
   }
 
-  /**
-   * Reads the next byte of data from the buffer and increaments the offset.
-   * @method readNext
-   * @return {Number} An unsigned 8-bit integer.
-   */
+  /** Reads the next byte of data from the buffer and increaments the offset. */
   readNext() {
     const value = this.readUint8(this._offset)
     this._offset += 1
@@ -111,32 +109,5 @@ export class BufferReader {
       r = -(r >> 1)
     }
     return r
-  }
-
-  /**
-   * Returns the size of the buffer
-   * @method readSize
-   * @return {Number} The buffer size.
-   */
-  size() {
-    return this._buffer.byteLength
-  }
-
-  /**
-   * Returns an instance of the buffer as an unsigned 8-bit integer array.
-   * @method getUint8Array
-   * @return {Uint8Array} Unsigned 8-bit integer representation of the buffer
-   */
-  getUint8Array() {
-    return new Uint8Array(this._buffer)
-  }
-
-  /**
-   * Returns the buffer object
-   * @method getArrayBuffer
-   * @return {ArrayBuffer} The buffer used the BufferReader
-   */
-  getArrayBuffer() {
-    return this._buffer
   }
 }

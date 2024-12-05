@@ -71,21 +71,21 @@ describe('Rtp parsing', (test) => {
   })
 
   test('should expose the payload', () => {
-    assert.equal(payload(rtpBuffers[0]), Buffer.from([]))
-    assert.equal(payload(rtpBuffers[1]), Buffer.from([1, 2, 3]))
-    assert.equal(payload(rtpBuffers[2]), Buffer.from([1, 2, 3]))
-    assert.equal(payload(rtpBuffersWithHeaderExt[0]), Buffer.from([1, 2, 3]))
-    assert.equal(payload(rtpBuffersWithHeaderExt[1]), Buffer.from([1, 2, 3]))
+    assert.equal(payload(rtpBuffers[0]), new Uint8Array(0))
+    assert.equal(payload(rtpBuffers[1]), new Uint8Array([1, 2, 3]))
+    assert.equal(payload(rtpBuffers[2]), new Uint8Array([1, 2, 3]))
+    assert.equal(payload(rtpBuffersWithHeaderExt[0]), new Uint8Array([1, 2, 3]))
+    assert.equal(payload(rtpBuffersWithHeaderExt[1]), new Uint8Array([1, 2, 3]))
   })
 
   test('should expose the extension header', () => {
-    assert.equal(extHeader(rtpBuffers[0]), Buffer.from([]))
-    assert.equal(extHeader(rtpBuffers[1]), Buffer.from([]))
-    assert.equal(extHeader(rtpBuffers[2]), Buffer.from([]))
-    assert.equal(extHeader(rtpBuffersWithHeaderExt[0]), Buffer.from([]))
+    assert.equal(extHeader(rtpBuffers[0]), new Uint8Array(0))
+    assert.equal(extHeader(rtpBuffers[1]), new Uint8Array(0))
+    assert.equal(extHeader(rtpBuffers[2]), new Uint8Array(0))
+    assert.equal(extHeader(rtpBuffersWithHeaderExt[0]), new Uint8Array(0))
     assert.equal(
       extHeader(rtpBuffersWithHeaderExt[1]),
-      Buffer.from([1, 2, 0, 1, 1, 2, 3, 4])
+      new Uint8Array([1, 2, 0, 1, 1, 2, 3, 4])
     )
   })
 })

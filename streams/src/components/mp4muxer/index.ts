@@ -39,7 +39,7 @@ export class Mp4Muxer extends Tube {
           const ftyp = new Box('ftyp')
           const moov = boxBuilder.moov(msg.sdp, now)
 
-          const data = Buffer.allocUnsafe(ftyp.byteLength + moov.byteLength)
+          const data = new Uint8Array(ftyp.byteLength + moov.byteLength)
           ftyp.copy(data, 0)
           moov.copy(data, ftyp.byteLength)
 
@@ -96,7 +96,7 @@ export class Mp4Muxer extends Tube {
             const moof = boxBuilder.moof({ trackId, timestamp, byteLength })
             const mdat = boxBuilder.mdat(msg.data)
 
-            const data = Buffer.allocUnsafe(moof.byteLength + mdat.byteLength)
+            const data = new Uint8Array(moof.byteLength + mdat.byteLength)
             moof.copy(data, 0)
             mdat.copy(data, moof.byteLength)
 

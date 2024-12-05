@@ -26,12 +26,14 @@ const browserBundles = [
   {
     format: 'esm',
     name: 'browser-light-esm.js',
-    external: ['buffer', 'debug', 'process', 'stream', 'ts-md5', 'ws'],
+    external: ['debug', 'process', 'stream', 'ts-md5', 'ws'],
+    inject: ['polyfill.mjs'],
   },
   {
     format: 'cjs',
     name: 'browser-light-cjs.js',
-    external: ['buffer', 'debug', 'process', 'stream', 'ts-md5', 'ws'],
+    external: ['debug', 'process', 'stream', 'ts-md5', 'ws'],
+    inject: ['polyfill.mjs'],
   },
 ]
 
@@ -68,7 +70,7 @@ for (const { format, name } of nodeBundles) {
     entryPoints: ['src/index.node.ts'],
     outfile: join(buildDir, name),
     format,
-    external: ['stream', 'buffer', 'process', 'ws'],
+    external: ['stream', 'process', 'ws'],
     bundle: true,
     minify: false,
     sourcemap: true,

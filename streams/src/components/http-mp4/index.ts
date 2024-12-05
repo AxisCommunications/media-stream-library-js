@@ -49,7 +49,7 @@ export class HttpMp4Source extends Source {
     // When an error is sent on the incoming stream, close the socket.
     incoming.on('error', (e) => {
       console.warn('closing socket due to incoming error', e)
-      this._reader && this._reader.cancel().catch((err) => console.error(err))
+      this._reader?.cancel().catch((err) => console.error(err))
     })
 
     /**
@@ -87,12 +87,12 @@ export class HttpMp4Source extends Source {
 
         const contentType = rsp.headers.get('Content-Type')
         this.incoming.push({
-          data: Buffer.alloc(0),
+          data: new Uint8Array(0),
           type: MessageType.ISOM,
           mime: contentType,
         })
 
-        this.onHeaders && this.onHeaders(rsp.headers)
+        this.onHeaders?.(rsp.headers)
 
         this._reader = rsp.body.getReader()
         this._pull()
@@ -103,11 +103,10 @@ export class HttpMp4Source extends Source {
   }
 
   abort(): void {
-    this._reader &&
-      this._reader.cancel().catch((err) => {
-        console.log('http-source: cancel reader failed: ', err)
-      })
-    this._abortController && this._abortController.abort()
+    this._reader?.cancel().catch((err) => {
+      console.log('http-source: cancel reader failed: ', err)
+    })
+    this._abortController?.abort()
   }
 
   _isClosed(): boolean {
@@ -143,7 +142,7 @@ export class HttpMp4Source extends Source {
           throw new Error('expected length to be defined')
         }
         this.length += value.length
-        const buffer = Buffer.from(value)
+        const buffer = value
         if (!this.incoming.push({ data: buffer, type: MessageType.ISOM })) {
           // Something happened down stream that it is no longer processing the
           // incoming data, and the stream buffer got full.

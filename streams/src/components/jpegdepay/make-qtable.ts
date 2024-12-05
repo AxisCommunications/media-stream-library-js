@@ -27,16 +27,16 @@ const jpeChromaQuantizer = [
   99, 99, 99, 99, 99, 99, 99,
 ]
 
-export function makeQtable(Q: number): Buffer {
+export function makeQtable(Q: number): Uint8Array {
   const factor = clamp(Q, 1, 99)
-  const buffer = Buffer.alloc(128)
+  const buffer = new Uint8Array(128)
   const S = Q < 50 ? Math.floor(5000 / factor) : 200 - factor * 2
 
   for (let i = 0; i < 64; i++) {
     const lq = Math.floor((jpegLumaQuantizer[i] * S + 50) / 100)
     const cq = Math.floor((jpeChromaQuantizer[i] * S + 50) / 100)
-    buffer.writeUInt8(clamp(lq, 1, 255), i)
-    buffer.writeUInt8(clamp(cq, 1, 255), i + 64)
+    buffer.set([clamp(lq, 1, 255)], i)
+    buffer.set([clamp(cq, 1, 255)], i + 64)
   }
   return buffer
 }

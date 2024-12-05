@@ -39,7 +39,7 @@ export class WSSource extends Source {
     })
 
     socket.onmessage = (msg) => {
-      const buffer = Buffer.from(msg.data)
+      const buffer = new Uint8Array(msg.data)
       if (!incoming.push({ data: buffer, type: MessageType.RAW })) {
         // Something happened down stream that it is no longer processing the
         // incoming data, and the stream buffer got full. In this case it is
