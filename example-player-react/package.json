@@ -1,7 +1,7 @@
 {
   "private": true,
   "devDependencies": {
-    "@vitejs/plugin-react": "4.3.1",
+    "@vitejs/plugin-react": "4.3.4",
     "luxon": "3.5.0",
     "media-stream-library": "workspace:^",
     "media-stream-player": "workspace:^",
