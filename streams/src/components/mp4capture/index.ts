@@ -13,15 +13,17 @@ const MAX_CAPTURE_BYTES = 225000000 // 5 min at a rate of 6 Mbit/s
 export class Mp4Capture extends Tube {
   private _active: boolean
   private _capture: boolean
-  private _captureCallback: (buffer: Buffer) => void
+  private _captureCallback: (buffer: Uint8Array) => void
   private _bufferOffset: number
   private readonly _bufferSize: number
-  private _buffer: Buffer
+  private _buffer: Uint8Array
 
   constructor(maxSize = MAX_CAPTURE_BYTES) {
     const incoming = new Transform({
       objectMode: true,
       transform: (msg: Message, _encoding, callback) => {
+        const data: Uint8Array = msg.data
+
         // Arrival of ISOM with tracks indicates new movie, start recording if active.
         if (
           this._active &&
@@ -33,12 +35,9 @@ export class Mp4Capture extends Tube {
 
         // If capture enabled, record all ISOM (MP4) boxes
         if (this._capture && msg.type === MessageType.ISOM) {
-          if (
-            this._bufferOffset <
-            this._buffer.byteLength - msg.data.byteLength
-          ) {
-            msg.data.copy(this._buffer, this._bufferOffset)
-            this._bufferOffset += msg.data.byteLength
+          if (this._bufferOffset < this._buffer.byteLength - data.byteLength) {
+            this._buffer.set(data, this._bufferOffset)
+            this._bufferOffset += data.byteLength
           } else {
             this.stop()
           }
@@ -55,7 +54,7 @@ export class Mp4Capture extends Tube {
 
     super(incoming)
 
-    this._buffer = Buffer.allocUnsafe(0)
+    this._buffer = new Uint8Array(0)
     this._bufferSize = maxSize
     this._bufferOffset = 0
 
@@ -73,13 +72,13 @@ export class Mp4Capture extends Tube {
    * data as argument.
    * @param callback  Will be called when data is captured.
    */
-  start(callback: (buffer: Buffer) => void) {
+  start(callback: (buffer: Uint8Array) => void) {
     if (!this._active) {
       debug('msl:capture:start')(callback)
 
       this._captureCallback = callback
 
-      this._buffer = Buffer.allocUnsafe(this._bufferSize)
+      this._buffer = new Uint8Array(this._bufferSize)
       this._bufferOffset = 0
 
       this._active = true
@@ -100,7 +99,7 @@ export class Mp4Capture extends Tube {
         console.error(e)
       }
 
-      this._buffer = Buffer.allocUnsafe(0)
+      this._buffer = new Uint8Array(0)
       this._bufferOffset = 0
 
       this._active = false

@@ -1,10 +1,11 @@
-export const optionsRequest = `OPTIONS rtsp://192.168.0.3/axis-media/media.amp?resolution=176x144&fps=1 RTSP/1.0
+export const optionsRequest =
+  `OPTIONS rtsp://192.168.0.3/axis-media/media.amp?resolution=176x144&fps=1 RTSP/1.0
 CSeq: 1
 Date: Wed, 03 Jun 2015 14:26:16 GMT
 
 `
-  .split('\n')
-  .join('\r\n')
+    .split('\n')
+    .join('\r\n')
 
 export const sdpResponse = `RTSP/1.0 200 OK
 CSeq: 3

@@ -41,7 +41,7 @@ esbuild workspace *args:
     
 # autofix and format changed files
 format +FILES="`just changed`":
-    just biome check --apply {{ FILES }}
+    just biome check --write {{ FILES }}
 
 # install dependencies
 install:
