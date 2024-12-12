@@ -6,7 +6,7 @@ import { Message, MessageType } from 'components/message'
 import { describe } from './uvu-describe'
 
 // biome-ignore format: custom formatting
-const audioData = Buffer.from([
+const audioData = new Uint8Array([
   128, 225, 117, 55, 79, 22, 14, 25, 166, 135, 0, 245, 0, 16, 9, 64, 1, 64, 159,
   154, 208, 253, 108, 176, 235, 80, 155, 170, 36, 110, 165, 86, 196, 139, 206,
   106, 75, 50, 197, 254, 218, 215, 141, 101, 86, 179, 169, 204, 111, 84, 85, 75,

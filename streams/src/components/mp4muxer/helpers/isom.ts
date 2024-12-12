@@ -5,9 +5,16 @@
 // - store(buffer, offset) -> write the value to a buffer
 // - load(buffer, offset) -> read data and store in value
 
+import {
+  decode,
+  readUInt8,
+  readUInt16BE,
+  readUInt24BE,
+  readUInt32BE,
+} from 'utils/bytes'
 import { MediaTrack } from '../../../utils/protocols/isom'
 
-type BufferMutation = (buffer: Buffer, offset: number) => void
+type BufferMutation = (buffer: Uint8Array, offset: number) => void
 
 // Constants
 const UINT32_RANGE = Math.pow(2, 32)
@@ -15,8 +22,8 @@ const UINT32_RANGE = Math.pow(2, 32)
 abstract class BoxElement {
   public byteLength: number
   public value: any
-  abstract copy(buffer: Buffer, offset: number): void
-  abstract load(buffer: Buffer, offset: number): void
+  abstract copy(buffer: Uint8Array, offset: number): void
+  abstract load(buffer: Uint8Array, offset: number): void
 
   constructor(size: number) {
     this.byteLength = size
@@ -52,9 +59,7 @@ class CharArray extends BoxElement {
   }
 
   load: BufferMutation = (buffer, offset) => {
-    this.value = buffer
-      .slice(offset, offset + this.byteLength)
-      .toString('ascii')
+    this.value = decode(buffer.slice(offset, offset + this.byteLength))
   }
 }
 
@@ -67,11 +72,11 @@ class UInt8 extends BoxElement {
   }
 
   copy: BufferMutation = (buffer, offset) => {
-    buffer.writeUInt8(this.value, offset)
+    buffer.set([this.value], offset)
   }
 
   load: BufferMutation = (buffer, offset) => {
-    this.value = buffer.readUInt8(offset)
+    this.value = readUInt8(buffer, offset)
   }
 }
 
@@ -84,14 +89,12 @@ class UInt8Array extends BoxElement {
   }
 
   copy: BufferMutation = (buffer, offset) => {
-    for (let i = 0; i < this.value.length; ++i) {
-      buffer.writeUInt8(this.value[i], offset + i)
-    }
+    buffer.set(this.value, offset)
   }
 
   load: BufferMutation = (buffer, offset) => {
     for (let i = 0; i < this.value.length; ++i) {
-      this.value[i] = buffer.readUInt8(offset + i)
+      this.value[i] = readUInt8(buffer, offset + i)
     }
   }
 }
@@ -105,11 +108,11 @@ class UInt16BE extends BoxElement {
   }
 
   copy: BufferMutation = (buffer, offset) => {
-    buffer.writeUInt16BE(this.value, offset)
+    buffer.set([this.value], offset)
   }
 
   load: BufferMutation = (buffer, offset) => {
-    this.value = buffer.readUInt16BE(offset)
+    this.value = readUInt16BE(buffer, offset)
   }
 }
 
@@ -122,15 +125,14 @@ class UInt24BE extends BoxElement {
   }
 
   copy: BufferMutation = (buffer, offset) => {
-    buffer.writeUInt8((this.value >> 16) & 0xff, offset)
-    buffer.writeUInt8((this.value >> 8) & 0xff, offset + 1)
-    buffer.writeUInt8(this.value & 0xff, offset + 2)
+    buffer.set(
+      [(this.value >> 16) & 0xff, (this.value >> 8) & 0xff, this.value & 0xff],
+      offset
+    )
   }
 
   load: BufferMutation = (buffer, offset) => {
-    this.value =
-      (buffer.readUInt8(offset) << (16 + buffer.readUInt8(offset + 1))) <<
-      (8 + buffer.readUInt8(offset + 2))
+    this.value = readUInt24BE(buffer, offset)
   }
 }
 
@@ -144,13 +146,13 @@ class UInt16BEArray extends BoxElement {
 
   copy: BufferMutation = (buffer, offset) => {
     for (let i = 0; i < this.value.length; ++i) {
-      buffer.writeUInt16BE(this.value[i], offset + 2 * i)
+      buffer.set([this.value[i]], offset + 2 * i)
     }
   }
 
   load: BufferMutation = (buffer, offset) => {
     for (let i = 0; i < this.value.length; ++i) {
-      this.value[i] = buffer.readUInt16BE(offset + 2 * i)
+      this.value[i] = readUInt16BE(buffer, offset + 2 * i)
     }
   }
 }
@@ -164,11 +166,11 @@ class UInt32BE extends BoxElement {
   }
 
   copy: BufferMutation = (buffer, offset) => {
-    buffer.writeUInt32BE(this.value, offset)
+    buffer.set([this.value], offset)
   }
 
   load: BufferMutation = (buffer, offset) => {
-    this.value = buffer.readUInt32BE(offset)
+    this.value = readUInt32BE(buffer, offset)
   }
 }
 
@@ -182,13 +184,13 @@ class UInt32BEArray extends BoxElement {
 
   copy: BufferMutation = (buffer, offset) => {
     for (let i = 0; i < this.value.length; ++i) {
-      buffer.writeUInt32BE(this.value[i], offset + 4 * i)
+      buffer.set([this.value[i]], offset + 4 * i)
     }
   }
 
   load: BufferMutation = (buffer, offset) => {
     for (let i = 0; i < this.value.length; ++i) {
-      this.value[i] = buffer.readUInt32BE(offset + 4 * i)
+      this.value[i] = readUInt32BE(buffer, offset + 4 * i)
     }
   }
 }
@@ -204,13 +206,12 @@ class UInt64BE extends BoxElement {
   copy: BufferMutation = (buffer, offset) => {
     const high = (this.value / UINT32_RANGE) | 0
     const low = this.value - high * UINT32_RANGE
-    buffer.writeUInt32BE(high, offset)
-    buffer.writeUInt32BE(low, offset + 4)
+    buffer.set([high, low], offset)
   }
 
   load: BufferMutation = (buffer, offset) => {
-    const high = buffer.readUInt32BE(offset)
-    const low = buffer.readUInt32BE(offset + 4)
+    const high = readUInt32BE(buffer, offset)
+    const low = readUInt32BE(buffer, offset + 4)
     this.value = high * UINT32_RANGE + low
   }
 }
@@ -582,7 +583,7 @@ const BOXSPEC: { [key: string]: BoxSpec } = {
       ['vertresolution', UInt32BE, 0x00480000],
       ['reserved3', UInt32BE, 0],
       ['frame_count', UInt16BE, 1],
-      ['compressorname', UInt8Array, Buffer.alloc(32)],
+      ['compressorname', UInt8Array, new Uint8Array(32)],
       ['depth', UInt16BE, 0x0018],
       ['pre_defined3', UInt16BE, 0xffff],
     ],
@@ -1152,10 +1153,12 @@ export class Box extends BoxElement {
    * @param element Something with a 'byteLength' property and 'copy' method.
    * @return this box, so that 'add' can be used in a chain
    */
-  add(key: string, element: BoxElement | Buffer) {
+  add(key: string, element: BoxElement | Uint8Array) {
     if (this.has(key)) {
       throw new Error('Trying to add existing key')
     }
+    // TODO: To be fixed later...
+    // @ts-ignore
     this.struct.set(key, { offset: this.byteLength, element })
     this.byteLength += element.byteLength
     return this
@@ -1166,7 +1169,7 @@ export class Box extends BoxElement {
    * @return Data representing the box.
    */
   buffer() {
-    const buffer = Buffer.allocUnsafe(this.byteLength)
+    const buffer = new Uint8Array(this.byteLength)
     this.copy(buffer)
     return buffer
   }
@@ -1176,7 +1179,7 @@ export class Box extends BoxElement {
    * @param  buffer     The target buffer to accept the box data
    * @param  [offset=0] The number of bytes into the target to start at.
    */
-  copy(buffer: Buffer, offset = 0) {
+  copy(buffer: Uint8Array, offset = 0) {
     // Before writing, make sure the size property is set correctly.
     this.set('size', this.byteLength)
     for (const entry of this.struct.values()) {
@@ -1189,7 +1192,7 @@ export class Box extends BoxElement {
    * @param  buffer     The source buffer with box data
    * @param  [offset=0] The number of bytes into the source to start at.
    */
-  load(buffer: Buffer, offset = 0) {
+  load(buffer: Uint8Array, offset = 0) {
     for (const entry of this.struct.values()) {
       if (entry.element.load !== undefined) {
         entry.element.load(buffer, offset + entry.offset)
@@ -1209,8 +1212,7 @@ export class Box extends BoxElement {
         lines.push(element.format(indent + 2))
       } else {
         lines.push(
-          `${' '.repeat(indent + 2)}${key} = ${element.value} (${
-            element.byteLength
+          `${' '.repeat(indent + 2)}${key} = ${element.value} (${element.byteLength
           })`
         )
       }
@@ -1270,7 +1272,7 @@ export class Container extends Box {
    *
    * @param  data The data to parse.
    */
-  parse(data: Buffer) {
+  parse(data: Uint8Array) {
     const tracks: MediaTrack[] = []
     while (data.byteLength > 0) {
       const type = new CharArray('....')

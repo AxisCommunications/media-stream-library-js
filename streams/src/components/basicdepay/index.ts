@@ -1,3 +1,4 @@
+import { concat } from 'utils/bytes'
 import {
   marker,
   payload,
@@ -14,7 +15,7 @@ export class BasicDepay extends Tube {
       throw new Error('you must supply a payload type to BasicDepayComponent')
     }
 
-    let buffer = Buffer.alloc(0)
+    let buffer = new Uint8Array(0)
 
     const incoming = createTransform(function (
       msg: Message,
@@ -26,7 +27,7 @@ export class BasicDepay extends Tube {
         payloadType(msg.data) === rtpPayloadType
       ) {
         const rtpPayload = payload(msg.data)
-        buffer = Buffer.concat([buffer, rtpPayload])
+        buffer = concat([buffer, rtpPayload])
 
         if (marker(msg.data)) {
           if (buffer.length > 0) {
@@ -38,7 +39,7 @@ export class BasicDepay extends Tube {
               type: MessageType.ELEMENTARY,
             })
           }
-          buffer = Buffer.alloc(0)
+          buffer = new Uint8Array(0)
         }
         callback()
       } else {

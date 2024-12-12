@@ -12,7 +12,7 @@ export class BufferReader {
   private _bitpos: number
   private _byte: number
 
-  constructor(buffer: Buffer) {
+  constructor(buffer: Uint8Array) {
     this._buffer = buffer
     this._dataView = new DataView(this._buffer)
     this._offset = 0

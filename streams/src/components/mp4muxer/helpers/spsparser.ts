@@ -3,7 +3,7 @@ import { BufferReader } from './bufferreader'
 export class SPSParser {
   public reader: BufferReader
 
-  constructor(buffer: Buffer) {
+  constructor(buffer: Uint8Array) {
     this.reader = new BufferReader(buffer)
   }
 

@@ -260,7 +260,7 @@ export class BoxBuilder {
    * @param  data - Elementary stream data
    * @return mdat Box
    */
-  mdat(data: Buffer) {
+  mdat(data: Uint8Array) {
     const box = new Box('mdat')
     box.add('data', data)
     return box

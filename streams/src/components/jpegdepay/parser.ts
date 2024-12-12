@@ -1,4 +1,4 @@
-import { readUInt8, readUInt16BE } from 'utils/bytes'
+import { concat, readUInt8, readUInt16BE } from 'utils/bytes'
 import { payload } from '../../utils/protocols/rtp'
 
 import {
@@ -50,7 +50,7 @@ export function jpegDepayFactory(defaultWidth = 0, defaultHeight = 0) {
   const HUFFMAN_HEADER = makeHuffmanHeader()
   const SCAN_HEADER = makeScanHeader()
 
-  return function jpegDepay(packets: Buffer[]) {
+  return function jpegDepay(packets: Uint8Array[]) {
     let metadata
     const fragments: Uint8Array[] = []
     for (const packet of packets) {
@@ -118,13 +118,13 @@ export function jpegDepayFactory(defaultWidth = 0, defaultHeight = 0) {
     const quantHeader = makeQuantHeader(precision, qTable)
 
     const driHeader =
-      metadata.DRI === 0 ? Buffer.alloc(0) : makeDRIHeader(metadata.DRI)
+      metadata.DRI === 0 ? new Uint8Array(0) : makeDRIHeader(metadata.DRI)
 
     const frameHeader = makeFrameHeader(width, height, type)
 
     return {
       size: { width, height },
-      data: Buffer.concat([
+      data: concat([
         IMAGE_HEADER,
         quantHeader,
         driHeader,

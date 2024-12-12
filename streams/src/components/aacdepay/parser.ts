@@ -47,7 +47,7 @@ export function parse(
   }
   const packet: ElementaryMessage = {
     type: MessageType.ELEMENTARY,
-    data: Buffer.from(buffer.subarray(headerLength)),
+    data: new Uint8Array(buffer.subarray(headerLength)),
     payloadType: payloadType(rtp.data),
     timestamp: timestamp(rtp.data),
     ntpTimestamp: rtp.ntpTimestamp,

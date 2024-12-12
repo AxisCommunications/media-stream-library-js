@@ -1,5 +1,6 @@
 import debug from 'debug'
 
+import { concat } from 'utils/bytes'
 import { payload, payloadType, timestamp } from '../../utils/protocols/rtp'
 import { H264Message, MessageType, RtpMessage } from '../message'
 
@@ -30,10 +31,10 @@ First byte in payload (rtp payload header):
 const h264Debug = debug('msl:h264depay')
 
 export class H264DepayParser {
-  private _buffer: Buffer
+  private _buffer: Uint8Array
 
   constructor() {
-    this._buffer = Buffer.alloc(0)
+    this._buffer = new Uint8Array(0)
   }
 
   parse(rtp: RtpMessage): H264Message | null {
@@ -48,17 +49,17 @@ export class H264DepayParser {
       const nal = (fuIndicator & 0xe0) | nalType
       const stopBit = fuHeader & 64
       if (startBit) {
-        this._buffer = Buffer.concat([
-          Buffer.from([0, 0, 0, 0, nal]),
+        this._buffer = concat([
+          new Uint8Array([0, 0, 0, 0, nal]),
           rtpPayload.slice(2),
         ])
         return null
       } else if (stopBit) {
-        /* receieved end bit */ const h264frame = Buffer.concat([
+        /* receieved end bit */ const h264frame = concat([
           this._buffer,
           rtpPayload.slice(2),
         ])
-        h264frame.writeUInt32BE(h264frame.length - 4, 0)
+        h264frame.set([h264frame.length - 4], 0)
         const msg: H264Message = {
           data: h264frame,
           type: MessageType.H264,
@@ -67,21 +68,19 @@ export class H264DepayParser {
           payloadType: payloadType(rtp.data),
           nalType,
         }
-        this._buffer = Buffer.alloc(0)
+        this._buffer = new Uint8Array(0)
         return msg
       }
       // Put the received data on the buffer and cut the header bytes
-      this._buffer = Buffer.concat([this._buffer, rtpPayload.slice(2)])
+      this._buffer = concat([this._buffer, rtpPayload.slice(2)])
       return null
     } else if (
       (type === NAL_TYPES.NON_IDR_PICTURE || type === NAL_TYPES.IDR_PICTURE) &&
       this._buffer.length === 0
     ) {
-      /* Single NALU */ const h264frame = Buffer.concat([
-        Buffer.from([0, 0, 0, 0]),
-        rtpPayload,
-      ])
-      h264frame.writeUInt32BE(h264frame.length - 4, 0)
+      /* Single NALU */
+      const h264frame = concat([new Uint8Array([0, 0, 0, 0]), rtpPayload])
+      h264frame.set([h264frame.length - 4], 0)
       const msg: H264Message = {
         data: h264frame,
         type: MessageType.H264,
@@ -90,13 +89,13 @@ export class H264DepayParser {
         payloadType: payloadType(rtp.data),
         nalType: type,
       }
-      this._buffer = Buffer.alloc(0)
+      this._buffer = new Uint8Array(0)
       return msg
     }
     h264Debug(
       `H264depayComponent can only extract types 1,5 and 28, got ${type}`
     )
-    this._buffer = Buffer.alloc(0)
+    this._buffer = new Uint8Array(0)
     return null
   }
 }
