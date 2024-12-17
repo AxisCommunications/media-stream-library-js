@@ -56,9 +56,9 @@ export class H264DepayParser {
         return null
       } else if (stopBit) {
         /* receieved end bit */ const h264frame = concat([
-          this._buffer,
-          rtpPayload.slice(2),
-        ])
+        this._buffer,
+        rtpPayload.slice(2),
+      ])
         h264frame.set([h264frame.length - 4], 0)
         const msg: H264Message = {
           data: h264frame,

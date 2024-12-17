@@ -2,7 +2,6 @@ import { H264Media } from '../../../utils/protocols/sdp'
 
 import { Box, Container } from './isom'
 import { SPSParser } from './spsparser'
-import { base64DecToArr } from './utils'
 
 const PROFILE_NAMES: { [key: number]: string } = {
   66: 'Baseline',
@@ -68,7 +67,7 @@ export const h264Settings = (
   const profileLevelId = media.fmtp.parameters['profile-level-id']
   const parameterSets = media.fmtp.parameters['sprop-parameter-sets']
     .split(',')
-    .map(base64DecToArr)
+    .map(Uint8Array.fromBase64)
 
   // We assume the first set is _the_ SPS (no support for multiple).
   const sps = parameterSets.slice(0, 1)
@@ -115,7 +114,7 @@ export const h264Settings = (
     defaultFrameDuration:
       media.framerate !== undefined && media.framerate > 0
         ? Number(media.rtpmap.clockrate) / Number(media.framerate) ||
-          FALLBACK_FRAME_DURATION
+        FALLBACK_FRAME_DURATION
         : FALLBACK_FRAME_DURATION,
     // MIME type
     mime: `avc1.${profileLevelId}`,

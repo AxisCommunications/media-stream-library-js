@@ -428,7 +428,7 @@ export const sdpFromBody = (body: string): SdpMessage => {
   return {
     type: MessageType.SDP,
     // FIXME: update after GenericMessage uses Uint8Array for data
-    data: Buffer.alloc(0),
+    data: new Uint8Array([]),
     sdp: parse(body),
   }
 }

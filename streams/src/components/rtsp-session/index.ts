@@ -499,7 +499,7 @@ export class RtspSession extends Tube {
       {
         type: MessageType.RTSP,
         uri: uri || this._sessionControlURL,
-        data: Buffer.alloc(0), // data is a mandatory field. Not used by session -> parser messages.
+        data: new Uint8Array([]), // data is a mandatory field. Not used by session -> parser messages.
       },
       { method, headers },
       {

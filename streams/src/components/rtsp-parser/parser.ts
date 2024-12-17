@@ -127,7 +127,7 @@ export class Parser {
       // No body in this chunk, assume there is no body?
       const packet = data.subarray(0, rtspHeaderLength)
       // FIXME: update after GenericMessage uses Uint8Array for data
-      messages.push({ type: MessageType.RTSP, data: Buffer.from(packet) })
+      messages.push({ type: MessageType.RTSP, data: packet })
 
       // Add the remaining data to the chunk stack.
       const trailing = data.subarray(rtspHeaderLength)
@@ -137,7 +137,7 @@ export class Parser {
       const body = data.subarray(rtspHeaderLength)
 
       // FIXME: update after GenericMessage uses Uint8Array for data
-      messages.push({ type: MessageType.RTSP, data: Buffer.from(data) })
+      messages.push({ type: MessageType.RTSP, data })
       messages.push(sdpFromBody(decode(body)))
     }
 
@@ -184,7 +184,7 @@ export class Parser {
       messages.push({
         type: MessageType.RTP,
         // FIXME: update after GenericMessage uses Uint8Array for data
-        data: Buffer.from(packet),
+        data: packet,
         channel,
       })
     } else {

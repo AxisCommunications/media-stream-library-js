@@ -1,3 +1,4 @@
+import { encode } from 'utils/bytes'
 import { merge } from '../../utils/config'
 import { statusCode } from '../../utils/protocols/rtsp'
 import { Tube } from '../component'
@@ -65,9 +66,7 @@ export class Auth extends Tube {
         }
         const challenge = parseWWWAuthenticate(wwwAuth)
         if (challenge.type === 'basic') {
-          authHeader = `Basic ${Buffer.from(`${username}:${password}`).toString(
-            'base64'
-          )}`
+          authHeader = `Basic ${encode(`${username}:${password}`).BYTES_PER_ELEMENT}`
         } else if (challenge.type === 'digest') {
           const digest = new DigestAuth(challenge.params, username, password)
           authHeader = digest.authorization(

@@ -76,9 +76,9 @@ export const extHeader = (bytes: Uint8Array): Uint8Array => {
   return extHeaderLength(bytes) === 0
     ? new Uint8Array(0)
     : bytes.subarray(
-        12 + cSrcCount(bytes) * 4,
-        12 + cSrcCount(bytes) * 4 + 4 + extHeaderLength(bytes) * 4
-      )
+      12 + cSrcCount(bytes) * 4,
+      12 + cSrcCount(bytes) * 4 + 4 + extHeaderLength(bytes) * 4
+    )
 }
 
 export const payload = (bytes: Uint8Array): Uint8Array => {

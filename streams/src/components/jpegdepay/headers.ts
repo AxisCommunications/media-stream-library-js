@@ -7,8 +7,10 @@
  * https://tools.ietf.org/html/rfc2435
  */
 
+import { concat } from 'utils/bytes'
+
 export function makeImageHeader() {
-  return Buffer.from([0xff, 0xd8])
+  return new Uint8Array([0xff, 0xd8])
 }
 
 export function makeQuantHeader(precision: number, qTable: Uint8Array) {
@@ -17,9 +19,9 @@ export function makeQuantHeader(precision: number, qTable: Uint8Array) {
   if (qTable.length !== lumSize + chmSize) {
     throw new Error('invalid quantization table')
   }
-  const lumaPrefix = Buffer.from([0xff, 0xdb, 0, lumSize + 3, 0])
-  const chromaPrefix = Buffer.from([0xff, 0xdb, 0, chmSize + 3, 1])
-  return Buffer.concat([
+  const lumaPrefix = new Uint8Array([0xff, 0xdb, 0, lumSize + 3, 0])
+  const chromaPrefix = new Uint8Array([0xff, 0xdb, 0, chmSize + 3, 1])
+  return concat([
     lumaPrefix,
     qTable.slice(0, lumSize),
     chromaPrefix,
@@ -28,7 +30,7 @@ export function makeQuantHeader(precision: number, qTable: Uint8Array) {
 }
 
 export function makeFrameHeader(width: number, height: number, type: number) {
-  return Buffer.from([
+  return new Uint8Array([
     0xff,
     0xc0, // SOF_0 (Start Of Frame)
     0,
@@ -145,16 +147,16 @@ export function makeHuffmanHeader() {
     CHM_AC_SYMBOLS,
   ]
 
-  return Buffer.concat([
-    ...LUM_DC_BUFFER.map(Buffer.from),
-    ...LUM_AC_BUFFER.map(Buffer.from),
-    ...CHM_DC_BUFFER.map(Buffer.from),
-    ...CHM_AC_BUFFER.map(Buffer.from),
+  return concat([
+    ...LUM_DC_BUFFER.map((data) => new Uint8Array(data)),
+    ...LUM_AC_BUFFER.map((data) => new Uint8Array(data)),
+    ...CHM_DC_BUFFER.map((data) => new Uint8Array(data)),
+    ...CHM_AC_BUFFER.map((data) => new Uint8Array(data)),
   ])
 }
 
 export function makeScanHeader() {
-  return Buffer.from([
+  return new Uint8Array([
     0xff,
     0xda, // SOS (Start Of Scan)
     0,
@@ -173,5 +175,5 @@ export function makeScanHeader() {
 }
 
 export function makeDRIHeader(dri: number) {
-  return Buffer.from([0xff, 0xdd, 0x00, 4, dri >> 8, dri & 0xff])
+  return new Uint8Array([0xff, 0xdd, 0x00, 4, dri >> 8, dri & 0xff])
 }

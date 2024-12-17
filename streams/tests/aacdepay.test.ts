@@ -36,12 +36,11 @@ a=control:rtsp://hostname/axis-media/media.amp/stream=1?audio=1&video=1
 
 const rtpMessage = {
   type: MessageType.RTP,
-  data: Buffer.from(
+  data: Uint8Array.fromBase64(
     'gOE3VgfSkcjtSUMVABAHyAEmNa0UobgEQutal+Vl5JNVvdLtBVkkrFXytphSh4iIAIi/D647wkC+' +
-      '+19nzXfn1DVGN9b7rquOONOLHxYfa+X1KnPvneEN+D/t5v152p9RC8X9/5/DcR/M65g/v/P7XxH+T9pePb/5/f8F/g/oU' +
-      'vtf9fh77sHwGgZn6v5/d7B95wlR7Ht67gOMPgE3FyU104ciaEGj5lElEouptaCTg0M3yBAizaANAjth8RpWzgLktGZd8xw' +
-      'uDXEzn3j+Gn55+yaLrEDqB1iVbQBWbRmv1ZjfCQBmKBw/b5Mw/xH+kP8LADeDgAAAAAAAAAAAAAAAAAAAAAAAAAAAew==',
-    'base64'
+    '+19nzXfn1DVGN9b7rquOONOLHxYfa+X1KnPvneEN+D/t5v152p9RC8X9/5/DcR/M65g/v/P7XxH+T9pePb/5/f8F/g/oU' +
+    'vtf9fh77sHwGgZn6v5/d7B95wlR7Ht67gOMPgE3FyU104ciaEGj5lElEouptaCTg0M3yBAizaANAjth8RpWzgLktGZd8xw' +
+    'uDXEzn3j+Gn55+yaLrEDqB1iVbQBWbRmv1ZjfCQBmKBw/b5Mw/xH+kP8LADeDgAAAAAAAAAAAAAAAAAAAAAAAAAAAew=='
   ),
 }
 

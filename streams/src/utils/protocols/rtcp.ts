@@ -1,9 +1,9 @@
 import {
+  decode,
   readUInt8,
   readUInt16BE,
   readUInt24BE,
   readUInt32BE,
-  decode,
 } from 'utils/bytes'
 import { MessageType, RtcpMessage } from '../../components/message'
 import { POS } from '../bits'
@@ -72,7 +72,7 @@ export const rtcpMessageFromBuffer = (
   return {
     type: MessageType.RTCP,
     // FIXME: update after GenericMessage uses Uint8Array for data
-    data: Buffer.from(buffer),
+    data: buffer,
     channel,
     rtcp: parseRtcp(buffer),
   }

@@ -18,7 +18,7 @@ describe('rtsp-parser builder', (test) => {
         Date: 'Wed, 03 Jun 2015 14:26:16 GMT',
       },
       // FIXME: update after GenericMessage uses Uint8Array for data
-      data: Buffer.alloc(0),
+      data: new Uint8Array([]),
     }
     const data = builder(msg)
 

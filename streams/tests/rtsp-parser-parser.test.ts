@@ -2,7 +2,7 @@ import * as assert from 'uvu/assert'
 
 import { MessageType, SdpMessage } from 'components/message'
 import { Parser } from 'components/rtsp-parser/parser'
-import { concat, encode } from 'utils/bytes'
+import { concat, decode, encode } from 'utils/bytes'
 
 import {
   frames,
@@ -161,7 +161,7 @@ describe('RTSP package', (test) => {
     assert.is(messages.length, 1)
     const msg = messages[0]
     assert.is(msg.type, MessageType.RTSP)
-    assert.equal(msg.data, Buffer.from(setupResponse))
+    assert.equal(msg.data, encode(setupResponse))
   })
 
   test('the buffer should be empty afterwards (no messages data buffered)', () => {
@@ -195,7 +195,7 @@ describe('RTSP package', (test) => {
 describe('SDP data', (test) => {
   let sdpBuffer: Uint8Array
   test.before(() => {
-    sdpBuffer = Buffer.from(sdpResponse)
+    sdpBuffer = encode(sdpResponse)
   })
 
   test('should extract twice, once with the full RTSP and once with the SDP data', () => {
@@ -204,7 +204,7 @@ describe('SDP data', (test) => {
     assert.is(messages.length, 2)
     assert.is(messages[0].type, MessageType.RTSP)
     assert.is(messages[1].type, MessageType.SDP)
-    assert.equal(messages[0].data, Buffer.from(sdpBuffer))
+    assert.equal(messages[0].data, sdpBuffer)
     assert.equal(messages[1].data.byteLength, 0)
 
     const sdp = (messages[1] as SdpMessage).sdp

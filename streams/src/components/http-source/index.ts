@@ -130,7 +130,7 @@ export class HttpSource extends Source {
           throw new Error('expected length to be defined')
         }
         this.length += value.length
-        const buffer = Buffer.from(value)
+        const buffer = value
         if (!this.incoming.push({ data: buffer, type: MessageType.RAW })) {
           // Something happened down stream that it is no longer processing the
           // incoming data, and the stream buffer got full.
