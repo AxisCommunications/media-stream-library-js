@@ -1,5 +1,7 @@
 import * as assert from 'uvu/assert'
 
+import { toByteArray } from 'base64-js'
+
 import { AssertionError } from 'assert'
 import { H264DepayParser } from 'components/h264depay/parser'
 import { MessageType } from 'components/message'
@@ -15,7 +17,7 @@ describe('h264 parser', (test) => {
   })
 
   test('parses a single NALU packet', (ctx) => {
-    const singleNalu = Uint8Array.fromBase64('gOATzCCbbTXpPLiiQZrALBJ/AEphqA==')
+    const singleNalu = toByteArray('gOATzCCbbTXpPLiiQZrALBJ/AEphqA==')
     const msg = ctx.h264Parser.parse({
       type: MessageType.RTP,
       data: singleNalu,
@@ -36,10 +38,10 @@ describe('h264 parser', (test) => {
   })
 
   test('parses a FU-A frame split on two RTP packages', (ctx) => {
-    const fuaPart1 = Uint8Array.fromBase64(
+    const fuaPart1 = toByteArray(
       'gGBwUAkfABNeSvUmfIWIgwAAv7fhaOZ7/8I48OQXY7Fpl6o9HpvJiYz5b2JyowHtuVDBxLY9ZL8FHJOD6rs6h91CSMQmA9fgnTDCVgJ5vdm99c7OMzF3l4K9+VJeZ4eKyC32WVXoVh3h+KVVJERORlYXJDq+1IlMC0EzAqltdPKwC1UmwbsMgtz6fjR/v19wZf0DXOfxTBnb0OnN83kR5G8TffuGm2njvkWsEX7ecpJDzhu0Wn0RZ9Z0I39RuOT5hHrKKSMQSfwWbITrzL+j5bneysE7nAD9mPsEQxqH99GPZodENIbuYhog8TS/Qlv+Ty20GkAZfbZILfjoELO9ahh2wQgLaGd031W4Z7bmM7WACu7fPVm4blRP1rhomufuUAD8ceqjqxcivy5CxeyWS764bBNkffWBVHL7PpzXPhd4e56YduXnWwQO1REIs2MiPfyx7UumMIwDCCKhgDf3BUxWuSXVqcORn0aSp7k8SFCM/767e1peyADK+WKuWVDbrDvPW2igZKBADyashVjvNhdaHJBCWPOpVwfghRhSjeaK2k6/OdY6ebpRDv4J7ZnUCGnNspqy6fo5WbUoQwc4+3xXbq8lN7kYP9zSH4iExe7f//+9flejgJql61Z4A34bwazQ/KlCmySYm/cbIyWuZVQo0R8='
     )
-    const fuaPart2 = Uint8Array.fromBase64(
+    const fuaPart2 = toByteArray(
       'gOBwUQkfABNeSvUmfEV10JWHPGgQDhsFYeRYLNcUCLF5ek1hA7BRpPeURyWGQa9vOSr5DM0WpqX78A=='
     )
     /* eslint-enable */

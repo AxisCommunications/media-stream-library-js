@@ -1,3 +1,5 @@
+import { toByteArray } from 'base64-js'
+
 import { H264Media } from '../../../utils/protocols/sdp'
 
 import { Box, Container } from './isom'
@@ -67,7 +69,7 @@ export const h264Settings = (
   const profileLevelId = media.fmtp.parameters['profile-level-id']
   const parameterSets = media.fmtp.parameters['sprop-parameter-sets']
     .split(',')
-    .map(Uint8Array.fromBase64)
+    .map(toByteArray)
 
   // We assume the first set is _the_ SPS (no support for multiple).
   const sps = parameterSets.slice(0, 1)
