@@ -4,19 +4,19 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-
-import { Html5VideoPipeline } from 'media-stream-library'
-import { useInterval } from 'react-hooks-shareable'
 import styled from 'styled-components'
 
+import { RtspMp4Pipeline } from 'media-stream-library'
+
 import { PlayerPipeline, VideoProperties } from './PlaybackArea'
+import { useInterval } from './hooks/useInterval'
 import { StreamStats } from './img'
 import { Format } from './types'
 
-const isHtml5VideoPipeline = (
-  pipeline: PlayerPipeline | null | undefined
-): pipeline is Html5VideoPipeline => {
-  return (pipeline as Html5VideoPipeline)?.tracks !== undefined
+const isRtspMp4Pipeline = (
+  pipeline: PlayerPipeline | undefined
+): pipeline is RtspMp4Pipeline => {
+  return (pipeline as RtspMp4Pipeline)?.mp4.tracks !== undefined
 }
 
 const StatsWrapper = styled.div`
@@ -163,35 +163,25 @@ const StatsData: React.FC<
         unit: refresh > 1 ? 'times' : 'time',
       },
     ]
-    if (isHtml5VideoPipeline(pipeline)) {
-      const tracks = pipeline.tracks?.map((track, index) =>
-        Object.assign({ index }, track)
-      )
-      const videoTrack = tracks?.find((track) => track.type === 'video')
-      if (videoTrack !== undefined) {
-        const { coding, profile, level } = videoTrack.codec
-        const framerate = Number(
-          pipeline.framerate[videoTrack.index].toFixed(2)
-        )
-        const bitrate = Math.round(pipeline.bitrate[videoTrack.index] / 1000)
-
+    if (isRtspMp4Pipeline(pipeline)) {
+      pipeline.mp4.tracks.forEach(({ id, name, codec, bitrate, framerate }) => {
         statsData = statsData.concat([
           {
-            name: 'Encoding',
-            value: `${coding} ${profile} (${level})`,
+            name: `Track ${id}`,
+            value: `${name} (${codec})`,
           },
           {
             name: 'Frame rate',
-            value: framerate,
+            value: framerate.toFixed(2),
             unit: 'fps',
           },
           {
             name: 'Bitrate',
-            value: bitrate,
+            value: (bitrate / 1000).toFixed(1),
             unit: 'kbit/s',
           },
         ])
-      }
+      })
     }
 
     if (volume !== undefined) {

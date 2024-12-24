@@ -20,6 +20,7 @@
   ],
   "devDependencies": {
     "@biomejs/biome": "^1.8.3",
+    "@types/ws": "8.5.13",
     "c8": "10.1.2",
     "cmd-ts": "0.13.0",
     "cypress": "13.13.2",
@@ -32,6 +33,7 @@
     "stylelint": "16.8.1",
     "tsx": "4.16.5",
     "typescript": "5.5.4",
+    "ws": "8.18.0",
     "yargs": "17.7.2"
   },
   "packageManager": "yarn@3.8.1"

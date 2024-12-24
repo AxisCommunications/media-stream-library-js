@@ -68,7 +68,7 @@ rtsp-ws:
     set -euo pipefail
     trap "kill 0" EXIT SIGINT
     scripts/rtsp-server.sh &
-    scripts/tcp-ws-proxy.cjs >& tcp-ws-proxy.log &
+    scripts/ws-rtsp-proxy.mjs --portmaps 8854:8554 8855:8555 >& ws-rtsp-proxy.log &
     wait
 
 # statically serve a directory
@@ -125,11 +125,14 @@ test:
 
 # run tsc in workspace(s) (default current, or all if in project root)
 tsc workspace:
-    cd {{ workspace }} && tsc
+    cd {{ workspace }} && tsc -p tsconfig.types.json
 
-# run uvu to test files matching pattern (path = path to tsconfig.json + tests, e.g. "admx/web", or "iam")
-uvu path pattern='.*\.test\.tsx?':
-    c8 -r none --clean=false --src={{ path }} -- tsx --tsconfig {{ path }}/tsconfig.json node_modules/uvu/bin.js {{ path }}/tests/ {{ pattern }}
+# run UVU tests for a workspace (tests/ directory)
+uvu workspace pattern='': (_clear-tests workspace)
+    cd {{workspace}} && esbuild --bundle --format=esm --outdir=tests/build --packages=external --platform=node --sourcemap=inline \
+        $(glob 'tests/**/*{{pattern}}*.test.{ts,tsx}')
+    cd {{workspace}} && c8 -r none --clean=false -- uvu tests/build '.*{{pattern}}.*\.test\.js$'
+
 
 #
 # hidden commands (these can be run but they are not shown with just --list)
@@ -143,6 +146,9 @@ _build-player: _build-streams (tsc "player")
 
 _build-overlay: (tsc "overlay")
     just esbuild overlay
+
+_clear-tests workspace:
+    cd {{workspace}} && if [[ -d tests/build ]]; then rm -r tests/build; fi
 
 _copy-player-bundle dst:
     cp player/dist/media-stream-player.min.js {{ dst }}

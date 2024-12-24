@@ -1,16 +1,14 @@
 import * as assert from 'uvu/assert'
+import { describe } from './uvu-describe'
 
 import { toByteArray } from 'base64-js'
 
-import { AACDepay } from 'components/aacdepay'
-import { Message, MessageType } from 'components/message'
-import { payload } from 'utils/protocols/rtp'
-import { sdpFromBody } from 'utils/protocols/sdp'
+import { AACDepay, RtpMessage } from '../src/components'
 
-import { describe } from './uvu-describe'
-import { runComponentTests } from './validate-component'
+import { parseRtp } from '../src/components/rtsp/rtp'
+import { parseSdp } from '../src/components/rtsp/sdp'
 
-const sdpMessage = sdpFromBody(`
+const sdp = parseSdp(`
 v=0
 o=- 18315797286303868614 1 IN IP4 127.0.0.1
 s=Session streamed with GStreamer
@@ -36,27 +34,26 @@ a=fmtp:97 streamtype=5;profile-level-id=2;mode=AAC-hbr;config=1408;sizeLength=13
 a=control:rtsp://hostname/axis-media/media.amp/stream=1?audio=1&video=1
 `)
 
-const rtpMessage = {
-  type: MessageType.RTP,
-  data: toByteArray(
-    'gOE3VgfSkcjtSUMVABAHyAEmNa0UobgEQutal+Vl5JNVvdLtBVkkrFXytphSh4iIAIi/D647wkC+' +
-      '+19nzXfn1DVGN9b7rquOONOLHxYfa+X1KnPvneEN+D/t5v152p9RC8X9/5/DcR/M65g/v/P7XxH+T9pePb/5/f8F/g/oU' +
-      'vtf9fh77sHwGgZn6v5/d7B95wlR7Ht67gOMPgE3FyU104ciaEGj5lElEouptaCTg0M3yBAizaANAjth8RpWzgLktGZd8xw' +
-      'uDXEzn3j+Gn55+yaLrEDqB1iVbQBWbRmv1ZjfCQBmKBw/b5Mw/xH+kP8LADeDgAAAAAAAAAAAAAAAAAAAAAAAAAAAew=='
-  ),
-}
+const rtpData = toByteArray(
+  'gOE3VgfSkcjtSUMVABAHyAEmNa0UobgEQutal+Vl5JNVvdLtBVkkrFXytphSh4iIAIi/D647wkC+' +
+    '+19nzXfn1DVGN9b7rquOONOLHxYfa+X1KnPvneEN+D/t5v152p9RC8X9/5/DcR/M65g/v/P7XxH+T9pePb/5/f8F/g/oU' +
+    'vtf9fh77sHwGgZn6v5/d7B95wlR7Ht67gOMPgE3FyU104ciaEGj5lElEouptaCTg0M3yBAizaANAjth8RpWzgLktGZd8xw' +
+    'uDXEzn3j+Gn55+yaLrEDqB1iVbQBWbRmv1ZjfCQBmKBw/b5Mw/xH+kP8LADeDgAAAAAAAAAAAAAAAAAAAAAAAAAAAew=='
+)
+
+const rtpMessage = new RtpMessage({
+  channel: 2,
+  ...parseRtp(rtpData),
+})
 
 describe('aacdepay component', (test) => {
-  const c = new AACDepay()
-  runComponentTests(c, 'aacdepay', test)
+  const aacDepay = new AACDepay(sdp.media)
 
   test('Emits an AAC package with headers cut', () => {
-    c.incoming.write(sdpMessage)
-    c.incoming.write(rtpMessage)
-    c.incoming.read() // Skip sdp which is passed through
-    const msg: Message = c.incoming.read()
-    assert.is(msg.type, MessageType.ELEMENTARY)
+    const msg = aacDepay.parse(rtpMessage)
+    assert.ok(msg)
+    assert.is(msg.type, 'elementary')
     // The header should be cut
-    assert.is(msg.data.length + 4, payload(rtpMessage.data).length)
+    assert.is(msg.data.length, rtpMessage.data.length - 4)
   })
 })

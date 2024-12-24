@@ -1,4 +1,4 @@
-const { components, pipelines, utils } = window.mediaStreamLibrary
+const { RtspMp4Pipeline, Scheduler } = window.mediaStreamLibrary
 const d3 = window.d3
 
 const play = (host) => {
@@ -42,7 +42,7 @@ const play = (host) => {
   }
 
   // Setup a new pipeline
-  const pipeline = new pipelines.Html5VideoPipeline({
+  const pipeline = new RtspMp4Pipeline({
     ws: { uri: `ws://${host}:8854/` },
     rtsp: { uri: `rtsp://localhost:8554/test` },
     mediaElement,
@@ -51,19 +51,16 @@ const play = (host) => {
   // Create a scheduler and insert it into the pipeline with
   // a peek component, which will call the run method of the
   // scheduler every time a message passes on the pipeline.
-  const scheduler = new utils.Scheduler(pipeline, draw)
-  const runScheduler = components.Tube.fromHandlers((msg) => scheduler.run(msg))
-  pipeline.insertBefore(pipeline.lastComponent, runScheduler)
+  const scheduler = new Scheduler(pipeline, draw)
+  pipeline.rtp.peek(['h264'], (msg) => scheduler.run(msg))
 
   // When we now the UNIX time of the start of the presentation,
   // initialize the scheduler with it.
-  pipeline.onSync = (ntpPresentationTime) => {
+  pipeline.videoStartTime.then((ntpPresentationTime) => {
     scheduler.init(ntpPresentationTime)
-  }
-
-  pipeline.ready.then(() => {
-    pipeline.rtsp.play()
   })
+
+  pipeline.start()
 }
 
 play(window.location.hostname)

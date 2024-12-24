@@ -1,10 +1,10 @@
 import * as assert from 'uvu/assert'
-
-import { DigestAuth } from 'components/auth/digest'
-import { parseWWWAuthenticate } from 'components/auth/www-authenticate'
+import { describe } from './uvu-describe'
 
 import { authHeaders, cnonce, credentials, request } from './auth.fixtures'
-import { describe } from './uvu-describe'
+
+import { DigestAuth } from '../src/components/auth/digest'
+import { parseWWWAuthenticate } from '../src/components/auth/www-authenticate'
 
 const header = authHeaders['WWW-Authenticate']
 

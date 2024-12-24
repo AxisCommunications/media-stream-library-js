@@ -1,35 +1,20 @@
-import { Transform } from 'stream'
-
-import { Tube } from '../component'
-import { Message, MessageType } from '../message'
+import { IsomMessage } from '../types/isom'
 
 import { Parser } from './parser'
 
 /**
- * A component that converts raw binary MP4 data into ISOM boxes.
- * @extends {Component}
+ * A transform stream that converts raw binary MP4 data into ISOM boxes.
  */
-export class Mp4Parser extends Tube {
-  /**
-   * Create a new RTSP parser component.
-   */
+export class Mp4Parser extends TransformStream<Uint8Array, IsomMessage> {
   constructor() {
     const parser = new Parser()
 
-    // Incoming stream
-    const incoming = new Transform({
-      objectMode: true,
-      transform(msg: Message, _, callback) {
-        if (msg.type === MessageType.RAW) {
-          parser.parse(msg.data).forEach((message) => incoming.push(message))
-          callback()
-        } else {
-          // Not a message we should handle
-          callback(undefined, msg)
-        }
+    super({
+      transform: (chunk, controller) => {
+        parser.parse(chunk).forEach((message) => {
+          controller.enqueue(message)
+        })
       },
     })
-
-    super(incoming)
   }
 }

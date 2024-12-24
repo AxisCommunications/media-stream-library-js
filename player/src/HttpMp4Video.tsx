@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import debug from 'debug'
-import { TransformationMatrix, pipelines } from 'media-stream-library'
+import { HttpMp4Pipeline, TransformationMatrix } from 'media-stream-library'
 import styled from 'styled-components'
 
 import { VideoProperties } from './PlaybackArea'
@@ -10,8 +9,7 @@ import { useEventState } from './hooks/useEventState'
 import { useVideoDebug } from './hooks/useVideoDebug'
 import { MetadataHandler } from './metadata'
 import { Format } from './types'
-
-const debugLog = debug('msp:http-mp4-video')
+import { logDebug } from './utils/log'
 
 const VideoNative = styled.video`
   max-height: 100%;
@@ -81,9 +79,7 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
   const [playing, unsetPlaying] = useEventState(videoRef, 'playing')
 
   // State tied to resources
-  const [pipeline, setPipeline] = useState<null | pipelines.HttpMsePipeline>(
-    null
-  )
+  const [pipeline, setPipeline] = useState<null | HttpMp4Pipeline>(null)
   const [fetching, setFetching] = useState(false)
 
   // keep a stable reference to the external onPlaying callback
@@ -96,7 +92,7 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
 
   const __sensorTmRef = useRef<TransformationMatrix>()
 
-  useVideoDebug(videoRef.current, debugLog)
+  useVideoDebug(videoRef.current)
 
   useEffect(() => {
     const videoEl = videoRef.current
@@ -106,18 +102,15 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
     }
 
     if (play && canplay === true && playing === false) {
-      debugLog('play')
+      logDebug('play')
       videoEl.play().catch((err) => {
         console.error('VideoElement error: ', err.message)
       })
 
       const { videoHeight, videoWidth } = videoEl
-      debugLog('%o', {
-        videoHeight,
-        videoWidth,
-      })
+      logDebug(`resolution: ${videoWidth}x${videoHeight}`)
     } else if (!play && playing === true) {
-      debugLog('pause')
+      logDebug('pause')
       videoEl.pause()
       unsetPlaying()
     } else if (play && playing === true) {
@@ -146,9 +139,9 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
       const endedCallback = () => {
         __onEndedRef.current?.()
       }
-      debugLog('create pipeline', src)
-      const newPipeline = new pipelines.HttpMsePipeline({
-        http: { uri: src },
+      logDebug('create pipeline', src)
+      const newPipeline = new HttpMp4Pipeline({
+        uri: src,
         mediaElement: videoEl,
       })
       setPipeline(newPipeline)
@@ -156,7 +149,7 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
       newPipeline.onServerClose = endedCallback
 
       return () => {
-        debugLog('close pipeline and clear video')
+        logDebug('close pipeline and clear video')
         newPipeline.close()
         videoEl.src = ''
         setPipeline(null)
@@ -175,8 +168,8 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
             headers.get('video-metadata-transform')
         )
       }
-      pipeline.http.play()
-      debugLog('initiated data fetching')
+      pipeline.start()
+      logDebug('initiated data fetching')
       setFetching(true)
     }
   }, [play, pipeline, fetching])

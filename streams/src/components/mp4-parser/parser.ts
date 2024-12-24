@@ -1,11 +1,13 @@
-import registerDebug from 'debug'
+import { Container } from '../mp4-muxer/isom'
+import { mimeType } from '../mp4-muxer/mime'
+import { IsomMessage } from '../types/isom'
+import { concat, decode, readUInt32BE } from '../utils/bytes'
 
-import { concat, readUInt32BE } from 'utils/bytes'
-import { BOX_HEADER_BYTES, boxType } from '../../utils/protocols/isom'
-import { IsomMessage, MessageType } from '../message'
-import { Container } from '../mp4muxer/helpers/isom'
+const BOX_HEADER_BYTES = 8
 
-const debug = registerDebug('msl:mp4-parser')
+const boxType = (buffer: Uint8Array) => {
+  return decode(buffer.subarray(4, 8)).toLowerCase()
+}
 
 // Identify boxes that conforms to an ISO BMFF byte stream:
 //  - header boxes: ftyp + moov
@@ -140,14 +142,14 @@ export class Parser {
         } else if (boxType(data) === 'moov') {
           const moov = new Container('moov')
           const tracks = moov.parse(data)
-          debug('MP4 tracks: ', tracks)
-          messages.push({
-            type: MessageType.ISOM,
-            data: concat([this._ftyp ?? new Uint8Array(0), data]),
-            tracks,
-          })
+          messages.push(
+            new IsomMessage({
+              data: concat([this._ftyp ?? new Uint8Array(0), data]),
+              mimeType: mimeType(tracks),
+            })
+          )
         } else {
-          messages.push({ type: MessageType.ISOM, data })
+          messages.push(new IsomMessage({ data }))
         }
       } else {
         done = true

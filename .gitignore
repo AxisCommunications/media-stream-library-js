@@ -2,6 +2,7 @@
 *.log
 
 # Coverage directory (tests with coverage)
+build/
 coverage/
 
 # Bundles

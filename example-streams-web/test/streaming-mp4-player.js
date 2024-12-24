@@ -1,15 +1,16 @@
-const { pipelines } = window.mediaStreamLibrary
+const { HttpMp4Pipeline } = window.mediaStreamLibrary
 
 const play = (host) => {
   // Grab a reference to the video element
   const mediaElement = document.querySelector('video')
 
   // Setup a new pipeline
-  const pipeline = new pipelines.HttpMsePipeline({
-    http: { uri: `http://${host}/test/bbb.mp4` },
+  const pipeline = new HttpMp4Pipeline({
+    uri: `http://${host}/test/bbb.mp4`,
     mediaElement,
   })
-  pipeline.http.play()
+
+  pipeline.start()
 }
 
 play(window.location.host)

@@ -1,12 +1,7 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": "src",
-    "declaration": true,
-    "emitDeclarationOnly": true,
-    "jsx": "react",
-    "noEmit": false,
-    "outDir": "dist"
+    "jsx": "react"
   },
   "include": ["src", "tests"]
 }

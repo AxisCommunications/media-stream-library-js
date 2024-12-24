@@ -18,14 +18,11 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "types": "./dist/index.d.ts",
-  "main": "./dist/index-cjs.js",
-  "module": "./dist/index-esm.js",
+  "type": "module",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index-cjs.js",
-      "import": "./dist/index-esm.js"
+      "import": "./dist/index.js"
     }
   },
   "files": [
@@ -34,9 +31,7 @@
     "README.md"
   ],
   "dependencies": {
-    "@juggle/resize-observer": "3.4.0",
-    "debug": "4.3.6",
-    "react-hooks-shareable": "1.53.0"
+    "@juggle/resize-observer": "3.4.0"
   },
   "peerDependencies": {
     "luxon": "^3.0.0",
@@ -46,7 +41,6 @@
     "styled-components": "^5.3.5"
   },
   "devDependencies": {
-    "@types/debug": "4.1.12",
     "@types/luxon": "3.4.2",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
