@@ -216,6 +216,23 @@ class UInt64BE extends BoxElement {
   }
 }
 
+export class ByteArray extends BoxElement {
+  public value: Uint8Array
+
+  constructor(array: Uint8Array) {
+    super(array.length)
+    this.value = array
+  }
+
+  copy: BufferMutation = (buffer, offset) => {
+    buffer.set(this.value, offset)
+  }
+
+  load: BufferMutation = (buffer, offset) => {
+    this.value.set(buffer.subarray(offset))
+  }
+}
+
 /**
  * Class factory for a parameter set element. A parameter set groups a size,
  * and an array of parameter sets consisting each of a size and a byte array.
@@ -1153,7 +1170,7 @@ export class Box extends BoxElement {
    * @param element Something with a 'byteLength' property and 'copy' method.
    * @return this box, so that 'add' can be used in a chain
    */
-  add(key: string, element: BoxElement | Uint8Array) {
+  add(key: string, element: BoxElement) {
     if (this.has(key)) {
       throw new Error('Trying to add existing key')
     }
