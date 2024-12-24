@@ -7,6 +7,7 @@ import { createTransform } from '../messageStreams'
 
 import { DigestAuth } from './digest'
 import { parseWWWAuthenticate } from './www-authenticate'
+import { fromByteArray } from 'base64-js'
 
 const UNAUTHORIZED = 401
 
@@ -66,7 +67,7 @@ export class Auth extends Tube {
         }
         const challenge = parseWWWAuthenticate(wwwAuth)
         if (challenge.type === 'basic') {
-          authHeader = `Basic ${encode(`${username}:${password}`).BYTES_PER_ELEMENT}`
+          authHeader = `Basic ${fromByteArray(encode(`${username}:${password}`))}`
         } else if (challenge.type === 'digest') {
           const digest = new DigestAuth(challenge.params, username, password)
           authHeader = digest.authorization(
