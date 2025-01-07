@@ -1,20 +1,42 @@
-## [13.1.1](https://github.com/AxisCommunications/media-stream-library-js/compare/cd7b2e60405b4b9aeb4072b23c7169b5c79123d5..4a67ac8e6ae38a435076a72f7882297da1757a3d) (2024-01-12T14:24:26.686Z)
+## [13.2.0](https://github.com/AxisCommunications/media-stream-library-js/compare/db30d3bda424de8011f46ed5f2d7c79fb8ad69e4..0ff93c1f6edead9ff7fccc5eac21e87b2600e964) (2025-01-07T16:48:02.968Z)
 
 ### 🚧 Maintenance
 
-  - **deps-dev**: bump the dev-dependencies group with 17 updates (#886) ([49a1763](https://github.com/AxisCommunications/media-stream-library-js/commit/49a1763906b22b0a0de49fbb5b8ea840fb7b4107))
-  - **deps-dev**: bump vite from 4.5.0 to 5.0.2 (#846) ([413fb45](https://github.com/AxisCommunications/media-stream-library-js/commit/413fb45b48cbae0c644f0d24c780a0f1f81b1d67))
-  - **deps-dev**: bump the dev-dependencies group with 2 updates (#828) ([499379b](https://github.com/AxisCommunications/media-stream-library-js/commit/499379b9b4d768ab6217340829ae0de05bea9a5a))
-  - update templates (#820) ([1e66cde](https://github.com/AxisCommunications/media-stream-library-js/commit/1e66cdee6d685b6617ba4f27803803c2d723f7d3))
-  - **deps-dev**: bump tsx from 3.14.0 to 4.1.0 (#827) ([522b0c9](https://github.com/AxisCommunications/media-stream-library-js/commit/522b0c90bbf99e0c658ef203040102e580ac44e7))
-  - **dev-deps**: bump cypress from 12.8.1 to 13.5.0 (#824) ([a24bf3f](https://github.com/AxisCommunications/media-stream-library-js/commit/a24bf3fbb28e8f21c0ea9b4bdbd0235eb2086737))
-  - **deps-dev**: bump the dev-dependencies group with 1 update (#823) ([551ac7f](https://github.com/AxisCommunications/media-stream-library-js/commit/551ac7f51674a1ea47b8a3b9aeaf5210ddd126ce))
-  - **dev-deps**: update @typescript-eslint (#822) ([169f420](https://github.com/AxisCommunications/media-stream-library-js/commit/169f4205ecbc123ef73104e273cbe15304c968de))
-  - **deps-dev**: bump the dev-dependencies group with 10 updates (#821) ([aaefacc](https://github.com/AxisCommunications/media-stream-library-js/commit/aaefaccfbe7ac971744738d58ab3e2d45fd7a931))
-  - Create codeql.yml ([da68c58](https://github.com/AxisCommunications/media-stream-library-js/commit/da68c58c665022dec7185804c219e01092d96654))
-  - **deps-dev**: bump postcss from 8.4.30 to 8.4.31 (#785) ([ea64f0c](https://github.com/AxisCommunications/media-stream-library-js/commit/ea64f0c67be8c2e79d1b0d029f98c4ea47339527))
-  - **deps-dev**: bump @babel/traverse from 7.22.20 to 7.23.2 (#805) ([81bfe7c](https://github.com/AxisCommunications/media-stream-library-js/commit/81bfe7cac5121ff7ab2bcf6a083afc9004b9063d))
+  - **deps**: bump the dependencies group across 1 directory with 3 updates (#1000) ([6997451](https://github.com/AxisCommunications/media-stream-library-js/commit/6997451619516e8311efbe37cce7073534a0b149))
+  - **deps-dev**: bump c8 from 9.1.0 to 10.1.2 (#995) ([b7db610](https://github.com/AxisCommunications/media-stream-library-js/commit/b7db6100dfa535bc0d28598398385db521c29ba2))
+  - **deps-dev**: bump the dev-dependencies group across 1 directory with 8 updates (#1006) ([6e07315](https://github.com/AxisCommunications/media-stream-library-js/commit/6e073153aa747beacf3623fc9abbb02ea06ca865))
+  - **deps-dev**: bump the dev-dependencies group across 1 directory with 15 updates (#989) ([76017bb](https://github.com/AxisCommunications/media-stream-library-js/commit/76017bbff22dfcd3dbdc8551ae448176907ba9fe))
+  - **deps**: bump ws from 8.16.0 to 8.17.1 in the npm_and_yarn group (#981) ([49eaa51](https://github.com/AxisCommunications/media-stream-library-js/commit/49eaa5190ae8469e36556ff971c51549ef018a6c))
+  - **deps-dev**: bump the dev-dependencies group with 5 updates (#938) ([6351e77](https://github.com/AxisCommunications/media-stream-library-js/commit/6351e77108e62e1898a0f3ddf4f6f1ef7a4e0e6b))
+  - update code owners (#934) ([c5db120](https://github.com/AxisCommunications/media-stream-library-js/commit/c5db12049fc2179e294a015628c908ffed4769f6))
+  - **deps**: upgrade to Node.js v20 (#933) ([18c26c4](https://github.com/AxisCommunications/media-stream-library-js/commit/18c26c4ebbc28333ba369da6ff5a08606eae8441))
+  - **deps**: upgrade minor/patch (#932) ([2c2d7a3](https://github.com/AxisCommunications/media-stream-library-js/commit/2c2d7a338c47293ad352a14f0b10b94035cc6e0f))
+  - **deps-dev**: bump jsdom from 23.2.0 to 24.0.0 (#931) ([f8939c9](https://github.com/AxisCommunications/media-stream-library-js/commit/f8939c9ed55b7e648f605ab55913f23e8a53c760))
+  - **deps-dev**: bump the dev-dependencies group with 10 updates (#930) ([c07bfa4](https://github.com/AxisCommunications/media-stream-library-js/commit/c07bfa4b839066b5fb7f4f0bf538b06f37bce180))
+  - allow hoisting to the root level ([49c266f](https://github.com/AxisCommunications/media-stream-library-js/commit/49c266fc0d8a366103e10c54a513a6d1e23729ef))
+  - update workflows ([f461338](https://github.com/AxisCommunications/media-stream-library-js/commit/f461338abc899ff5cf052046f0facbfc43771fd8))
+  - remove eslint-disable comments ([59f0613](https://github.com/AxisCommunications/media-stream-library-js/commit/59f06132ad3d77126f97b7356a6f021bc5104674))
+  - satisfy biome checks ([4e9e041](https://github.com/AxisCommunications/media-stream-library-js/commit/4e9e0410c484465badcd579d0c559325894750a1))
+  - biome import sorting ([0210ee1](https://github.com/AxisCommunications/media-stream-library-js/commit/0210ee17f3976f0b1f066e53e5250606bd0bd91d))
+  - biome formatting ([51318dc](https://github.com/AxisCommunications/media-stream-library-js/commit/51318dc52d5576920f97abbe6600ad7259eb62f6))
+  - use yarn and replace dprint/eslint with biome ([00abee0](https://github.com/AxisCommunications/media-stream-library-js/commit/00abee002c293f0f811fee171013ce5633a33509))
+  - remove git LFS ([5c48be4](https://github.com/AxisCommunications/media-stream-library-js/commit/5c48be4bda7a12f4c430208d0162e88f6971368f))
+  - **deps-dev**: bump the dev-dependencies group with 11 updates (#914) ([8488fae](https://github.com/AxisCommunications/media-stream-library-js/commit/8488fae4b74aa714432996b13fd30c8db05db390))
+  - **deps-dev**: bump jsdom from 22.1.0 to 23.2.0 (#892) ([9f230db](https://github.com/AxisCommunications/media-stream-library-js/commit/9f230db4ce70ef4da727d442ce6a313ccbc71075))
+  - **deps-dev**: bump follow-redirects from 1.15.3 to 1.15.5 (#889) ([c4f72ea](https://github.com/AxisCommunications/media-stream-library-js/commit/c4f72ea8c32a73955549d8f34e7486794d597b43))
+  - **deps-dev**: bump c8 from 8.0.1 to 9.1.0 (#890) ([63e08ac](https://github.com/AxisCommunications/media-stream-library-js/commit/63e08ac687720edd50d78d5df93c73b6b3a4f7ee))
+  - **deps-dev**: bump stylelint from 15.11.0 to 16.1.0 (#891) ([f4efbe7](https://github.com/AxisCommunications/media-stream-library-js/commit/f4efbe7198423768c131be18a2d34c148a48b852))
+  - support merge queues (#893) ([d263395](https://github.com/AxisCommunications/media-stream-library-js/commit/d26339547d42f68c1297af4653c2966169c21322))
+
+### 📝 Documentation
+
+  - add quick install steps for example (#1029) ([998d5e2](https://github.com/AxisCommunications/media-stream-library-js/commit/998d5e2b3c22711d91c566f949d52ad2ca503fcc))
 
 ### 🐛 Bug fixes
 
-  - replace .mjs with .js extension for browser modules (#887) ([4a67ac8](https://github.com/AxisCommunications/media-stream-library-js/commit/4a67ac8e6ae38a435076a72f7882297da1757a3d))
+  - replace npm with yarn for upgrades/releases ([0ff93c1](https://github.com/AxisCommunications/media-stream-library-js/commit/0ff93c1f6edead9ff7fccc5eac21e87b2600e964))
+  - force negative frame durations to zero (#769) ([e6773e7](https://github.com/AxisCommunications/media-stream-library-js/commit/e6773e7ccccec782e655af4dab5c79e51eb67e45))
+
+### 🧪 Test
+
+  - add build verification for Node.js v22 (#1028) ([06968d7](https://github.com/AxisCommunications/media-stream-library-js/commit/06968d7be1d540ae357ba187a1c333465c70217d))
