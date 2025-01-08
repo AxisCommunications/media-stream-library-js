@@ -86,9 +86,7 @@ tools:
 
 # update a specific dependency to latest
 update *packages:
-    just ncu -u {{ packages }}
-    npm install
-    npm update --include-workspace-root --workspaces {{ packages }}
+    yarn update-interactive
 
 # CI verification
 verify:
@@ -103,8 +101,9 @@ version $level='prerelease':
     #!/usr/bin/env bash
     current=$(jq -r '.version' package.json)
     next=$(semver -i $level --preid alpha $current)
-    echo "update: $current => $next"
-    npm version $next --git-tag-version=false --workspace=streams --workspace=player --workspace=overlay --include-workspace-root
+    echo "update $workspace: $current => $next"
+    yarn workspaces foreach version --deferred $next
+    yarn version apply --all
 
 # run vite development server, WORKSPACE=(player)
 vite WORKSPACE *ARGS:
