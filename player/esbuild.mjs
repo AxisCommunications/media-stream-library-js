@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 import { existsSync, mkdirSync } from 'node:fs'
 import { join } from 'node:path'
 
@@ -10,35 +11,21 @@ if (!existsSync(buildDir)) {
   mkdirSync(buildDir)
 }
 
-const bundles = [
-  { format: 'esm', name: 'index-esm.js' },
-  { format: 'cjs', name: 'index-cjs.js' },
-]
+// ES module
+buildSync({
+  platform: 'browser',
+  entryPoints: ['src/index.ts'],
+  outfile: join(buildDir, 'index.js'),
+  format: 'esm',
+  packages: 'external',
+  bundle: true,
+  minify: false,
+  sourcemap: true,
+  // avoid a list of browser targets by setting a common baseline ES level
+  target: 'es2015',
+})
 
-for (const { name, format } of bundles) {
-  buildSync({
-    platform: 'browser',
-    entryPoints: ['src/index.ts'],
-    outfile: join(buildDir, name),
-    format,
-    external: [
-      '@juggle/resize-observer',
-      'debug',
-      'react-hooks-shareable',
-      'react',
-      'react-dom',
-      'luxon',
-      'styled-components',
-      'media-stream-library',
-    ],
-    bundle: true,
-    minify: false,
-    sourcemap: true,
-    // avoid a list of browser targets by setting a common baseline ES level
-    target: 'es2015',
-  })
-}
-
+// IIFE
 buildSync({
   platform: 'browser',
   entryPoints: ['src/index.ts'],

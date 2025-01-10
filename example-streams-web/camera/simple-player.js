@@ -1,4 +1,5 @@
-const { pipelines, isRtcpBye } = window.mediaStreamLibrary
+const { RtspMp4Pipeline, RtspJpegPipeline, isRtcpBye } =
+  window.mediaStreamLibrary
 
 // force auth
 const authorize = async (host) => {
@@ -25,13 +26,13 @@ const play = (host, encoding = 'h264') => {
   let Pipeline
   let mediaElement
   if (encoding === 'h264') {
-    Pipeline = pipelines.Html5VideoPipeline
+    Pipeline = RtspMp4Pipeline
     mediaElement = videoEl
     // hide the other output
     videoEl.style.display = ''
     canvasEl.style.display = 'none'
   } else {
-    Pipeline = pipelines.Html5CanvasPipeline
+    Pipeline = RtspJpegPipeline
     mediaElement = canvasEl
     // hide the other output
     videoEl.style.display = 'none'
@@ -40,21 +41,29 @@ const play = (host, encoding = 'h264') => {
 
   // Setup a new pipeline
   const pipeline = new Pipeline({
-    ws: { uri: `ws://${host}/rtsp-over-websocket` },
+    ws: {
+      uri: `ws://${host}/rtsp-over-websocket`,
+      tokenUri: `http://${host}/rtspwssession.cgi`,
+    },
     rtsp: { uri: `rtsp://${host}/axis-media/media.amp?videocodec=${encoding}` },
     mediaElement,
   })
 
-  // Restart stream on RTCP BYE (stream ended)
-  pipeline.rtsp.onRtcp = (rtcp) => {
-    if (isRtcpBye(rtcp)) {
-      setTimeout(() => play(host, encoding), 0)
-    }
-  }
-
-  pipeline.ready.then(() => {
-    pipeline.rtsp.play()
+  pipeline.start().catch((err) => {
+    console.error(err)
   })
+
+  setTimeout(() => {
+    pipeline.rtsp.pause().catch((err) => {
+      console.error('Pause failed', err)
+    })
+  }, 10000)
+
+  setTimeout(() => {
+    pipeline.rtsp.play().catch((err) => {
+      console.error('Play failed', err)
+    })
+  }, 20000)
 
   return pipeline
 }

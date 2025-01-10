@@ -1,14 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import debug from 'debug'
 import {
   Rtcp,
+  RtspMp4Pipeline,
+  Scheduler,
   Sdp,
   TransformationMatrix,
   VideoMedia,
   isRtcpBye,
-  pipelines,
-  utils,
 } from 'media-stream-library'
 import styled from 'styled-components'
 
@@ -22,8 +21,7 @@ import {
   attachMetadataHandler,
 } from './metadata'
 import { Format } from './types'
-
-const debugLog = debug('msp:ws-rtsp-video')
+import { logDebug } from './utils/log'
 
 const VideoNative = styled.video`
   max-height: 100%;
@@ -45,6 +43,7 @@ interface WsRtspVideoProps {
    * The source URI for the WebSocket server.
    */
   readonly ws?: string
+  readonly token?: string
   /**
    * The RTSP URI.
    */
@@ -89,6 +88,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   forwardedRef,
   play = false,
   ws,
+  token,
   rtsp,
   autoPlay = true,
   muted = true,
@@ -118,9 +118,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   const [playing, unsetPlaying] = useEventState(videoRef, 'playing')
 
   // State tied to resources
-  const [pipeline, setPipeline] = useState<null | pipelines.Html5VideoPipeline>(
-    null
-  )
+  const [pipeline, setPipeline] = useState<null | RtspMp4Pipeline>(null)
   const [fetching, setFetching] = useState(false)
 
   // keep track of changes in starting time
@@ -138,7 +136,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
 
   const __sensorTmRef = useRef<TransformationMatrix>()
 
-  useVideoDebug(videoRef.current, debugLog)
+  useVideoDebug(videoRef.current)
 
   useEffect(() => {
     const videoEl = videoRef.current
@@ -148,18 +146,15 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
     }
 
     if (play && canplay === true && playing === false) {
-      debugLog('play')
+      logDebug('play')
       videoEl.play().catch((err) => {
         console.error('VideoElement error: ', err.message)
       })
 
       const { videoHeight, videoWidth } = videoEl
-      debugLog('%o', {
-        videoHeight,
-        videoWidth,
-      })
+      logDebug(`resolution: ${videoWidth}x${videoHeight}`)
     } else if (!play && playing === true) {
-      debugLog('pause')
+      logDebug('pause')
       videoEl.pause()
       unsetPlaying()
     } else if (play && playing === true) {
@@ -170,7 +165,9 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
           width: videoEl.videoWidth,
           height: videoEl.videoHeight,
           formatSupportsAudio: FORMAT_SUPPORTS_AUDIO[Format.RTP_H264],
-          volume: pipeline?.tracks?.find((track) => track.type === 'audio')
+          volume: pipeline?.mp4.tracks?.find((track) =>
+            track.codec.startsWith('mp4a')
+          )
             ? videoEl.volume
             : undefined,
           range: __rangeRef.current,
@@ -195,18 +192,18 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
       rtsp.length > 0 &&
       videoEl !== null
     ) {
-      debugLog('create pipeline', ws, rtsp)
-      const newPipeline = new pipelines.Html5VideoPipeline({
-        ws: { uri: ws },
+      logDebug('create pipeline', ws, rtsp)
+      const newPipeline = new RtspMp4Pipeline({
+        ws: { uri: ws, tokenUri: token },
         rtsp: { uri: rtsp },
         mediaElement: videoEl,
       })
       if (autoRetry) {
-        utils.addRTSPRetry(newPipeline.rtsp)
+        newPipeline.rtsp.retry.codes = [503]
       }
       setPipeline(newPipeline)
 
-      let scheduler: utils.Scheduler<ScheduledMessage> | undefined
+      let scheduler: Scheduler<ScheduledMessage> | undefined
       if (__metadataHandlerRef.current !== undefined) {
         scheduler = attachMetadataHandler(
           newPipeline,
@@ -215,7 +212,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
       }
 
       return () => {
-        debugLog('close pipeline and clear video')
+        logDebug('close pipeline and clear video')
         newPipeline.close()
         videoEl.src = ''
         scheduler?.reset()
@@ -237,43 +234,36 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
 
   useEffect(() => {
     if (play && pipeline && !fetching) {
-      pipeline.ready
-        .then(() => {
-          pipeline.onSdp = (sdp) => {
-            const videoMedia = sdp.media.find((m): m is VideoMedia => {
-              return m.type === 'video'
-            })
-            if (videoMedia !== undefined) {
-              __sensorTmRef.current =
-                videoMedia['x-sensor-transform'] ?? videoMedia['transform']
-            }
-            if (__onSdpRef.current !== undefined) {
-              __onSdpRef.current(sdp)
-            }
-          }
+      pipeline.rtsp.onRtcp = (rtcp) => {
+        __onRtcpRef.current?.(rtcp)
 
-          pipeline.rtsp.onRtcp = (rtcp) => {
-            __onRtcpRef.current?.(rtcp)
+        if (isRtcpBye(rtcp)) {
+          __onEndedRef.current?.()
+        }
+      }
 
-            if (isRtcpBye(rtcp)) {
-              __onEndedRef.current?.()
-            }
+      pipeline
+        .start(__offsetRef.current)
+        .then(({ sdp, range }) => {
+          const videoMedia = sdp.media.find((m): m is VideoMedia => {
+            return m.type === 'video'
+          })
+          if (videoMedia !== undefined) {
+            __sensorTmRef.current =
+              videoMedia['x-sensor-transform'] ?? videoMedia['transform']
           }
-
-          pipeline.rtsp.onPlay = (range) => {
-            if (range !== undefined) {
-              __rangeRef.current = [
-                parseFloat(range[0]) || 0,
-                parseFloat(range[1]) || undefined,
-              ]
-            }
+          if (__onSdpRef.current !== undefined) {
+            __onSdpRef.current(sdp)
           }
-          pipeline.rtsp.play(__offsetRef.current)
+          if (range !== undefined) {
+            __rangeRef.current = [
+              parseFloat(range[0]) || 0,
+              parseFloat(range[1]) || undefined,
+            ]
+          }
         })
-        .catch((err) => {
-          console.error(err)
-        })
-      debugLog('initiated data fetching')
+        .catch((err) => console.log('failed to start pipeline:', err))
+      logDebug('initiated data fetching')
       setFetching(true)
     }
   }, [play, pipeline, fetching])

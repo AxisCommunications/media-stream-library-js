@@ -1,4 +1,5 @@
-const { components, pipelines, utils } = window.mediaStreamLibrary
+const { RtspMp4Pipeline, RtspJpegPipeline, Scheduler } =
+  window.mediaStreamLibrary
 const d3 = window.d3
 
 // force auth
@@ -30,13 +31,13 @@ const play = (host, encoding) => {
   let Pipeline
   let mediaElement
   if (encoding === 'h264') {
-    Pipeline = pipelines.Html5VideoPipeline
+    Pipeline = RtspMp4Pipeline
     mediaElement = videoEl
     // hide the other output
     videoEl.style.display = ''
     canvasEl.style.display = 'none'
   } else {
-    Pipeline = pipelines.Html5CanvasPipeline
+    Pipeline = RtspJpegPipeline
     mediaElement = canvasEl
     // hide the other output
     videoEl.style.display = 'none'
@@ -45,7 +46,10 @@ const play = (host, encoding) => {
 
   // Setup a new pipeline
   const pipeline = new Pipeline({
-    ws: { uri: `ws://${host}/rtsp-over-websocket` },
+    ws: {
+      uri: `ws://${host}/rtsp-over-websocket`,
+      tokenUri: `http://${host}/rtspwssession.cgi`,
+    },
     rtsp: { uri: `rtsp://${host}/axis-media/media.amp?videocodec=${encoding}` },
     mediaElement,
   })
@@ -84,19 +88,24 @@ const play = (host, encoding) => {
     }
     // console.log('sync', new Date(msg.ntpTimestamp), msg.data.length)
   }
-  const scheduler = new utils.Scheduler(pipeline, draw)
 
-  const runScheduler = components.Tube.fromHandlers((msg) => scheduler.run(msg))
-  pipeline.insertBefore(pipeline.lastComponent, runScheduler)
+  // Create a scheduler and insert it into the pipeline with
+  // a peek component, which will call the run method of the
+  // scheduler every time a message passes on the pipeline.
+  const scheduler = new Scheduler(pipeline, draw)
+  pipeline.rtp.peek([encoding], (msg) => scheduler.run(msg))
 
-  pipeline.onSync = (ntpPresentationTime) => {
-    console.log('sync!', ntpPresentationTime)
+  // When we now the UNIX time of the start of the presentation,
+  // initialize the scheduler with it.
+  pipeline.videoStartTime.then((ntpPresentationTime) => {
     scheduler.init(ntpPresentationTime)
-  }
-
-  pipeline.ready.then(() => {
-    pipeline.rtsp.play()
   })
+
+  pipeline.start().catch((err) => {
+    console.error(err)
+  })
+
+  pipeline.play()
 
   return pipeline
 }

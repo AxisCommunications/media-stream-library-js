@@ -1,10 +1,8 @@
-import { Readable, Writable } from 'stream'
+import type { JpegMessage } from '../types/jpeg'
+import { SdpMessage, isJpegMedia } from '../types/sdp'
 
-import { Clock } from '../../utils/clock'
-import { VideoMedia } from '../../utils/protocols/sdp'
-import { Scheduler } from '../../utils/scheduler'
-import { Sink } from '../component'
-import { Message, MessageType } from '../message'
+import { Clock } from '../utils/clock'
+import { Scheduler } from '../utils/scheduler'
 
 interface BlobMessage {
   readonly blob: Blob
@@ -57,26 +55,26 @@ const generateUpdateInfo = (clockrate: number) => {
 }
 
 /**
- * Canvas component
- *
  * Draws an incoming stream of JPEG images onto a <canvas> element.
  * The RTP timestamps are used to schedule the drawing of the images.
  * An instance can be used as a 'clock' itself, e.g. with a scheduler.
- *
- * The following handlers can be set on a component instance:
- *  - onCanplay: will be called when the first frame is ready and
- *               the correct frame size has been set on the canvas.
- *               At this point, the clock can be started by calling
- *               `.play()` method on the component.
- *  - onSync: will be called when the presentation time offset is
- *            known, with the latter as argument (in UNIX milliseconds)
  */
-export class CanvasSink extends Sink {
-  public onCanplay?: () => void
-  public onSync?: (ntpPresentationTime: number) => void
-  private readonly _clock: Clock
-  private readonly _scheduler: Scheduler<BlobMessage>
-  private readonly _info: RateInfo
+export class CanvasSink {
+  public readonly writable: WritableStream<JpegMessage>
+
+  /** Resolves when the first frame is ready and the correct frame size
+   * has been set on the canvas. At this point, the clock can be started by
+   * calling `.play()` method on the component. */
+  public readonly canplay: Promise<void>
+
+  /** Called when the (approximate) real time corresponding to the start of the
+   * video is known, extrapolated from the first available NTP timestamp and
+   * the duration represented by RTP timestamps since the first frame. */
+  public onSync?: (videoStartTime: number) => void
+
+  private readonly clock: Clock
+  private readonly scheduler: Scheduler<BlobMessage>
+  private readonly info: RateInfo
   /**
    * @param  el - The <canvas> element to draw incoming JPEG messages on.
    */
@@ -151,115 +149,94 @@ export class CanvasSink extends Sink {
     const clock = new Clock()
     const scheduler = new Scheduler(clock, drawImageBlob)
 
-    let ntpPresentationTime = 0
-    const onCanplay = () => {
-      this.onCanplay && this.onCanplay()
-    }
+    let videoStartTime = 0
     const onSync = (npt: number) => {
       this.onSync && this.onSync(npt)
     }
 
+    let resolveCanPlay: VoidFunction
+    this.canplay = new Promise((resolve) => {
+      resolveCanPlay = resolve
+    })
+
     // Set up an incoming stream and attach it to the image drawing function.
-    const incoming = new Writable({
-      objectMode: true,
-      write: (msg: Message, _encoding, callback) => {
-        if (msg.type === MessageType.SDP) {
+    this.writable = new WritableStream<SdpMessage | JpegMessage>({
+      write: (msg, controller) => {
+        if (msg.type === 'sdp') {
           // start of a new movie, reset timers
           clock.reset()
           scheduler.reset()
 
           // Initialize first timestamp and clockrate
           firstTimestamp = 0
-          const jpegMedia = msg.sdp.media.find((media): media is VideoMedia => {
-            return (
-              media.type === 'video' &&
-              media.rtpmap !== undefined &&
-              media.rtpmap.encodingName === 'JPEG'
+          const jpegMedia = msg.media.find(isJpegMedia)
+          clockrate = jpegMedia?.rtpmap?.clockrate ?? 0
+
+          if (clockrate === 0) {
+            controller.error(
+              'invalid clockrate, either no JPEG media present or it has no clockrate'
             )
-          })
-
-          if (jpegMedia !== undefined && jpegMedia.rtpmap !== undefined) {
-            clockrate = jpegMedia.rtpmap.clockrate
-            // Initialize the framerate/bitrate data
-            resetInfo(info)
-            updateInfo = generateUpdateInfo(clockrate)
+            return
           }
 
-          callback()
-        } else if (msg.type === MessageType.JPEG) {
-          const { timestamp, ntpTimestamp } = msg
-
-          // If first frame, store its timestamp, initialize
-          // the scheduler with 0 and start the clock.
-          // Also set the proper size on the canvas.
-          if (!firstTimestamp) {
-            // Initialize timing
-            firstTimestamp = timestamp
-            lastTimestamp = timestamp
-            // Initialize frame size
-            const { width, height } = msg.framesize
-            el.width = width
-            el.height = height
-            // Notify that we can play at this point
-            scheduler.init(0)
-          }
-          // Compute millisecond presentation time (with offset 0
-          // as we initialized the scheduler with 0).
-          const presentationTime =
-            (1000 * (timestamp - firstTimestamp)) / clockrate
-          const blob = new window.Blob([msg.data], { type: 'image/jpeg' })
-
-          // If the actual UTC time of the start of presentation isn't known yet,
-          // and we do have an ntpTimestamp, then compute it here and notify.
-          if (!ntpPresentationTime && ntpTimestamp) {
-            ntpPresentationTime = ntpTimestamp - presentationTime
-            onSync(ntpPresentationTime)
-          }
-
-          scheduler.run({
-            ntpTimestamp: presentationTime,
-            blob,
-          })
-
-          // Notify that we can now start the clock.
-          if (timestamp === firstTimestamp) {
-            onCanplay()
-          }
-
-          // Update bitrate/framerate
-          updateInfo(info, {
-            byteLength: msg.data.length,
-            duration: timestamp - lastTimestamp,
-          })
-          lastTimestamp = timestamp
-
-          callback()
-        } else {
-          callback()
+          // Initialize the framerate/bitrate data
+          resetInfo(info)
+          updateInfo = generateUpdateInfo(clockrate)
+          return
         }
+
+        const { timestamp, ntpTimestamp } = msg
+
+        // If first frame, store its timestamp, initialize
+        // the scheduler with 0 and start the clock.
+        // Also set the proper size on the canvas.
+        if (!firstTimestamp) {
+          // Initialize timing
+          firstTimestamp = timestamp
+          lastTimestamp = timestamp
+          // Initialize frame size
+          const { width, height } = msg.framesize
+          el.width = width
+          el.height = height
+          // Notify that we can play at this point
+          scheduler.init(0)
+        }
+        // Compute millisecond presentation time (with offset 0
+        // as we initialized the scheduler with 0).
+        const presentationTime =
+          (1000 * (timestamp - firstTimestamp)) / clockrate
+        const blob = new window.Blob([msg.data], { type: 'image/jpeg' })
+
+        // If the actual UTC time of the start of presentation isn't known yet,
+        // and we do have an ntpTimestamp, then compute it here and notify.
+        if (!videoStartTime && ntpTimestamp) {
+          videoStartTime = ntpTimestamp - presentationTime
+          onSync(videoStartTime)
+        }
+
+        scheduler.run({
+          ntpTimestamp: presentationTime,
+          blob,
+        })
+
+        // Notify that we can now start the clock.
+        if (timestamp === firstTimestamp) {
+          resolveCanPlay()
+        }
+
+        // Update bitrate/framerate
+        updateInfo(info, {
+          byteLength: msg.data.length,
+          duration: timestamp - lastTimestamp,
+        })
+        lastTimestamp = timestamp
       },
     })
 
-    // Set up an outgoing stream.
-    const outgoing = new Readable({
-      objectMode: true,
-      read() {
-        //
-      },
-    })
+    this.clock = clock
+    this.scheduler = scheduler
+    this.info = info
 
-    // When an error is sent on the outgoing stream, whine about it.
-    outgoing.on('error', () => {
-      console.warn('outgoing stream broke somewhere')
-    })
-
-    super(incoming, outgoing)
-
-    this._clock = clock
-    this._scheduler = scheduler
-    this._info = info
-
-    this.onCanplay = undefined
     this.onSync = undefined
   }
 
@@ -267,30 +244,31 @@ export class CanvasSink extends Sink {
    * Retrieve the current presentation time (seconds)
    */
   get currentTime() {
-    return this._clock.currentTime
+    return this.clock.currentTime
   }
 
   /**
    * Pause the presentation.
    */
   pause() {
-    this._scheduler.suspend()
-    this._clock.pause()
+    this.scheduler.suspend()
+    this.clock.pause()
   }
 
   /**
    * Start the presentation.
    */
-  play() {
-    this._clock.play()
-    this._scheduler.resume()
+  async play() {
+    await this.canplay
+    this.clock.play()
+    this.scheduler.resume()
   }
 
   get bitrate() {
-    return this._info.bitrate
+    return this.info.bitrate
   }
 
   get framerate() {
-    return this._info.framerate
+    return this.info.framerate
   }
 }

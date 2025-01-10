@@ -1,4 +1,4 @@
-const { pipelines } = window.mediaStreamLibrary
+const { MetadataPipeline } = window.mediaStreamLibrary
 
 // force auth
 const authorize = async (host) => {
@@ -21,12 +21,10 @@ const authorize = async (host) => {
 const play = (host) => {
   const initialTime = window.performance.now()
   // Setup a new pipeline
-  const pipeline = new pipelines.MetadataPipeline({
+  const pipeline = new MetadataPipeline({
     ws: {
       uri: `ws://${host}/rtsp-over-websocket`,
       tokenUri: `http://${host}/axis-cgi/rtspwssession.cgi`,
-      protocol: 'binary',
-      timeout: 10000,
     },
     rtsp: {
       uri: `rtsp://${host}/axis-media/media.amp?event=on&video=0&audio=0`,
@@ -43,8 +41,8 @@ const play = (host) => {
       document.querySelector('#placeholder').prepend(title, content)
     },
   })
-  pipeline.ready.then(() => {
-    pipeline.rtsp.play()
+  pipeline.start().catch((err) => {
+    console.error('metadata pipeline failed:', err)
   })
 
   return pipeline

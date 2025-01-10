@@ -16,33 +16,12 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
-  "types": "./dist/src/index.browser.d.ts",
-  "main": "./dist/node.cjs",
-  "module": "./dist/node.mjs",
+  "type": "module",
   "exports": {
     ".": {
-      "types": "./dist/src/index.browser.d.ts",
-      "browser": {
-        "types": "./dist/src/index.browser.d.ts",
-        "require": "./dist/browser-cjs.js",
-        "import": "./dist/browser-esm.js"
-      },
-      "node": {
-        "types": "./dist/src/index.node.d.ts",
-        "require": "./dist/node.cjs",
-        "import": "./dist/node.mjs"
-      }
-    },
-    "./light": {
-      "types": "./dist/src/index.browser.d.ts",
-      "require": "./dist/browser-light-cjs.js",
-      "import": "./dist/browser-light-esm.js"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     }
-  },
-  "browser": {
-    "./dist/node.cjs": "./dist/browser-cjs.js",
-    "./dist/node.mjs": "./dist/browser-esm.js",
-    "stream": "stream-browserify"
   },
   "files": [
     "dist/**/*",
@@ -50,23 +29,14 @@
     "README.md"
   ],
   "dependencies": {
-    "debug": "4.3.6",
-    "process": "0.11.10",
-    "ts-md5": "1.3.1",
-    "ws": "8.18.0"
+    "base64-js": "^1.5.1",
+    "ts-md5": "^1.3.1"
   },
   "devDependencies": {
     "@types/debug": "4.1.12",
     "@types/node": "20.12.5",
-    "@types/ws": "8.5.12",
-    "buffer": "6.0.3",
     "esbuild": "0.23.0",
-    "events": "3.3.0",
-    "global-jsdom": "9.2.0",
-    "jsdom": "24.1.1",
     "mock-socket": "9.3.1",
-    "semver": "7.6.3",
-    "stream-browserify": "3.0.0",
     "typescript": "5.5.4",
     "uvu": "0.5.6"
   }

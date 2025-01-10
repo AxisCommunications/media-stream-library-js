@@ -32,8 +32,9 @@ changelog:
     git diff --quiet || (echo "workspace dirty!"; git diff; exit 1)
 
 # report coverage information after running tests
-coverage workspace *args='-r text --all':
-    c8 report --src={{ workspace }}/src {{ args }}
+coverage workspace *args='--src=src/ -r text --all':
+    cd {{workspace}} && c8 report -a {{ args }}
+
 
 # run esbuild, WORKSPACE=(overlay|player|streams)
 esbuild workspace *args:
@@ -41,7 +42,7 @@ esbuild workspace *args:
     
 # autofix and format changed files
 format +FILES="`just changed`":
-    just biome check --apply {{ FILES }}
+    just biome check --write {{ FILES }}
 
 # install dependencies
 install:
@@ -66,9 +67,9 @@ release $level='patch':
 rtsp-ws:
     #!/usr/bin/env bash
     set -euo pipefail
-    trap "kill 0" EXIT SIGINT
+    trap "kill 0" EXIT
     scripts/rtsp-server.sh &
-    scripts/tcp-ws-proxy.cjs >& tcp-ws-proxy.log &
+    scripts/ws-rtsp-proxy.mjs 8854:8554 8855:8555 >& ws-rtsp-proxy.log &
     wait
 
 # statically serve a directory
@@ -83,10 +84,6 @@ serve path *args='--bind 0.0.0.0':
 tools:
     cd tools && esbuild --platform=node --outfile=src/__generated__/changelog.mjs --format=esm --out-extension:.js=.mjs --bundle --external:cmd-ts src/changelog/cli.ts
     just biome format --write 'tools/src/__generated__/*'
-
-# update a specific dependency to latest
-update *packages:
-    yarn update-interactive
 
 # CI verification
 verify:
@@ -124,11 +121,14 @@ test:
 
 # run tsc in workspace(s) (default current, or all if in project root)
 tsc workspace:
-    cd {{ workspace }} && tsc
+    cd {{ workspace }} && tsc -p tsconfig.types.json
 
-# run uvu to test files matching pattern (path = path to tsconfig.json + tests, e.g. "admx/web", or "iam")
-uvu path pattern='.*\.test\.tsx?':
-    c8 -r none --clean=false --src={{ path }} -- tsx --tsconfig {{ path }}/tsconfig.json node_modules/uvu/bin.js {{ path }}/tests/ {{ pattern }}
+# run UVU tests for a workspace (tests/ directory)
+uvu workspace pattern='': (_clear-tests workspace)
+    cd {{workspace}} && esbuild --bundle --format=esm --outdir=tests/build --packages=external --platform=node --sourcemap=inline \
+        $(glob 'tests/**/*{{pattern}}*.test.{ts,tsx}')
+    cd {{workspace}} && c8 -r none --clean=false -- uvu tests/build '.*{{pattern}}.*\.test\.js$'
+
 
 #
 # hidden commands (these can be run but they are not shown with just --list)
@@ -142,6 +142,9 @@ _build-player: _build-streams (tsc "player")
 
 _build-overlay: (tsc "overlay")
     just esbuild overlay
+
+_clear-tests workspace:
+    cd {{workspace}} && if [[ -d tests/build ]]; then rm -r tests/build; fi
 
 _copy-player-bundle dst:
     cp player/dist/media-stream-player.min.js {{ dst }}
@@ -166,10 +169,10 @@ _run-example-streams-node: _build-streams
 _run-example-streams-web: _build-streams (_copy-streams-bundle "example-streams-web")
     #!/usr/bin/env bash
     set -euo pipefail
-    trap "kill 0" EXIT SIGINT
+    trap "kill 0; wait" EXIT
     just rtsp-ws &
-    just serve example-streams-web &&
-    wait
+    just serve example-streams-web &
+    wait -n
 
 _run-overlay: _build-overlay
     echo "no direct playground for overlay yet, running example-overlay-react instead"
