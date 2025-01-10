@@ -7,6 +7,7 @@ export enum NAL_TYPES {
   UNSPECIFIED = 0,
   NON_IDR_PICTURE = 1, // P-frame
   IDR_PICTURE = 5, // I-frame
+  SEI_SIGNED_VIDEO = 6, // Axis Signed Video Framework
   SPS = 7,
   PPS = 8,
 }
@@ -92,7 +93,7 @@ export class H264DepayParser {
       }
       this._buffer = Buffer.alloc(0)
       return msg
-    } else if (type === 6)
+    } else if (type === NAL_TYPES.SEI_SIGNED_VIDEO)
     {
       const h264frame = Buffer.concat([
       Buffer.from([0, 0, 0, 0]),
