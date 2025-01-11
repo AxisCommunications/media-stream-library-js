@@ -2,7 +2,7 @@
   "name": "media-js",
   "description": "Media libraries for Node and the Web.",
   "private": true,
-  "version": "13.3.1",
+  "version": "13.3.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/AxisCommunications/media-stream-library-js"

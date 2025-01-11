@@ -1,6 +1,6 @@
 {
   "name": "media-stream-player",
-  "version": "13.3.1",
+  "version": "13.3.2",
   "license": "MIT",
   "description": "Player built on top of media-stream-library",
   "keywords": [
@@ -40,7 +40,7 @@
   },
   "peerDependencies": {
     "luxon": "^3.0.0",
-    "media-stream-library": "^13.3.1",
+    "media-stream-library": "^13.3.2",
     "react": "^17.0.2 || ^18.1.0",
     "react-dom": "^17.0.2 || ^18.1.0",
     "styled-components": "^5.3.5"
