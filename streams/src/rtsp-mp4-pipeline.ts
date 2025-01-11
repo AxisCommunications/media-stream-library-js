@@ -9,7 +9,7 @@ import {
   Sdp,
   WSSource,
 } from './components'
-
+import { setupMp4Capture } from './mp4-capture'
 import { WebSocketConfig, openWebSocket } from './openwebsocket'
 
 export interface Html5VideoConfig {
@@ -99,5 +99,16 @@ export class RtspMp4Pipeline {
 
   pause() {
     return this.videoEl.pause()
+  }
+
+  /** Refresh the stream and passes the captured MP4 data to the provided
+   * callback. Capture can be ended by calling the returned trigger, or
+   * if the buffer reaches max size. */
+  async capture(callback: (bytes: Uint8Array) => void) {
+    await this.rtsp.teardown()
+    const { capture, triggerEnd } = setupMp4Capture(callback)
+    this.mse.onMessage = capture
+    await this.rtsp.start()
+    return triggerEnd
   }
 }

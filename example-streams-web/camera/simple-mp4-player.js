@@ -18,7 +18,6 @@ const authorize = async (host) => {
   }
 }
 
-let pipeline
 const play = (host) => {
   // Grab a reference to the video element
   const mediaElement = document.querySelector('video')
@@ -31,8 +30,10 @@ const play = (host) => {
   pipeline.start().catch((err) => {
     console.error(err)
   })
+  return pipeline
 }
 
+let pipeline
 // Each time a device ip is entered, authorize and then play
 const playButton = document.querySelector('#play')
 playButton.addEventListener('click', async () => {
@@ -44,4 +45,27 @@ playButton.addEventListener('click', async () => {
   await authorize(host)
 
   pipeline = play(host)
+})
+
+let stopCapture
+const startCaptureButton = document.querySelector('#startCapture')
+startCaptureButton.addEventListener('click', async () => {
+  if (!pipeline) {
+    console.error('No pipeline')
+    return
+  }
+
+  stopCapture = await pipeline.capture((bytes) => {
+    console.log('Capture finished!', bytes.byteLength)
+    console.log(bytes)
+  })
+})
+
+const stopCaptureButton = document.querySelector('#stopCapture')
+stopCaptureButton.addEventListener('click', async () => {
+  if (!stopCapture) {
+    console.error('Capture not started!')
+    return
+  }
+  stopCapture()
 })

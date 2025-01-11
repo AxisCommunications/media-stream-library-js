@@ -15,7 +15,10 @@ import { IsomMessage } from './types'
  */
 export class MseSink {
   public readonly mediaSource: MediaSource = new MediaSource()
-  public writable: WritableStream<IsomMessage>
+  public readonly writable: WritableStream<IsomMessage>
+
+  /** A function that will peek at ISOM messages, useful for example for capturing the MP4 data. */
+  public onMessage?: (msg: IsomMessage) => void
 
   private lastCheckpointTime: number
   private sourceBuffer?: Promise<SourceBuffer>
@@ -55,6 +58,10 @@ export class MseSink {
         const checkpoint = this.updateCheckpointTime(msg.checkpointTime)
         if (checkpoint !== undefined) {
           await freeBuffer(sourceBuffer, checkpoint)
+        }
+
+        if (this.onMessage) {
+          this.onMessage(msg)
         }
 
         await appendBuffer(sourceBuffer, msg.data)
