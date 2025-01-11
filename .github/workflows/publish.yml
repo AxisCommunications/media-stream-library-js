@@ -81,6 +81,8 @@ jobs:
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
-          cd overlay && yarn npm publish --tag latest
-          cd player && yarn npm publish --tag latest
-          cd streams && yarn npm publish --tag latest
+          if [[ $GITHUB_REF =~ alpha|beta ]]; then
+              yarn workspaces foreach --no-private npm publish --tag next
+          else
+              yarn workspaces foreach --no-private npm publish --tag latest
+          fi
