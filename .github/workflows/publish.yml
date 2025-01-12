@@ -60,7 +60,7 @@ jobs:
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
-          if [[ "${{ steps.vars.output.version }}" =~ alpha|beta ]]; then
+          if [[ "${{ steps.vars.outputs.version }}" =~ alpha|beta ]]; then
               yarn npm publish --tag next
           else
               yarn npm publish --tag latest
