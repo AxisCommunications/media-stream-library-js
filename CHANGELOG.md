@@ -1,1 +1,5 @@
-## [13.3.2](https://github.com/AxisCommunications/media-stream-library-js/compare/v13.3.1..4fa9bdb741cc9d5462fe83b1f4e614c8892bb621) (2025-01-11T17:46:39.866Z)
+## [13.3.3](https://github.com/AxisCommunications/media-stream-library-js/compare/02a3a6da7f99c6b15b8901d2b360b5f50c266cb2..02a3a6da7f99c6b15b8901d2b360b5f50c266cb2) (2025-01-12T19:36:03.869Z)
+
+### 🚧 Maintenance
+
+  - undefined ([02a3a6d](https://github.com/AxisCommunications/media-stream-library-js/commit/))

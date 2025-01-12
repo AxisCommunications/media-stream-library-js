@@ -1,6 +1,6 @@
 {
   "name": "media-stream-library",
-  "version": "13.3.2",
+  "version": "13.3.3",
   "license": "MIT",
   "description": "Media stream library for Node & the Web.",
   "keywords": [
