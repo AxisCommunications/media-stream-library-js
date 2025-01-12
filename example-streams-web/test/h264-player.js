@@ -1,4 +1,4 @@
-const { RtspMp4Pipeline } = window.mediaStreamLibrary
+import { RtspMp4Pipeline } from '/msl-streams.min.js'
 
 const play = (host) => {
   // Grab a reference to the video element

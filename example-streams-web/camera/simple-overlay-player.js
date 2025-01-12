@@ -1,5 +1,8 @@
-const { RtspMp4Pipeline, RtspJpegPipeline, Scheduler } =
-  window.mediaStreamLibrary
+import {
+  RtspJpegPipeline,
+  RtspMp4Pipeline,
+  Scheduler,
+} from '/msl-streams.min.js'
 const d3 = window.d3
 
 // force auth

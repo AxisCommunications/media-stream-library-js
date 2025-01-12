@@ -1,14 +1,12 @@
-import React, { FC, useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
 import {
-  CoordArray,
-  DraggableHandler,
   FoundationContext,
   LinerContext,
   useDraggable,
-} from 'media-overlay-library'
+} from 'media-stream-library/overlay'
 
 const SvgCircleCorner = styled.circle`
   fill: rgb(0.5, 0.5, 0.5);
@@ -28,24 +26,11 @@ const SvgPolygon = styled.polygon`
   stroke: grey;
 `
 
-interface PolygonProps {
-  /**
-   * An array of coordinate pairs [x, y] that represent
-   * the corners of the polygon.
-   */
-  readonly pos: CoordArray
-  /**
-   * Callback with new cornerw coordinates whenever they
-   * changed.
-   */
-  readonly onChangePos: (newPos: CoordArray) => void
-}
-
-export const Polygon: FC<PolygonProps> = ({ pos, onChangePos }) => {
+export const Polygon = ({ pos, onChangePos }) => {
   const { toSvgBasis, toUserBasis } = useContext(FoundationContext)
   const { clampCoord, clampCoordArray } = useContext(LinerContext)
 
-  const [svgPos, setSvgPos] = useState<CoordArray>(pos.map(toSvgBasis))
+  const [svgPos, setSvgPos] = useState(pos.map(toSvgBasis))
   useEffect(() => {
     setSvgPos(pos.map(toSvgBasis))
   }, [pos, toSvgBasis])
@@ -62,16 +47,16 @@ export const Polygon: FC<PolygonProps> = ({ pos, onChangePos }) => {
      * translate all points, otherwise we just translated the point
      * that matches the `name`.
      */
-    const updatePosition: DraggableHandler = (
+    const updatePosition = (
       { name, vector: [tx, ty] },
       ended
     ) => {
-      const newSvgPos: CoordArray =
+      const newSvgPos =
         name === 'g'
           ? clampCoordArray(initialSvgPos.map(([x, y]) => [x + tx, y + ty]))
           : initialSvgPos.map(([x, y], index) =>
-              name === `p${index}` ? clampCoord([x + tx, y + ty]) : [x, y]
-            )
+            name === `p${index}` ? clampCoord([x + tx, y + ty]) : [x, y]
+          )
 
       if (ended) {
         onChangePos(newSvgPos.map(toUserBasis))

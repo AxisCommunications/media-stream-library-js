@@ -6,9 +6,11 @@ createServer({
   optimizeDeps: {
     entries: ['index.html'],
   },
-  // define: {
-  //   global: 'window',
-  // },
+  resolve: {
+    alias: {
+      'media-stream-library/overlay': '../overlay/dist/index.js',
+    },
+  },
   plugins: [reactPlugin()],
 })
   .then((server) => {

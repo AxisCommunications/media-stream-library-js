@@ -1,5 +1,4 @@
-const { RtspMp4Pipeline, RtspJpegPipeline, isRtcpBye } =
-  window.mediaStreamLibrary
+import { RtspJpegPipeline, RtspMp4Pipeline } from '/msl-streams.min.js'
 
 // force auth
 const authorize = async (host) => {

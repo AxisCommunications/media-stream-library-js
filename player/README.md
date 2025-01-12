@@ -1,21 +1,12 @@
-# Media Stream Player JS
+## Player
 
-[![CI][ci-image]][ci-url]
-[![NPM][npm-image]][npm-url]
-
-[ci-image]: https://github.com/AxisCommunications/media-stream-player-js/workflows/CI/badge.svg
-[ci-url]: https://github.com/AxisCommunications/media-stream-player-js/actions
-[npm-image]: https://img.shields.io/npm/v/media-stream-player.svg
-[npm-url]: https://www.npmjs.com/package/media-stream-player
-
-Media Stream Player is a video player for Axis cameras based on React. The main
+A video player based on React intended primarily for Axis cameras. The main
 idea is to define the video state entirely within specialized React components
 for each of the different supported formats (currently MP4 over HTTP, RTP over
 WebSocket, and still images). The main video player will only handle the
 intended video state (attached to handlers) and format. The player is built on
-top of the
-[Media Stream Library](https://github.com/AxisCommunications/media-stream-library-js)
-which provides basic playing functionality for the different formats.
+top of [streams](/streams/README.md) which provides basic pipeline functionality
+for the different formats.
 
 You can either import the `Player` or `BasicPlayer` and use them directly (see
 the example applications). If you want to build your own customized player, you
@@ -29,28 +20,20 @@ we make underlying API-calls to AXIS specfic APIs to get the video streams.
 
 **Firmware requirements**
 
-- For H.264 to work you need at least firmware 6.50 (LTS)
-- For MP4 to work you need at least firmware 9.80 (LTS)
+- For WebSocket+RTSP to work you need at least firmware 6.50 (LTS)
+- For HTTP+MP4 to work you need at least firmware 9.80 (LTS)
 
-## Structure
+### Importing
 
-## Installation
+If you don't use the player as part of a React app, the easiest
+way to use it is to download the `msl-player.min.js` file from the
+[releases](https://github.com/AxisCommunications/media-stream-library-js/release
+s/latest) page and include it as an ES module. Make sure your own script has
+`type="module"` and then import directly from the file, e.g.:
 
-### As a stand-alone element
-
-If you don't use the player as part of you React app, the easiest way to use it
-is to download the `media-stream-player.min.js` file from the
-[releases](https://github.com/AxisCommunications/media-stream-player-js/releases/latest)
-page and include it in your html file as a script:
-
-```html
-<script src="media-stream-player.min.js"></script>
+```js
+import {...} from '/msl-player.min.js';
 ```
-
-The bundle is built to support the browserslist "latest 2 versions, not dead",
-which should work on most modern browsers. If you need support for older browsers, you can use
-the (larger) legacy bundle `media-stream-player.legacy.min.js` instead, but note
-that this isn't tested, so you might run into some issues.
 
 Then, you can use the `<media-stream-player/>` tag, similar to how you would use
 `<video/>` to include a video element, and provide the camera IP as hostname:
@@ -98,7 +81,7 @@ do that is to run:
 
 First run
 
-```bash
+```sh
 just run example-player-webcomponent
 ```
 
@@ -110,75 +93,24 @@ camera or load a page from the camera (in which case you can set
 ### As part of your React application
 
 If you want to import the player as a React component into your own code, or use
-parts of the player, you'll need to install the package as a dependency. Make
-sure you have Node installed on your machine.
-
-Then, to install the package:
-
-```sh
-npm install media-stream-player
-```
-
+parts of the player, you'll need to install the package as a dependency.
 You will also need to install a number of peer dependencies
 such as [luxon](https://github.com/moment/luxon), which we use for date and time purposes,
-`react`/`react-dom`, `styled-components`, and `media-stream-library`.
+`react`/`react-dom`, `styled-components`.
 You can find an example of this under `example-player-react`, e.g.:
 
 ```js
-import { BasicPlayer } from 'media-stream-player'
-```
-
-There have been issue where bundlers pick up the wrong variant of `media-stream-player`,
-in which case you can try to override the resolution with an alias that points directly
-at the `browser` variant (and not the `node`) variant, e.g.:
-
-```js
-{
-  //configuration options
-  alias: {
-    "media-stream-library": "media-stream-library/dist/browser"
-  }
-}
+import { BasicPlayer } from 'media-stream-library/player'
 ```
 
 To run our example react app, you can start a vite dev server with:
 
 ```sh
 export MSP_CAMERA=http://192.168.0.90
+cd player
 node vite.mjs
 ```
 
 where you specify the IP of the camera you want to proxy as the `MSP_CAMERA`
 environment variable (default is `192.168.0.90`). The vite dev server will
-proxy requests to the camera, so that you'll have no CORS issues for any format.
-
-## Debugging
-
-In the browser, you can set `localStorage.debug = 'msp:*'` to log everything
-related to just this library (make sure to reload the page after setting the
-value). You can also debug a specific component by using one of the following from the table below.
-
-| Detailed debugging |
-| ----- |
-| `msp:http-mp4-video` |
-| `msp:ws-rtsp-video` |
-| `msp:still-image` |
-| `msp:api` |
-
-## FAQ
-
-**Does this library support audio?**
-Yes, yes it does. With a few caveats though.
-
-- Make sure your AXIS camera actually supports audio
-- Make sure the audio is enabled on the camera.
-- It only works with H.264 and only after user interaction with the volume slider
-
-## Icons
-
-The icons used are from https://github.com/google/material-design-icons/, which
-are available under the Apache 2.0 license, more information can be found on:
-http://google.github.io/material-design-icons
-
-The spinner is from https://github.com/SamHerbert/SVG-Loaders, available under
-the MIT license.
+proxy requests to the camera, so that you'll have no CORS issues.

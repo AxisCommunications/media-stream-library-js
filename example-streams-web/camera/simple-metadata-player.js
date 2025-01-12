@@ -1,4 +1,4 @@
-const { MetadataPipeline } = window.mediaStreamLibrary
+import { MetadataPipeline } from '/msl-streams.min.js'
 
 // force auth
 const authorize = async (host) => {

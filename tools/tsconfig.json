@@ -1,7 +1,0 @@
-{
-  "compilerOptions": {
-    "customConditions": ["node"]
-  },
-  "extends": "../tsconfig.base.json",
-  "include": ["./src/**/*"]
-}

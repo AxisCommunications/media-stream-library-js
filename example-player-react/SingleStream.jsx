@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { Player } from 'media-stream-player'
+import { Player } from 'media-stream-library/player'
 
 // Force a login by fetching usergroup
 const authorize = async () => {

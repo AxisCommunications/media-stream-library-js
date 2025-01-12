@@ -1,29 +1,26 @@
-import React, { FC, useState } from 'react'
+import React, { useState } from 'react'
 
 import styled from 'styled-components'
 
 import {
-  Area,
-  Coord,
-  CoordArray,
   Foundation,
   Liner,
-} from 'media-overlay-library'
+} from 'media-stream-library/overlay'
 
 import {
   Circle,
   DraggableCircle,
   FastDraggableCircle,
-} from './components/Circle'
-import { Polygon } from './components/Polygon'
-import { Text } from './components/Text'
+} from './Circle'
+import { Polygon } from './Polygon'
+import { Text } from './Text'
 
-const USER_BASIS: Area = [
+const USER_BASIS = [
   [-1, 1], // top left coordinate
   [1, -1], // bottom right coordinate
 ]
 
-const MIDDLE_AREA: Area = [
+const MIDDLE_AREA = [
   [-0.5, 0.5], // top left coordinate
   [0.5, -0.5], // bottom right coordinate
 ]
@@ -35,24 +32,24 @@ const Layers = styled.div`
   border: 1px solid deepskyblue;
 `
 
-const App: FC = () => {
-  const [textPos1, setTextPos1] = useState<Coord>([-1, 0.8])
-  const [textPos2, setTextPos2] = useState<Coord>([-0.4, -0.5])
-  const [textPos3, setTextPos3] = useState<Coord>([-0.5, 0])
-  const [polygonPos, setPolygonPos] = useState<CoordArray>([
+const App = () => {
+  const [textPos1, setTextPos1] = useState([-1, 0.8])
+  const [textPos2, setTextPos2] = useState([-0.4, -0.5])
+  const [textPos3, setTextPos3] = useState([-0.5, 0])
+  const [polygonPos, setPolygonPos] = useState([
     [0.6, 0.1],
     [0.8, 0.2],
     [0.7, 0.5],
     [0.3, 0.2],
   ])
-  const [circle1Pos] = useState<Coord>([-0.3333, 0.3333])
-  const [circle2Pos, setCircle2Pos] = useState<Coord>([0.2, -0.5])
-  const [circle3Pos, setCircle3Pos] = useState<Coord>([-0.5, -0.3001])
+  const [circle1Pos] = useState([-0.3333, 0.3333])
+  const [circle2Pos, setCircle2Pos] = useState([0.2, -0.5])
+  const [circle3Pos, setCircle3Pos] = useState([-0.5, -0.3001])
 
   return (
     <div className="main">
       <header>
-        <h1>Welcome to media-overlay-library</h1>
+        <h1>MSL Overlay Playground</h1>
       </header>
       <p>
         To get started, edit <code>src/App.tsx</code> and save to reload.

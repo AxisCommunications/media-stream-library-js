@@ -1,4 +1,4 @@
-const { RtspJpegPipeline, Scheduler } = window.mediaStreamLibrary
+import { RtspJpegPipeline, Scheduler } from '/msl-streams.min.js'
 const d3 = window.d3
 
 const play = (host) => {
