@@ -1,3 +1,7 @@
+## 14.0.0-beta.1
+
+- Fixed next/latest tag selection in publish workflow.
+
 ## 14.0.0-beta.0
 
 - Switched to workflow-based releases with version as part of source.
