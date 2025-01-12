@@ -6,13 +6,9 @@ createServer({
   optimizeDeps: {
     entries: ['index.html'],
   },
-  define: {
-    global: 'window',
-  },
   resolve: {
     alias: {
-      stream: 'stream-browserify',
-      util: '',
+      'media-stream-library/player': '../player/dist/index.js',
     },
   },
   plugins: [reactPlugin()],

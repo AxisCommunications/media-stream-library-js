@@ -36,10 +36,6 @@ coverage workspace *args='--src=src/ -r text --all':
     cd {{workspace}} && c8 report -a {{ args }}
 
 
-# run esbuild, WORKSPACE=(overlay|player|streams)
-esbuild workspace *args:
-    cd {{ workspace }} && node esbuild.mjs {{ args }}
-    
 # autofix and format changed files
 format +FILES="`just changed`":
     just biome check --write {{ FILES }}
@@ -55,13 +51,6 @@ lint workspace:
 # check for updates
 ncu *args:
     ncu --root --workspaces {{ args }}
-
-# create a prerelease commit, KIND=(new|nightly)
-release $level='patch':
-    just version $level
-    just changelog
-    git add -u
-    git commit -m "release: $(jq -r .version package.json)"
 
 # start an example RTSP over WebSocket server
 rtsp-ws:
@@ -93,15 +82,6 @@ verify:
     just tools
     just check-dirty
 
-# update the package version of all workspaces
-version $level='prerelease':
-    #!/usr/bin/env bash
-    current=$(jq -r '.version' package.json)
-    next=$(semver -i $level --preid alpha $current)
-    echo "update $workspace: $current => $next"
-    yarn workspaces foreach version --deferred $next
-    yarn version apply --all
-
 # run vite development server, WORKSPACE=(player)
 vite WORKSPACE *ARGS:
     cd {{ WORKSPACE }} && node vite.mjs {{ ARGS }}
@@ -119,40 +99,38 @@ test:
     just uvu streams
     just coverage streams
 
-# run tsc in workspace(s) (default current, or all if in project root)
-tsc workspace:
-    cd {{ workspace }} && tsc -p tsconfig.types.json
-
 # run UVU tests for a workspace (tests/ directory)
 uvu workspace pattern='': (_clear-tests workspace)
     cd {{workspace}} && esbuild --bundle --format=esm --outdir=tests/build --packages=external --platform=node --sourcemap=inline \
         $(glob 'tests/**/*{{pattern}}*.test.{ts,tsx}')
     cd {{workspace}} && c8 -r none --clean=false -- uvu tests/build '.*{{pattern}}.*\.test\.js$'
 
-
 #
 # hidden commands (these can be run but they are not shown with just --list)
 #
 
-_build-streams: (tsc "streams")
-    just esbuild streams
+_build-streams:
+    cd streams && tsc -p tsconfig.types.json
+    cd streams && node esbuild.mjs
 
-_build-player: _build-streams (tsc "player")
-    just esbuild player
+_build-player: _build-streams
+    cd player && tsc -p tsconfig.types.json
+    cd player && node esbuild.mjs
 
-_build-overlay: (tsc "overlay")
-    just esbuild overlay
+_build-overlay:
+    cd overlay && tsc -p tsconfig.types.json
+    cd overlay && node esbuild.mjs
 
 _clear-tests workspace:
     cd {{workspace}} && if [[ -d tests/build ]]; then rm -r tests/build; fi
 
 _copy-player-bundle dst:
-    cp player/dist/media-stream-player.min.js {{ dst }}
-    cp player/dist/media-stream-player.min.js.map {{ dst }}
+    cp player/msl-player.min.js {{ dst }}
+    cp player/msl-player.min.js.map {{ dst }}
 
 _copy-streams-bundle dst:
-    cp streams/dist/media-stream-library.min.js {{ dst }}
-    cp streams/dist/media-stream-library.min.js.map {{ dst }}
+    cp streams/msl-streams.min.js {{ dst }}
+    cp streams/msl-streams.min.js.map {{ dst }}
 
 _run-example-overlay-react: _build-overlay
     cd example-overlay-react && node vite.mjs
@@ -175,13 +153,14 @@ _run-example-streams-web: _build-streams (_copy-streams-bundle "example-streams-
     wait -n
 
 _run-overlay: _build-overlay
-    echo "no direct playground for overlay yet, running example-overlay-react instead"
+    echo "no direct playground for overlay, running example-overlay-react instead"
     just _run-example-overlay-react
 
-_run-player: (esbuild 'streams')
+_run-player:
+    cd streams && node esbuild.mjs
     just vite player
 
 _run-streams: _build-streams
-    echo "no direct playground for streams yet, running example-streams-web instead"
+    echo "no direct playground for streams, running example-streams-web instead"
     just _run-example-streams-web
 

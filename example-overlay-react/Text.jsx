@@ -1,26 +1,18 @@
-import React, { FC, SVGProps, useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
 
 import styled from 'styled-components'
 
 import {
-  Coord,
-  DraggableHandler,
   FoundationContext,
   LinerContext,
   useDraggable,
-} from 'media-overlay-library'
+} from 'media-stream-library/overlay'
 
 const SvgText = styled.text`
   user-select: none;
 `
 
-interface TextProps extends SVGProps<SVGTextElement> {
-  readonly x: number
-  readonly y: number
-  readonly onChangePos: (pos: Coord) => void
-}
-
-export const Text: FC<TextProps> = ({
+export const Text = ({
   x: userX,
   y: userY,
   onChangePos,
@@ -31,7 +23,7 @@ export const Text: FC<TextProps> = ({
   const { clampBBox } = useContext(LinerContext)
 
   const { subscribe, unsubscribe, start: startDragging } = useDraggable()
-  const textRef = useRef<SVGTextElement>(null)
+  const textRef = useRef(null)
 
   useEffect(() => {
     const textEl = textRef.current
@@ -43,10 +35,10 @@ export const Text: FC<TextProps> = ({
     // box does not match the origin of the baseline of the text, but it
     // works reliably enough to limit the text box within the Liner.
     const { x: x0, y: y0 } = textEl.getBBox()
-    const updatePosition: DraggableHandler = ({ vector: [tx, ty] }, ended) => {
+    const updatePosition = ({ vector: [tx, ty] }, ended) => {
       const { width, height } = textEl.getBBox()
       const newBBox = clampBBox({ x: x0 + tx, y: y0 + ty, width, height })
-      const newSvgPos: Coord = [newBBox.x, newBBox.y + height]
+      const newSvgPos = [newBBox.x, newBBox.y + height]
       textEl.setAttribute('x', String(newSvgPos[0]))
       textEl.setAttribute('y', String(newSvgPos[1]))
       if (ended) {

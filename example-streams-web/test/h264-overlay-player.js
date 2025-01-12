@@ -1,4 +1,4 @@
-const { RtspMp4Pipeline, Scheduler } = window.mediaStreamLibrary
+import { RtspMp4Pipeline, Scheduler } from '/msl-streams.min.js'
 const d3 = window.d3
 
 const play = (host) => {

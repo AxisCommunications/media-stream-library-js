@@ -1,14 +1,12 @@
 # Logs
 *.log
 
-# Coverage directory (tests with coverage)
+# Build/Test
+*.min.js*
 build/
 coverage/
-
-# Bundles
 dist/
-tsconfig.tsbuildinfo
-*.min.js*
+*.tsbuildinfo
 
 # Cypress
 cypress/videos/

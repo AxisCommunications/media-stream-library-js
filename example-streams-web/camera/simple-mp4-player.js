@@ -1,4 +1,4 @@
-const { HttpMp4Pipeline } = window.mediaStreamLibrary
+import { HttpMp4Pipeline } from '/msl-streams.min.js'
 
 // force auth
 const authorize = async (host) => {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import styled from 'styled-components'
 
-import { Player } from 'media-stream-player'
+import { Player } from 'media-stream-library/player'
 
 const MediaPlayer = styled(Player)`
   max-width: 400px;

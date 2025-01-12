@@ -1,40 +1,29 @@
 #!/usr/bin/env node
 
-import { existsSync, mkdirSync } from 'node:fs'
-import { join } from 'node:path'
-
 import { buildSync } from 'esbuild'
 
-const buildDir = 'dist'
-
-if (!existsSync(buildDir)) {
-  mkdirSync(buildDir)
-}
-
-// ES module
+// The ES module with only sources bundled (all other packages external)
 buildSync({
   platform: 'browser',
   entryPoints: ['src/index.ts'],
-  outfile: join(buildDir, 'index.js'),
+  outdir: 'dist',
   format: 'esm',
   packages: 'external',
   bundle: true,
   minify: false,
   sourcemap: true,
-  // avoid a list of browser targets by setting a common baseline ES level
-  target: 'es2015',
+  target: 'es2020',
 })
 
-// IIFE
+// A minified bundle that can be used as-is in browser with
+// <script type="module" src="/msl-player.min.js"></script>
 buildSync({
   platform: 'browser',
   entryPoints: ['src/index.ts'],
-  outfile: join(buildDir, 'media-stream-player.min.js'),
-  format: 'iife',
-  globalName: 'mediaStreamPlayer',
+  outfile: 'msl-player.min.js',
+  format: 'esm',
   bundle: true,
   minify: true,
   sourcemap: true,
-  // avoid a list of browser targets by setting a common baseline ES level
-  target: 'es2015',
+  target: 'es2020',
 })

@@ -1,18 +1,24 @@
-# Publishes a GitHub release and NPM package for
-# any tag that is pushed to the repository.
-# Tags should be generated automatically by
-# manually running the "release" workflow.
+# Publishes a GitHub release and NPM package for the provided package.
+# Tags are generated automatically on release.
+# The release/publish steps can be skipped (in case of a re-release attempt).
 name: Publish
 
 on:
-  push:
-    branches:
-      - main
-      - 13-stable
+  workflow_dispatch:
+    inputs:
+      gh-release:
+        description: 'Create a github release?'
+        required: true
+        type: boolean
+        default: true
+      npm-publish:
+        description: 'Publish to NPM?'
+        required: true
+        type: boolean
+        default: true
 
 jobs:
   publish:
-    if: ${{ startsWith(github.event.head_commit.message, 'release:') }}
     runs-on: ubuntu-latest
     steps:
       - uses: extractions/setup-just@v1
@@ -20,7 +26,8 @@ jobs:
 
       - name: Extract version number
         id: vars
-        run: echo ::set-output name=version::v$(jq -r .version package.json)
+        run: |
+          echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -36,54 +43,25 @@ jobs:
           just install
           just build
 
-      - name: Release
+      - name: Create GitHub release
+        if: ${{ inputs.gh-release }}
         id: release
-        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # provided by Actions
-        with:
-          tag_name: ${{ steps.vars.outputs.version }}
-          release_name: Release ${{ steps.vars.outputs.version }}
-          body_path: CHANGELOG.md
-          draft: false
-          prerelease: false
+        run: |
+          yarn pack
+          gh release create v${{ steps.vars.outputs.version }} \
+            --target ${{ github.ref }} \
+            -F CHANGELOG.md \
+            -t "Release v${{ steps.vars.outputs.version }}" \
+            package.tgz overlay/*.min.js* player/*.min.js* streams/*.min.js*
 
-      - name: Upload media-stream-library
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: streams/dist/media-stream-library.min.js
-          asset_name: media-stream-library.min.js
-          asset_content_type: application/javascript
-
-      - name: Upload media-stream-player
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: player/dist/media-stream-player.min.js
-          asset_name: media-stream-player.min.js
-          asset_content_type: application/javascript
-
-      - name: Upload media-overlay-library
-        uses: actions/upload-release-asset@v1.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: overlay/dist/media-overlay-library.min.js
-          asset_name: media-overlay-library.min.js
-          asset_content_type: application/javascript
-
-      - name: Deploy NPM packages
+      - name: Deploy to NPM registry
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
-          if [[ $GITHUB_REF =~ alpha|beta ]]; then
-              yarn workspaces foreach --no-private npm publish --tag next
+          if [[ "${{ steps.vars.output.version }}" =~ alpha|beta ]]; then
+              yarn npm publish --tag next
           else
-              yarn workspaces foreach --no-private npm publish --tag latest
+              yarn npm publish --tag latest
           fi

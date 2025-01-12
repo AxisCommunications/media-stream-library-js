@@ -1,37 +1,26 @@
 #!/usr/bin/env node
-import { existsSync, mkdirSync } from 'node:fs'
-import { join } from 'node:path'
 
 import { buildSync } from 'esbuild'
-
-const buildDir = 'dist'
-
-if (!existsSync(buildDir)) {
-  mkdirSync(buildDir)
-}
 
 buildSync({
   platform: 'browser',
   entryPoints: ['src/index.ts'],
-  outfile: join(buildDir, 'index.js'),
+  outdir: 'dist',
   format: 'esm',
   packages: 'external',
   bundle: true,
   minify: false,
   sourcemap: true,
-  // avoid a list of browser targets by setting a common baseline ES level
-  target: 'es2015',
+  target: 'es2020',
 })
 
 buildSync({
   platform: 'browser',
   entryPoints: ['src/index.ts'],
-  outfile: join(buildDir, 'media-overlay-library.min.js'),
-  format: 'iife',
-  globalName: 'mediaOverlayLibrary',
+  outfile: 'msl-overlay.min.js',
+  format: 'esm',
   bundle: true,
   minify: true,
   sourcemap: true,
-  // avoid a list of browser targets by setting a common baseline ES level
-  target: 'es2015',
+  target: 'es2020',
 })

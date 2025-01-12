@@ -1,4 +1,4 @@
-const { fetchSdp } = window.mediaStreamLibrary
+import { fetchSdp } from '/msl-streams.min.js'
 
 const play = (host) => {
   // Grab a reference to the video element
