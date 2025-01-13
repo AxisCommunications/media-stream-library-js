@@ -1,5 +1,7 @@
-## 14.0.0-beta.3
+## 14.0.0-beta.4
 
+- Updated documentation regarding release flow, which now
+  requires manual update of version and changelog.
 - Fixed player non-relative imports from within the package.
 - Fixed next/latest tag selection in publish workflow.
 
