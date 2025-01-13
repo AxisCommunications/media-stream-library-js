@@ -1,5 +1,6 @@
-## 14.0.0-beta.1
+## 14.0.0-beta.2
 
+- Fixed player non-relative imports from within the package.
 - Fixed next/latest tag selection in publish workflow.
 
 ## 14.0.0-beta.0

@@ -1,6 +1,6 @@
 {
   "name": "media-stream-library",
-  "version": "14.0.0-beta.1",
+  "version": "14.0.0-beta.2",
   "description": "Media libraries for Node and the Web.",
   "repository": {
     "type": "git",
@@ -9,25 +9,20 @@
   "type": "module",
   "exports": {
     ".": {
-      "types": "./streams/dist/index.d.ts",
-      "import": "./streams/dist/index.js"
+      "types": "./dist/streams/index.d.ts",
+      "import": "./dist/streams/index.js"
     },
     "./overlay": {
-      "types": "./overlay/dist/index.d.ts",
-      "import": "./overlay/dist/index.js"
+      "types": "./dist/overlay/index.d.ts",
+      "import": "./dist/overlay/index.js"
     },
     "./player": {
-      "types": "./player/dist/index.d.ts",
-      "import": "./player/dist/index.js"
+      "types": "./dist/player/index.d.ts",
+      "import": "./dist/player/index.js"
     }
   },
   "files": [
-    "overlay/dist/**/*",
-    "player/dist/**/*",
-    "streams/dist/**/*",
-    "overlay/README.md",
-    "player/README.md",
-    "streams/README.md",
+    "dist/**/*",
     "README.md",
     "LICENSE"
   ],

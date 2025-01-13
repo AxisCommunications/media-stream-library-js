@@ -1,5 +1,5 @@
 import { createConnection } from 'node:net'
-import { Mp4Muxer, RtpDepay, RtspSession } from '../streams/dist/index.js'
+import { Mp4Muxer, RtpDepay, RtspSession } from '../dist/streams/index.js'
 
 class TcpSource {
   constructor(socket) {

@@ -11,30 +11,28 @@ biome *args:
     cd {{ invocation_directory() }} && biome {{ args }}
 
 # build all packages
-build: _build-streams _build-player _build-overlay
+build:
+    tsc -p tsconfig.types.json
+    node esbuild.mjs
 
 # list changed files since branched off from origin/main
 @changed:
     git diff --diff-filter=d --name-only $(git merge-base --fork-point origin/main)
 
-# create a changelog
-changelog:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    new_version="$(jq -r .version package.json)"
-    old_version="$(git show HEAD:package.json | jq -r .version)"
-    url="$(jq -r .repository.url package.json)"
-    range=$(just sha v$old_version)..$(just sha HEAD)
-    changelog $new_version $range --url $url --outfile=CHANGELOG.md
-
-# check if there are uncommitted changes in the workspace
+# check if there are uncommitted changes
 @check-dirty:
-    git diff --quiet || (echo "workspace dirty!"; git diff; exit 1)
+    git diff --quiet || (echo "worktree dirty!"; git diff; exit 1)
+
+# CI verification
+ci:
+    just lint
+    just test
+    just build
+    just check-dirty
 
 # report coverage information after running tests
-coverage workspace *args='--src=src/ -r text --all':
-    cd {{workspace}} && c8 report -a {{ args }}
-
+coverage *args='--src=src/ -r text --all':
+    c8 report -a {{ args }}
 
 # autofix and format changed files
 format +FILES="`just changed`":
@@ -45,12 +43,8 @@ install:
     CYPRESS_INSTALL_BINARY=0 && yarn install --immutable
 
 # check lint rules and formatting for changed files
-lint workspace:
-    just biome check {{ workspace }}
-
-# check for updates
-ncu *args:
-    ncu --root --workspaces {{ args }}
+lint:
+    just biome check .
 
 # start an example RTSP over WebSocket server
 rtsp-ws:
@@ -69,82 +63,49 @@ serve path *args='--bind 0.0.0.0':
 @sha $commitish='HEAD':
     git rev-parse $commitish
 
-# generate tools
-tools:
-    cd tools && esbuild --platform=node --outfile=src/__generated__/changelog.mjs --format=esm --out-extension:.js=.mjs --bundle --external:cmd-ts src/changelog/cli.ts
-    just biome format --write 'tools/src/__generated__/*'
-
-# CI verification
-verify:
-    just build
-    just lint .
-    just test
-    just tools
-    just check-dirty
-
-# run vite development server, WORKSPACE=(player)
-vite WORKSPACE *ARGS:
-    cd {{ WORKSPACE }} && node vite.mjs {{ ARGS }}
-    
-# run the default app for a particular workspace
-run workspace:
-    just _run-{{ workspace }}
-
-# tag a commit with annotated tag (e.g. just tag v1.2.3 main)
-tag tagname commit:
-    git tag -a -m {{ tagname }} {{ tagname }} {{ commit }}
+# run the default dev setup
+run sub:
+    just _run-{{ sub }}
 
 # run all unit tests
 test:
-    just uvu streams
-    just coverage streams
+    just uvu
+    just coverage
 
 # run UVU tests for a workspace (tests/ directory)
-uvu workspace pattern='': (_clear-tests workspace)
-    cd {{workspace}} && esbuild --bundle --format=esm --outdir=tests/build --packages=external --platform=node --sourcemap=inline \
+uvu pattern='': (_clear-tests)
+    esbuild --bundle --format=esm --outdir=tests/build --packages=external --platform=node --sourcemap=inline \
         $(glob 'tests/**/*{{pattern}}*.test.{ts,tsx}')
-    cd {{workspace}} && c8 -r none --clean=false -- uvu tests/build '.*{{pattern}}.*\.test\.js$'
+    c8 -r none --clean=false -- uvu tests/build '.*{{pattern}}.*\.test\.js$'
 
 #
 # hidden commands (these can be run but they are not shown with just --list)
 #
 
-_build-streams:
-    cd streams && tsc -p tsconfig.types.json
-    cd streams && node esbuild.mjs
-
-_build-player: _build-streams
-    cd player && tsc -p tsconfig.types.json
-    cd player && node esbuild.mjs
-
-_build-overlay:
-    cd overlay && tsc -p tsconfig.types.json
-    cd overlay && node esbuild.mjs
-
-_clear-tests workspace:
-    cd {{workspace}} && if [[ -d tests/build ]]; then rm -r tests/build; fi
+_clear-tests:
+    if [[ -d tests/build ]]; then rm -r tests/build; fi
 
 _copy-player-bundle dst:
-    cp player/msl-player.min.js {{ dst }}
-    cp player/msl-player.min.js.map {{ dst }}
+    cp msl-player.min.js {{ dst }}
+    cp msl-player.min.js.map {{ dst }}
 
 _copy-streams-bundle dst:
-    cp streams/msl-streams.min.js {{ dst }}
-    cp streams/msl-streams.min.js.map {{ dst }}
+    cp msl-streams.min.js {{ dst }}
+    cp msl-streams.min.js.map {{ dst }}
 
-_run-example-overlay-react: _build-overlay
+_run-example-overlay-react: build
     cd example-overlay-react && node vite.mjs
 
-_run-example-player-react: _build-player
+_run-example-player-react: build
     cd example-player-react && node vite.mjs
 
-_run-example-player-webcomponent: _build-player (_copy-player-bundle "example-player-webcomponent")
+_run-example-player-webcomponent: build (_copy-player-bundle "example-player-webcomponent")
     just serve example-player-webcomponent
 
-_run-example-streams-node: _build-streams
-    cd example-streams-node && node player.cjs
+_run-example-streams-node: build
+    cd example-streams-node && node player.mjs
 
-_run-example-streams-web: _build-streams (_copy-streams-bundle "example-streams-web")
+_run-example-streams-web: build (_copy-streams-bundle "example-streams-web")
     #!/usr/bin/env bash
     set -euo pipefail
     trap "kill 0; wait" EXIT
@@ -152,15 +113,15 @@ _run-example-streams-web: _build-streams (_copy-streams-bundle "example-streams-
     just serve example-streams-web &
     wait -n
 
-_run-overlay: _build-overlay
+_run-overlay: build
     echo "no direct playground for overlay, running example-overlay-react instead"
     just _run-example-overlay-react
 
 _run-player:
-    cd streams && node esbuild.mjs
-    just vite player
+    node esbuild.mjs
+    node vite-player.mjs
 
-_run-streams: _build-streams
+_run-streams: build
     echo "no direct playground for streams, running example-streams-web instead"
     just _run-example-streams-web
 

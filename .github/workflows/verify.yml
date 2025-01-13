@@ -29,12 +29,8 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: just install
-      - name: Build
-        run: just build
-      - name: Lint
-        run: just lint .
-      - name: Unit tests
-        run: just test
+      - name: Check
+        run: just ci
 
   chrome:
     runs-on: ubuntu-latest
@@ -109,36 +105,3 @@ jobs:
         run: just build
       - name: Test basic video functionality
         run: scripts/ci-video-test.sh edge
-
-  housekeeping:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Checkout repository@main
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          path: __ref-main
-
-      - name: Check if package.json version was updated
-        run: |
-          this_version=$(jq -r '.version' package.json)
-          if [[ "$this_version" == "null" ]]; then
-            continue
-          fi
-          if [[ ! -f "__ref-main/package.json" ]]; then
-            main_version=""
-          else
-            main_version=$(jq -r '.version' __ref-main/package.json)
-          fi
-          if [[ "$main_version" == "$this_version" ]]; then
-            echo "::error:: package.json version ($main_version) was not updated"
-            exit 1
-          elif ! grep -q "^## $this_version" CHANGELOG.md; then
-            echo "::error:: CHANGELOG.md was not updated with latest version"
-            exit 1
-          else
-            echo "::notice:: package.json updated: $main_version => $this_version"
-          fi

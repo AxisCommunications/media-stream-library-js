@@ -8,7 +8,7 @@ createServer({
   },
   resolve: {
     alias: {
-      'media-stream-library/overlay': '../overlay/dist/index.js',
+      'media-stream-library/overlay': '../dist/overlay/index.js',
     },
   },
   plugins: [reactPlugin()],
