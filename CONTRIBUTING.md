@@ -47,7 +47,7 @@ There are two sets of examples: those that expect a camera backend,
 and those that work with a test video provided by an RTSP server that
 you can run locally via this library.
 
-Run `just run [workspace]` to build the library, run a local RTSP test server, and serve
+Run `just run [example]` to build the library, run a local RTSP test server, and serve
 the examples. You'll see a link to a port on `localhost` (usually 8080).
 
 ## Creating PRs
@@ -55,6 +55,11 @@ the examples. You'll see a link to a port on `localhost` (usually 8080).
 Whenever you want to apply your changes to the upstream repository,
 you can create a pull request (PR). You can find general information
 on making pull requests on GitHub.
+
+Each PR has to have an updated `package.json` version (with a semver
+matching the kind of change), and an entry in the `CHANGELOG.md` file.
+The latter only needs to contain the latest version at the top (it's
+ok to combine logs for non-release changes).
 
 ## Continuous integration
 
@@ -66,15 +71,6 @@ These tests always need to pass before a PR can be merged.
 
 ### Releases
 
-When tags are pushed, an automated deploy will release to both Github and NPM, which
-can be found in `.github/workflows/publish.yml`.
-Any tags that are prereleases will be tagged `next` for NPM, otherwise `latest` is used.
-
-To release, make sure you are on the `main` branch and run:
-
-```
-just release
-git push --follow-tags
-```
-
-after which the pushed tag will cause a build + deploy through GitHub Actions.
+To publish a new release (and deploy a new NPM package), trigger the "Publish" workflow
+in the GitHub actions tab. This will create a GitHub release (from the version in the
+`package.json` file), tag the commit, and deploy a new package to NPM.
