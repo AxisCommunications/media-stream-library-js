@@ -54,7 +54,7 @@ jobs:
             --target ${{ github.ref }} \
             -F CHANGELOG.md \
             -t "Release v${{ steps.vars.outputs.version }}" \
-            package.tgz overlay/*.min.js* player/*.min.js* streams/*.min.js*
+            package.tgz *.min.js*
 
       - name: Deploy to NPM registry
         env:
