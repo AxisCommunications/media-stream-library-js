@@ -1,0 +1,42 @@
+# Checks that proper housekeeping has been performed on a PR.
+name: Housekeeping
+
+on:
+  pull_request:
+    branches:
+      - main
+  merge_group:
+
+jobs:
+  versioning:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Checkout repository@main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: __ref-main
+
+      - name: Check if package.json version was updated
+        run: |
+          this_version=$(jq -r '.version' package.json)
+          if [[ "$this_version" == "null" ]]; then
+            continue
+          fi
+          if [[ ! -f "__ref-main/package.json" ]]; then
+            main_version=""
+          else
+            main_version=$(jq -r '.version' __ref-main/package.json)
+          fi
+          if [[ "$main_version" == "$this_version" ]]; then
+            echo "::error:: package.json version ($main_version) was not updated"
+            exit 1
+          elif ! grep -q "^## $this_version" CHANGELOG.md; then
+            echo "::error:: CHANGELOG.md was not updated with latest version"
+            exit 1
+          else
+            echo "::notice:: package.json updated: $main_version => $this_version"
+          fi

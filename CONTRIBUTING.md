@@ -14,18 +14,18 @@ If your changes cause problems with how the library was used before,
 don't forget to write `BREAKING CHANGE:` inside the commit message body,
 followed by a description of what has changed and how to adapt for it.
 
-We use `node`, `npm`, and `just` for any development related things, so make sure you
+We use `node`, `yarn`, and `just` for any development related things, so make sure you
 have those installed. If you want to run the examples against a test RTSP server,
 you'll need to have a working `docker` environment with access to docker hub.
 
 ### Testing
 
 Make sure your changes pass linting and unit testing locally to save time with your PR,
-by running `just test`.
+by running `just lint` and just test`.
 If you add a new feature, please write a new unit test to catch any future regressions.
 
 Most components have unit tests, and basic proper behaviour is always
-tested, but we don't have full coverage (yet) of all the component code.
+tested, but we don't have full coverage of all the component code.
 If you contribute a new component, please make sure it has appropriate
 unit tests with sufficient coverage.
 

@@ -8,7 +8,7 @@ createServer({
   },
   resolve: {
     alias: {
-      'media-stream-library/player': '../player/dist/index.js',
+      'media-stream-library/player': '../dist/player/index.js',
     },
   },
   plugins: [reactPlugin()],
