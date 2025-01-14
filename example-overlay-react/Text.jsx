@@ -1,16 +1,11 @@
 import React, { useContext, useEffect, useRef } from 'react'
 
-import styled from 'styled-components'
 
 import {
   FoundationContext,
   LinerContext,
   useDraggable,
 } from 'media-stream-library/overlay'
-
-const SvgText = styled.text`
-  user-select: none;
-`
 
 export const Text = ({
   x: userX,
@@ -62,7 +57,7 @@ export const Text = ({
   const [x, y] = toSvgBasis([userX, userY])
 
   return (
-    <SvgText
+    <text style={{ userSelect: 'none' }}
       name="text"
       ref={textRef}
       x={x}
@@ -71,6 +66,6 @@ export const Text = ({
       onPointerDown={startDragging}
     >
       {children}
-    </SvgText>
+    </text>
   )
 }

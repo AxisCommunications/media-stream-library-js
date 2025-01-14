@@ -63,9 +63,10 @@ export interface VideoProperties {
   readonly formatSupportsAudio: boolean
   readonly pipeline?: PlayerPipeline
   readonly media?: ReadonlyArray<{
-    readonly type: 'video' | 'audio' | 'data'
-    readonly mime: string
+    readonly codec?: string
+    readonly name?: string
   }>
+  readonly mime?: string
   readonly volume?: number
   readonly range?: Range
   readonly sensorTm?: TransformationMatrix
@@ -93,7 +94,9 @@ interface PlaybackAreaProps {
 
 const wsUri = (secure: boolean, host: string) => {
   const scheme = secure ? Protocol.HTTPS : Protocol.HTTP
-  return axisWebSocketConfig(`${scheme}//${host}`)
+  return host.length !== 0
+    ? axisWebSocketConfig(`${scheme}//${host}`)
+    : { uri: '', tokenUri: '' }
 }
 
 const rtspUri = (host: string, searchParams: string) => {
@@ -387,7 +390,7 @@ export const PlaybackArea: React.FC<PlaybackAreaProps> = ({
       <HttpMp4Video
         key={refresh}
         forwardedRef={forwardedRef as Ref<HTMLVideoElement>}
-        {...{ src, play, onPlaying, onEnded }}
+        {...{ src, play, onPlaying }}
       />
     )
   }

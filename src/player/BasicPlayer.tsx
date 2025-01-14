@@ -9,21 +9,38 @@ import React, {
 } from 'react'
 
 import { Container, Layer } from './Container'
-import { ControlArea, ControlBar } from './Controls'
 import {
   PlaybackArea,
   PlayerNativeElement,
   VapixParameters,
   VideoProperties,
 } from './PlaybackArea'
-import { Button } from './components/Button'
+import { Pause, Play } from './components'
 import { Limiter } from './components/Limiter'
-import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
 import { useUserActive } from './hooks/useUserActive'
-import { Pause, Play } from './img'
 import { Format } from './types'
 
 const DEFAULT_FORMAT = Format.JPEG
+
+const controlAreaStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  fontFamily: 'sans',
+  height: '100%',
+  justifyContent: 'flex-end',
+  transition: 'opacity 0.3s ease-in-out',
+  width: '100%',
+} as const
+
+const controlBarStyle = {
+  width: '100%',
+  height: '32px',
+  background: 'rgb(0, 0, 0, 0.66)',
+  display: 'flex',
+  alignItems: 'center',
+  padding: '0 16px',
+  boxSizing: 'border-box',
+} as const
 
 interface BasicPlayerProps {
   readonly hostname: string
@@ -146,8 +163,13 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
      * container size.
      */
 
+    const visible = play !== true || userActive
+
     return (
-      <MediaStreamPlayerContainer className={className}>
+      <div
+        style={{ position: 'relative', width: '100%', height: '100%' }}
+        className={className}
+      >
         <Limiter ref={limiterRef}>
           <Container aspectRatio={naturalAspectRatio}>
             <Layer>
@@ -164,24 +186,22 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
               />
             </Layer>
             <Layer>
-              <ControlArea
+              <div
+                style={{ ...controlAreaStyle, opacity: visible ? 1 : 0 }}
                 ref={controlArea}
-                visible={play !== true || userActive}
               >
-                <ControlBar>
-                  <Button onClick={onPlayPause}>
-                    {play === true ? (
-                      <Pause title="Pause" />
-                    ) : (
-                      <Play title="Play" />
-                    )}
-                  </Button>
-                </ControlBar>
-              </ControlArea>
+                <div style={controlBarStyle}>
+                  {play === true ? (
+                    <Pause onClick={onPlayPause} title="Pause" />
+                  ) : (
+                    <Play onClick={onPlayPause} title="Play" />
+                  )}
+                </div>
+              </div>
             </Layer>
           </Container>
         </Limiter>
-      </MediaStreamPlayerContainer>
+      </div>
     )
   }
 )

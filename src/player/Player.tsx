@@ -21,7 +21,6 @@ import {
 } from './PlaybackArea'
 import { Stats } from './Stats'
 import { Limiter } from './components/Limiter'
-import { MediaStreamPlayerContainer } from './components/MediaStreamPlayerContainer'
 import { useSwitch } from './hooks/useSwitch'
 import { MetadataHandler } from './metadata'
 import { Format } from './types'
@@ -110,7 +109,6 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
         ? window.localStorage.getItem('stats-overlay') === 'on'
         : false
     )
-    const [statsExpanded, setStatsExpanded] = useState(true)
 
     useEffect(() => {
       if (window?.localStorage !== undefined) {
@@ -276,7 +274,10 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
      */
 
     return (
-      <MediaStreamPlayerContainer className={className}>
+      <div
+        style={{ position: 'relative', width: '100%', height: '100%' }}
+        className={className}
+      >
         <Limiter ref={limiterRef}>
           <Container aspectRatio={naturalAspectRatio}>
             <Layer>
@@ -336,13 +337,11 @@ export const Player = forwardRef<PlayerNativeElement, PlayerProps>(
                 videoProperties={videoProperties}
                 refresh={refresh}
                 volume={volume}
-                expanded={statsExpanded}
-                onToggleExpanded={setStatsExpanded}
               />
             ) : null}
           </Container>
         </Limiter>
-      </MediaStreamPlayerContainer>
+      </div>
     )
   }
 )

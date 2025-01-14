@@ -1,38 +1,34 @@
 import React, { useCallback, useState } from 'react'
 
-import styled, { createGlobalStyle } from 'styled-components'
-
 import { BasicStream } from './BasicStream'
 import { MultiStream } from './MultiStream'
 import { SingleStream } from './SingleStream'
 
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    font-family: sans-serif;
-  }
-`
-
-const AppContainer = styled.div`
+const style = `
+body {
+  margin: 0;
+  font-family: sans-serif;
+}
+.appContainer {
   width: 100vw;
   height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-`
-
-const ButtonContainer = styled.div`
+}
+.buttonContainer {
   margin: 8px;
   text-align: center;
+  & button {
+    padding: 8px 12px;
+    margin: 4px;
+    background-color: lightpink;
+    &.selected {
+      background-color: lightgreen;
+    }
+  }
+}
 `
-
-const Button = styled.button`
-  padding: 8px 12px;
-  margin: 4px;
-  background-color: ${({ selected }) =>
-    selected ? 'lightgreen' : 'lightpink'};
-`
-
 const LOCALSTORAGE_KEY = 'media-stream-player-example'
 
 export const App = () => {
@@ -55,23 +51,25 @@ export const App = () => {
   }, [setState])
 
   return (
-    <AppContainer>
-      <GlobalStyle />
-      <h1>Media Stream Player</h1>
-      <ButtonContainer>
-        <Button onClick={single} selected={state === 'single'}>
-          Single stream (with controls)
-        </Button>
-        <Button onClick={basic} selected={state === 'basic'}>
-          Single stream (basic)
-        </Button>
-        <Button onClick={multi} selected={state === 'multi'}>
-          Multi stream
-        </Button>
-      </ButtonContainer>
-      {state === 'single' ? <SingleStream /> : null}
-      {state === 'basic' ? <BasicStream /> : null}
-      {state === 'multi' ? <MultiStream /> : null}
-    </AppContainer>
+    <>
+      <style>{style}</style>
+      <div className='appContainer'>
+        <h1>Media Stream Player</h1>
+        <div className='buttonContainer'>
+          <button onClick={single} className={state === 'single' && 'selected'}>
+            Single stream (with controls)
+          </button>
+          <button onClick={basic} className={state === 'basic' && 'selected'}>
+            Single stream (basic)
+          </button>
+          <button onClick={multi} className={state === 'multi' && 'selected'}>
+            Multi stream
+          </button>
+        </div>
+        {state === 'single' ? <SingleStream /> : null}
+        {state === 'basic' ? <BasicStream /> : null}
+        {state === 'multi' ? <MultiStream /> : null}
+      </div>
+    </>
   )
 }

@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 
-import styled from 'styled-components'
-
 import {
   Foundation,
   Liner,
@@ -25,13 +23,6 @@ const MIDDLE_AREA = [
   [0.5, -0.5], // bottom right coordinate
 ]
 
-const Layers = styled.div`
-  position: relative;
-  width: 80vw;
-  height: 80vh;
-  border: 1px solid deepskyblue;
-`
-
 const App = () => {
   const [textPos1, setTextPos1] = useState([-1, 0.8])
   const [textPos2, setTextPos2] = useState([-0.4, -0.5])
@@ -54,7 +45,12 @@ const App = () => {
       <p>
         To get started, edit <code>src/App.tsx</code> and save to reload.
       </p>
-      <Layers>
+      <div style={{
+        position: 'relative',
+        width: '80vw',
+        height: '80vh',
+        border: '1px solid deepskyblue',
+      }}>
         <Foundation
           userBasis={USER_BASIS}
           style={{
@@ -111,7 +107,7 @@ const App = () => {
             interact with the SVGs below me
           </Text>
         </Foundation>
-      </Layers>
+      </div>
     </div>
   )
 }
