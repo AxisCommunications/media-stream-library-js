@@ -1,30 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 
-import styled from 'styled-components'
-
 import {
   FoundationContext,
   LinerContext,
   useDraggable,
 } from 'media-stream-library/overlay'
-
-const SvgCircleCorner = styled.circle`
-  fill: rgb(0.5, 0.5, 0.5);
-  stroke: grey;
-`
-
-const SvgCircleHandle = styled.circle`
-  fill: rgb(0.5, 0.5, 0.5, 0);
-
-  &:hover {
-    fill: rgb(0.5, 0.5, 0.5, 0.6);
-  }
-`
-
-const SvgPolygon = styled.polygon`
-  fill: rgb(0.5, 0.5, 0.5, 0.2);
-  stroke: grey;
-`
 
 export const Polygon = ({ pos, onChangePos }) => {
   const { toSvgBasis, toUserBasis } = useContext(FoundationContext)
@@ -86,15 +66,16 @@ export const Polygon = ({ pos, onChangePos }) => {
 
   return (
     <g name="g" onPointerDown={startDrag}>
-      <SvgPolygon points={svgPos.map(([x, y]) => `${x},${y}`).join(' ')} />
+      <polygon style={{ fill: 'rgb(0.5, 0.5, 0.5, 0.2)', stroke: 'grey' }} points={svgPos.map(([x, y]) => `${x},${y}`).join(' ')} />
       {svgPos.map(([x, y], index) => {
         // The visible corners
-        return <SvgCircleCorner key={index} r={3} cx={x} cy={y} />
+        return <circle style={{ fill: 'rgb(0.5, 0.5, 0.5)', stroke: 'grey' }} key={index} r={3} cx={x} cy={y} />
       })}
       {svgPos.map(([x, y], index) => {
         // The invisible handles
         return (
-          <SvgCircleHandle
+          <circle
+            style={{ fill: 'rgb(0.5, 0.5, 0.5, 0)' }}
             key={index}
             name={`p${index}`}
             r={5}

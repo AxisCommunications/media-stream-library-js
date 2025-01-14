@@ -178,7 +178,7 @@ If you want to import the player as a React component into your own code, or use
 parts of the player, you'll need to install the package as a dependency.
 You will also need to install a number of peer dependencies
 such as [luxon](https://github.com/moment/luxon), which we use for date and time purposes,
-`react`/`react-dom`, `styled-components`.
+`react`/`react-dom`.
 You can find an example of this under `example-player-react`, e.g.:
 
 ```js

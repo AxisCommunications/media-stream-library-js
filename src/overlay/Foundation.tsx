@@ -12,27 +12,11 @@ import React, {
   useState,
 } from 'react'
 
-import styled, { css } from 'styled-components'
-
 import { Matrix, apply, inverse, multiply } from './utils/affine'
 import { Coord } from './utils/geometry'
 
 type BaseElement = HTMLDivElement
 type BaseProps = HTMLAttributes<BaseElement>
-
-const Container = styled.div<{ readonly clickThrough: boolean }>`
-  ${({ clickThrough }) =>
-    clickThrough
-      ? css`
-          pointer-events: none;
-          & > svg > * {
-            pointer-events: initial;
-          }
-        `
-      : css`
-          pointer-events: initial;
-        `}
-`
 
 // Prototype of an Svg implementation with basis transform capabilities.
 
@@ -212,7 +196,7 @@ export const Foundation = forwardRef<
       userBasis = DEFAULT_USER_BASIS,
       transformationMatrix,
       onReady,
-      className,
+      className = '',
       clickThrough = false,
       children,
       ...externalProps
@@ -341,24 +325,28 @@ export const Foundation = forwardRef<
       [userBasis, toSvgBasis, toUserBasis]
     )
 
+    const containerClassName = `${className} ${clickThrough ? 'clickthrough' : ''}`
+
     /**
      * Render SVG drawing area.
      */
     return (
-      <Container
-        ref={callbackRef}
-        clickThrough={clickThrough}
-        className={className}
-        {...externalProps}
-      >
-        <svg width={width} height={height}>
-          {contextValue !== undefined ? (
-            <FoundationContext.Provider value={contextValue}>
-              {children}
-            </FoundationContext.Provider>
-          ) : null}
-        </svg>
-      </Container>
+      <>
+        <style>{`.clickthrough { pointer-events: none; &>svg>* { pointer-events: initial; } }`}</style>
+        <div
+          ref={callbackRef}
+          className={containerClassName}
+          {...externalProps}
+        >
+          <svg width={width} height={height}>
+            {contextValue !== undefined ? (
+              <FoundationContext.Provider value={contextValue}>
+                {children}
+              </FoundationContext.Provider>
+            ) : null}
+          </svg>
+        </div>
+      </>
     )
   }
 )

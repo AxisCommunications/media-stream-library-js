@@ -1,45 +1,7 @@
 import React, { ChangeEventHandler, useCallback, useRef, useState } from 'react'
 
-import styled from 'styled-components'
-
 import { VapixParameters } from './PlaybackArea'
-import { Switch } from './components/Switch'
 import { Format } from './types'
-
-const SettingsMenu = styled.div`
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  bottom: 32px;
-  right: 0;
-  background: rgb(0, 0, 0, 0.66);
-  padding: 8px 16px;
-  margin-bottom: 16px;
-  margin-right: 8px;
-
-  &:after {
-    content: '';
-    width: 10px;
-    height: 10px;
-    transform: rotate(45deg);
-    position: absolute;
-    bottom: -5px;
-    right: 12px;
-    background: rgb(0, 0, 0, 0.66);
-  }
-`
-
-const SettingsItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  color: white;
-  height: 24px;
-  width: 320px;
-  align-items: center;
-  justify-content: space-between;
-  margin: 4px 0;
-`
 
 interface SettingsProps {
   readonly parameters: VapixParameters
@@ -112,64 +74,85 @@ export const Settings: React.FC<SettingsProps> = ({
   )
 
   return (
-    <SettingsMenu>
-      <SettingsItem>
-        <div>Format</div>
-        <select onChange={changeFormat} defaultValue={format}>
-          <option value="RTP_H264">H.264 (RTP over WS)</option>
-          <option value="MP4_H264">H.264 (MP4 over HTTP)</option>
-          <option value="RTP_JPEG">Motion JPEG</option>
-          <option value="JPEG">Still image</option>
-        </select>
-      </SettingsItem>
-      <SettingsItem>
-        <div>Resolution</div>
-        <select value={parameters['resolution']} onChange={changeResolution}>
-          <option value="">default</option>
-          <option value="1920x1080">1920 x 1080 (FHD)</option>
-          <option value="1280x720">1280 x 720 (HD)</option>
-          <option value="800x600">800 x 600 (VGA)</option>
-        </select>
-      </SettingsItem>
-      <SettingsItem>
-        <div>Rotation</div>
-        <select value={parameters['rotation']} onChange={changeRotation}>
-          <option value="0">0</option>
-          <option value="90">90</option>
-          <option value="180">180</option>
-          <option value="270">270</option>
-        </select>
-      </SettingsItem>
-      <SettingsItem>
-        <div>Compression</div>
-        <select value={parameters['compression']} onChange={changeCompression}>
-          <option value="">default</option>
-          <option value="0">0</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-          <option value="30">30</option>
-          <option value="40">40</option>
-          <option value="50">50</option>
-          <option value="60">60</option>
-          <option value="70">70</option>
-          <option value="80">80</option>
-          <option value="90">90</option>
-          <option value="100">100</option>
-        </select>
-      </SettingsItem>
-      <SettingsItem>
-        <div>Text overlay</div>
-        <input name="textstring" value={textString} onChange={changeParam} />
-        <Switch
+    <div
+      style={{
+        background: 'rgb(32, 32, 32, 0.66)',
+        bottom: '32px',
+        color: 'white',
+        display: 'grid',
+        fontFamily: 'sans-serif',
+        fontSize: '12px',
+        gridTemplateColumns: '30% 70%',
+        gridTemplateRows: 'auto',
+        marginBottom: '16px',
+        marginRight: '8px',
+        padding: '8px 16px',
+        position: 'absolute',
+        right: '0',
+        rowGap: '4px',
+        width: '320px',
+      }}
+    >
+      <div>Format</div>
+      <select onChange={changeFormat} defaultValue={format}>
+        <option value="RTP_H264">H.264 (RTP over WS)</option>
+        <option value="MP4_H264">H.264 (MP4 over HTTP)</option>
+        <option value="RTP_JPEG">Motion JPEG</option>
+        <option value="JPEG">Still image</option>
+      </select>
+      <div>Resolution</div>
+      <select value={parameters['resolution']} onChange={changeResolution}>
+        <option value="">default</option>
+        <option value="1920x1080">1920 x 1080 (FHD)</option>
+        <option value="1280x720">1280 x 720 (HD)</option>
+        <option value="800x600">800 x 600 (VGA)</option>
+      </select>
+      <div>Rotation</div>
+      <select value={parameters['rotation']} onChange={changeRotation}>
+        <option value="0">0</option>
+        <option value="90">90</option>
+        <option value="180">180</option>
+        <option value="270">270</option>
+      </select>
+      <div>Compression</div>
+      <select value={parameters['compression']} onChange={changeCompression}>
+        <option value="">default</option>
+        <option value="0">0</option>
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+        <option value="60">60</option>
+        <option value="70">70</option>
+        <option value="80">80</option>
+        <option value="90">90</option>
+        <option value="100">100</option>
+      </select>
+      <div>Text overlay</div>
+      <div>
+        <input
+          style={{ width: 'fit-content' }}
+          type="checkbox"
           name="text"
           checked={parameters['text'] === '1'}
           onChange={changeParam}
         />
-      </SettingsItem>
-      <SettingsItem>
-        <div>Stats overlay</div>
-        <Switch checked={showStatsOverlay} onChange={changeStatsOverlay} />
-      </SettingsItem>
-    </SettingsMenu>
+        <input
+          style={{ marginLeft: '8px' }}
+          name="textstring"
+          value={textString}
+          onChange={changeParam}
+        />
+      </div>
+      <div>Stats overlay</div>
+      <input
+        style={{ width: 'fit-content' }}
+        type="checkbox"
+        name="text"
+        checked={showStatsOverlay}
+        onChange={changeStatsOverlay}
+      />
+    </div>
   )
 }

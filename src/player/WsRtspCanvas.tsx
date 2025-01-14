@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import styled from 'styled-components'
 import {
   Rtcp,
   RtspJpegPipeline,
@@ -14,12 +13,6 @@ import { Range, VideoProperties } from './PlaybackArea'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { Format } from './types'
 import { logDebug } from './utils/log'
-
-const CanvasNative = styled.canvas`
-  max-height: 100%;
-  object-fit: contain;
-  width: 100%;
-`
 
 interface WsRtspCanvasProps {
   readonly forwardedRef?: React.Ref<HTMLCanvasElement>
@@ -224,5 +217,10 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
     }
   }, [play, pipeline, fetching])
 
-  return <CanvasNative ref={canvasRef} />
+  return (
+    <canvas
+      style={{ maxHeight: '100%', objectFit: 'contain', width: '100%' }}
+      ref={canvasRef}
+    />
+  )
 }

@@ -7,6 +7,7 @@ const appRoot = createRoot(document.querySelector('#root')!)
 
 appRoot.render(
   <React.StrictMode>
+    <style>{`body {padding: 0; margin: 0;}`}</style>
     <Playground />
   </React.StrictMode>
 )
