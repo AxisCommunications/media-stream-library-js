@@ -923,12 +923,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:18.3.5":
-  version: 18.3.5
-  resolution: "@types/react-dom@npm:18.3.5"
+"@types/react-dom@npm:19.0.3":
+  version: 19.0.3
+  resolution: "@types/react-dom@npm:19.0.3"
   peerDependencies:
-    "@types/react": ^18.0.0
-  checksum: 95c757684f71e761515c5a11299e5feec550c72bb52975487f360e6f0d359b26454c26eaf2ce45dd22748205aa9b2c2fe0abe7005ebcbd233a7615283ac39a7d
+    "@types/react": ^19.0.0
+  checksum: a253931fc3a41a74ef99a7380fa3fa02b94ddd1addba9fc0aea39c90ce3dfb22d60fbac292669de224b1ffb23836cde3cc78c2425f0c77593435b6368a9fd2ed
   languageName: node
   linkType: hard
 
@@ -1902,13 +1902,13 @@ __metadata:
   resolution: "example-overlay-react-12c560@workspace:example-overlay-react"
   dependencies:
     "@types/react": 18.3.18
-    "@types/react-dom": 18.3.5
+    "@types/react-dom": 19.0.3
     "@types/styled-components": 5.1.34
     "@vitejs/plugin-react": 4.3.4
     media-stream-library: "workspace:^"
     pepjs: 0.5.3
     react: 18.3.1
-    react-dom: 18.3.1
+    react-dom: 19.0.0
     styled-components: 5.3.11
     vite: 6.0.7
   languageName: unknown
@@ -1922,7 +1922,7 @@ __metadata:
     luxon: 3.5.0
     media-stream-library: "workspace:^"
     react: 18.3.1
-    react-dom: 18.3.1
+    react-dom: 19.0.0
     styled-components: 5.3.11
     vite: 6.0.7
   languageName: unknown
@@ -2770,7 +2770,7 @@ __metadata:
     "@types/luxon": 3.4.2
     "@types/node": 22.10.5
     "@types/react": 18.3.18
-    "@types/react-dom": 18.3.5
+    "@types/react-dom": 19.0.3
     "@types/styled-components": 5.1.34
     "@types/ws": 8.5.13
     "@vitejs/plugin-react": 4.3.4
@@ -2785,7 +2785,7 @@ __metadata:
     mock-socket: 9.3.1
     pepjs: 0.5.3
     react: 18.3.1
-    react-dom: 18.3.1
+    react-dom: 19.0.0
     react-is: 18.3.1
     semver: 7.6.3
     styled-components: 5.3.11
@@ -3274,15 +3274,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:18.3.1":
-  version: 18.3.1
-  resolution: "react-dom@npm:18.3.1"
+"react-dom@npm:19.0.0":
+  version: 19.0.0
+  resolution: "react-dom@npm:19.0.0"
   dependencies:
-    loose-envify: ^1.1.0
-    scheduler: ^0.23.2
+    scheduler: ^0.25.0
   peerDependencies:
-    react: ^18.3.1
-  checksum: 298954ecd8f78288dcaece05e88b570014d8f6dce5db6f66e6ee91448debeb59dcd31561dddb354eee47e6c1bb234669459060deb238ed0213497146e555a0b9
+    react: ^19.0.0
+  checksum: 009cc6e575263a0d1906f9dd4aa6532d2d3d0d71e4c2b7777c8fe4de585fa06b5b77cdc2e0fbaa2f3a4a5e5d3305c189ba152153f358ee7da4d9d9ba5d3a8975
   languageName: node
   linkType: hard
 
@@ -3485,12 +3484,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.23.2":
-  version: 0.23.2
-  resolution: "scheduler@npm:0.23.2"
-  dependencies:
-    loose-envify: ^1.1.0
-  checksum: 3e82d1f419e240ef6219d794ff29c7ee415fbdc19e038f680a10c067108e06284f1847450a210b29bbaf97b9d8a97ced5f624c31c681248ac84c80d56ad5a2c4
+"scheduler@npm:^0.25.0":
+  version: 0.25.0
+  resolution: "scheduler@npm:0.25.0"
+  checksum: b7bb9fddbf743e521e9aaa5198a03ae823f5e104ebee0cb9ec625392bb7da0baa1c28ab29cee4b1e407a94e76acc6eee91eeb749614f91f853efda2613531566
   languageName: node
   linkType: hard
 
