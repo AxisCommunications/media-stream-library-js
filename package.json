@@ -65,7 +65,7 @@
     "pepjs": "0.5.3",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-is": "18.3.1",
+    "react-is": "19.0.0",
     "semver": "7.6.3",
     "styled-components": "5.3.11",
     "typescript": "5.7.3",
