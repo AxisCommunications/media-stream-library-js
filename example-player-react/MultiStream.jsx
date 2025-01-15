@@ -1,24 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import styled from 'styled-components'
-
 import { Player } from 'media-stream-library/player'
-
-const MediaPlayer = styled(Player)`
-  max-width: 400px;
-  max-height: 300px;
-  margin: 8px;
-`
-
-const MediaPlayerContainer = styled.div`
-  width: 400px;
-  height: 300px;
-  margin: 8px;
-`
-
-const Centered = styled.div`
-  text-align: center;
-`
 
 // force auth
 const authorize = async (host) => {
@@ -73,21 +55,22 @@ export const MultiStream = () => {
       {state.length > 0 ? (
         state.map((device) => {
           return device.authorized ? (
-            <MediaPlayerContainer key={device.hostname}>
-              <Centered>{device.hostname}</Centered>
-              <MediaPlayer
+            <div style={{ width: '400px', height: '300px', margin: '8px', }} key={device.hostname}>
+              <div style={{ textAlign: 'center' }}>{device.hostname}</div>
+              <Player
+                style={{ maxWidth: '400px', maxHeight: '300px', margin: '8px', }}
                 hostname={device.hostname}
                 initialFormat="JPEG"
                 autoPlay
                 autoRetry
                 vapixParams={{ resolution: '800x600' }}
               />
-            </MediaPlayerContainer>
+            </div>
           ) : (
-            <MediaPlayerContainer key={device.hostname}>
+            <div style={{ width: '400px', height: '300px', margin: '8px', }} key={device.hostname}>
               <Centered>{device.hostname}</Centered>
               <Centered>Not authorized</Centered>
-            </MediaPlayerContainer>
+            </div>
           )
         })
       ) : (

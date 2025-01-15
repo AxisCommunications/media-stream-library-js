@@ -1,18 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 
-import styled from 'styled-components'
-
 import { VideoProperties } from './PlaybackArea'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { useEventState } from './hooks/useEventState'
 import { Format } from './types'
 import { logDebug } from './utils/log'
-
-const ImageNative = styled.img`
-  max-height: 100%;
-  object-fit: contain;
-  width: 100%;
-`
 
 interface StillImageProps {
   readonly forwardedRef?: React.Ref<HTMLImageElement>
@@ -81,5 +73,10 @@ export const StillImage: React.FC<StillImageProps> = ({
   }, [loaded])
 
   logDebug('render image', loaded)
-  return <ImageNative ref={imgRef} />
+  return (
+    <img
+      style={{ maxHeight: '100%', objectFit: 'contain', width: '100%' }}
+      ref={imgRef}
+    />
+  )
 }

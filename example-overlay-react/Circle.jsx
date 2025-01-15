@@ -6,18 +6,11 @@ import React, {
   useState,
 } from 'react'
 
-import styled from 'styled-components'
-
 import {
   FoundationContext,
   LinerContext,
   useDraggable,
 } from 'media-stream-library/overlay'
-
-const SvgCircle = styled.circle`
-  fill: rgb(0.5, 0.5, 0.5, 0.2);
-  stroke: grey;
-`
 
 /*
  * Circle
@@ -36,7 +29,7 @@ export const Circle = forwardRef(
 
     const [cx, cy] = toSvgBasis(pos)
 
-    return <SvgCircle cx={cx} cy={cy} ref={ref} {...circleProps} />
+    return <circle style={{ fill: 'rgb(0.5,0.5,0.5,0.2)', stroke: 'grey' }} cx={cx} cy={cy} ref={ref} {...circleProps} />
   }
 )
 
@@ -99,7 +92,8 @@ export const DraggableCircle = forwardRef(({ pos, onChangePos, ...circleProps },
   const [cx, cy] = svgPos
 
   return (
-    <SvgCircle
+    <circle
+      style={{ fill: 'rgb(0.5,0.5,0.5,0.2)', stroke: 'grey' }}
       name="circle"
       cx={cx}
       cy={cy}
@@ -165,7 +159,8 @@ export const FastDraggableCircle = ({
   const [cx, cy] = toSvgBasis(pos)
 
   return (
-    <SvgCircle
+    <circle
+      style={{ fill: 'rgb(0.5,0.5,0.5,0.2)', stroke: 'grey' }}
       ref={circleRef}
       name="circle"
       cx={cx}

@@ -147,6 +147,8 @@ async function newSourceBuffer(
     }
   })
 
+  mse.duration = 0
+
   // // revoke the object URL to avoid a memory leak
   window.URL.revokeObjectURL(el.src)
 
