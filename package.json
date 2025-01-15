@@ -48,7 +48,7 @@
     "@juggle/resize-observer": "3.4.0",
     "@types/debug": "4.1.12",
     "@types/luxon": "3.4.2",
-    "@types/node": "22.10.5",
+    "@types/node": "22.10.6",
     "@types/react": "18.3.18",
     "@types/react-dom": "18.3.5",
     "@types/styled-components": "5.1.34",
