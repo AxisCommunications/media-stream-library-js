@@ -1,5 +1,6 @@
-## 14.0.0-beta.4
+## 14.0.0-beta.5
 
+- Added some missing info to the HTTP MP4 pipeline.
 - Updated documentation regarding release flow, which now
   requires manual update of version and changelog.
 - Fixed player non-relative imports from within the package.

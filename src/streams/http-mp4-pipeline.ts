@@ -13,19 +13,14 @@ export interface HttpMp4Config {
  *
  * A pipeline that connects to an HTTP server and can process an MP4 data stream
  * that is then sent to a HTML video element
- *
- * Handlers that can be set on the pipeline:
- * - `onServerClose`: called when the server closes the connection
  */
 export class HttpMp4Pipeline {
-  public onHeaders?: (headers: Headers) => void
-  public onServerClose?: () => void
-
   private abortController?: AbortController
   private downloadedBytes: number = 0
   private options?: RequestInit
-  private readonly mediaElement: HTMLVideoElement
   private uri: string
+  public readonly mediaElement: HTMLVideoElement
+  public streamStart?: number
 
   constructor(config: HttpMp4Config) {
     const { uri, options, mediaElement } = config
@@ -36,13 +31,16 @@ export class HttpMp4Pipeline {
     this.mediaElement = mediaElement
   }
 
-  /** Initiates the stream and resolves when the media stream has completed. */
-  public async start(msgHandler?: (msg: IsomMessage) => void) {
+  /** Initiates the stream and resolves when the media stream has completed.
+   * Returns the original response headers and a result promise. */
+  public async start(
+    msgHandler?: (msg: IsomMessage) => void
+  ): Promise<{ headers: Headers; finished: Promise<void> }> {
     this.abortController?.abort('stream restarted')
 
     this.abortController = new AbortController()
 
-    const { ok, status, statusText, headers, body } = await fetch(this.uri, {
+    const { ok, headers, status, statusText, body } = await fetch(this.uri, {
       signal: this.abortController.signal,
       ...this.options,
     })
@@ -70,7 +68,8 @@ export class HttpMp4Pipeline {
       mseSink.onMessage = msgHandler
     }
 
-    body
+    this.streamStart = performance.now()
+    const finished = body
       .pipeThrough(adapter)
       .pipeTo(mseSink.writable)
       .then(() => {
@@ -79,6 +78,8 @@ export class HttpMp4Pipeline {
       .catch((err) => {
         logDebug(`http-mp4 pipeline ended: ${err}`)
       })
+
+    return { headers, finished }
   }
 
   public close() {
@@ -99,6 +100,13 @@ export class HttpMp4Pipeline {
 
   public get byteLength() {
     return this.downloadedBytes
+  }
+
+  public get bitrate() {
+    return this.streamStart !== undefined
+      ? (8 * this.downloadedBytes) /
+          ((performance.now() - this.streamStart) / 1000)
+      : 0
   }
 
   /** Refresh the stream and passes the captured MP4 data to the provided

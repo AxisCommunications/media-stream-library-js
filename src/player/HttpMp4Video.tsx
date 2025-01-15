@@ -136,17 +136,12 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
     const videoEl = videoRef.current
 
     if (src !== undefined && src.length > 0 && videoEl !== null) {
-      const endedCallback = () => {
-        __onEndedRef.current?.()
-      }
       logDebug('create pipeline', src)
       const newPipeline = new HttpMp4Pipeline({
         uri: src,
         mediaElement: videoEl,
       })
       setPipeline(newPipeline)
-
-      newPipeline.onServerClose = endedCallback
 
       return () => {
         logDebug('close pipeline and clear video')
@@ -162,13 +157,18 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
 
   useEffect(() => {
     if (play && pipeline && !fetching) {
-      pipeline.onHeaders = (headers) => {
+      const endedCallback = () => {
+        __onEndedRef.current?.()
+      }
+      pipeline.start().then(({ headers, finished }) => {
         __sensorTmRef.current = parseTransformHeader(
           headers.get('video-sensor-transform') ??
             headers.get('video-metadata-transform')
         )
-      }
-      pipeline.start()
+        finished.finally(() => {
+          endedCallback()
+        })
+      })
       logDebug('initiated data fetching')
       setFetching(true)
     }
