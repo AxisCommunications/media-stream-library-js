@@ -1,5 +1,6 @@
-## 14.0.0-beta.5
+## 14.0.0-beta.6
 
+- Add license field to package.json
 - Added some missing info to the HTTP MP4 pipeline.
 - Updated documentation regarding release flow, which now
   requires manual update of version and changelog.
