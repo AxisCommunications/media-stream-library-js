@@ -12,6 +12,6 @@
     "@types/react-dom": "18.3.5",
     "@types/styled-components": "5.1.34",
     "@vitejs/plugin-react": "4.3.4",
-    "vite": "6.0.7"
+    "vite": "6.2.3"
   }
 }
