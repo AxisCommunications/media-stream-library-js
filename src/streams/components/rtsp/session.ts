@@ -12,6 +12,7 @@ import {
   RtspResponseMessage,
   Sdp,
   SdpMessage,
+  isRtcpBye,
   isRtcpSR,
 } from '../types'
 
@@ -113,6 +114,9 @@ export class RtspSession {
             }
             case 'rtcp': {
               this.recordNtpInfo(message)
+              if (isRtcpBye(message.rtcp)) {
+                this.clearKeepalive()
+              }
               this.onRtcp && this.onRtcp(message.rtcp)
               controller.enqueue(message)
               break
