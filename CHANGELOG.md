@@ -1,3 +1,7 @@
+## 14.0.0-beta.7
+
+- Fix(streams): handle rtcp bye with keepalive
+
 ## 14.0.0-beta.6
 
 - Add license field to package.json
