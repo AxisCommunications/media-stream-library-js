@@ -916,13 +916,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:*":
-  version: 15.7.14
-  resolution: "@types/prop-types@npm:15.7.14"
-  checksum: d0c5407b9ccc3dd5fae0ccf9b1007e7622ba5e6f1c18399b4f24dff33619d469da4b9fa918a374f19dc0d9fe6a013362aab0b844b606cfc10676efba3f5f736d
-  languageName: node
-  linkType: hard
-
 "@types/react-dom@npm:18.3.5":
   version: 18.3.5
   resolution: "@types/react-dom@npm:18.3.5"
@@ -941,13 +934,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:18.3.18":
-  version: 18.3.18
-  resolution: "@types/react@npm:18.3.18"
+"@types/react@npm:19.1.1":
+  version: 19.1.1
+  resolution: "@types/react@npm:19.1.1"
   dependencies:
-    "@types/prop-types": "*"
     csstype: ^3.0.2
-  checksum: 5933597bc9f53e282f0438f0bb76d0f0fab60faabe760ea806e05ffe6f5c61b9b4d363e1a03a8fea47c510d493c6cf926cdeeba9f7074fa97b61940c350245e7
+  checksum: 1daebda3dfe30944c3322da6ae352697e4a81dc6a64125110f1610fd5b2a98581c2fc7ef8a896d8f91d01d92642a72c941ee283d0a914a04e0a78597642f9242
   languageName: node
   linkType: hard
 
@@ -1901,13 +1893,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "example-overlay-react-12c560@workspace:example-overlay-react"
   dependencies:
-    "@types/react": 18.3.18
+    "@types/react": 19.1.1
     "@types/react-dom": 18.3.5
     "@types/styled-components": 5.1.34
     "@vitejs/plugin-react": 4.3.4
     media-stream-library: "workspace:^"
     pepjs: 0.5.3
-    react: 18.3.1
+    react: 19.1.0
     react-dom: 18.3.1
     styled-components: 5.3.11
     vite: 6.0.7
@@ -1921,7 +1913,7 @@ __metadata:
     "@vitejs/plugin-react": 4.3.4
     luxon: 3.5.0
     media-stream-library: "workspace:^"
-    react: 18.3.1
+    react: 19.1.0
     react-dom: 18.3.1
     styled-components: 5.3.11
     vite: 6.0.7
@@ -2769,7 +2761,7 @@ __metadata:
     "@types/debug": 4.1.12
     "@types/luxon": 3.4.2
     "@types/node": 22.10.5
-    "@types/react": 18.3.18
+    "@types/react": 19.1.1
     "@types/react-dom": 18.3.5
     "@types/styled-components": 5.1.34
     "@types/ws": 8.5.13
@@ -2784,7 +2776,7 @@ __metadata:
     luxon: ^3.0.0
     mock-socket: 9.3.1
     pepjs: 0.5.3
-    react: 18.3.1
+    react: 19.1.0
     react-dom: 18.3.1
     react-is: 18.3.1
     semver: 7.6.3
@@ -3307,12 +3299,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:18.3.1":
-  version: 18.3.1
-  resolution: "react@npm:18.3.1"
-  dependencies:
-    loose-envify: ^1.1.0
-  checksum: a27bcfa8ff7c15a1e50244ad0d0c1cb2ad4375eeffefd266a64889beea6f6b64c4966c9b37d14ee32d6c9fcd5aa6ba183b6988167ab4d127d13e7cb5b386a376
+"react@npm:19.1.0":
+  version: 19.1.0
+  resolution: "react@npm:19.1.0"
+  checksum: c0905f8cfb878b0543a5522727e5ed79c67c8111dc16ceee135b7fe19dce77b2c1c19293513061a8934e721292bfc1517e0487e262d1906f306bdf95fa54d02f
   languageName: node
   linkType: hard
 

@@ -4,7 +4,7 @@
     "@vitejs/plugin-react": "4.3.4",
     "luxon": "3.5.0",
     "media-stream-library": "workspace:^",
-    "react": "18.3.1",
+    "react": "19.1.0",
     "react-dom": "18.3.1",
     "styled-components": "5.3.11",
     "vite": "6.0.7"
