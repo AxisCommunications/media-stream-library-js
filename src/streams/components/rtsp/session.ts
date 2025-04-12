@@ -114,6 +114,9 @@ export class RtspSession {
             }
             case 'rtcp': {
               this.recordNtpInfo(message)
+              // FIXME it should be the responsibility of the user to call a `.close()` method
+              // on the instance to cleanup resources (this would also solve other problems
+              // related to not clearing the interval).
               if (isRtcpBye(message.rtcp)) {
                 this.clearKeepalive()
               }
