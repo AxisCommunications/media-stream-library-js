@@ -56,11 +56,6 @@ Whenever you want to apply your changes to the upstream repository,
 you can create a pull request (PR). You can find general information
 on making pull requests on GitHub.
 
-Each PR has to have an updated `package.json` version (with a semver
-matching the kind of change), and an entry in the `CHANGELOG.md` file.
-The latter only needs to contain the latest version at the top (it's
-ok to combine logs for non-release changes).
-
 ## Continuous integration
 
 ### Verification
@@ -71,6 +66,6 @@ These tests always need to pass before a PR can be merged.
 
 ### Releases
 
-To publish a new release (and deploy a new NPM package), trigger the "Publish" workflow
-in the GitHub actions tab. This will create a GitHub release (from the version in the
-`package.json` file), tag the commit, and deploy a new package to NPM.
+To publish a new release (and deploy a new NPM package), create a new GitHub release.
+This will then create a tag and trigger the "Publish" workflow to deploy a new package
+to NPM.

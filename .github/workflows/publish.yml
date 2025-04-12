@@ -4,18 +4,9 @@
 name: Publish
 
 on:
-  workflow_dispatch:
-    inputs:
-      gh-release:
-        description: 'Create a github release?'
-        required: true
-        type: boolean
-        default: true
-      npm-publish:
-        description: 'Publish to NPM?'
-        required: true
-        type: boolean
-        default: true
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   publish:
@@ -23,11 +14,6 @@ jobs:
     steps:
       - uses: extractions/setup-just@v1
       - uses: actions/checkout@v4
-
-      - name: Extract version number
-        id: vars
-        run: |
-          echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
 
       - name: Setup node
         uses: actions/setup-node@v4
@@ -43,24 +29,12 @@ jobs:
           just install
           just build
 
-      - name: Create GitHub release
-        if: ${{ inputs.gh-release }}
-        id: release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # provided by Actions
-        run: |
-          yarn pack
-          gh release create v${{ steps.vars.outputs.version }} \
-            --target ${{ github.ref }} \
-            -F CHANGELOG.md \
-            -t "Release v${{ steps.vars.outputs.version }}" \
-            package.tgz *.min.js*
-
       - name: Deploy to NPM registry
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
         run: |
-          if [[ "${{ steps.vars.outputs.version }}" =~ alpha|beta ]]; then
+          yarn version -i ${{ github.ref_name }}
+          if [[ "${{ github.ref_name }}" =~ alpha|beta ]]; then
               yarn npm publish --tag next
           else
               yarn npm publish --tag latest
