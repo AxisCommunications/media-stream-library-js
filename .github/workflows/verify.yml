@@ -12,6 +12,10 @@ on:
       - main
   merge_group:
 
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   node:
     runs-on: ubuntu-latest
