@@ -126,7 +126,7 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
   const __onEndedRef = useRef(onEnded)
   __onEndedRef.current = onEnded
 
-  const __sensorTmRef = useRef<TransformationMatrix>()
+  const __sensorTmRef = useRef<TransformationMatrix>(undefined)
 
   useEffect(() => {
     const videoEl = videoRef.current

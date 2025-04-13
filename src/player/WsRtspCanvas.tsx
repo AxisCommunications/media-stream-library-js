@@ -158,7 +158,7 @@ export const WsRtspCanvas: React.FC<WsRtspCanvasProps> = ({
   const __onRtcpRef = useRef(onRtcp)
   __onRtcpRef.current = onRtcp
 
-  const __sensorTmRef = useRef<TransformationMatrix>()
+  const __sensorTmRef = useRef<TransformationMatrix>(undefined)
 
   useEffect(() => {
     if (play && pipeline && !fetching) {
