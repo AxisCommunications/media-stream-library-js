@@ -56,13 +56,13 @@ export const App = () => {
       <div className='appContainer'>
         <h1>Media Stream Player</h1>
         <div className='buttonContainer'>
-          <button onClick={single} className={state === 'single' && 'selected'}>
+          <button onClick={single} className={state === 'single' ? 'selected' : undefined}>
             Single stream (with controls)
           </button>
-          <button onClick={basic} className={state === 'basic' && 'selected'}>
+          <button onClick={basic} className={state === 'basic' ? 'selected' : undefined}>
             Single stream (basic)
           </button>
-          <button onClick={multi} className={state === 'multi' && 'selected'}>
+          <button onClick={multi} className={state === 'multi' ? 'selected' : undefined}>
             Multi stream
           </button>
         </div>
