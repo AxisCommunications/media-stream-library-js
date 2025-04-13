@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import styled from 'styled-components'
 import {
   Rtcp,
   RtspMp4Pipeline,
@@ -14,7 +13,6 @@ import {
 import { Range, VideoProperties } from './PlaybackArea'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { useEventState } from './hooks/useEventState'
-import { useVideoDebug } from './hooks/useVideoDebug'
 import {
   MetadataHandler,
   ScheduledMessage,
@@ -22,12 +20,6 @@ import {
 } from './metadata'
 import { Format } from './types'
 import { logDebug } from './utils/log'
-
-const VideoNative = styled.video`
-  max-height: 100%;
-  object-fit: contain;
-  width: 100%;
-`
 
 /**
  * WebSocket + RTSP playback component.
@@ -136,8 +128,6 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
 
   const __sensorTmRef = useRef<TransformationMatrix>()
 
-  useVideoDebug(videoRef.current)
-
   useEffect(() => {
     const videoEl = videoRef.current
 
@@ -161,17 +151,21 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
       if (__onPlayingRef.current !== undefined) {
         __onPlayingRef.current({
           el: videoEl,
-          pipeline: pipeline ?? undefined,
-          width: videoEl.videoWidth,
-          height: videoEl.videoHeight,
           formatSupportsAudio: FORMAT_SUPPORTS_AUDIO[Format.RTP_H264],
+          height: videoEl.videoHeight,
+          media: pipeline?.mp4.tracks?.map(({ codec, name }) => ({
+            codec,
+            name,
+          })),
+          pipeline: pipeline ?? undefined,
+          range: __rangeRef.current,
+          sensorTm: __sensorTmRef.current,
           volume: pipeline?.mp4.tracks?.find((track) =>
             track.codec.startsWith('mp4a')
           )
             ? videoEl.volume
             : undefined,
-          range: __rangeRef.current,
-          sensorTm: __sensorTmRef.current,
+          width: videoEl.videoWidth,
         })
       }
     }
@@ -268,5 +262,12 @@ export const WsRtspVideo: React.FC<WsRtspVideoProps> = ({
     }
   }, [play, pipeline, fetching])
 
-  return <VideoNative autoPlay={autoPlay} muted={muted} ref={videoRef} />
+  return (
+    <video
+      style={{ maxHeight: '100%', objectFit: 'contain', width: '100%' }}
+      autoPlay={autoPlay}
+      muted={muted}
+      ref={videoRef}
+    />
+  )
 }

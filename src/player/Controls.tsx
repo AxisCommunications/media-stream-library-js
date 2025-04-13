@@ -1,126 +1,105 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import { DateTime, Duration } from 'luxon'
-import styled from 'styled-components'
 
 import { VapixParameters, VideoProperties } from './PlaybackArea'
 import { Settings } from './Settings'
-import { Button } from './components/Button'
+import { CogWheel, Pause, Play, Refresh, Screenshot, Stop } from './components'
 import { useUserActive } from './hooks/useUserActive'
-import { CogWheel, Pause, Play, Refresh, Screenshot, Stop } from './img'
 import { Format } from './types'
 
 function isHTMLMediaElement(el: HTMLElement): el is HTMLMediaElement {
   return (el as HTMLMediaElement).buffered !== undefined
 }
 
-export const ControlArea = styled.div<{ readonly visible: boolean }>`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  opacity: ${({ visible }) => (visible ? 1 : 0)};
-  transition: opacity 0.3s ease-in-out;
-`
+const controlAreaStyle = {
+  display: 'flex',
+  flexDirection: 'column',
+  fontFamily: 'sans',
+  height: '100%',
+  justifyContent: 'flex-end',
+  transition: 'opacity 0.3s ease-in-out',
+  width: '100%',
+} as const
 
-export const ControlBar = styled.div`
-  width: 100%;
-  height: 32px;
-  background: rgb(0, 0, 0, 0.66);
-  display: flex;
-  align-items: center;
-  padding: 0 16px;
-  box-sizing: border-box;
-`
+const controlBarStyle = {
+  width: '100%',
+  height: '32px',
+  background: 'rgb(0, 0, 0, 0.66)',
+  display: 'flex',
+  alignItems: 'center',
+  padding: '0 16px',
+  boxSizing: 'border-box',
+} as const
 
-const VolumeContainer = styled.div`
-  margin-left: 8px;
-`
+const progressStyle = {
+  flexGrow: '2',
+  padding: '0 32px',
+  display: 'flex',
+  alignItems: 'center',
+} as const
 
-const Progress = styled.div`
-  flex-grow: 2;
-  padding: 0 32px;
-  display: flex;
-  align-items: center;
-`
+const progressBarContainerStyle = {
+  margin: '0',
+  width: '100%',
+  height: '24px',
+  position: 'relative',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+} as const
 
-const ProgressBarContainer = styled.div`
-  margin: 0;
-  width: 100%;
-  height: 24px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
+const progressBarStyle = {
+  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  height: '1px',
+  position: 'relative',
+  width: '100%',
+} as const
 
-const ProgressBar = styled.div`
-  background-color: rgba(255, 255, 255, 0.1);
-  height: 1px;
-  position: relative;
-  width: 100%;
+const progressBarPlayedStyle = (fraction = 0) => {
+  return {
+    transform: `scaleX(${fraction})`,
+    backgroundColor: 'rgb(240, 180, 0)',
+    height: '100%',
+    position: 'absolute',
+    top: '0',
+    transformOrigin: '0 0',
+    width: '100%',
+  } as const
+}
 
-  ${ProgressBarContainer}:hover > & {
-    height: 3px;
-  }
-`
+const progressBarBufferedStyle = (fraction = 0) => {
+  return {
+    transform: `scaleX(${fraction})`,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    height: '100%',
+    position: 'absolute',
+    top: '0',
+    transformOrigin: '0 0',
+    width: '100%',
+  } as const
+}
 
-const ProgressBarPlayed = styled.div.attrs<{ readonly fraction: number }>(
-  ({ fraction }) => {
-    return {
-      style: { transform: `scaleX(${fraction})` },
-    }
-  }
-)<{ readonly fraction: number }>`
-  background-color: rgb(240, 180, 0);
-  height: 100%;
-  position: absolute;
-  top: 0;
-  transform: scaleX(0);
-  transform-origin: 0 0;
-  width: 100%;
-`
+const progressBarTimestampStyle = (left = 0) => {
+  return {
+    left: `${left}px`,
+    backgroundColor: 'rgb(56, 55, 51)',
+    borderRadius: '3px',
+    bottom: '200%',
+    color: '#fff',
+    fontSize: '9px',
+    padding: '5px',
+    position: 'absolute',
+    textAlign: 'center',
+  } as const
+}
 
-const ProgressBarBuffered = styled.div.attrs<{ readonly fraction: number }>(
-  ({ fraction }) => {
-    return {
-      style: { transform: `scaleX(${fraction})` },
-    }
-  }
-)<{ readonly fraction: number }>`
-  background-color: rgba(255, 255, 255, 0.2);
-  height: 100%;
-  position: absolute;
-  top: 0;
-  transform: scaleX(0);
-  transform-origin: 0 0;
-  width: 100%;
-`
-
-const ProgressTimestamp = styled.div.attrs<{ readonly left: number }>(
-  ({ left }) => {
-    return {
-      style: { left: `${left}px` },
-    }
-  }
-)<{ readonly left: number }>`
-  background-color: rgb(56, 55, 51);
-  border-radius: 3px;
-  bottom: 200%;
-  color: #fff;
-  font-size: 9px;
-  padding: 5px;
-  position: absolute;
-  text-align: center;
-`
-
-const ProgressIndicator = styled.div`
-  color: rgb(240, 180, 0);
-  padding-left: 24px;
-  font-size: 10px;
-  white-space: nowrap;
-`
+const progressIndicatorStyle = {
+  color: 'rgb(240, 180, 0)',
+  paddingLeft: '24px',
+  fontSize: '10px',
+  whiteSpace: 'nowrap',
+} as const
 
 interface ControlsProps {
   readonly play?: boolean
@@ -344,36 +323,28 @@ export const Controls: React.FC<ControlsProps> = ({
     }
   }, [startTime, totalDuration])
 
+  const visible = play !== true || settings || userActive
+
   return (
-    <ControlArea
+    <div
+      style={{ ...controlAreaStyle, opacity: visible ? 1 : 0 }}
       ref={controlArea}
-      visible={play !== true || settings || userActive}
     >
-      <ControlBar>
-        <Button onClick={onPlay}>
-          {play === true ? (
-            <Pause title={labels?.pause} />
-          ) : (
-            <Play title={labels?.play} />
-          )}
-        </Button>
+      <div style={controlBarStyle}>
+        {play === true ? (
+          <Pause onClick={onPlay} title={labels?.pause} />
+        ) : (
+          <Play onClick={onPlay} title={labels?.play} />
+        )}
+        {src !== undefined && <Stop onClick={onStop} title={labels?.stop} />}
         {src !== undefined && (
-          <Button onClick={onStop}>
-            <Stop title={labels?.stop} />
-          </Button>
+          <Refresh onClick={onRefresh} title={labels?.refresh} />
         )}
         {src !== undefined && (
-          <Button onClick={onRefresh}>
-            <Refresh title={labels?.refresh} />
-          </Button>
-        )}
-        {src !== undefined && (
-          <Button onClick={onScreenshot}>
-            <Screenshot title={labels?.screenshot} />
-          </Button>
+          <Screenshot onClick={onScreenshot} title={labels?.screenshot} />
         )}
         {volume !== undefined ? (
-          <VolumeContainer title={labels?.volume}>
+          <div style={{ marginLeft: '8px' }} title={labels?.volume}>
             <input
               type="range"
               min="0"
@@ -382,28 +353,32 @@ export const Controls: React.FC<ControlsProps> = ({
               onChange={onVolumeChange}
               value={volume ?? 0}
             />
-          </VolumeContainer>
+          </div>
         ) : null}
-        <Progress>
-          <ProgressBarContainer onClick={seek} ref={__progressBarContainerRef}>
-            <ProgressBar>
-              <ProgressBarPlayed fraction={progress.playedFraction} />
-              <ProgressBarBuffered fraction={progress.bufferedFraction} />
+        <div style={progressStyle}>
+          <div
+            style={progressBarContainerStyle}
+            onClick={seek}
+            ref={__progressBarContainerRef}
+          >
+            <div style={progressBarStyle}>
+              <div style={progressBarPlayedStyle(progress.playedFraction)} />
+              <div
+                style={progressBarBufferedStyle(progress.bufferedFraction)}
+              />
               {timestamp.left !== 0 ? (
-                <ProgressTimestamp left={timestamp.left}>
+                <div style={progressBarTimestampStyle(timestamp.left)}>
                   {timestamp.label}
-                </ProgressTimestamp>
+                </div>
               ) : null}
-            </ProgressBar>
-          </ProgressBarContainer>
-          <ProgressIndicator>
+            </div>
+          </div>
+          <div style={progressIndicatorStyle}>
             {totalDuration === Infinity ? '∙ LIVE' : progress.counter}
-          </ProgressIndicator>
-        </Progress>
-        <Button onClick={toggleSettings}>
-          <CogWheel title={labels?.settings} />
-        </Button>
-      </ControlBar>
+          </div>
+        </div>
+        <CogWheel onClick={toggleSettings} title={labels?.settings} />
+      </div>
       {settings && (
         <Settings
           parameters={parameters}
@@ -414,6 +389,6 @@ export const Controls: React.FC<ControlsProps> = ({
           toggleStats={toggleStats}
         />
       )}
-    </ControlArea>
+    </div>
   )
 }

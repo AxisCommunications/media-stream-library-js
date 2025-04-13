@@ -1,21 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import styled from 'styled-components'
 import { HttpMp4Pipeline, TransformationMatrix } from '../streams'
 
 import { VideoProperties } from './PlaybackArea'
 import { FORMAT_SUPPORTS_AUDIO } from './constants'
 import { useEventState } from './hooks/useEventState'
-import { useVideoDebug } from './hooks/useVideoDebug'
 import { MetadataHandler } from './metadata'
 import { Format } from './types'
 import { logDebug } from './utils/log'
-
-const VideoNative = styled.video`
-  max-height: 100%;
-  object-fit: contain;
-  width: 100%;
-`
 
 /**
  * WebSocket + RTSP playback component.
@@ -91,8 +83,7 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
   __onEndedRef.current = onEnded
 
   const __sensorTmRef = useRef<TransformationMatrix>()
-
-  useVideoDebug(videoRef.current)
+  const __mimeRef = useRef<string>('video/mp4')
 
   useEffect(() => {
     const videoEl = videoRef.current
@@ -117,12 +108,13 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
       if (__onPlayingRef.current !== undefined) {
         __onPlayingRef.current({
           el: videoEl,
-          width: videoEl.videoWidth,
-          height: videoEl.videoHeight,
-          sensorTm: __sensorTmRef.current,
           formatSupportsAudio: FORMAT_SUPPORTS_AUDIO[Format.MP4_H264],
-          // TODO: no volume, need to expose tracks?
-          // TODO: no pipeline, can we even get stats?
+          height: videoEl.videoHeight,
+          mime: __mimeRef.current,
+          pipeline: pipeline ?? undefined,
+          sensorTm: __sensorTmRef.current,
+          volume: videoEl.volume,
+          width: videoEl.videoWidth,
         })
       }
     }
@@ -160,21 +152,34 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
       const endedCallback = () => {
         __onEndedRef.current?.()
       }
-      pipeline.start().then(({ headers, finished }) => {
-        __sensorTmRef.current = parseTransformHeader(
-          headers.get('video-sensor-transform') ??
-            headers.get('video-metadata-transform')
-        )
-        finished.finally(() => {
-          endedCallback()
+      pipeline
+        .start()
+        .then(({ headers, finished }) => {
+          __mimeRef.current = headers.get('content-type') ?? 'video/mp4'
+          __sensorTmRef.current = parseTransformHeader(
+            headers.get('video-sensor-transform') ??
+              headers.get('video-metadata-transform')
+          )
+          finished.finally(() => {
+            endedCallback()
+          })
         })
-      })
+        .catch((err) => {
+          console.error('failed to fetch video stream:', err)
+        })
       logDebug('initiated data fetching')
       setFetching(true)
     }
   }, [play, pipeline, fetching])
 
-  return <VideoNative autoPlay={autoPlay} muted={muted} ref={videoRef} />
+  return (
+    <video
+      style={{ maxHeight: '100%', objectFit: 'contain', width: '100%' }}
+      autoPlay={autoPlay}
+      muted={muted}
+      ref={videoRef}
+    />
+  )
 }
 
 const parseTransformHeader = (

@@ -34,7 +34,7 @@ a way to lower latency compared to using a URL on a video tag directly.
 
 This library is not a full media player: the framework provides no video
 controls, progress bar, or other features typically associated with a media
-player. For a simple React-based player we refer to the [player](/player/README.md).
+player. For a simple React-based player we refer to the [player](##player).
 
 However, getting video to play in the browser is quite easy (check the browser
 example). There are currently no codecs included either, we rely on browser
@@ -87,7 +87,7 @@ idea is to define the video state entirely within specialized React components
 for each of the different supported formats (currently MP4 over HTTP, RTP over
 WebSocket, and still images). The main video player will only handle the
 intended video state (attached to handlers) and format. The player is built on
-top of [streams](/streams/README.md) which provides basic pipeline functionality
+top of [streams](##streams) which provides basic pipeline functionality
 for the different formats.
 
 You can either import the `Player` or `BasicPlayer` and use them directly (see
@@ -95,9 +95,9 @@ the example applications). If you want to build your own customized player, you
 can look at the latter component and build your own player, using the
 `Container`, `Layer`, and `PlaybackArea` components.
 
-## Basic requirements
+### Basic requirements
 
-This library specifically targets [AXIS IP cameras](https://www.axis.com/products/network-cameras) because
+The player specifically targets [AXIS IP cameras](https://www.axis.com/products/network-cameras) because
 we make underlying API-calls to AXIS specfic APIs to get the video streams.
 
 **Firmware requirements**
@@ -178,7 +178,7 @@ If you want to import the player as a React component into your own code, or use
 parts of the player, you'll need to install the package as a dependency.
 You will also need to install a number of peer dependencies
 such as [luxon](https://github.com/moment/luxon), which we use for date and time purposes,
-`react`/`react-dom`, `styled-components`.
+`react`/`react-dom`.
 You can find an example of this under `example-player-react`, e.g.:
 
 ```js

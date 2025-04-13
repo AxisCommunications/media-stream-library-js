@@ -1,6 +1,4 @@
-import React from 'react'
-
-import styled from 'styled-components'
+import React, { PropsWithChildren } from 'react'
 
 /**
  * Aspect ratio
@@ -33,30 +31,38 @@ const getHeightPct = (aspectRatio: number) => {
   return 100 / aspectRatio
 }
 
-const ContainerBody = styled.div.attrs<{ readonly aspectRatio: number }>(
-  ({ aspectRatio }) => {
-    return { style: { paddingTop: `${getHeightPct(aspectRatio)}%` } }
-  }
-)<{ readonly aspectRatio: number }>`
-  width: 100%;
-  background: black;
-  position: relative;
-`
-
-export const Layer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-`
+export const Layer = ({ children }: PropsWithChildren) => {
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        bottom: '0',
+        right: '0',
+      }}
+    >
+      {children}
+    </div>
+  )
+}
 
 interface ContainerProps {
   readonly aspectRatio?: number
-  readonly children: any // styled-components type mismatch
 }
 
-export const Container: React.FC<ContainerProps> = ({
+export const Container = ({
   aspectRatio = DEFAULT_ASPECT_RATIO,
   children,
-}) => <ContainerBody aspectRatio={aspectRatio}>{children}</ContainerBody>
+}: PropsWithChildren<ContainerProps>) => (
+  <div
+    style={{
+      background: 'black',
+      paddingTop: `${getHeightPct(aspectRatio)}%`,
+      position: 'relative',
+      width: '100%',
+    }}
+  >
+    {children}
+  </div>
+)
