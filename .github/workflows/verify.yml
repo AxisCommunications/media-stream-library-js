@@ -36,7 +36,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       gstreamer:
-        image: steabert/gst-rtsp-launch@sha256:24b369baa83375a1b97a7596aabbda8d1915823920049d669fa4a5035c05dbc1
+        image: ghcr.io/axiscommunications/media-stream-library-js/gst-rtsp-launch@sha256:3ab088f2b79b0134647b1438f682f8ad0cbd9a65540ed1e8210b3264480a4014
         ports:
           - 8554:8554
     steps:
@@ -66,7 +66,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       gstreamer:
-        image: steabert/gst-rtsp-launch@sha256:24b369baa83375a1b97a7596aabbda8d1915823920049d669fa4a5035c05dbc1
+        image: ghcr.io/axiscommunications/media-stream-library-js/gst-rtsp-launch@sha256:3ab088f2b79b0134647b1438f682f8ad0cbd9a65540ed1e8210b3264480a4014
         ports:
           - 8554:8554
     steps:
@@ -88,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     services:
       gstreamer:
-        image: steabert/gst-rtsp-launch@sha256:24b369baa83375a1b97a7596aabbda8d1915823920049d669fa4a5035c05dbc1
+        image: ghcr.io/axiscommunications/media-stream-library-js/gst-rtsp-launch@sha256:3ab088f2b79b0134647b1438f682f8ad0cbd9a65540ed1e8210b3264480a4014
         ports:
           - 8554:8554
     steps:

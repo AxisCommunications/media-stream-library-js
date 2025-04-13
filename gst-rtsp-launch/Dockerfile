@@ -1,4 +1,4 @@
-FROM alpine:edge AS build
+FROM alpine:edge@sha256:115729ec5cb049ba6359c3ab005ac742012d92bbaa5b8bc1a878f1e8f62c0cb8 AS build
 RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
 RUN apk add --no-cache gst-rtsp-server-dev
 RUN apk add --no-cache libtool
@@ -10,7 +10,7 @@ RUN libtool --mode=link \
  -L/usr/lib/x86_64-linux-gnu -lgstrtspserver-1.0 \
  -o gst-rtsp-launch gst-rtsp-launch.c
 
-FROM alpine:edge
+FROM alpine:edge@sha256:115729ec5cb049ba6359c3ab005ac742012d92bbaa5b8bc1a878f1e8f62c0cb8
 RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories
 RUN apk add --no-cache gst-rtsp-server
 RUN apk add --no-cache gst-plugins-base
