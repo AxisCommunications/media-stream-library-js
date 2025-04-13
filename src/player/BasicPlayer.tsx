@@ -152,7 +152,7 @@ export const BasicPlayer = forwardRef<PlayerNativeElement, BasicPlayerProps>(
       return () => observer.disconnect()
     }, [naturalAspectRatio])
 
-    const controlArea = useRef(null)
+    const controlArea = useRef<HTMLDivElement>(null)
     const userActive = useUserActive(controlArea)
 
     /**

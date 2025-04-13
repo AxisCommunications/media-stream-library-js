@@ -82,7 +82,7 @@ export const HttpMp4Video: React.FC<HttpMp4VideoProps> = ({
   const __onEndedRef = useRef(onEnded)
   __onEndedRef.current = onEnded
 
-  const __sensorTmRef = useRef<TransformationMatrix>()
+  const __sensorTmRef = useRef<TransformationMatrix>(undefined)
   const __mimeRef = useRef<string>('video/mp4')
 
   useEffect(() => {

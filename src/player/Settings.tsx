@@ -21,7 +21,7 @@ export const Settings: React.FC<SettingsProps> = ({
   toggleStats,
 }) => {
   const [textString, setTextString] = useState(parameters['textstring'])
-  const textStringTimeout = useRef<number>()
+  const textStringTimeout = useRef<number>(undefined)
 
   const changeParam: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {

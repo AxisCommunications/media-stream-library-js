@@ -14,6 +14,9 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
+      react:
+        patterns:
+          - '*react*'
     rebase-strategy: 'disabled'
     schedule:
       interval: 'daily'

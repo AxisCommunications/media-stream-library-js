@@ -10,9 +10,9 @@ const DEFAULT_TIMEOUT = 3000
  * @return {Boolean} The current user activity state
  */
 export const useUserActive = (
-  ref: RefObject<HTMLElement>,
-  duration = DEFAULT_TIMEOUT
-) => {
+  ref: RefObject<HTMLElement | null>,
+  duration: number = DEFAULT_TIMEOUT
+): boolean => {
   const [userActive, setUserActive] = useState(false)
   const startUserActive = () => setUserActive(true)
   const stopUserActive = () => setUserActive(false)

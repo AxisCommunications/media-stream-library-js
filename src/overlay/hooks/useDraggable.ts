@@ -51,7 +51,7 @@ export function useDraggable(): DraggableControls {
 
   const __translationName = useRef<string | null>(null)
   const __translationVector = useRef<Coord>([0, 0])
-  const __translationSubscriber = useRef<DraggableHandler>()
+  const __translationSubscriber = useRef<DraggableHandler>(undefined)
 
   const subscribe = useCallback((subscriber: DraggableHandler) => {
     __translationSubscriber.current = subscriber

@@ -10,7 +10,7 @@ import { RefObject, useCallback, useEffect, useState } from 'react'
  * @return {Array} The boolean state and a function to switch state to false
  */
 export const useEventState = (
-  ref: RefObject<HTMLElement>,
+  ref: RefObject<HTMLElement | null>,
   eventName: string
 ): readonly [boolean, () => void] => {
   const [eventState, setEventState] = useState(false)
