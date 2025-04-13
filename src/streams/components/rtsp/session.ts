@@ -56,14 +56,14 @@ type RtspState = 'idle' | 'playing' | 'paused'
  * and sending request on the outgoing stream.
  */
 export class RtspSession {
+  public auth?: Auth
+  public readonly commands: ReadableStream<Uint8Array>
   public readonly demuxer: TransformStream<
     Uint8Array,
     RtpMessage | RtcpMessage | SdpMessage
   >
-  public readonly commands: ReadableStream<Uint8Array>
   public onRtcp?: (rtcp: Rtcp) => void
   public retry = { max: 20, codes: [503] }
-  public auth?: Auth
 
   private clockrates?: { [key: number]: number }
   private cseq: number = 0
@@ -77,7 +77,7 @@ export class RtspSession {
   private sessionId?: string
   private state?: RtspState
   private t0?: { [key: number]: number }
-  private uri: string
+  private defaultUri: string
 
   /** Create a new RTSP session controller component. */
   public constructor({
@@ -91,7 +91,7 @@ export class RtspSession {
     }
     this.sessionControlUrl = uri
     this.state = 'idle'
-    this.uri = uri
+    this.defaultUri = uri
 
     const parser = new RtspParser()
     this.demuxer = new TransformStream({
@@ -158,11 +158,11 @@ export class RtspSession {
   }
 
   /** Send a DESCRIBE request to get a presentation description of available media . */
-  public async describe(): Promise<Sdp> {
+  public async describe(uri: string = this.defaultUri): Promise<Sdp> {
     const rsp = await this.fetch(
       new RtspRequestMessage({
         method: 'DESCRIBE',
-        uri: this.sessionControlUrl,
+        uri,
         headers: { ...this.headers.DESCRIBE },
       })
     )
@@ -174,7 +174,7 @@ export class RtspSession {
     this.sessionControlUrl =
       rsp.headers.get('Content-Base') ??
       rsp.headers.get('Content-Location') ??
-      this.uri
+      uri
 
     if (
       rsp.headers.get('Content-Type') !== 'application/sdp' ||
@@ -324,8 +324,8 @@ export class RtspSession {
       throw new Error(`response not OK: ${rsp.statusCode}`)
     }
 
+    this.sessionControlUrl = this.defaultUri
     this.sessionId = undefined
-
     this.state = 'idle'
   }
 
