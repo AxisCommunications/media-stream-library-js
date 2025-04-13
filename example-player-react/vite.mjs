@@ -1,4 +1,3 @@
-import reactPlugin from '@vitejs/plugin-react'
 import { createServer } from 'vite'
 
 createServer({
@@ -11,7 +10,6 @@ createServer({
       'media-stream-library/player': '../dist/player/index.js',
     },
   },
-  plugins: [reactPlugin()],
 })
   .then((server) => {
     return server.listen()
