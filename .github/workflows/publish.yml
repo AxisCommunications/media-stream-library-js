@@ -29,6 +29,12 @@ jobs:
           just install
           just build
 
+      - name: Upload assets
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload ${{ github.ref_name }} *.min.js*
+
       - name: Deploy to NPM registry
         env:
           NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
