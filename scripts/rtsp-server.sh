@@ -23,19 +23,20 @@ h264_pipeline="videotestsrc ! video/x-raw,width=1920,height=1080 ! timeoverlay t
 h264_port="8554"
 mjpeg_pipeline="videotestsrc pattern=ball ! video/x-raw,width=1280,height=720,format=YUY2 ! timeoverlay text='MJPEG' valignment=top halignment=left ! jpegenc ! rtpjpegpay name=pay0 pt=96"
 mjpeg_port="8555"
+docker_image="ghcr.io/axiscommunications/media-stream-library-js/gst-rtsp-launch@sha256:3ab088f2b79b0134647b1438f682f8ad0cbd9a65540ed1e8210b3264480a4014"
 
 if [ -z "$1" ]; then
   echo "serving H.264 video on rtsp://0.0.0.0:${h264_port}/test"
-  h264_container=$(docker run -d --rm -p ${h264_port}:8554 steabert/gst-rtsp-launch "$h264_pipeline")
+  h264_container=$(docker run -d --rm -p ${h264_port}:8554 $docker_image "$h264_pipeline")
   echo "serving Motion JPEG video on rtsp://0.0.0.0:${mjpeg_port}/test"
-  mjpeg_container=$(docker run -d --rm -p ${mjpeg_port}:8554 steabert/gst-rtsp-launch "$mjpeg_pipeline")
+  mjpeg_container=$(docker run -d --rm -p ${mjpeg_port}:8554 $docker_image "$mjpeg_pipeline")
   container="${h264_container} ${mjpeg_container}"
 elif [ "$1" = "docker" ]; then
   echo "using default pipeline configured inside the docker container (port 8554)"
-  container=$(docker run -d --rm -p 8554:8554 steabert/gst-rtsp-launch)
+  container=$(docker run -d --rm -p 8554:8554 $docker_image)
 else
   echo "using user-specified launch pipeline: $1 (port 8554)"
-  container=$(docker run -d --rm -p 8554:8554 steabert/gst-rtsp-launch "$1")
+  container=$(docker run -d --rm -p 8554:8554 $docker_image "$1")
 fi
 
 if [ -z "${container}" ]; then
