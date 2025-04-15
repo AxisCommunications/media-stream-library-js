@@ -600,12 +600,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:19.1.1":
+"@types/react@npm:*":
   version: 19.1.1
   resolution: "@types/react@npm:19.1.1"
   dependencies:
     csstype: ^3.0.2
   checksum: 1daebda3dfe30944c3322da6ae352697e4a81dc6a64125110f1610fd5b2a98581c2fc7ef8a896d8f91d01d92642a72c941ee283d0a914a04e0a78597642f9242
+  languageName: node
+  linkType: hard
+
+"@types/react@npm:19.1.2":
+  version: 19.1.2
+  resolution: "@types/react@npm:19.1.2"
+  dependencies:
+    csstype: ^3.0.2
+  checksum: 5a911a2c84be0c9451bb8a7c75c907af1f52afbb4d51b0d62e7516a9b0b1e63c3c1cdc35b79bfc6e66176c76cfff9d43023a781cd3dc59e2744715ced7d7e7c4
   languageName: node
   linkType: hard
 
@@ -1460,7 +1469,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "example-overlay-react-12c560@workspace:example-overlay-react"
   dependencies:
-    "@types/react": 19.1.1
+    "@types/react": 19.1.2
     "@types/react-dom": 19.1.2
     "@types/styled-components": 5.1.34
     media-stream-library: "workspace:^"
@@ -2279,7 +2288,7 @@ __metadata:
     "@juggle/resize-observer": 3.4.0
     "@types/luxon": 3.6.2
     "@types/node": 22.14.1
-    "@types/react": 19.1.1
+    "@types/react": 19.1.2
     "@types/react-dom": 19.1.2
     "@types/ws": 8.18.1
     base64-js: ^1.5.1
