@@ -138,6 +138,15 @@ export interface TransformData {
   readonly height: number
 }
 
+const foundationStyle = `
+.foundation {
+  pointer-events: initial;
+  &.clickthrough {
+    pointer-events: none;
+    &>svg>* { pointer-events: initial; };
+  };
+}`
+
 export interface FoundationProps extends BaseProps {
   /**
    * Width of the visible area in pixels
@@ -325,14 +334,20 @@ export const Foundation = forwardRef<
       [userBasis, toSvgBasis, toUserBasis]
     )
 
-    const containerClassName = `${className} ${clickThrough ? 'clickthrough' : ''}`
+    const containerClassName = [
+      className,
+      'foundation',
+      clickThrough && 'clickthrough',
+    ]
+      .filter((c) => c)
+      .join(' ')
 
     /**
      * Render SVG drawing area.
      */
     return (
       <>
-        <style>{`.clickthrough { pointer-events: none; &>svg>* { pointer-events: initial; } }`}</style>
+        <style>{foundationStyle}</style>
         <div
           ref={callbackRef}
           className={containerClassName}
