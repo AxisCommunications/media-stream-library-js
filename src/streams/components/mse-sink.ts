@@ -1,4 +1,4 @@
-import { logDebug, logError, logInfo } from '../log'
+import { logDebug, logInfo } from '../log'
 
 import { IsomMessage } from './types'
 
@@ -71,7 +71,7 @@ export class MseSink {
         this.endOfStream()
       },
       abort: async (reason) => {
-        logError('media stream aborted:', reason)
+        logInfo('media stream aborted:', reason)
         this.endOfStream()
       },
     })
