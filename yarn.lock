@@ -1476,7 +1476,7 @@ __metadata:
     pepjs: ^0.5.3
     react: ^19.1.0
     react-dom: ^19.1.0
-    vite: 6.2.6
+    vite: 6.3.0
   languageName: unknown
   linkType: soft
 
@@ -1488,7 +1488,7 @@ __metadata:
     media-stream-library: "workspace:^"
     react: 19.1.0
     react-dom: 19.1.0
-    vite: 6.2.6
+    vite: 6.3.0
   languageName: unknown
   linkType: soft
 
@@ -2306,7 +2306,7 @@ __metadata:
     ts-md5: ^1.3.1
     typescript: 5.8.3
     uvu: 0.5.6
-    vite: 6.2.6
+    vite: 6.3.0
     ws: 8.18.1
   peerDependencies:
     "@juggle/resize-observer": ^3.4.0
@@ -2839,7 +2839,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rollup@npm:^4.30.1":
+"rollup@npm:^4.34.9":
   version: 4.40.0
   resolution: "rollup@npm:4.40.0"
   dependencies:
@@ -3462,14 +3462,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:6.2.6":
-  version: 6.2.6
-  resolution: "vite@npm:6.2.6"
+"vite@npm:6.3.0":
+  version: 6.3.0
+  resolution: "vite@npm:6.3.0"
   dependencies:
     esbuild: ^0.25.0
+    fdir: ^6.4.3
     fsevents: ~2.3.3
+    picomatch: ^4.0.2
     postcss: ^8.5.3
-    rollup: ^4.30.1
+    rollup: ^4.34.9
+    tinyglobby: ^0.2.12
   peerDependencies:
     "@types/node": ^18.0.0 || ^20.0.0 || >=22.0.0
     jiti: ">=1.21.0"
@@ -3510,7 +3513,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: ddeb36d29c053c6d6f0e70eb01939848db611135878d85e9497fc4b899667f58ce35ea4014acf01342ee1cf115879280fac809c0a806ad6432833cde87fe90dc
+  checksum: b35de21a38bf534a2f674df6ef546473c75156bf3030e7e66a1c26e6102de04e04029de7edf2ef5b77d807b4adc404908870729fc7ee6ecd6ad99ed7906a5a7a
   languageName: node
   linkType: hard
 
