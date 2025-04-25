@@ -1,6 +1,8 @@
 // Time in milliseconds we want to wait for a websocket to open
 const WEBSOCKET_TIMEOUT = 10007
 
+let tokenPromise: Promise<string> | undefined
+
 export interface WebSocketConfig {
   uri: string
   tokenUri?: string
@@ -21,61 +23,69 @@ export const openWebSocket = async ({
     throw new Error('ws: internal error')
   }
 
-  return await new Promise((resolve, reject) => {
-    try {
-      const ws = new WebSocket(uri, protocol)
-      const countdown = setTimeout(() => {
-        clearTimeout(countdown)
-        if (ws.readyState === WebSocket.CONNECTING) {
-          ws.onerror = null
-          reject(new Error('websocket connection timed out'))
-        }
-      }, timeout)
-      ws.binaryType = 'arraybuffer'
-      ws.onerror = (originalError: Event) => {
-        clearTimeout(countdown)
+  let wsUri = uri
+  const isSafari =
+    navigator.userAgent.includes('Safari') &&
+    !navigator.userAgent.includes('Chrome')
+
+  if (isSafari) {
+    /**
+     * Workaround for Safari on Apple-products
+     * Websocket does not handle digest authentication. This causes
+     * An extra login being shown to the user.
+     * Request a token from the server, when then can be passed to
+     * uri.
+     */
+    if (tokenPromise === undefined) {
+      tokenPromise = new Promise((resolve, reject) => {
         if (!tokenUri) {
-          console.warn(
-            'websocket open failed and no token URI specified, quiting'
-          )
-          reject(originalError)
+          reject('openwebsocket: no token URI specified, quiting')
+          return
         }
-        // try fetching an authentication token
-        function onLoadToken(this: XMLHttpRequest) {
-          if (this.status >= 400) {
-            console.warn('failed to load token', this.status, this.responseText)
-            reject(originalError)
-            return
-          }
-          const token = this.responseText.trim()
-          // We have a token! attempt to open a WebSocket again.
-          const newUri = `${uri}?rtspwssession=${token}`
-          const ws2 = new WebSocket(newUri, protocol)
-          ws2.binaryType = 'arraybuffer'
-          ws2.onerror = (err) => {
-            reject(err)
-          }
-          ws2.onopen = () => resolve(ws2)
-        }
-        const request = new XMLHttpRequest()
-        request.addEventListener('load', onLoadToken)
-        request.addEventListener('error', (err) => {
-          console.warn('failed to get token')
-          reject(err)
+        fetch(`${tokenUri}?${Date.now()}`, {
+          method: 'GET',
         })
-        request.addEventListener('abort', () => reject(originalError))
-        request.open('GET', `${tokenUri}?${Date.now()}`)
-        try {
-          request.send()
-        } catch (error) {
-          reject(originalError)
-        }
+          .then((response) => {
+            if (!response.ok) {
+              console.warn(
+                'openwebsocket: failed to load token',
+                response.status,
+                response.statusText
+              )
+              reject()
+            }
+            return response.text()
+          })
+          .then((token) => resolve(token.trim()))
+          .catch((e) => reject(e))
+      })
+    }
+    const token = await tokenPromise
+    const separator = uri.includes('?') ? '&' : '?'
+    wsUri = `${uri}${separator}rtspwssession=${encodeURIComponent(token)}`
+  }
+
+  return new Promise((resolve, reject) => {
+    const ws = new WebSocket(wsUri, protocol)
+    ws.binaryType = 'arraybuffer'
+
+    const timeoutHandler = () => {
+      // A general connection timeout if it takes too long to connect.
+      window.clearTimeout(countdown)
+      if (ws.readyState === WebSocket.CONNECTING) {
+        ws.onerror = null
+        reject(new Error('openwebsocket: connection timed out'))
       }
-      ws.onopen = () => {
-        clearTimeout(countdown)
-        resolve(ws)
-      }
-    } catch (e) {
+    }
+    const countdown = window.setTimeout(timeoutHandler, timeout)
+
+    ws.onopen = () => {
+      // The original request worked!
+      window.clearTimeout(countdown)
+      resolve(ws)
+    }
+    ws.onerror = (e) => {
+      console.error('openwebsocket: failed', e)
       reject(e)
     }
   })
