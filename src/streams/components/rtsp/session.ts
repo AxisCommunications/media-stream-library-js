@@ -97,7 +97,9 @@ export class RtspSession {
     this.demuxer = new TransformStream({
       start: (controller) => {
         this.emitSdp = (sdp: SdpMessage) => {
-          controller.enqueue(sdp)
+          if (!this.demuxer.writable.locked) {
+            controller.enqueue(sdp)
+          }
         }
       },
       transform: (chunk, controller) => {
@@ -120,24 +122,38 @@ export class RtspSession {
               if (isRtcpBye(message.rtcp)) {
                 this.clearKeepalive()
               }
-              this.onRtcp && this.onRtcp(message.rtcp)
-              controller.enqueue(message)
+              this.onRtcp?.(message.rtcp)
+
+              if (!this.demuxer.writable.locked) {
+                controller.enqueue(message)
+              }
               break
             }
             case 'rtp': {
               this.addNtpTimestamp(message)
-              controller.enqueue(message)
+              if (!this.demuxer.writable.locked) {
+                controller.enqueue(message)
+              }
               break
             }
           }
+        }
+      },
+      flush: (controller) => {
+        this.clearKeepalive()
+        if (!this.demuxer.writable.locked) {
+          controller.terminate()
         }
       },
     })
 
     this.commands = new ReadableStream<Uint8Array>({
       start: (controller) => {
-        this.sendRequest = (msg: RtspRequestMessage) =>
-          controller.enqueue(serialize(msg))
+        this.sendRequest = (msg: RtspRequestMessage) => {
+          if (!this.commands.locked) {
+            controller.enqueue(serialize(msg))
+          }
+        }
       },
     })
   }

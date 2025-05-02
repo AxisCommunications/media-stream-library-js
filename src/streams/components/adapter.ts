@@ -8,7 +8,9 @@ export class Adapter<T> extends TransformStream<Uint8Array> {
   constructor(generator: (chunk: Uint8Array) => T) {
     super({
       transform: (chunk, controller) => {
-        controller.enqueue(generator(chunk))
+        if (!this.writable.locked) {
+          controller.enqueue(generator(chunk))
+        }
       },
     })
   }
