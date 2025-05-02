@@ -32,7 +32,9 @@ export class WSSource {
         socket.addEventListener(
           'message',
           (e: MessageEvent<ArrayBufferLike>) => {
-            controller.enqueue(new Uint8Array(e.data))
+            if (!this.readable.locked) {
+              controller.enqueue(new Uint8Array(e.data))
+            }
           }
         )
         socket.addEventListener('close', (e) => {
@@ -59,7 +61,9 @@ export class WSSource {
       },
       write: (chunk) => {
         try {
-          socket.send(chunk)
+          if (!this.writable.locked) {
+            socket.send(chunk)
+          }
         } catch (err) {
           logWarn('message lost during send:', err)
         }
