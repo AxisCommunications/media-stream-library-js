@@ -21,61 +21,60 @@ export const openWebSocket = async ({
     throw new Error('ws: internal error')
   }
 
-  return await new Promise((resolve, reject) => {
-    try {
-      const ws = new WebSocket(uri, protocol)
-      const countdown = setTimeout(() => {
-        clearTimeout(countdown)
-        if (ws.readyState === WebSocket.CONNECTING) {
-          ws.onerror = null
-          reject(new Error('websocket connection timed out'))
-        }
-      }, timeout)
-      ws.binaryType = 'arraybuffer'
-      ws.onerror = (originalError: Event) => {
-        clearTimeout(countdown)
-        if (!tokenUri) {
-          console.warn(
-            'websocket open failed and no token URI specified, quiting'
-          )
-          reject(originalError)
-        }
-        // try fetching an authentication token
-        function onLoadToken(this: XMLHttpRequest) {
-          if (this.status >= 400) {
-            console.warn('failed to load token', this.status, this.responseText)
-            reject(originalError)
-            return
-          }
-          const token = this.responseText.trim()
-          // We have a token! attempt to open a WebSocket again.
-          const newUri = `${uri}?rtspwssession=${token}`
-          const ws2 = new WebSocket(newUri, protocol)
-          ws2.binaryType = 'arraybuffer'
-          ws2.onerror = (err) => {
-            reject(err)
-          }
-          ws2.onopen = () => resolve(ws2)
-        }
-        const request = new XMLHttpRequest()
-        request.addEventListener('load', onLoadToken)
-        request.addEventListener('error', (err) => {
-          console.warn('failed to get token')
-          reject(err)
-        })
-        request.addEventListener('abort', () => reject(originalError))
-        request.open('GET', `${tokenUri}?${Date.now()}`)
-        try {
-          request.send()
-        } catch (error) {
-          reject(originalError)
-        }
+  let wsUri = uri
+  const isSafari =
+    navigator.userAgent.includes('Safari') &&
+    !navigator.userAgent.includes('Chrome')
+
+  if (isSafari) {
+    /**
+     * Workaround for Safari on Apple-products
+     * Websocket does not handle digest authentication. This causes
+     * An extra login being shown to the user.
+     * Request a token from the server, when then can be passed to
+     * uri.
+     */
+    if (!tokenUri) {
+      throw new Error('openwebsocket: no token URI specified, quiting')
+    }
+    const response = await fetch(`${tokenUri}?${Date.now()}`, {
+      method: 'GET',
+    })
+    if (!response.ok) {
+      console.warn(
+        'openwebsocket: failed to load token',
+        response.status,
+        response.statusText
+      )
+      throw new Error('openwebsocket: failed to load token')
+    }
+    const token = await response.text()
+    const rtspwssession = encodeURIComponent(token.trim())
+    const separator = uri.includes('?') ? '&' : '?'
+    wsUri = `${uri}${separator}rtspwssession=${rtspwssession}`
+  }
+
+  return new Promise((resolve, reject) => {
+    const ws = new WebSocket(wsUri, protocol)
+    ws.binaryType = 'arraybuffer'
+
+    const timeoutHandler = () => {
+      // A general connection timeout if it takes too long to connect.
+      window.clearTimeout(countdown)
+      if (ws.readyState === WebSocket.CONNECTING) {
+        ws.onerror = null
+        reject(new Error('openwebsocket: connection timed out'))
       }
-      ws.onopen = () => {
-        clearTimeout(countdown)
-        resolve(ws)
-      }
-    } catch (e) {
+    }
+    const countdown = window.setTimeout(timeoutHandler, timeout)
+
+    ws.onopen = () => {
+      // The original request worked!
+      window.clearTimeout(countdown)
+      resolve(ws)
+    }
+    ws.onerror = (e) => {
+      console.error('openwebsocket: failed', e)
       reject(e)
     }
   })
