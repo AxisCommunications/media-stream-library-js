@@ -1316,9 +1316,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cypress@npm:14.5.0":
-  version: 14.5.0
-  resolution: "cypress@npm:14.5.0"
+"cypress@npm:14.5.1":
+  version: 14.5.1
+  resolution: "cypress@npm:14.5.1"
   dependencies:
     "@cypress/request": ^3.0.8
     "@cypress/xvfb": ^1.2.4
@@ -1366,7 +1366,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: a310cb3b8edcca3f1973570be6da3337aaa692bb6e04121f11486d5c02542c992d5e47346f8bd94c33243d23e30023a5d4b296f237f0f3ce72cef35002c2a7b0
+  checksum: 9fe575c8403f5919bd22dc09990de232b2b013735fb686684dd010ebcb306e93d2246d9621294c8a4b7ac67c961ede5a16bc29f7d746f21d2eb28dfc0e9ae9e1
   languageName: node
   linkType: hard
 
@@ -2624,7 +2624,7 @@ __metadata:
     base64-js: ^1.5.1
     c8: 10.1.3
     chalk: 5.4.1
-    cypress: 14.5.0
+    cypress: 14.5.1
     esbuild: 0.25.5
     http-server: 14.1.1
     luxon: 3.6.1
