@@ -1765,7 +1765,7 @@ __metadata:
     pepjs: ^0.5.3
     react: ^19.1.0
     react-dom: ^19.1.0
-    vite: 7.0.1
+    vite: 7.0.2
   languageName: unknown
   linkType: soft
 
@@ -1777,7 +1777,7 @@ __metadata:
     media-stream-library: "workspace:^"
     react: 19.1.0
     react-dom: 19.1.0
-    vite: 7.0.1
+    vite: 7.0.2
   languageName: unknown
   linkType: soft
 
@@ -2636,7 +2636,7 @@ __metadata:
     ts-md5: ^2.0.1
     typescript: 5.8.3
     uvu: 0.5.6
-    vite: 7.0.1
+    vite: 7.0.2
     ws: 8.18.3
   peerDependencies:
     "@juggle/resize-observer": ^3.4.0
@@ -3820,9 +3820,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:7.0.1":
-  version: 7.0.1
-  resolution: "vite@npm:7.0.1"
+"vite@npm:7.0.2":
+  version: 7.0.2
+  resolution: "vite@npm:7.0.2"
   dependencies:
     esbuild: ^0.25.0
     fdir: ^6.4.6
@@ -3871,7 +3871,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 7762a436e70bcec689539e110d088efb410d84285622deb799a4f5f56882a5b8f08c6223d0ebdcda2eab94e5e3bdae59072c458f392dc5a81169824fa291a936
+  checksum: bd1db7b88d830359f4072254f3fd2d258c60a1136fc6bbf0125b5d661ea401b8ef61a115aee4cc64b37e33d27c0a89a6107899d03aa86e1c0a8ebdcf1f90f7c8
   languageName: node
   linkType: hard
 
