@@ -35,6 +35,7 @@ export interface RtspConfig {
   uri: string
   headers?: Partial<MethodHeaders>
   customHeaders?: RtspRequestHeaders
+  keepAlive?: boolean
 }
 
 function defaultHeaders(commonHeaders: RtspRequestHeaders = {}): MethodHeaders {
@@ -70,6 +71,7 @@ export class RtspSession {
   private emitSdp?: (sdp: SdpMessage) => void
   private headers: MethodHeaders
   private keepaliveInterval?: ReturnType<typeof setInterval>
+  private keepAliveEnabled: boolean
   private n0?: { [key: number]: number }
   private recvResponse?: (rsp: RtspResponseMessage) => void
   private sendRequest?: (req: RtspRequestMessage) => void
@@ -84,6 +86,7 @@ export class RtspSession {
     uri,
     headers,
     customHeaders: commonHeaders = {},
+    keepAlive = true,
   }: RtspConfig) {
     this.headers = {
       ...defaultHeaders(commonHeaders),
@@ -92,6 +95,7 @@ export class RtspSession {
     this.sessionControlUrl = uri
     this.state = 'idle'
     this.defaultUri = uri
+    this.keepAliveEnabled = keepAlive
 
     const parser = new RtspParser()
     this.demuxer = new TransformStream({
@@ -242,9 +246,11 @@ export class RtspSession {
       const { id, timeout } = parseSession(session)
       this.sessionId = id
 
-      const sessionTimeout = timeout ?? DEFAULT_SESSION_TIMEOUT
+      if (this.keepAliveEnabled) {
+        const sessionTimeout = timeout ?? DEFAULT_SESSION_TIMEOUT
 
-      this.setKeepalive(sessionTimeout)
+        this.setKeepalive(sessionTimeout)
+      }
     }
   }
 
