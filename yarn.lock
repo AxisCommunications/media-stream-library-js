@@ -768,12 +768,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:19.1.6":
-  version: 19.1.6
-  resolution: "@types/react-dom@npm:19.1.6"
+"@types/react-dom@npm:19.1.9":
+  version: 19.1.9
+  resolution: "@types/react-dom@npm:19.1.9"
   peerDependencies:
     "@types/react": ^19.0.0
-  checksum: b5b20b7f0797f34c5a11915b74dcf8b3b7a9da9fea90279975ce6f150ca5d31bb069dbb0838638a5e9e168098aa4bb4a6f61d078efa1bbb55d7f0bdfe47bb142
+  checksum: 207acb79f6c3c9704938138960e21429efdf2db2184f17c166e8ec3f3180dfe6445b282c5302f559a71b2d09ab2fafef7735f3d24fd01cda4e5c7bf0cea1d5b9
   languageName: node
   linkType: hard
 
@@ -786,12 +786,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:19.1.8":
-  version: 19.1.8
-  resolution: "@types/react@npm:19.1.8"
+"@types/react@npm:19.1.13":
+  version: 19.1.13
+  resolution: "@types/react@npm:19.1.13"
   dependencies:
     csstype: ^3.0.2
-  checksum: 17e0c74d9c01214938fa805aaa8b97925bf3c5514e88fdf94bec42c0a6d4abbc63d4e30255db176f46fd7f0aa89f8085b9b2b2fa5abaffbbf7e5009386ada892
+  checksum: def174cf34e8450ea326d02e3b3a9378e51aaa71e6dd25e5f6750ddc5f3eda5099bf1b5c415cb911d91bec354b9ef25c99e55a1deedf483b93ed698da0e20ab4
   languageName: node
   linkType: hard
 
@@ -1758,8 +1758,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "example-overlay-react-12c560@workspace:example-overlay-react"
   dependencies:
-    "@types/react": 19.1.8
-    "@types/react-dom": 19.1.6
+    "@types/react": 19.1.13
+    "@types/react-dom": 19.1.9
     "@types/styled-components": 5.1.34
     media-stream-library: "workspace:^"
     pepjs: ^0.5.3
@@ -1775,8 +1775,8 @@ __metadata:
   dependencies:
     luxon: 3.6.1
     media-stream-library: "workspace:^"
-    react: 19.1.0
-    react-dom: 19.1.0
+    react: 19.1.1
+    react-dom: 19.1.1
     vite: 7.0.1
   languageName: unknown
   linkType: soft
@@ -2618,8 +2618,8 @@ __metadata:
     "@juggle/resize-observer": 3.4.0
     "@types/luxon": 3.6.2
     "@types/node": 22.15.14
-    "@types/react": 19.1.8
-    "@types/react-dom": 19.1.6
+    "@types/react": 19.1.13
+    "@types/react-dom": 19.1.9
     "@types/ws": 8.18.1
     base64-js: ^1.5.1
     c8: 10.1.3
@@ -2630,8 +2630,8 @@ __metadata:
     luxon: 3.6.1
     mock-socket: 9.3.1
     pepjs: 0.5.3
-    react: 19.1.0
-    react-dom: 19.1.0
+    react: 19.1.1
+    react-dom: 19.1.1
     react-is: 19.1.0
     ts-md5: ^2.0.1
     typescript: 5.8.3
@@ -3090,7 +3090,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:19.1.0, react-dom@npm:^19.1.0":
+"react-dom@npm:19.1.1":
+  version: 19.1.1
+  resolution: "react-dom@npm:19.1.1"
+  dependencies:
+    scheduler: ^0.26.0
+  peerDependencies:
+    react: ^19.1.1
+  checksum: 71d63df955e99bb58470c6ae12ebb82fa80e2a73147c387b73a31c17bcff803ce8aded52ae0c4391c9b413be0aa449249d8be7d063136826d1f0caba9720a907
+  languageName: node
+  linkType: hard
+
+"react-dom@npm:^19.1.0":
   version: 19.1.0
   resolution: "react-dom@npm:19.1.0"
   dependencies:
@@ -3115,7 +3126,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:19.1.0, react@npm:^19.1.0":
+"react@npm:19.1.1":
+  version: 19.1.1
+  resolution: "react@npm:19.1.1"
+  checksum: f2f18fea5deac87b1167365bd5160bcba64d383c26a37afa905b714ca424f423ef97d8daf53f041ab9ac25a06357fafcf0b5d3b6b84c9d1eace0e621bfeae629
+  languageName: node
+  linkType: hard
+
+"react@npm:^19.1.0":
   version: 19.1.0
   resolution: "react@npm:19.1.0"
   checksum: c0905f8cfb878b0543a5522727e5ed79c67c8111dc16ceee135b7fe19dce77b2c1c19293513061a8934e721292bfc1517e0487e262d1906f306bdf95fa54d02f
